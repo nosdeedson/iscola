@@ -22,7 +22,7 @@ export class Notification {
         let message = "";
         this.errors.forEach((error) => {
             if (context === undefined || error.context === context) {
-                message += `${error.context}: ${error.message}`
+                message += `${error.context}: ${error.message},`
             }
         })
         return message;

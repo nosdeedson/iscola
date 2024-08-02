@@ -1,7 +1,8 @@
 import { Notification } from "./notification"
 
 describe('Notification error unit test', () => {
-    it('shoul create errors', () =>{
+
+    it('should create errors', () =>{
         const notification = new Notification();
 
         const error = {
@@ -10,6 +11,77 @@ describe('Notification error unit test', () => {
         }
 
         notification.addError(error);
-        expect(notification.messages('student')).toBe("student: error message")
+        expect(notification.messages('student')).toBe("student: error message,")
+
+        const error1 = {
+            message: "another message",
+            context: 'student'
+        }
+        notification.addError(error1)
+
+        expect(notification.messages('student')).toBe('student: error message,student: another message,')
+
+        const error2 = {
+            message: "error message",
+            context: "teacher"
+        }
+        notification.addError(error2)
+        expect(notification.messages('teacher')).toBe('teacher: error message,')
+
+        expect(notification.hasError()).toBeTruthy()
+        expect(notification.getErrors().length).toBe(3)
     })
+
+    it('notification should have errors ', () =>{
+        const notification = new Notification();
+
+        const error = {
+            message: "error message",
+            context: "student"
+        }
+
+        notification.addError(error);
+
+        const error1 = {
+            message: "another message",
+            context: 'student'
+        }
+        notification.addError(error1)
+
+        const error2 = {
+            message: "error message",
+            context: "teacher"
+        }
+        notification.addError(error2)
+
+        expect(notification.hasError()).toBeTruthy()
+        expect(notification.getErrors().length).toBe(3)
+    })
+
+    it('notification should have errors ', () =>{
+        const notification = new Notification();
+
+        const error = {
+            message: "error message",
+            context: "student"
+        }
+
+        notification.addError(error);
+
+        const error1 = {
+            message: "another message",
+            context: 'student'
+        }
+        notification.addError(error1)
+
+        const error2 = {
+            message: "error message",
+            context: "teacher"
+        }
+        notification.addError(error2)
+
+        expect(notification.hasError()).toBeTruthy()
+        expect(notification.getErrors()).toStrictEqual([error, error1, error2])
+    })
+
 })
