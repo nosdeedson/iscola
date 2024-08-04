@@ -1,21 +1,31 @@
-import { Person } from "./person";
-import { Student } from "./student";
+import { Person } from "../@shared/person";
+import { Student } from "../student/student";
+import { ParentValidator } from "./parent.validator";
 
 export class Parent extends Person{
 
     students: Student[]
 
     constructor(
-        id: string,
-        createdAt: Date,
-        updatedAt: Date,
-        deletedAt: Date,
-        dataNascimento: Date,
-        nome: string,
-        students: Student[]
+        birthday: Date,
+        name: string,
+        students: Student[],
+        id?: string,
+        createdAt?: Date,
+        updatedAt?: Date,
+        deletedAt?: Date,
     ) {
-        super(id, createdAt, updatedAt, deletedAt, dataNascimento, nome)
+        super(birthday, name, id, createdAt, updatedAt, deletedAt, )
         this.students = students;
+        this.validate();
+    }
+
+    validate(): void{
+        new ParentValidator().validate(this);
+    }
+
+    getStudents(): Student[]{
+        return this.students;
     }
     
 }

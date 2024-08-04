@@ -1,23 +1,42 @@
 import { Parent } from "../parent/parent";
 import { Person } from "../@shared/person";
+import { StudentValidator } from "./student.validator";
 
 export class Student extends Person {
 
-    matricula: string;
+    enrolled: string;
     parents: Parent[];
+
     constructor(
-        id: string,
-        createdAt: Date,
-        updatedAt: Date,
-        deletedAt: Date,
-        dataNascimento: Date,
-        nome: string,
-        matricula: string,
-        parents: Parent[]
+        birthday: Date,
+        name: string,
+        enrolled: string,
+        parents: Parent[],
+        id?: string,
+        createdAt?: Date,
+        updatedAt?: Date,
+        deletedAt?: Date,
     ) {
-        super(id, createdAt, updatedAt, deletedAt, dataNascimento, nome)
-        this.matricula = matricula;
+        super(birthday, name,
+            id, 
+            createdAt, 
+            updatedAt, 
+            deletedAt)
+        this.enrolled = enrolled;
         this.parents = parents;
+        this.validate()
+    }
+
+    validate(): void{
+        new StudentValidator().validate(this);
+    }
+
+    getParents(): Parent[] {
+        return this.parents
+    }
+
+    getEnrolled(): string {
+        return this.enrolled;
     }
 
 }
