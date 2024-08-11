@@ -17,6 +17,7 @@ describe('Create worker use case test unit', () => {
     const mockRepository = () => {
         return {
             create: jest.fn(),
+            delete: jest.fn(),
             find: jest.fn(),
             findAll: jest.fn(),
             update: jest.fn()
@@ -41,7 +42,7 @@ describe('Create worker use case test unit', () => {
         }
     })
 
-    it("should throw error", async () => {
+    it("should throw error birthday should not be null", async () => {
         const workerRepository = mockRepository();
         let nothing;
         worker.birthday = nothing;
@@ -53,7 +54,7 @@ describe('Create worker use case test unit', () => {
         }
     })
 
-    it("should throw error", async () => {
+    it("should throw error teacher should not be null", async () => {
         const workerRepository = mockRepository();
         let nothing;
         worker.role = nothing;
@@ -62,6 +63,19 @@ describe('Create worker use case test unit', () => {
             await useCase.execute(worker);
         } catch (error) {
             expect(error.message).toBe("teacher: Role should not be null,")
+        }
+    })
+
+    it("should throw database not available", async () => {
+        const workerRepository = mockRepository();
+        workerRepository.create = jest.fn().mockImplementationOnce( () => {
+            throw "database not available"
+        })
+        const useCase = new CreateWorkerUseCase(workerRepository);
+        try {
+            await useCase.execute(worker)
+        } catch (error) {
+            expect(error).toBe('database not available')
         }
     })
 })

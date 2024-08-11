@@ -1,4 +1,4 @@
-import { Entity } from "./entity";
+import { Entity } from '../@shared/entity'
 
 export abstract class Person extends Entity{
 
