@@ -26,6 +26,7 @@ describe('Find worker unit tests', () =>{
     const mockRepository = async () => {
         return {
             create: jest.fn(),
+            delete: jest.fn(),
             find: jest.fn().mockReturnValue(await Promise.resolve(worker)),
             findAll: jest.fn(),
             update: jest.fn()

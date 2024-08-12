@@ -17,6 +17,7 @@ describe('Create worker use case test unit', () => {
     const mockRepository = () => {
         return {
             create: jest.fn(),
+            delete: jest.fn(),
             find: jest.fn(),
             findAll: jest.fn(),
             update: jest.fn()
