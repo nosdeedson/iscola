@@ -15,7 +15,7 @@ describe('Find worker unit tests', () =>{
 
         worker = {
             id: '123',
-            birthDay: new Date(),
+            birthday: new Date(),
             createdAt: new Date(),
             updatedAt: new Date(),
             name: 'edson',
@@ -49,7 +49,7 @@ describe('Find worker unit tests', () =>{
         expect((await workerRepository).find).toHaveBeenCalledWith(input.id)
     })
 
-    it('should find a worker', async () => {
+    it('should return empty result for a worker', async () => {
         const workerRepository = mockRepository();
         (await workerRepository).find = jest.fn().mockResolvedValue(await Promise.resolve({}))
         const usecase = new FindWorker(await workerRepository);

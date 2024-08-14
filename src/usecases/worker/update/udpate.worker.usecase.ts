@@ -2,7 +2,7 @@ import { Worker } from "../../../domain/worker/worker";
 import { WorkerRepositoryInterface } from "../../../domain/worker/worker.repository.interface";
 import { InputUpdateWorkerDto } from "./update.worker.dto";
 
-export class UpdateWorker {
+export class UpdateUseCaseWorker {
     private workerRepository: WorkerRepositoryInterface;
 
     constructor(workerRepository: WorkerRepositoryInterface){
@@ -16,7 +16,6 @@ export class UpdateWorker {
             throw new Error(worker.notification.messages());
         }
         this.workerRepository.update(worker);
-        
     }
 
     private update(worker: Worker, dto: InputUpdateWorkerDto): Worker{
