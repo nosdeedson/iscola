@@ -15,7 +15,7 @@ export class TeacherValidator implements Validator<Worker>{
                 .validateSync({
                     name: entity.name,
                     birthDay: entity.birthday,
-                    role: entity.role
+                    role: entity.getRole(),
                 },{
                     abortEarly: false
                 })

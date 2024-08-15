@@ -2,14 +2,14 @@ import { Parent } from "../parent/parent";
 import { Person } from "../@shared/person";
 import { StudentValidator } from "./student.validator";
 import { Rating } from "../rating/rating";
-import { Classroom } from "../classroom/classroom";
+import { Class } from "../class/class";
 
 export class Student extends Person {
 
     enrolled: string;
     parents: Parent[];
     ratings: Rating[];
-    classroom: Classroom;
+    class: Class;
 
     constructor(
         birthday: Date,

@@ -1,21 +1,23 @@
 import { Entity } from "../@shared/entity";
 import { Student } from "../student/student";
 import { Worker } from '../worker/worker'
-import { ClassroomValidator } from './classroom.validator'
+import { ClassValidator } from './class.validator'
 
-export class Classroom extends Entity {
+export class Class extends Entity {
+    // TODO add another atribute time for the second day of class
+    // TODO the class day should not be the same with time is equal
 
-    classroomCode: string;
+    classCode: string;
     nameBook: string;
     name: string;
-    firstDayOfWeek: string;
-    secondDayOfWeek: string;
+    firstDayOfClassInWeek: string;
+    secondDayOfClassInWeek: string;
     time: string;
     teacher: Worker;
     students: Student[];
 
     constructor(
-        classroomCode: string,
+        classCode: string,
         nameBook: string,
         name: string,
         firstDayOfWeek: string,
@@ -27,22 +29,22 @@ export class Classroom extends Entity {
         deletedAt?: Date
     ) {
         super(id, createdAt, updatedAt, deletedAt);
-        this.classroomCode = classroomCode;
+        this.classCode = classCode;
         this.nameBook = nameBook;
         this.name = name;
-        this.firstDayOfWeek = firstDayOfWeek;
-        this.secondDayOfWeek = secondDayOfWeek;
+        this.firstDayOfClassInWeek = firstDayOfWeek;
+        this.secondDayOfClassInWeek = secondDayOfWeek;
         this.time = time;
         this.students = [];
         this.validate();
     }
 
     validate(){
-        new ClassroomValidator().validate(this);
+        new ClassValidator().validate(this);
     }
 
-    getClassroomCode(): string {
-        return this.classroomCode;
+    getClassCode(): string {
+        return this.classCode;
     }
 
     getNameBook(): string {
@@ -53,12 +55,12 @@ export class Classroom extends Entity {
         return this.name
     }
 
-    getFirstDayOfWeek(): string {
-        return this.firstDayOfWeek;
+    getFirstDayOfClassInWeek(): string {
+        return this.firstDayOfClassInWeek;
     }
 
-    getSecondDayOfWeek(): string {
-        return this.secondDayOfWeek;
+    getSecondDayOfClassInWeek(): string {
+        return this.secondDayOfClassInWeek;
     }
 
     getTime(): string {

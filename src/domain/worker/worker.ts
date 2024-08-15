@@ -1,12 +1,12 @@
 import { Person } from "../@shared/person";
+import { Class } from "../class/class";
 import { RoleEnum } from "./roleEnum";
 import { TeacherValidator } from "./worker.validator";
 
-export class Worker extends Person{
+export class Worker extends Person {
 
-    // TODO add classroom
-
-    role: RoleEnum;
+    private role: RoleEnum;
+    private classes: Class[]
 
     constructor(
         birthday: Date,
@@ -22,11 +22,22 @@ export class Worker extends Person{
         this.validate();
     }
 
-    validate(){
+    validate() {
         new TeacherValidator().validate(this);
     }
 
-    getRole(): RoleEnum{
+    getRole(): RoleEnum {
         return this.role;
+    }
+
+    getClasses(): Class[] {
+        return this.classes;
+    }
+
+    setClass(c: Class) {
+        if (!this.classes) {
+            this.classes = [];
+        }
+        this.classes.push(c);
     }
 }

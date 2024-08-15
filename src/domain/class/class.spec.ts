@@ -3,20 +3,20 @@ import { Parent } from "../parent/parent";
 import { Student } from "../student/student";
 import { RoleEnum } from "../worker/roleEnum";
 import { Worker } from "../worker/worker";
-import { Classroom } from "./classroom"
+import { Class } from "./class"
 
 
-describe('Classroom tests units', () => {
+describe('Class tests units', () => {
 
 
     it('Verify validate is called', () => {
-        const classroomFile = jest.spyOn(Classroom.prototype, 'validate')
+        const classFile = jest.spyOn(Class.prototype, 'validate')
             .mockImplementationOnce(() => {
                 console.log('mocked')
             })
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -24,16 +24,16 @@ describe('Classroom tests units', () => {
             DateHelper.getDayOfweek(aValidDate),
             '08:00'
         )
-        classroom.validate()
+        c.validate()
 
-        expect(classroomFile).toHaveBeenCalled();
+        expect(classFile).toHaveBeenCalled();
     });
 
 
-    it('Should instantiate a classroom', () => {
+    it('Should instantiate a class', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -42,24 +42,23 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.getCreatedAt()).toBeDefined();
-        expect(classroom.getUpdatedAt()).toBeDefined();
-        expect(classroom.getId()).toBeDefined();
-        expect(classroom.getDeletedAt()).toBeUndefined();
-        expect(classroom.getName()).toBeDefined();
-        expect(classroom.getNameBook()).toBeDefined();
-        expect(classroom.getClassroomCode()).toBeDefined();
-        expect(classroom.getClassroomCode()).toBeDefined();
-        expect(classroom.getTeacher()).toBeUndefined();
-        expect(classroom.getStudents().length).toBe(0);
+        expect(c.getCreatedAt()).toBeDefined();
+        expect(c.getUpdatedAt()).toBeDefined();
+        expect(c.getId()).toBeDefined();
+        expect(c.getDeletedAt()).toBeUndefined();
+        expect(c.getName()).toBeDefined();
+        expect(c.getNameBook()).toBeDefined();
+        expect(c.getClassCode()).toBeDefined();
+        expect(c.getTeacher()).toBeUndefined();
+        expect(c.getStudents().length).toBe(0);
     });
 
-    it('should have notification with classroom code empty', () => {
+    it('should have notification with class code empty', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        let classroomCode;
-        const classroom = new Classroom(
-            classroomCode,
+        let cCode;
+        const c = new Class(
+            cCode,
             'book',
             'A1',
             DateHelper.getDayOfweek(aValidDate),
@@ -67,18 +66,18 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.notification).toBeDefined();
-        expect(classroom.notification?.hasError()).toBeTruthy();
-        expect(classroom.notification?.getErrors().length).toBe(1);
-        expect(classroom.notification?.messages()).toBe("classroom: Classroom code is required,");
+        expect(c.notification).toBeDefined();
+        expect(c.notification?.hasError()).toBeTruthy();
+        expect(c.notification?.getErrors().length).toBe(1);
+        expect(c.notification?.messages()).toBe("class: classcode is required,");
 
     })
 
-    it('should have notification with classroom book is empty ', () => {
+    it('should have notification with class book is empty ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
         let bookName;
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             bookName,
             'A1',
@@ -87,17 +86,17 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.notification).toBeDefined();
-        expect(classroom.notification?.hasError()).toBeTruthy();
-        expect(classroom.notification?.getErrors().length).toBe(1);
-        expect(classroom.notification?.messages()).toBe("classroom: Name of the book is required,");
+        expect(c.notification).toBeDefined();
+        expect(c.notification?.hasError()).toBeTruthy();
+        expect(c.notification?.getErrors().length).toBe(1);
+        expect(c.notification?.messages()).toBe("class: Name of the book is required,");
     })
 
-    it('should have notification with classroom name is empty ', () => {
+    it('should have notification with class name is empty ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
         let name;
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'bookName',
             name,
@@ -106,17 +105,17 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.notification).toBeDefined();
-        expect(classroom.notification?.hasError()).toBeTruthy();
-        expect(classroom.notification?.getErrors().length).toBe(1);
-        expect(classroom.notification?.messages()).toBe("classroom: Name of the class is required,");
+        expect(c.notification).toBeDefined();
+        expect(c.notification?.hasError()).toBeTruthy();
+        expect(c.notification?.getErrors().length).toBe(1);
+        expect(c.notification?.messages()).toBe("class: Name of the class is required,");
     })
 
-    it('should have notification with classroom firstDayOfWeek is empty ', () => {
+    it('should have notification with class firstDayOfWeek is empty ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
         let firstDayOfWeek;
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'bookName',
             'name',
@@ -125,17 +124,17 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.notification).toBeDefined();
-        expect(classroom.notification?.hasError()).toBeTruthy();
-        expect(classroom.notification?.getErrors().length).toBe(1);
-        expect(classroom.notification?.messages()).toBe("classroom: First day of lessons is required,");
+        expect(c.notification).toBeDefined();
+        expect(c.notification?.hasError()).toBeTruthy();
+        expect(c.notification?.getErrors().length).toBe(1);
+        expect(c.notification?.messages()).toBe("class: First day of lessons is required,");
     })
 
-    it('should have notification with classroom secondDayOfWeek is empty ', () => {
+    it('should have notification with class secondDayOfWeek is empty ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
         let secondDayOfWeek;
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'bookName',
             'name',
@@ -144,17 +143,17 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.notification).toBeDefined();
-        expect(classroom.notification?.hasError()).toBeTruthy();
-        expect(classroom.notification?.getErrors().length).toBe(1);
-        expect(classroom.notification?.messages()).toBe("classroom: Second day of lessons is required,");
+        expect(c.notification).toBeDefined();
+        expect(c.notification?.hasError()).toBeTruthy();
+        expect(c.notification?.getErrors().length).toBe(1);
+        expect(c.notification?.messages()).toBe("class: Second day of lessons is required,");
     })
 
-    it('should have notification with classroom time is empty ', () => {
+    it('should have notification with class time is empty ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
         let time;
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'bookName',
             'name',
@@ -163,10 +162,10 @@ describe('Classroom tests units', () => {
             time
         )
 
-        expect(classroom.notification).toBeDefined();
-        expect(classroom.notification?.hasError()).toBeTruthy();
-        expect(classroom.notification?.getErrors().length).toBe(1);
-        expect(classroom.notification?.messages()).toBe("classroom: Time of lessons is required,");
+        expect(c.notification).toBeDefined();
+        expect(c.notification?.hasError()).toBeTruthy();
+        expect(c.notification?.getErrors().length).toBe(1);
+        expect(c.notification?.messages()).toBe("class: Time of lessons is required,");
     })
 
     it('should have six errors in notification', () => {
@@ -176,7 +175,7 @@ describe('Classroom tests units', () => {
         let firstDayOfWeek;
         let secondDayOfWeek;
         let time;
-        const classroom = new Classroom(
+        const c = new Class(
             code,
             bookName,
             name,
@@ -185,9 +184,9 @@ describe('Classroom tests units', () => {
             time
         )
 
-        expect(classroom.notification).toBeDefined()
-        expect(classroom.notification?.getErrors().length).toBe(6)
-        expect(classroom.notification?.messages()).toBe("classroom: Classroom code is required,classroom: Name of the book is required,classroom: Name of the class is required,classroom: First day of lessons is required,classroom: Second day of lessons is required,classroom: Time of lessons is required,")
+        expect(c.notification).toBeDefined()
+        expect(c.notification?.getErrors().length).toBe(6)
+        expect(c.notification?.messages()).toBe("class: classcode is required,class: Name of the book is required,class: Name of the class is required,class: First day of lessons is required,class: Second day of lessons is required,class: Time of lessons is required,")
     })
 
     it('should have at least one student', () => {
@@ -210,7 +209,7 @@ describe('Classroom tests units', () => {
         );
 
 
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -218,13 +217,13 @@ describe('Classroom tests units', () => {
             DateHelper.getDayOfweek(aValidDate),
             '08:00'
         )
-        classroom.setStudent(student);
-        expect(classroom).toBeDefined()
-        expect(classroom.getStudents().length).toBe(1)
-        expect(classroom.notification?.getErrors().length).toBe(0)
+        c.setStudent(student);
+        expect(c).toBeDefined()
+        expect(c.getStudents().length).toBe(1)
+        expect(c.notification?.getErrors().length).toBe(0)
     })
 
-    it('should instantiate a classroom with a teacher', () => {
+    it('should instantiate a class with a teacher', () => {
         const expectedBirthDay = new Date();
         const expectedName = 'edson';
         const expectedRole = RoleEnum.TEACHER;
@@ -232,7 +231,7 @@ describe('Classroom tests units', () => {
         // date of the year: firday august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
 
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -241,10 +240,10 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        classroom.setTeacher(teacher);
-        expect(classroom).toBeDefined()
-        expect(classroom.getTeacher()).toBeDefined()
-        expect(classroom.notification?.getErrors().length).toBe(0)
+        c.setTeacher(teacher);
+        expect(c).toBeDefined()
+        expect(c.getTeacher()).toBeDefined()
+        expect(c.notification?.getErrors().length).toBe(0)
     })
 
     it('should have a notification with one error firstDayOfWeek incorrect', () => {
@@ -253,7 +252,7 @@ describe('Classroom tests units', () => {
         // date of the year: firday august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
 
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -261,9 +260,9 @@ describe('Classroom tests units', () => {
             DateHelper.getDayOfweek(aValidDate),
             '08:00'
         )
-        expect(classroom).toBeDefined()
-        expect(classroom.notification?.getErrors().length).toBe(1)
-        expect(classroom.notification?.messages()).toBe("classroom: firstDayOfWeek must be a weekday,")
+        expect(c).toBeDefined()
+        expect(c.notification?.getErrors().length).toBe(1)
+        expect(c.notification?.messages()).toBe("class: firstDayOfWeek must be a weekday,")
     })
 
     it('should have a notification with one error secondDayOfWeek incorrect', () => {
@@ -272,7 +271,7 @@ describe('Classroom tests units', () => {
         // date of the year: firday august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
 
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -280,9 +279,9 @@ describe('Classroom tests units', () => {
             DateHelper.getDayOfweek(inValidDate),
             '08:00'
         )
-        expect(classroom).toBeDefined()
-        expect(classroom.notification?.getErrors().length).toBe(1)
-        expect(classroom.notification?.messages()).toBe("classroom: secondDayOfWeek must be a weekday,")
+        expect(c).toBeDefined()
+        expect(c.notification?.getErrors().length).toBe(1)
+        expect(c.notification?.messages()).toBe("class: secondDayOfWeek must be a weekday,")
     })
 
     it('should have a notification with one error firstDayOfWeek incorrect', () => {
@@ -291,7 +290,7 @@ describe('Classroom tests units', () => {
         // date of the year: firday august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
 
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -299,15 +298,15 @@ describe('Classroom tests units', () => {
             DateHelper.getDayOfweek(inValidDate),
             '08:00'
         )
-        expect(classroom).toBeDefined()
-        expect(classroom.notification?.getErrors().length).toBe(2)
-        expect(classroom.notification?.messages()).toBe("classroom: firstDayOfWeek must be a weekday,classroom: secondDayOfWeek must be a weekday,")
+        expect(c).toBeDefined()
+        expect(c.notification?.getErrors().length).toBe(2)
+        expect(c.notification?.messages()).toBe("class: firstDayOfWeek must be a weekday,class: secondDayOfWeek must be a weekday,")
     });
 
-    it('Should get classroom code ', () => {
+    it('Should get class code ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -316,13 +315,13 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.getClassroomCode()).toBe('123')
+        expect(c.getClassCode()).toBe('123')
     });
 
     it('Should get name book code ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -331,13 +330,13 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.getNameBook()).toBe('book')
+        expect(c.getNameBook()).toBe('book')
     });
 
     it('Should get name code ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -346,13 +345,13 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.getName()).toBe('A1')
+        expect(c.getName()).toBe('A1')
     });
 
     it('Should get firstDayofweek code ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -361,13 +360,13 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.getFirstDayOfWeek()).toEqual('Friday')
+        expect(c.getFirstDayOfClassInWeek()).toEqual('Friday')
     });
 
     it('Should get secondDayofweek code ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -376,13 +375,13 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.getSecondDayOfWeek()).toEqual('Friday')
+        expect(c.getSecondDayOfClassInWeek()).toEqual('Friday')
     });
 
     it('Should get time code ', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -391,7 +390,7 @@ describe('Classroom tests units', () => {
             '08:00'
         )
 
-        expect(classroom.getTime()).toBe('08:00')
+        expect(c.getTime()).toBe('08:00')
     });
 
     it('should have at least one student', () => {
@@ -414,7 +413,7 @@ describe('Classroom tests units', () => {
         );
 
 
-        const classroom = new Classroom(
+        const c = new Class(
             '123',
             'book',
             'A1',
@@ -424,10 +423,10 @@ describe('Classroom tests units', () => {
         )
         let students : Student[] = [];
         students.push(student)
-        classroom.setStudents(students);
-        expect(classroom).toBeDefined()
-        expect(classroom.getStudents().length).toBe(1)
-        expect(classroom.notification?.getErrors().length).toBe(0)
+        c.setStudents(students);
+        expect(c).toBeDefined()
+        expect(c.getStudents().length).toBe(1)
+        expect(c.notification?.getErrors().length).toBe(0)
     })
 
 })
