@@ -1,28 +1,24 @@
 import { Entity } from "../@shared/entity";
+import { Schedule } from "../schedule/schedule";
 import { Student } from "../student/student";
-import { Worker } from '../worker/worker'
-import { ClassValidator } from './class.validator'
+import { Worker } from '../worker/worker';
+import { ClassValidator } from './class.validator';
 
 export class Class extends Entity {
-    // TODO add another atribute time for the second day of class
     // TODO the class day should not be the same with time is equal
 
-    classCode: string;
-    nameBook: string;
-    name: string;
-    firstDayOfClassInWeek: string;
-    secondDayOfClassInWeek: string;
-    time: string;
-    teacher: Worker;
-    students: Student[];
+    private classCode: string;
+    private nameBook: string;
+    private name: string;
+    private schedule: Schedule;
+    private teacher: Worker;
+    private students: Student[];
 
     constructor(
         classCode: string,
         nameBook: string,
         name: string,
-        firstDayOfWeek: string,
-        secondDayOfWeek: string,
-        time: string,
+        schedule: Schedule,
         id?: string,
         createdAt?: Date,
         updatedAt?: Date,
@@ -32,9 +28,7 @@ export class Class extends Entity {
         this.classCode = classCode;
         this.nameBook = nameBook;
         this.name = name;
-        this.firstDayOfClassInWeek = firstDayOfWeek;
-        this.secondDayOfClassInWeek = secondDayOfWeek;
-        this.time = time;
+        this.schedule = schedule;
         this.students = [];
         this.validate();
     }
@@ -47,28 +41,31 @@ export class Class extends Entity {
         return this.classCode;
     }
 
+    setClassCode(code: string) {
+        this.classCode = code;
+        this.validate();
+    }
+
     getNameBook(): string {
-        return this.nameBook
+        return this.nameBook;
+    }
+
+    setNameBook(nameBook: string) {
+        this.nameBook = nameBook;
+        this.validate();
     }
 
     getName(): string {
-        return this.name
+        return this.name;
     }
 
-    getFirstDayOfClassInWeek(): string {
-        return this.firstDayOfClassInWeek;
-    }
-
-    getSecondDayOfClassInWeek(): string {
-        return this.secondDayOfClassInWeek;
-    }
-
-    getTime(): string {
-        return this.time
+    setName(name: string) {
+        this.name = name;
+        this.validate();
     }
 
     getTeacher(): Worker{
-        return this.teacher
+        return this.teacher;
     }
 
     setTeacher(teacher: Worker){
@@ -85,5 +82,14 @@ export class Class extends Entity {
 
     setStudents(students: Student[]){
         students.forEach(it => this.setStudent(it));
+    }
+
+    getSchecule(): Schedule{
+        return this.schedule;
+    }
+
+    setSchecule(schedule: Schedule){
+        this.schedule = schedule;
+        this.validate();
     }
 }
