@@ -6,21 +6,19 @@ import { FindWorker } from '../find/find.worker.usecase'
 describe('Find worker unit tests', () =>{
 
     let input: InputFindWorkerDto;
-    let worker;
+    let worker: Worker;
 
     beforeEach(() => {
         input = {
             id: '123'
         };
 
-        worker = {
-            id: '123',
-            birthday: new Date(),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            name: 'edson',
-            role: RoleEnum.ADMINISTRATOR,
-        }
+        worker =  new Worker(
+            new Date(),
+            'jose',
+            RoleEnum.ADMINISTRATOR,
+            '123'
+        )
     })
 
     const mockRepository = async () => {
@@ -39,19 +37,19 @@ describe('Find worker unit tests', () =>{
         const result = await usecase.execute(input);
 
         expect(result.id).toBe(input.id)
-        expect(result.birthday).toEqual(worker.birthday)
-        expect(result.createdAt).toEqual(worker.createdAt)
-        expect(result.id).toBe(worker.id)
-        expect(result.name).toBe(worker.name)
-        expect(result.role).toBe(worker.role)
-        expect(result.udpatedAt).toEqual(worker.updatedAt)
+        expect(result.birthday).toEqual(worker.getBirthday())
+        expect(result.createdAt).toEqual(worker.getCreatedAt())
+        expect(result.id).toBe(worker.getId())
+        expect(result.name).toBe(worker.getName())
+        expect(result.role).toBe(worker.getRole())
+        expect(result.udpatedAt).toEqual(worker.getUpdatedAt())
         expect((await workerRepository).find).toHaveBeenCalledTimes(1)
         expect((await workerRepository).find).toHaveBeenCalledWith(input.id)
     })
 
     it('should return empty result for a worker', async () => {
         const workerRepository = mockRepository();
-        (await workerRepository).find = jest.fn().mockResolvedValue(await Promise.resolve({}))
+        (await workerRepository).find = jest.fn().mockResolvedValue(await Promise.resolve(null))
         const usecase = new FindWorker(await workerRepository);
         const result = await usecase.execute(input);
         expect(result.id).toBeUndefined()

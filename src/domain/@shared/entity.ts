@@ -3,11 +3,11 @@ import { Notification } from './notification/notification';
 
 
 export abstract class Entity {
-    public id?: string;
-    public createdAt?: Date;
-    public updatedAt?: Date;
-    public deletedAt?: Date;
-    public notification?: Notification;
+    private id?: string;
+    private createdAt?: Date;
+    private updatedAt?: Date;
+    private deletedAt?: Date;
+    private notification?: Notification;
 
     constructor(id?: string, createdAt?: Date, updatedAt?: Date, deletedAt?: Date){
         this.id = id ? id :  uuidv4().toString() as string;
@@ -31,5 +31,9 @@ export abstract class Entity {
 
     getDeletedAt(): any{
         return this.deletedAt;
+    }
+
+    getNotification(): any{
+        return this.notification;
     }
 }

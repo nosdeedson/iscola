@@ -4,7 +4,7 @@ import { ParentValidator } from "./parent.validator";
 
 export class Parent extends Person{
 
-    students: Student[]
+    private students: Student[]
 
     constructor(
         birthday: Date,
@@ -26,6 +26,10 @@ export class Parent extends Person{
 
     getStudents(): Student[]{
         return this.students;
+    }
+
+    setStudents(students: Student[]){
+        this.students = students;
     }
     
 }

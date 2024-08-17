@@ -37,7 +37,7 @@ describe('Class tests units', () => {
             .mockImplementationOnce(() => {
                 console.log('mocked')
             })
-        c.validate()
+        c.validate();
 
         expect(classFile).toHaveBeenCalled();
     });
@@ -102,7 +102,7 @@ describe('Class tests units', () => {
         expect(c.notification).toBeDefined();
         expect(c.notification?.hasError()).toBeTruthy();
         expect(c.notification?.getErrors().length).toBe(1);
-        expect(c.notification?.messages()).toBe("class: schedule must constains two days,");
+        expect(c.notification?.messages()).toBe("class: schedule is invalid,");
     })
 
     it('should have notification if class has just one time', () => {
@@ -117,7 +117,7 @@ describe('Class tests units', () => {
         expect(c.notification).toBeDefined();
         expect(c.notification?.hasError()).toBeTruthy();
         expect(c.notification?.getErrors().length).toBe(1);
-        expect(c.notification?.messages()).toBe("class: schedule must constains two times,");
+        expect(c.notification?.messages()).toBe("class: schedule is invalid,");
     })
 
     it('should have six errors in notification', () => {
@@ -132,9 +132,9 @@ describe('Class tests units', () => {
             schedule
         )
 
-        expect(c.notification).toBeDefined()
-        expect(c.notification?.getErrors().length).toBe(4)
-        expect(c.notification?.messages()).toBe("class: classcode is required,class: Name of the book is required,class: Name of the class is required,class: First day of lessons is required,class: Second day of lessons is required,class: Time of lessons is required,")
+        expect(c.getNotification()).toBeDefined()
+        expect(c.getNotification()?.getErrors().length).toBe(4)
+        expect(c.getNotification()?.messages()).toBe("class: classcode is required,class: Name of the book is required,class: Name of the class is required,class: Schedule of the class is required,")
     })
 
     it('should have at least one student', () => {
@@ -223,15 +223,19 @@ describe('Class tests units', () => {
     });
 
     it('Should get firstDayofweek code ', () => {
-        expect(c.getSchecule()[0].getDayOfWeek()).toEqual('Friday')
+        expect(c.getSchecule().getDayOfWeek()[0]).toEqual('Friday')
     });
 
     it('Should get secondDayofweek', () => {
-        expect(c.getSchecule()[1]).toEqual('Thursday')
+        expect(c.getSchecule().getDayOfWeek()[1]).toEqual('Thursday')
     });
 
     it('Should get time', () => {
-        expect(c.getSchecule()[0].getTime()).toBe('08:00')
+        expect(c.getSchecule().getTime()[0]).toBe('08:00')
+    });
+
+    it('Should get time', () => {
+        expect(c.getSchecule().getTime()[1]).toBe('08:00')
     });
 
     it('should have at least one student', () => {

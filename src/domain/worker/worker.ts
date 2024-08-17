@@ -30,6 +30,10 @@ export class Worker extends Person {
         return this.role;
     }
 
+    setRole(role: RoleEnum) {
+        this.role = role;
+    }
+
     getClasses(): Class[] {
         return this.classes;
     }
@@ -40,4 +44,6 @@ export class Worker extends Person {
         }
         this.classes.push(c);
     }
+
+   
 }

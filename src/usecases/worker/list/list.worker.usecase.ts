@@ -16,7 +16,7 @@ export class FindAllWorker {
         let results : OutputFindAllWorkerDto =  { 
             all: workers.map(it =>{
                 let output: OutputFindWorkerDto = {
-                    birthday: it.getBirthDay(),
+                    birthday: it.getBirthday(),
                     createdAt: it.getCreatedAt(),
                     id: it.getId(),
                     name: it.getName(),

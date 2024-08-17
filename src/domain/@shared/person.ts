@@ -2,8 +2,8 @@ import { Entity } from '../@shared/entity'
 
 export abstract class Person extends Entity{
 
-    birthday: Date;
-    name: string;
+    private birthday: Date;
+    private name: string;
 
     constructor(
         birthday: Date, 
@@ -19,11 +19,19 @@ export abstract class Person extends Entity{
         this.name = name;
     }
 
-    getBirthDay(): Date{
+    getBirthday(): Date{
         return this.birthday;
+    }
+
+    setBirthDay(date: Date){
+        this.birthday = date;
     }
 
     getName(): string{
         return this.name;
+    }
+
+    setName(name: string){
+        this.name = name;
     }
 }

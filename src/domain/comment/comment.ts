@@ -1,10 +1,11 @@
+import { number } from "yup";
 import { Entity } from "../@shared/entity";
 import { CommentValidator } from "./comment.validator";
 
 export class Comment extends Entity {
-    comment: string;
-    idPersonHadDone: number;
-    commentDate: Date;
+    private comment: string;
+    private idPersonHadDone: number;
+    private commentDate: Date;
 
     constructor(
         comment: string,
@@ -30,11 +31,23 @@ export class Comment extends Entity {
         return this.comment;
     }
 
+    setComment(comment: string){
+        this.comment = comment;
+    }
+
     getIdPersonHadDone(): number{
         return this.idPersonHadDone
     }
 
+    setIdPersonHadDone(id: number){
+       this.idPersonHadDone = id;
+    }
+
     getCommentDate(): Date{
         return this.commentDate;
+    }
+
+    setCommentDate(date: Date){
+        this.commentDate = date;
     }
 }

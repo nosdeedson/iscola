@@ -1,9 +1,22 @@
 import { DateHelper } from "../../helpers/date/date.helper";
 import { Class } from "../class/class";
+import { Schedule } from "../schedule/schedule";
 import { RoleEnum } from "./roleEnum";
 import { Worker } from "./worker";
 
 describe('Teacher unit test', () =>{
+
+    let schedule;
+
+    beforeEach(() =>{
+        // date of the year: august 9 2024
+        let aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
+        let aValidDate2 = new Date(2024, 7, 8, 17, 5, 0, 0);
+        schedule = new Schedule(
+            [DateHelper.getDayOfweek(aValidDate), DateHelper.getDayOfweek(aValidDate2)],
+            ['08:00', '08:00']
+        )
+    })
 
     it('should instantiate a Teacher', () =>{
         const expectedBirthDay = new Date();
@@ -14,7 +27,7 @@ describe('Teacher unit test', () =>{
         expect(teacher.getId()).toBeDefined();
         expect(teacher.getName()).toBeDefined();
         expect(teacher.getRole()).toEqual(RoleEnum.TEACHER);
-        expect(teacher.getBirthDay()).toBeDefined();
+        expect(teacher.getBirthday()).toBeDefined();
         expect(teacher.getCreatedAt()).toBeDefined();
         expect(teacher.getUpdatedAt()).toBeDefined();
         expect(teacher.getDeletedAt()).toBeUndefined();
@@ -30,7 +43,7 @@ describe('Teacher unit test', () =>{
         expect(teacher.getId()).toBeDefined();
         expect(teacher.getName()).toBeDefined();
         expect(teacher.getRole()).toEqual(RoleEnum.ADMINISTRATOR);
-        expect(teacher.getBirthDay()).toBeDefined();
+        expect(teacher.getBirthday()).toBeDefined();
         expect(teacher.getCreatedAt()).toBeDefined();
         expect(teacher.getUpdatedAt()).toBeDefined();
         expect(teacher.getDeletedAt()).toBeUndefined();
@@ -40,9 +53,9 @@ describe('Teacher unit test', () =>{
         const expectedBirthDay = new Date();
         const expectedRole = RoleEnum.TEACHER;
         const teacher = new Worker(expectedBirthDay, '', expectedRole);
-        expect(teacher.notification?.getErrors().length).toBe(1)
-        expect(teacher.notification?.getErrors()[0].message).toBe('Name should not be null')
-        expect(teacher.notification?.messages('teacher')).toBe('teacher: Name should not be null,')
+        expect(teacher.getNotification()?.getErrors().length).toBe(1)
+        expect(teacher.getNotification()?.getErrors()[0].message).toBe('Name should not be null')
+        expect(teacher.getNotification()?.messages('teacher')).toBe('teacher: Name should not be null,')
     })
 
     it('should have error if birthDay empty', () =>{
@@ -50,9 +63,9 @@ describe('Teacher unit test', () =>{
         let name = 'edson';
         let expectedRole = RoleEnum.TEACHER;
         const teacher = new Worker(expectedBirthDay, name, expectedRole);
-        expect(teacher.notification?.getErrors().length).toBe(1)
-        expect(teacher.notification?.getErrors()[0].message).toBe('Birthday should not be null')
-        expect(teacher.notification?.messages('teacher')).toBe('teacher: Birthday should not be null,')
+        expect(teacher.getNotification()?.getErrors().length).toBe(1)
+        expect(teacher.getNotification()?.getErrors()[0].message).toBe('Birthday should not be null')
+        expect(teacher.getNotification()?.messages('teacher')).toBe('teacher: Birthday should not be null,')
     })
 
     it('should have error if role empty', () =>{
@@ -60,9 +73,9 @@ describe('Teacher unit test', () =>{
         const name = 'edson';
         let expectedRole;
         const teacher = new Worker(expectedBirthDay, name, expectedRole);
-        expect(teacher.notification?.getErrors().length).toBe(1)
-        expect(teacher.notification?.getErrors()[0].message).toBe('Role should not be null')
-        expect(teacher.notification?.messages('teacher')).toBe('teacher: Role should not be null,')
+        expect(teacher.getNotification()?.getErrors().length).toBe(1)
+        expect(teacher.getNotification()?.getErrors()[0].message).toBe('Role should not be null')
+        expect(teacher.getNotification()?.messages('teacher')).toBe('teacher: Role should not be null,')
     })
 
     it('should have 3 errors ', () =>{
@@ -70,11 +83,11 @@ describe('Teacher unit test', () =>{
         let name;
         let expectedRole;
         const teacher = new Worker(expectedBirthDay, name, expectedRole);
-        expect(teacher.notification?.getErrors().length).toBe(3)
-        expect(teacher.notification?.getErrors()[0].message).toBe('Name should not be null')
-        expect(teacher.notification?.getErrors()[1].message).toBe('Birthday should not be null')
-        expect(teacher.notification?.getErrors()[2].message).toBe('Role should not be null')
-        expect(teacher.notification?.messages('teacher')).toBe('teacher: Name should not be null,teacher: Birthday should not be null,teacher: Role should not be null,')
+        expect(teacher.getNotification()?.getErrors().length).toBe(3)
+        expect(teacher.getNotification()?.getErrors()[0].message).toBe('Name should not be null')
+        expect(teacher.getNotification()?.getErrors()[1].message).toBe('Birthday should not be null')
+        expect(teacher.getNotification()?.getErrors()[2].message).toBe('Role should not be null')
+        expect(teacher.getNotification()?.messages('teacher')).toBe('teacher: Name should not be null,teacher: Birthday should not be null,teacher: Role should not be null,')
     });
 
     it('should instantiate a Teacher with one class', () =>{
@@ -84,9 +97,7 @@ describe('Teacher unit test', () =>{
             '123',
             'book',
             'A1',
-            DateHelper.getDayOfweek(aValidDate),
-            DateHelper.getDayOfweek(aValidDate),
-            '08:00'
+            schedule,
         )
 
         const expectedBirthDay = new Date();
@@ -98,7 +109,7 @@ describe('Teacher unit test', () =>{
         expect(teacher.getId()).toBeDefined();
         expect(teacher.getName()).toBeDefined();
         expect(teacher.getRole()).toEqual(RoleEnum.TEACHER);
-        expect(teacher.getBirthDay()).toBeDefined();
+        expect(teacher.getBirthday()).toBeDefined();
         expect(teacher.getCreatedAt()).toBeDefined();
         expect(teacher.getUpdatedAt()).toBeDefined();
         expect(teacher.getDeletedAt()).toBeUndefined();

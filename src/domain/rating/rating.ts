@@ -1,4 +1,4 @@
-import { Period } from "../period/period";
+import { AcademicSemester } from "../academc-semester/academic.semester";
 import { Entity } from "../@shared/entity";
 import { Grade } from "../enum/grade/grade";
 import { Student } from "../student/student";
@@ -7,20 +7,20 @@ import { Comment } from "../comment/comment";
 
 export class Rating extends Entity {
 
-    comments: Comment[];
-    period: Period;
-    student: Student;
-    ratingDate: Date;
-    listing: Grade;
-    writing: Grade;
-    reading: Grade;
-    speaking: Grade;
-    grammar: Grade;
-    homework: Grade;
-    vocabulary: Grade;
+    private comments: Comment[];
+    private academicSemester: AcademicSemester;
+    private student: Student;
+    private ratingDate: Date;
+    private listing: Grade;
+    private writing: Grade;
+    private reading: Grade;
+    private speaking: Grade;
+    private grammar: Grade;
+    private homework: Grade;
+    private vocabulary: Grade;
 
     constructor(
-        period: Period,
+        academicSemester: AcademicSemester,
         student: Student,
         ratingDate: Date,
         listing: Grade,
@@ -36,7 +36,7 @@ export class Rating extends Entity {
         deletedAt?: Date
     ){
         super(id, createdAt, updatedAt, deletedAt);
-        this.period = period;
+        this.academicSemester = academicSemester;
         this.student = student;
         this.ratingDate = ratingDate;
         this.listing = listing;
@@ -63,8 +63,9 @@ export class Rating extends Entity {
         }
         this.comments.push(comment)
     }
-    getPeriod(): Period{
-        return this.period;
+    
+    getAcademicSemester(): AcademicSemester{
+        return this.academicSemester;
     }
 
     getStudent(): Student{

@@ -35,12 +35,12 @@ describe('List worker unit test', () =>{
         const usecase = new FindAllWorker(await workerRepository);
         const result = await usecase.execute();
 
-        expect(result.all[0].birthday).toEqual(worker.birthday);
-        expect(result.all[0].name).toEqual(worker.name);
-        expect(result.all[0].id).toEqual(worker.id);
-        expect(result.all[0].createdAt).toEqual(worker.createdAt);
-        expect(result.all[0].udpatedAt).toEqual(worker.updatedAt);
-        expect(result.all[0].role).toEqual(worker.role);
+        expect(result.all[0].birthday).toEqual(worker.getBirthday());
+        expect(result.all[0].name).toEqual(worker.getName());
+        expect(result.all[0].id).toEqual(worker.getId());
+        expect(result.all[0].createdAt).toEqual(worker.getCreatedAt());
+        expect(result.all[0].udpatedAt).toEqual(worker.getUpdatedAt());
+        expect(result.all[0].role).toEqual(worker.getRole());
         expect((await workerRepository).findAll).toHaveBeenCalledTimes(1)
     })
 

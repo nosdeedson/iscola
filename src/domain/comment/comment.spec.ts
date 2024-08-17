@@ -5,10 +5,10 @@ describe('Comment unit tests', () =>{
     it('should instantiate a comment without errors', () =>{
         let comment = new Comment("comment", 1, new Date());
         expect(comment).toBeDefined();
-        expect(comment.createdAt).toBeDefined();
-        expect(comment.updatedAt).toBeDefined();
-        expect(comment.deletedAt).toBeUndefined();
-        expect(comment.id).toBeDefined();
+        expect(comment.getCreatedAt()).toBeDefined();
+        expect(comment.getUpdatedAt()).toBeDefined();
+        expect(comment.getDeletedAt()).toBeUndefined();
+        expect(comment.getId()).toBeDefined();
 
     })
 
@@ -17,8 +17,8 @@ describe('Comment unit tests', () =>{
         let idPersonHadDone = 1;
         let commentDate = new Date();
         let entity = new Comment(comment, idPersonHadDone, commentDate);
-        expect(entity.notification?.getErrors().length).toBe(1);
-        expect(entity.notification?.messages()).toBe("comment: add a comment,")
+        expect(entity.getNotification()?.getErrors().length).toBe(1);
+        expect(entity.getNotification()?.messages()).toBe("comment: add a comment,")
     })
 
     it('should have an error if idPersonHadDone is not defined', () =>{
@@ -26,8 +26,8 @@ describe('Comment unit tests', () =>{
         let idPersonHadDone;
         let commentDate = new Date();
         let entity = new Comment(comment, idPersonHadDone, commentDate);
-        expect(entity.notification?.getErrors().length).toBe(1);
-        expect(entity.notification?.messages()).toBe("comment: id of the person that have done the comment,")
+        expect(entity.getNotification()?.getErrors().length).toBe(1);
+        expect(entity.getNotification()?.messages()).toBe("comment: id of the person that have done the comment,")
     })
 
     it('should have an error if commentDate is not defined', () =>{
@@ -35,8 +35,8 @@ describe('Comment unit tests', () =>{
         let idPersonHadDone = 1;
         let commentDate;
         let entity = new Comment(comment, idPersonHadDone, commentDate);
-        expect(entity.notification?.getErrors().length).toBe(1);
-        expect(entity.notification?.messages()).toBe("comment: inform the date of the comment,")
+        expect(entity.getNotification()?.getErrors().length).toBe(1);
+        expect(entity.getNotification()?.messages()).toBe("comment: inform the date of the comment,")
     })
 
     it('should have an error if commentDate is not defined', () =>{
@@ -44,8 +44,8 @@ describe('Comment unit tests', () =>{
         let idPersonHadDone;
         let commentDate;
         let entity = new Comment(comment, idPersonHadDone, commentDate);
-        expect(entity.notification?.getErrors().length).toBe(3);
-        expect(entity.notification?.messages()).toBe("comment: inform the date of the comment,comment: add a comment,comment: id of the person that have done the comment,")
+        expect(entity.getNotification()?.getErrors().length).toBe(3);
+        expect(entity.getNotification()?.messages()).toBe("comment: inform the date of the comment,comment: add a comment,comment: id of the person that have done the comment,")
     })
 
     it('should get a comment', () =>{

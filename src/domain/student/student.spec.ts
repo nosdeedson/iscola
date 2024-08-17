@@ -24,7 +24,7 @@ describe("student unit tests", () =>{
 
         expect(student.getId()).toBeDefined();
         expect(student.getName()).toBeDefined();
-        expect(student.getBirthDay()).toBeDefined();
+        expect(student.getBirthday()).toBeDefined();
         expect(student.getCreatedAt()).toBeDefined();
         expect(student.getUpdatedAt()).toBeDefined();
         expect(student.getDeletedAt()).toBeUndefined();
@@ -50,9 +50,9 @@ describe("student unit tests", () =>{
             parents
         );
 
-        expect(student.notification?.getErrors().length).toBe(1)
-        expect(student.notification?.getErrors()[0].message).toBe('Name should not be null')
-        expect(student.notification?.messages('student')).toBe('student: Name should not be null,')
+        expect(student.getNotification()?.getErrors().length).toBe(1)
+        expect(student.getNotification()?.getErrors()[0].message).toBe('Name should not be null')
+        expect(student.getNotification()?.messages('student')).toBe('student: Name should not be null,')
     })
 
     it('should have error if birthday empty', () =>{
@@ -72,9 +72,9 @@ describe("student unit tests", () =>{
             parents
         );
 
-        expect(student.notification?.getErrors().length).toBe(1)
-        expect(student.notification?.getErrors()[0].message).toBe('Birthday should not be null')
-        expect(student.notification?.messages('student')).toBe('student: Birthday should not be null,')
+        expect(student.getNotification()?.getErrors().length).toBe(1)
+        expect(student.getNotification()?.getErrors()[0].message).toBe('Birthday should not be null')
+        expect(student.getNotification()?.messages('student')).toBe('student: Birthday should not be null,')
     })
 
     it('should have error if enrolled empty', () =>{
@@ -94,9 +94,9 @@ describe("student unit tests", () =>{
             parents
         );
 
-        expect(student.notification?.getErrors().length).toBe(1)
-        expect(student.notification?.getErrors()[0].message).toBe('Enrolled should not be null')
-        expect(student.notification?.messages('student')).toBe('student: Enrolled should not be null,')
+        expect(student.getNotification()?.getErrors().length).toBe(1)
+        expect(student.getNotification()?.getErrors()[0].message).toBe('Enrolled should not be null')
+        expect(student.getNotification()?.messages('student')).toBe('student: Enrolled should not be null,')
     })
 
     it('should have error if parents empty', () =>{
@@ -111,9 +111,9 @@ describe("student unit tests", () =>{
             parents
         );
 
-        expect(student.notification?.getErrors().length).toBe(1)
-        expect(student.notification?.getErrors()[0].message).toBe('parents field must have at least 1 items')
-        expect(student.notification?.messages('student')).toBe('student: parents field must have at least 1 items,')
+        expect(student.getNotification()?.getErrors().length).toBe(1)
+        expect(student.getNotification()?.getErrors()[0].message).toBe('parents field must have at least 1 items')
+        expect(student.getNotification()?.messages('student')).toBe('student: parents field must have at least 1 items,')
     })
 
     it('should have two errors', () =>{
@@ -133,10 +133,10 @@ describe("student unit tests", () =>{
             parents
         );
 
-        expect(student.notification?.getErrors().length).toBe(2)
-        expect(student.notification?.getErrors()[0].message).toBe('Name should not be null')
-        expect(student.notification?.getErrors()[1].message).toBe('Birthday should not be null')
-        expect(student.notification?.messages('student')).toBe('student: Name should not be null,student: Birthday should not be null,')
+        expect(student.getNotification()?.getErrors().length).toBe(2)
+        expect(student.getNotification()?.getErrors()[0].message).toBe('Name should not be null')
+        expect(student.getNotification()?.getErrors()[1].message).toBe('Birthday should not be null')
+        expect(student.getNotification()?.messages('student')).toBe('student: Name should not be null,student: Birthday should not be null,')
     })
 
 })

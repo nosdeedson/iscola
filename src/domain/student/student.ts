@@ -6,10 +6,10 @@ import { Class } from "../class/class";
 
 export class Student extends Person {
 
-    enrolled: string;
-    parents: Parent[];
-    ratings: Rating[];
-    class: Class;
+    private enrolled: string;
+    private parents: Parent[];
+    private ratings: Rating[];
+    private class: Class;
 
     constructor(
         birthday: Date,

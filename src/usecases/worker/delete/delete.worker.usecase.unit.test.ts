@@ -31,10 +31,10 @@ describe('delete worker unit test', () => {
     it("should delete a worker ", async () => {
         const workerRepository = await mockRepository();
         const usecase = new DeleteWorkerUsecase(workerRepository);
-        expect(await usecase.execute(worker.id));
+        expect(await usecase.execute(worker.getId()));
         expect(workerRepository.delete).toHaveBeenCalledTimes(1);
         expect(workerRepository.find).toHaveBeenCalledTimes(1);
-        expect(workerRepository.find).toHaveBeenCalledWith(worker.id);
+        expect(workerRepository.find).toHaveBeenCalledWith(worker.getId());
     })
 
     it("should do nothing", async () => {
