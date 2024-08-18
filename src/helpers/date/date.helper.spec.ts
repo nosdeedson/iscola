@@ -1,6 +1,7 @@
 
-import * as dateFns from 'date-fns'
-import * as helper from '../date/date.helper'
+import * as dateFns from 'date-fns';
+import * as helper from '../date/date.helper';
+import { timeInterval } from 'rxjs';
 
 // day of the year: Saturday August 10 2024
 const today = new Date(2024, 7, 10, 16, 26, 0, 0);
@@ -113,5 +114,17 @@ describe('Date helper unit tests', () =>{
         const result = helper.DateHelper.getDayOfweek(sunday);
         expect(result).toBe('Friday')
         
+    })
+
+    it('should set a Map', () => {
+        let test = new Map();
+        helper.DateHelper.setTime(test, 'Friday', '08:00');
+        expect(test.get('Friday')).toBe('08:00')
+    })
+
+    it('should return null', () => {
+        let test = new Map();
+        helper.DateHelper.setTime(test, 'invalid', '08:00');
+        expect(test.size).toBe(0);
     })
 })

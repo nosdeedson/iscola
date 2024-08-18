@@ -15,8 +15,8 @@ export default class CreateWorkerUseCase {
 
         let worker: Worker = new Worker(dto.birthday, dto.name, dto.role);
 
-        if(worker.notification?.hasError()){
-            throw new Error(worker.notification.messages());
+        if(worker.getNotification()?.hasError()){
+            throw new Error(worker.getNotification().messages());
         }
 
         try {

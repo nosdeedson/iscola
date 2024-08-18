@@ -20,23 +20,23 @@ export class RatingValidator implements Validator<Rating>{
                     vocabulary : yup.string().required('the vocabulary improvment must be informed'),
                 })
                 .validateSync({
-                    period : entity.period,
-                    student : entity.student,
-                    ratingDate : entity.ratingDate,
-                    listing : entity.listing,
-                    writing : entity.writing,
-                    reading : entity.reading,
-                    speaking : entity.speaking,
-                    grammar : entity.grammar,
-                    homework : entity.homework,
-                    vocabulary : entity.vocabulary
+                    period : entity.getAcademicSemester(),
+                    student : entity.getStudent(),
+                    ratingDate : entity.getRatingDate(),
+                    listing : entity.getListing(),
+                    writing : entity.getWriting(),
+                    reading : entity.getReading(),
+                    speaking : entity.getSpeaking(),
+                    grammar : entity.getGrammar(),
+                    homework : entity.getHomework(),
+                    vocabulary : entity.getVocabulary()
                 },{
                     abortEarly: false
                 })
         } catch (error) {
             const err = error as yup.ValidationError;
             err.errors.forEach(it =>{
-                entity.notification?.addError({
+                entity.getNotification()?.addError({
                     context: 'rating',
                     message: it
                 })

@@ -28,7 +28,8 @@ describe('Create worker use case test unit', () => {
         const workerRepository = mockRepository();
         const useCase = new CreateWorkerUseCase(workerRepository);
         expect(await useCase.execute(worker)).toBe(void 0)
-        expect(Promise.resolve(await useCase.execute(worker))).resolves.toBe(void 0)
+       // expect(Promise.resolve(await useCase.execute(worker))).resolves.toBe(void 0);
+        expect(workerRepository.create).toHaveBeenCalledTimes(1)
     })
 
     it("should throw error name should not be null", async () => {

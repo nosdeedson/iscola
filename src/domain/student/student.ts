@@ -2,14 +2,15 @@ import { Parent } from "../parent/parent";
 import { Person } from "../@shared/person";
 import { StudentValidator } from "./student.validator";
 import { Rating } from "../rating/rating";
-import { Classroom } from "../classroom/classroom";
+import { Class } from "../class/class";
 
 export class Student extends Person {
+    // TODO create code to generate enrolled code
 
-    enrolled: string;
-    parents: Parent[];
-    ratings: Rating[];
-    classroom: Classroom;
+    private enrolled: string;
+    private parents: Parent[];
+    private ratings: Rating[];
+    private schoolGroup: Class;
 
     constructor(
         birthday: Date,

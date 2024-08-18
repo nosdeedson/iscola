@@ -13,16 +13,16 @@ export class TeacherValidator implements Validator<Worker>{
                     role: yup.string().required('Role should not be null')
                 })
                 .validateSync({
-                    name: entity.name,
-                    birthDay: entity.birthday,
-                    role: entity.role
+                    name: entity.getName(),
+                    birthDay: entity.getBirthday(),
+                    role: entity.getRole(),
                 },{
                     abortEarly: false
                 })
         } catch (error) {
             const err = error as yup.ValidationError;
             err.errors.forEach(element => {
-                entity.notification?.addError({
+                entity.getNotification()?.addError({
                     context: 'teacher',
                     message: element
                 });

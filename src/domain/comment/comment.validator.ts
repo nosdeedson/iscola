@@ -13,16 +13,16 @@ export class CommentValidator implements Validator<Comment>{
                     commentDate: yup.date().required('inform the date of the comment')
                 })
                 .validateSync({
-                    comment: entity.comment,
-                    idPersonHadDone: entity.idPersonHadDone,
-                    commentDate: entity.commentDate
+                    comment: entity.getComment(),
+                    idPersonHadDone: entity.getIdPersonHadDone(),
+                    commentDate: entity.getCommentDate()
                 },{
                     abortEarly: false
                 })
         } catch (error) {
             const err = error as yup.ValidationError;
             err.errors.forEach(it => {
-                entity.notification?.addError({
+                entity.getNotification()?.addError({
                     context: 'comment',
                     message: it
                 })
