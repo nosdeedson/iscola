@@ -37,7 +37,7 @@ export class ClassValidator implements Validator<Class> {
                 }
                 if (
                     entity.getSchecule().getDayOfWeek()[0] === entity.getSchecule().getDayOfWeek()[1]
-                    && entity.getSchecule().getTime()[0] === entity.getSchecule().getTime()[1]
+                    && entity.getSchecule().getTimes()[0] === entity.getSchecule().getTimes()[1]
                 ) {
                     entity.getNotification()?.addError({ context: 'class', message: 'time must be different when day of week are equal' })
                 }

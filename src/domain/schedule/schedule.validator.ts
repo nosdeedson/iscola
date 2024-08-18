@@ -10,17 +10,22 @@ export class ScheduleValidator implements Validator<Schedule> {
         try {
             yup.object()
                 .shape({
-                    dayOfWeek: yup.array().min(2).max(2),
-                    time: yup.array().min(2).max(2),
+                    dayOfWeek: yup.array().length(2, 'must inform two days for the lessons'),
                 })
                 .validateSync({
                     dayOfWeek: entity.getDayOfWeek(),
-                    time: entity.getTime()
                 },
                     {
                         abortEarly: false
                     }
                 );
+
+            if(entity.getTimes().size < 2){
+                entity.getNotification()?.addError({
+                    context: 'schedule',
+                    message: 'inform twos times for the lessons'
+                })
+            }
         } catch (error) {
             const err = error as yup.ValidationError;
             err.errors.forEach(it => {
@@ -29,6 +34,12 @@ export class ScheduleValidator implements Validator<Schedule> {
                     message: it
                 })
             });
+            if(entity.getTimes().size < 2){
+                entity.getNotification()?.addError({
+                    context: 'schedule',
+                    message: 'inform twos times for the lessons'
+                })
+            }
         }
     }
 

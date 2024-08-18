@@ -1,8 +1,11 @@
-import { Column, Entity } from "typeorm";
-import { GenericModel } from "../@shared/generis.model/generic.model.interface";
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { GenericModel } from "../@shared/generis.model/generic.model";
+import { WokerModel } from "../worker/woker.model";
+import { StudentModel } from "../student/student.model";
+import { Student } from "src/domain/student/student";
 
 @Entity('class')
-export class Class extends GenericModel {
+export class ClassModel extends GenericModel {
 
     @Column({
         nullable: false,
@@ -36,8 +39,20 @@ export class Class extends GenericModel {
     
     @Column({
         nullable: false,
-        name: 'time'
+        name: 'time_first_day'
     })
-    time: string;
+    timeFirstDay: string;
+
+    @Column({
+        nullable: false,
+        name: 'time_second_day'
+    })
+    timeSecondDay: string;
+
+    @OneToMany(() => StudentModel, student => student.schoolGroup)
+    students: StudentModel[];
+
+    @ManyToOne(() => WokerModel, (teacher) => teacher.classes)
+    teacher: WokerModel;
 
 }

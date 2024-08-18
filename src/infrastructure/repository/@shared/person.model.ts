@@ -1,5 +1,5 @@
 import { Column } from "typeorm";
-import { GenericModel } from "./generis.model/generic.model.interface";
+import { GenericModel } from "./generis.model/generic.model";
 
 
 export abstract class Person extends GenericModel {

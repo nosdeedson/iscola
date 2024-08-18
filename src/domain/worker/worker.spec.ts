@@ -12,9 +12,14 @@ describe('Teacher unit test', () =>{
         // date of the year: august 9 2024
         let aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
         let aValidDate2 = new Date(2024, 7, 8, 17, 5, 0, 0);
+        let firstDay = DateHelper.getDayOfweek(aValidDate);
+        let secondDay =  DateHelper.getDayOfweek(aValidDate2);
+        let times = new Map();
+        DateHelper.setTime(times, firstDay, '08:00');
+        DateHelper.setTime(times, firstDay, '08:00');
         schedule = new Schedule(
-            [DateHelper.getDayOfweek(aValidDate), DateHelper.getDayOfweek(aValidDate2)],
-            ['08:00', '08:00']
+            [firstDay, secondDay],
+            times
         )
     })
 

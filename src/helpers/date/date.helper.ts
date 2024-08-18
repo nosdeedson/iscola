@@ -12,4 +12,25 @@ export class DateHelper {
             default: return 'Saturday';
         }
     }
+
+    /**
+     * 
+     * @param times Map
+     * @param key a weekday
+     * @param hours string representing an hour xx:xx
+     * @returns 
+     */
+    static setTime(times: Map<string, string>, key: string, hours: string): Map<string, string>{
+        if(this.isAWeekday(key)){
+            times.set(key, hours);
+        }else{
+            times = null;
+        }
+        return times
+    }
+
+    static isAWeekday(day: string): boolean{
+        let weekDay = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return weekDay.includes(day);
+    }
 }

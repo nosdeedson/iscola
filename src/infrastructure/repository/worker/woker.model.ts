@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany } from "typeorm";
 import { Person } from "../@shared/person.model";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
-import { Class } from '../class/class.model'
+import { ClassModel } from "../class/class.model";
 
 @Entity('worker')
 export class WokerModel extends Person {
@@ -16,7 +16,7 @@ export class WokerModel extends Person {
     })
     role: RoleEnum;
 
-    //@OneToMany({})
-    classes: Class[];
+    @OneToMany(() => ClassModel, (classes) => classes.teacher)
+    classes: ClassModel[];
 
 }

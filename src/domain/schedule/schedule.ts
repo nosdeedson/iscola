@@ -2,16 +2,18 @@ import { Entity } from "../@shared/entity";
 import { ScheduleValidator } from "./schedule.validator";
 
 export class Schedule extends Entity{
-    private dayOfWeek: string[];
-    private time: string[];
+
+    private dayOfWeeks: string[];
+
+    private times: Map<string, string>;
 
     constructor(
-        dayOfWeek: string[],
-        time: string[]
+        dayOfWeeks: string[],
+        times: Map<string, string>
     ) {
         super();
-        this.dayOfWeek = dayOfWeek;
-        this.time = time;
+        this.dayOfWeeks = dayOfWeeks;
+        this.times = times;
         this.validate();
     }
 
@@ -20,18 +22,11 @@ export class Schedule extends Entity{
     }
 
     getDayOfWeek(): string[]{
-        return this.dayOfWeek;
+        return this.dayOfWeeks;
     }
 
-    setDayOfWeek(dayOfWeek: string){
-        this.dayOfWeek.push(dayOfWeek);
+    getTimes(): Map<string, string>{
+        return this.times;
     }
 
-    getTime(): string[]{
-        return this.time;
-    }
-
-    setTime(time: string){
-        this.time.push(time);
-    }
 }

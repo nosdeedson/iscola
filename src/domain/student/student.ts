@@ -5,11 +5,12 @@ import { Rating } from "../rating/rating";
 import { Class } from "../class/class";
 
 export class Student extends Person {
+    // TODO create code to generate enrolled code
 
     private enrolled: string;
     private parents: Parent[];
     private ratings: Rating[];
-    private class: Class;
+    private schoolGroup: Class;
 
     constructor(
         birthday: Date,

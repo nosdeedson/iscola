@@ -5,8 +5,7 @@ import { Worker } from '../worker/worker';
 import { ClassValidator } from './class.validator';
 
 export class Class extends Entity {
-    // TODO the class day should not be the same with time is equal
-
+    
     private classCode: string;
     private nameBook: string;
     private name: string;
