@@ -1,11 +1,13 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne } from "typeorm";
-import { GenericModel } from "../@shared/generis.model/generic.model";
+import { ChildEntity, Column, JoinTable, ManyToMany, OneToOne } from "typeorm";
+import { PersonModel } from "../@shared/person.model";
 import { ClassModel } from "../class/class.model";
-import { ParentModel } from "../parent/parent";
+import { ParentModel } from "../parent/parent.model";
 
 
-@Entity('student')
-export class StudentModel extends GenericModel {
+@ChildEntity()
+export class StudentModel extends PersonModel {
+
+    constructor() { super() }
 
     @Column({
         nullable: false,
@@ -21,6 +23,6 @@ export class StudentModel extends GenericModel {
     })
     parents: ParentModel[];
 
-    @OneToOne(() => ClassModel, schoolGroup => schoolGroup.students )
+    @OneToOne(() => ClassModel, schoolGroup => schoolGroup.students)
     schoolGroup: ClassModel;
 }

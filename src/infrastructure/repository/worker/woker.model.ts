@@ -1,11 +1,13 @@
-import { Column, Entity, OneToMany } from "typeorm";
-import { Person } from "../@shared/person.model";
+import { ChildEntity, Column, OneToMany } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
+import { PersonModel } from "../@shared/person.model";
 import { ClassModel } from "../class/class.model";
 
-@Entity('worker')
-export class WokerModel extends Person {
-    
+@ChildEntity()
+export class WokerModel extends PersonModel {
+
+    constructor() { super() }
+
     @Column({
         nullable: false,
         type: 'enum',

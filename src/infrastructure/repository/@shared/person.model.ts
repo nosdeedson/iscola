@@ -1,12 +1,15 @@
-import { Column } from "typeorm";
-import { GenericModel } from "./generis.model/generic.model";
+import { Column, Entity, TableInheritance } from "typeorm";
+import { GenericModel } from "./generic.model/generic.model";
 
 
-export abstract class Person extends GenericModel {
+@Entity('person')
+@TableInheritance({ column: { type: "varchar", name: "type" } })
+export abstract class PersonModel extends GenericModel {
     
     @Column({
         nullable: false,
-        name: 'birthday'
+        name: 'birthday',
+        type: 'timestamp with time zone'
     })
     birthday: Date;
     

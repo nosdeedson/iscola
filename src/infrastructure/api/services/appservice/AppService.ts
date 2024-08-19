@@ -5,7 +5,7 @@ import { Injectable } from "@nestjs/common";
 export class AppService {
 
     getHello(): string{
-        return 'hello world!!'
+        return 'hello world!!' + process.env.DATABASE_NAME
     }
 
 }

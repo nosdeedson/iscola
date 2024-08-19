@@ -10,6 +10,7 @@
 # npm i uuid
 # npm install date-fns --save
 # npm install --save @nestjs/typeorm typeorm pg
+# npm i --save @nestjs/config
 
 ## how to see the coverage of tests
 # npm test -- --coverage

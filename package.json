@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "build": "nest build",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
+    "start": "NODE_ENV=.dev nest start",
+    "start:dev": "NODE_ENV=.dev nest start --watch",
+    "start:debug": "NODE_ENV=.dev nest start --debug --watch",
     "start:prod": "node dist/main",
     "test": "jest"
   },
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^10.3.10",
+    "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.3.10",
     "@nestjs/platform-express": "^10.3.10",
     "@nestjs/typeorm": "^10.0.2",

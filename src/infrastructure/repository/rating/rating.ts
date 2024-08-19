@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from "typeorm";
-import { GenericModel } from "../@shared/generis.model/generic.model";
-import { AcademicSemesterModel } from "../academic-semester/academic.semester";
-import { CommentModel } from "../comment/comment";
+import { GenericModel } from "../@shared/generic.model/generic.model";
+import { AcademicSemesterModel } from "../academic-semester/academic.semester.model";
+import { CommentModel } from "../comment/comment.model";
 import { StudentModel } from "../student/student.model";
-import { Grade } from "src/domain/enum/grade/grade";
+import { Grade } from "../../../domain/enum/grade/grade";
 
 
 @Entity('rating')

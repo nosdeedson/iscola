@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
-import { GenericModel } from "../@shared/generis.model/generic.model";
+import { GenericModel } from "../@shared/generic.model/generic.model";
 import { WokerModel } from "../worker/woker.model";
 import { StudentModel } from "../student/student.model";
 import { Student } from "src/domain/student/student";
