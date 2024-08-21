@@ -1,10 +1,13 @@
+import { Comment } from "src/domain/comment/comment";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { GenericModel } from "../@shared/generic.model/generic.model";
-import { RatingModel } from "../rating/rating";
+import { RatingModel } from "../rating/rating.model";
 
 
 @Entity('comment')
 export class CommentModel extends GenericModel {
+
+    private constructor() { super() }
 
     @Column({
         nullable: false,
@@ -24,7 +27,8 @@ export class CommentModel extends GenericModel {
     @Column({
         nullable: false,
         name: 'id_person_have_done',
-        type: 'string'
+        type: 'varchar',
+        length: 40
     })
     idPersonHaveDone: string;
 
@@ -34,4 +38,20 @@ export class CommentModel extends GenericModel {
     @ManyToOne(() => RatingModel, rating => rating.comments)
     rantig: RatingModel;
 
+    static toCommentModel(comment: Comment): CommentModel {
+        let model = new CommentModel();
+        model.comment = comment.getComment();
+        model.commentDate = comment.getCommentDate();
+        model.createdAt = comment.getCreatedAt();
+        model.deletedAt = comment.getDeletedAt();
+        model.updatedAt = comment.getUpdatedAt();
+        model.id = comment.getId();
+        model.idPersonHaveDone = comment.getIdPersonHadDone();
+        model.rantig = RatingModel.toRatingModel(comment.getRating());
+        return model;
+    }
+
+    static toCommentsModels(comments: Comment[]): CommentModel[] {
+        return comments.map(it => this.toCommentModel(it));
+    }
 }

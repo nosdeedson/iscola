@@ -45,5 +45,4 @@ export class Worker extends Person {
         this.classes.push(c);
     }
 
-   
 }

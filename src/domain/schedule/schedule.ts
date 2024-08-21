@@ -29,4 +29,8 @@ export class Schedule extends Entity{
         return this.times;
     }
 
+    getTime(key: string){
+        return this.times.get(key);
+    }
+
 }

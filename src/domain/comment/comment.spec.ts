@@ -1,9 +1,10 @@
+import { RatingModel } from "src/infrastructure/repository/rating/rating.model";
 import { Comment } from "./comment"
 
 describe('Comment unit tests', () =>{
 
     it('should instantiate a comment without errors', () =>{
-        let comment = new Comment("comment", 1, new Date());
+        let comment = new Comment("comment", '123', new Date());
         expect(comment).toBeDefined();
         expect(comment.getCreatedAt()).toBeDefined();
         expect(comment.getUpdatedAt()).toBeDefined();
@@ -14,7 +15,7 @@ describe('Comment unit tests', () =>{
 
     it('should have an error if comment is empty', () =>{
         let comment;
-        let idPersonHadDone = 1;
+        let idPersonHadDone = '123';
         let commentDate = new Date();
         let entity = new Comment(comment, idPersonHadDone, commentDate);
         expect(entity.getNotification()?.getErrors().length).toBe(1);
@@ -32,7 +33,7 @@ describe('Comment unit tests', () =>{
 
     it('should have an error if commentDate is not defined', () =>{
         let comment = 'comment';
-        let idPersonHadDone = 1;
+        let idPersonHadDone = '123';
         let commentDate;
         let entity = new Comment(comment, idPersonHadDone, commentDate);
         expect(entity.getNotification()?.getErrors().length).toBe(1);
@@ -49,22 +50,22 @@ describe('Comment unit tests', () =>{
     })
 
     it('should get a comment', () =>{
-        let comment = new Comment("comment", 1, new Date());
+        let comment = new Comment("comment", '123', new Date());
         expect(comment).toBeDefined();
         let resullt = comment.getComment()
         expect(resullt).toBe('comment');
     })
 
     it('should get id person had done the comment', () =>{
-        let comment = new Comment("comment", 1, new Date());
+        let comment = new Comment("comment", '123', new Date());
         expect(comment).toBeDefined();
         let resullt = comment.getIdPersonHadDone()
-        expect(resullt).toBe(1);
+        expect(resullt).toBe('123');
     })
 
     it('should get date of the comment', () =>{
         let dateComment = new Date()
-        let comment = new Comment("comment", 1, dateComment);
+        let comment = new Comment("comment", '123', dateComment);
         expect(comment).toBeDefined();
         let resullt = comment.getCommentDate()
         expect(resullt).toEqual(dateComment);

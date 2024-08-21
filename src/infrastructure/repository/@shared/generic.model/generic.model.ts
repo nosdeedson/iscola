@@ -2,7 +2,7 @@ import { CreateDateColumn, DeleteDateColumn, PrimaryColumn, UpdateDateColumn } f
 
 
 export abstract class GenericModel {
-
+    
     @PrimaryColumn({ type: 'uuid' })
     id: string;
 

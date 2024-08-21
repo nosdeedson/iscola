@@ -44,4 +44,12 @@ export class Student extends Person {
         return this.enrolled;
     }
 
+    getRating(): Rating[]{
+        return this.ratings;
+    }
+
+    getSchoolGroup(): Class{
+        return this.schoolGroup;
+    }
+
 }

@@ -4,6 +4,7 @@ import { AcademicSemesterModel } from "../academic-semester/academic.semester.mo
 import { CommentModel } from "../comment/comment.model";
 import { StudentModel } from "../student/student.model";
 import { Grade } from "../../../domain/enum/grade/grade";
+import { Rating } from "src/domain/rating/rating";
 
 
 @Entity('rating')
@@ -86,13 +87,6 @@ export class RatingModel extends GenericModel {
     })
     speaking: Grade;
 
-    @ManyToOne(() => StudentModel)
-    @JoinColumn({
-        name: 'student_id',
-        foreignKeyConstraintName: 'fk_student_id'
-    })
-    student: StudentModel;
-
     @Column({
         nullable: false,
         name: 'vocabulary',
@@ -131,5 +125,39 @@ export class RatingModel extends GenericModel {
 
     @OneToMany(() => CommentModel, comment => comment.rantig )
     comments: CommentModel[];
+
+    @ManyToOne(() => StudentModel)
+    @JoinColumn({
+        name: 'student_id',
+        foreignKeyConstraintName: 'fk_student_id'
+    })
+    student: StudentModel;
+    
+    static toRatingModel(rating: Rating): RatingModel {
+        let model = new RatingModel();
+        model.academicSemester = AcademicSemesterModel.toAcademicSemester(rating.getAcademicSemester())
+        model.comments = CommentModel.toCommentsModels(rating.getComments());
+        model.createdAt = rating.getCreatedAt();
+        model.deletedAt = rating.getDeletedAt();
+        model.grammar = rating.getGrammar();
+        model.homework = rating.getHomework();
+        model.id = rating.getId();
+        model.listing = rating.getListing();
+        model.ratingDate = rating.getRatingDate();
+        model.reading = rating.getReading();
+        model.speaking = rating.getSpeaking();
+        model.student = StudentModel.toStudentModel(rating.getStudent());
+        model.updatedAt = rating.getUpdatedAt();
+        model.vocabulary = rating.getVocabulary();
+        model.writing = rating.getWriting();
+        return model;
+    }
+
+    static toRatingsModels(ratings: Rating[]): RatingModel[]{
+        if(!ratings){
+            return undefined
+        }
+        return ratings.map(it => this.toRatingModel(it));
+    }
 
 }
