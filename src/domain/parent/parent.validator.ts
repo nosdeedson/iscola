@@ -13,15 +13,15 @@ export class ParentValidator implements Validator<Parent>{
                     students: yup.array().min(1),
                 })
                 .validateSync({
-                    name: entity.name,
-                    birthday: entity.birthday,
-                    students: entity.students
+                    name: entity.getName(),
+                    birthday: entity.getBirthday(),
+                    students: entity.getStudents()
                 },
                 {abortEarly: false})
         } catch (error) {
             const err = error as yup.ValidationError
             err.errors.forEach(element => {
-                entity.notification?.addError({
+                entity.getNotification()?.addError({
                     context: 'parent',
                     message: element
                 })

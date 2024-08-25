@@ -1,11 +1,13 @@
 import { Entity } from "../@shared/entity";
-import { PeriodValidator } from "./period.validator";
+import { Rating } from "../rating/rating";
+import { PeriodValidator } from "./academic.semester.validator";
 
-export class Period extends Entity {
+export class AcademicSemester extends Entity {
 
-    actual: boolean;
-    beginningDate: Date;
-    endingDate: Date;
+    private actual: boolean;
+    private beginningDate: Date;
+    private endingDate: Date;
+    private ratings: Rating[];
 
     constructor(
         actual: boolean,
@@ -31,12 +33,34 @@ export class Period extends Entity {
         return this.actual
     }
 
+    setActual(actual: boolean){
+        this.actual = actual;
+    }
+
     getBeginningDate(): Date{
         return this.beginningDate;
+    }
+
+    setBeginningDate(date: Date){
+        this.beginningDate = date;
     }
 
     getEndingDate(): Date{
         return this.endingDate;
     }
 
+    setEndingDate(date: Date){
+        this.endingDate = date;
+    }
+
+    getRating(): Rating[]{
+        return this.ratings;
+    }
+
+    setRating(rating: Rating){
+        if(!this.ratings){
+            this.ratings = [];
+        }
+        this.ratings.push(rating);
+    }
 }

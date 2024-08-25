@@ -12,16 +12,16 @@ export class FindWorker {
     }
 
     public async execute(dto: InputFindWorkerDto): Promise<OutputFindWorkerDto> {
-        let worker = await this.workerRepository.find(dto.id);
+        let worker = await this.workerRepository.find(dto.id) as Worker;
         let output = {} as OutputFindWorkerDto;
         if(worker){
             output = {
-                birthday : worker.birthday,
-                name: worker.name,
-                createdAt: worker.createdAt,
-                id: worker.id,
-                role: worker.role,
-                udpatedAt: worker.updatedAt
+                birthday : worker.getBirthday(),
+                name: worker.getName(),
+                createdAt: worker.getCreatedAt(),
+                id: worker.getId(),
+                role: worker.getRole(),
+                udpatedAt: worker.getUpdatedAt()
             }
         }
         return output;

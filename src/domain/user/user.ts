@@ -5,11 +5,11 @@ import { UserValidator } from "./user.validator";
 
 export class User extends Entity {
 
-    protected readonly person: Person;
-    protected readonly email: string;
-    protected readonly nickname: string;
-    protected readonly password: string;
-    protected readonly accessType: string;
+    private readonly person: Person;
+    private readonly email: string;
+    private readonly nickname: string;
+    private readonly password: string;
+    private readonly accessType: string;
 
     constructor(
         person: Person,
