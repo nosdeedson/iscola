@@ -1,6 +1,8 @@
 import { Class } from "../../../domain/class/class";
 import { Schedule } from "../../../domain/schedule/schedule";
 import { DateHelper } from "../../../helpers/date/date.helper";
+import { StudentModel } from "../student/student.model";
+import { WokerModel } from "../worker/worker.model";
 import { ClassModel } from "./class.model";
 
 describe('Classmodel unit tests', () => {
@@ -36,6 +38,9 @@ describe('Classmodel unit tests', () => {
     })
 
     it('should instantiate a ClassModel from a domain Class', () => {
+        const studentModelFile = jest.spyOn(StudentModel, 'toStudentsModels');
+        const workerModelFile = jest.spyOn(WokerModel, 'toWorkerModel');
+        
         const model = ClassModel.toClassModel(c);
         expect(model).toBeDefined();
         expect(model.bookName).toEqual(c.getNameBook());
@@ -53,10 +58,17 @@ describe('Classmodel unit tests', () => {
         expect(model.timeFirstDay).toEqual(firstTime);
         expect(model.timeSecondDay).toEqual(secondTime);
         expect(model.updatedAt).toEqual(c.getUpdatedAt());
+        expect(studentModelFile).toHaveBeenCalled();
+        expect(studentModelFile).toHaveBeenCalledTimes(1);
+        expect(workerModelFile).toHaveBeenCalled();
+        expect(workerModelFile).toHaveBeenCalledTimes(1);
     })
 
 
     it('should return an array ClassModel from a domain Class array', () => {
+        const studentModelFile = jest.spyOn(StudentModel, 'toStudentsModels');
+        const workerModelFile = jest.spyOn(WokerModel, 'toWorkerModel');
+        
         const model = ClassModel.toClassesModels([c])
         expect(model[0]).toBeDefined();
         expect(model[0].bookName).toEqual(c.getNameBook());
@@ -74,5 +86,9 @@ describe('Classmodel unit tests', () => {
         expect(model[0].timeFirstDay).toEqual(firstTime);
         expect(model[0].timeSecondDay).toEqual(secondTime);
         expect(model[0].updatedAt).toEqual(c.getUpdatedAt());
+        expect(studentModelFile).toHaveBeenCalled();
+        expect(studentModelFile).toHaveBeenCalledTimes(1);
+        expect(workerModelFile).toHaveBeenCalled();
+        expect(workerModelFile).toHaveBeenCalledTimes(1);
     })
 })

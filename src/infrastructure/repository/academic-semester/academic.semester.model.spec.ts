@@ -1,10 +1,12 @@
 import { AcademicSemester } from "../../../domain/academc-semester/academic.semester";
+import { RatingModel } from "../rating/rating.model";
 import { AcademicSemesterModel } from "./academic.semester.model";
 
 describe("AcademicSemester unit test", () => {
 
 
     it('should instantiate an AcademicSemesterModel from AcademicSemester', () => {
+        const ratingFile = jest.spyOn(RatingModel, 'toRatingsModels')
         // first August 2024
         const aValidBeginnig = new Date(2024, 7, 1, 0, 0, 0);
         // 29 November 2024
@@ -20,5 +22,7 @@ describe("AcademicSemester unit test", () => {
         expect(model.endingDate).toEqual(academicSemester.getEndingDate());
         expect(model.id).toEqual(academicSemester.getId());
         expect(model.ratings).toEqual(academicSemester.getRating());
+        expect(ratingFile).toHaveBeenCalled();
+        expect(ratingFile).toHaveBeenCalledTimes(1);
     })
 })

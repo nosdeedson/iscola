@@ -1,14 +1,16 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from "typeorm";
+import { Rating } from "src/domain/rating/rating";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Grade } from "../../../domain/enum/grade/grade";
 import { GenericModel } from "../@shared/generic.model/generic.model";
 import { AcademicSemesterModel } from "../academic-semester/academic.semester.model";
 import { CommentModel } from "../comment/comment.model";
 import { StudentModel } from "../student/student.model";
-import { Grade } from "../../../domain/enum/grade/grade";
-import { Rating } from "src/domain/rating/rating";
 
 
 @Entity('rating')
 export class RatingModel extends GenericModel {
+
+    constructor() { super() }
 
     @Column({
         nullable: false,
@@ -99,7 +101,7 @@ export class RatingModel extends GenericModel {
             Grade.VERY_GOOD,
         ]
     })
-    vocabulary: Grade;    
+    vocabulary: Grade;
 
     @Column({
         nullable: false,
@@ -120,10 +122,10 @@ export class RatingModel extends GenericModel {
         foreignKeyConstraintName: 'fk_academic_semester',
         referencedColumnName: 'id'
     })
-    @ManyToOne( () => AcademicSemesterModel, academicSemester => academicSemester.ratings)
+    @ManyToOne(() => AcademicSemesterModel, academicSemester => academicSemester.ratings)
     academicSemester: AcademicSemesterModel;
 
-    @OneToMany(() => CommentModel, comment => comment.rantig )
+    @OneToMany(() => CommentModel, comment => comment.rantig)
     comments: CommentModel[];
 
     @ManyToOne(() => StudentModel)
@@ -132,10 +134,9 @@ export class RatingModel extends GenericModel {
         foreignKeyConstraintName: 'fk_student_id'
     })
     student: StudentModel;
-    
+
     static toRatingModel(rating: Rating): RatingModel {
         let model = new RatingModel();
-        model.academicSemester = AcademicSemesterModel.toAcademicSemester(rating.getAcademicSemester())
         model.comments = CommentModel.toCommentsModels(rating.getComments());
         model.createdAt = rating.getCreatedAt();
         model.deletedAt = rating.getDeletedAt();
@@ -150,11 +151,12 @@ export class RatingModel extends GenericModel {
         model.updatedAt = rating.getUpdatedAt();
         model.vocabulary = rating.getVocabulary();
         model.writing = rating.getWriting();
+        model.academicSemester = AcademicSemesterModel.toAcademicSemester(rating.getAcademicSemester());
         return model;
     }
 
-    static toRatingsModels(ratings: Rating[]): RatingModel[]{
-        if(!ratings){
+    static toRatingsModels(ratings: Rating[]): RatingModel[] {
+        if (!ratings) {
             return undefined
         }
         return ratings.map(it => this.toRatingModel(it));
