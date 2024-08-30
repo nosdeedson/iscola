@@ -18,18 +18,17 @@ describe("CommentModel unit tests", () => {
         rating = new Rating(academicSemester, null, null,null, null, null,null, null, null,null, null)
         
         comment = new Comment("comment", '123', new Date());
-        comment.setRating([rating]);
         comment1 = new Comment("comment1", '123', new Date());
-        comment1.setRating([rating])
         comments.push(comment)
         comments.push(comment1)
+        rating.setComments(comment)
     })
 
     it('should instantiate a comment from Comment domain', () => {
         
         const ratingModelFile = jest.spyOn(RatingModel, 'toRatingModel');
         const ratingFile = jest.spyOn(Rating.prototype, 'getAcademicSemester');
-        const model = CommentModel.toCommentModel(comment);
+        const model = CommentModel.toCommentModel(comment, rating);
 
         expect(model).toBeDefined();
         expect(model.comment).toEqual(comment.getComment());
@@ -42,5 +41,6 @@ describe("CommentModel unit tests", () => {
         expect(model.updatedAt).toEqual(comment.getUpdatedAt());
         expect(ratingModelFile).toHaveBeenCalled()
         expect(ratingModelFile).toHaveBeenCalledTimes(1)
+        expect(ratingFile).toHaveBeenCalled()
     })
 })

@@ -7,6 +7,9 @@ import { Class } from "src/domain/class/class";
 @Entity('class')
 export class ClassModel extends GenericModel {
 
+
+    private constructor() { super() }
+    
     @Column({
         nullable: false,
         name: 'class_code'
@@ -78,13 +81,11 @@ export class ClassModel extends GenericModel {
 
     static toClassesModels(classes: Class[]): ClassModel[] {
         let models: ClassModel[] = [];
-        classes.forEach(it => {
-            let c = this.toClassModel(it);
+        for(let i = 0; i < classes.length; i++){
+            let c = this.toClassModel(classes[i]);
             models.push(c);
-        })
+        }
         return models;
     }
-
-    private constructor() { super() }
 
 }

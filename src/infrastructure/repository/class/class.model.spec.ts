@@ -1,3 +1,4 @@
+import { Student } from "src/domain/student/student";
 import { Class } from "../../../domain/class/class";
 import { Schedule } from "../../../domain/schedule/schedule";
 import { DateHelper } from "../../../helpers/date/date.helper";
@@ -10,7 +11,14 @@ describe('Classmodel unit tests', () => {
     let schedule: Schedule;
     let aValidDate: Date;
     let aValidDate2: Date;
-    let c;
+    let c: Class;
+
+    afterEach(() =>{
+        schedule = undefined;
+        aValidDate = undefined;
+        aValidDate2 = undefined;
+        c = undefined;
+    })
 
     beforeEach(() =>{
          // date of the year: august 9 2024 Friday
@@ -38,8 +46,8 @@ describe('Classmodel unit tests', () => {
     })
 
     it('should instantiate a ClassModel from a domain Class', () => {
-        const studentModelFile = jest.spyOn(StudentModel, 'toStudentsModels');
-        const workerModelFile = jest.spyOn(WokerModel, 'toWorkerModel');
+        let studentModelFile = jest.spyOn(StudentModel, 'toStudentsModels');
+        let workerModelFile = jest.spyOn(WokerModel, 'toWorkerModel');
         
         const model = ClassModel.toClassModel(c);
         expect(model).toBeDefined();
@@ -66,10 +74,11 @@ describe('Classmodel unit tests', () => {
 
 
     it('should return an array ClassModel from a domain Class array', () => {
-        const studentModelFile = jest.spyOn(StudentModel, 'toStudentsModels');
-        const workerModelFile = jest.spyOn(WokerModel, 'toWorkerModel');
-        
-        const model = ClassModel.toClassesModels([c])
+        let studentModelFile1 = jest.spyOn(StudentModel, 'toStudentsModels');
+        let workerModelFile1 = jest.spyOn(WokerModel, 'toWorkerModel');
+        let groupSchool: Class[] = [];
+        groupSchool.push(c);
+        const model = ClassModel.toClassesModels(groupSchool);
         expect(model[0]).toBeDefined();
         expect(model[0].bookName).toEqual(c.getNameBook());
         expect(model[0].classCode).toEqual(c.getClassCode());
@@ -86,9 +95,9 @@ describe('Classmodel unit tests', () => {
         expect(model[0].timeFirstDay).toEqual(firstTime);
         expect(model[0].timeSecondDay).toEqual(secondTime);
         expect(model[0].updatedAt).toEqual(c.getUpdatedAt());
-        expect(studentModelFile).toHaveBeenCalled();
-        expect(studentModelFile).toHaveBeenCalledTimes(1);
-        expect(workerModelFile).toHaveBeenCalled();
-        expect(workerModelFile).toHaveBeenCalledTimes(1);
+        expect(studentModelFile1).toHaveBeenCalled();
+        expect(studentModelFile1).toHaveBeenCalledWith(c.getStudents())
+        expect(workerModelFile1).toHaveBeenCalled();
+        expect(workerModelFile1).toHaveBeenCalledWith(c.getTeacher());
     })
 })
