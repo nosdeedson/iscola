@@ -1,12 +1,13 @@
 import { Worker } from "../../../domain/worker/worker";
 import { UserConverter } from "../@shared/user-converter/user.converter.interface";
 import { PersonModel } from "../@shared/person.model";
-import { WokerModel } from "./worker.model";
+import { WorkerModel } from "./worker.model";
+import { ClassModel } from "../class/class.model";
 
 export class WorkerUserconverter implements UserConverter<Worker>{
 
-    converter(entity: Worker): PersonModel {
-        return WokerModel.toWorkerModel(entity);
+    converter(entity: Worker, schooGroups?: ClassModel): PersonModel {
+        return WorkerModel.toWorkerModel(entity, schooGroups[0]);
     }
     
 }

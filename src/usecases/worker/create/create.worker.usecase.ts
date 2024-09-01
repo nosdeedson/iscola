@@ -1,26 +1,24 @@
-import { InputCreateWorkerDto } from "./create.worker.dto";
+import { ClassRepositoryInterface } from 'src/domain/class/class.repository.interface';
+import { WorkerModel } from "src/infrastructure/repository/worker/worker.model";
 import { WorkerRepositoryInterface } from '../../../domain/worker/worker.repository.interface';
-import { Worker } from "../../../domain/worker/worker";
 
 
 export default class CreateWorkerUseCase {
 
     private workerRepository: WorkerRepositoryInterface
+    private schoolGroup: ClassRepositoryInterface;
 
-    constructor(workerRepository: WorkerRepositoryInterface){
+    constructor(
+        workerRepository: WorkerRepositoryInterface,
+        schooGroup: ClassRepositoryInterface
+    ){
         this.workerRepository = workerRepository;
+        this.schoolGroup = schooGroup;
     }
 
-    public async execute(dto: InputCreateWorkerDto){
-
-        let worker: Worker = new Worker(dto.birthday, dto.name, dto.role);
-
-        if(worker.getNotification()?.hasError()){
-            throw new Error(worker.getNotification().messages());
-        }
-
+    public async execute(model: WorkerModel){
         try {
-            this.workerRepository.create(worker);
+            this.workerRepository.create(model);
         } catch (error) {
             throw error;
         }

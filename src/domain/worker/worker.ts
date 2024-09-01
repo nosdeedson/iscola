@@ -1,7 +1,7 @@
 import { Person } from "../@shared/person";
 import { Class } from "../class/class";
 import { RoleEnum } from "./roleEnum";
-import { TeacherValidator } from "./worker.validator";
+import { WorkerValidator } from "./worker.validator";
 
 export class Worker extends Person {
 
@@ -23,7 +23,7 @@ export class Worker extends Person {
     }
 
     validate() {
-        new TeacherValidator().validate(this);
+        new WorkerValidator().validate(this);
     }
 
     getRole(): RoleEnum {

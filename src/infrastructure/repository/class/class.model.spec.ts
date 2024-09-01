@@ -3,7 +3,7 @@ import { Class } from "../../../domain/class/class";
 import { Schedule } from "../../../domain/schedule/schedule";
 import { DateHelper } from "../../../helpers/date/date.helper";
 import { StudentModel } from "../student/student.model";
-import { WokerModel } from "../worker/worker.model";
+import { WorkerModel } from "../worker/worker.model";
 import { ClassModel } from "./class.model";
 
 describe('Classmodel unit tests', () => {
@@ -47,7 +47,7 @@ describe('Classmodel unit tests', () => {
 
     it('should instantiate a ClassModel from a domain Class', () => {
         let studentModelFile = jest.spyOn(StudentModel, 'toStudentsModels');
-        let workerModelFile = jest.spyOn(WokerModel, 'toWorkerModel');
+        let workerModelFile = jest.spyOn(WorkerModel, 'toWorkerModel');
         
         const model = ClassModel.toClassModel(c);
         expect(model).toBeDefined();
@@ -75,7 +75,7 @@ describe('Classmodel unit tests', () => {
 
     it('should return an array ClassModel from a domain Class array', () => {
         let studentModelFile1 = jest.spyOn(StudentModel, 'toStudentsModels');
-        let workerModelFile1 = jest.spyOn(WokerModel, 'toWorkerModel');
+        let workerModelFile1 = jest.spyOn(WorkerModel, 'toWorkerModel');
         let groupSchool: Class[] = [];
         groupSchool.push(c);
         const model = ClassModel.toClassesModels(groupSchool);

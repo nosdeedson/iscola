@@ -11,7 +11,7 @@ import { AppController } from "./AppController";
 import { ConfigModule } from "@nestjs/config";
 import { StudentModel } from "src/infrastructure/repository/student/student.model";
 import { ParentModel } from "src/infrastructure/repository/parent/parent.model";
-import { WokerModel } from "src/infrastructure/repository/worker/worker.model";
+import { WorkerModel } from "src/infrastructure/repository/worker/worker.model";
 
 @Module({
     imports: [
@@ -35,7 +35,7 @@ import { WokerModel } from "src/infrastructure/repository/worker/worker.model";
                 PersonModel,
                 StudentModel,
                 ParentModel,
-                WokerModel,
+                WorkerModel,
                 UserModel
             ]
         })

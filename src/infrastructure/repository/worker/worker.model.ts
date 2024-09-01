@@ -1,16 +1,20 @@
 import { ChildEntity, Column, OneToMany } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
+import { Worker } from "../../../domain/worker/worker";
 import { PersonModel } from "../@shared/person.model";
 import { ClassModel } from "../class/class.model";
-import { Worker } from "../../../domain/worker/worker";
 
-@ChildEntity()
-export class WokerModel extends PersonModel {
+@ChildEntity('worker')
+export class WorkerModel extends PersonModel {
 
-    constructor() { super() }
+    constructor(){
+         super();
+         if(!this.classes)
+            this.classes = []
+    }
 
     @Column({
-        nullable: false,
+        nullable: true,
         type: 'enum',
         enum: [
             RoleEnum.ADMINISTRATOR,
@@ -22,13 +26,14 @@ export class WokerModel extends PersonModel {
     @OneToMany(() => ClassModel, (classes) => classes.teacher)
     classes: ClassModel[];
 
-    static toWorkerModel(worker: Worker): WokerModel{
+    static toWorkerModel(worker: Worker, classEntity: ClassModel): WorkerModel{
+      
         if(!worker){
             return undefined;
         }
-        let model = new WokerModel();
+        let model = new WorkerModel();
         model.birthday = worker.getBirthday();
-        model.classes = ClassModel.toClassesModels(worker.getClasses());
+        model.classes.push(classEntity)
         model.createdAt = worker.getCreatedAt();
         model.deletedAt = worker.getDeletedAt();
         model.fullName = worker.getName();

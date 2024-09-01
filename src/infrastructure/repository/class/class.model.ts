@@ -1,14 +1,11 @@
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 import { GenericModel } from "../@shared/generic.model/generic.model";
 import { StudentModel } from "../student/student.model";
-import { WokerModel } from "../worker/worker.model";
+import { WorkerModel } from "../worker/worker.model";
 import { Class } from "src/domain/class/class";
 
 @Entity('class')
 export class ClassModel extends GenericModel {
-
-
-    // private constructor() { super() }
     
     @Column({
         nullable: false,
@@ -55,8 +52,8 @@ export class ClassModel extends GenericModel {
     @OneToMany(() => StudentModel, student => student.schoolGroup)
     students: StudentModel[];
 
-    @ManyToOne(() => WokerModel, (teacher) => teacher.classes)
-    teacher: WokerModel;
+    @ManyToOne(() => WorkerModel, (teacher) => teacher.classes)
+    teacher: WorkerModel;
 
     static toClassModel(schoolGroup: Class): ClassModel {
         if (!schoolGroup) {
@@ -72,7 +69,6 @@ export class ClassModel extends GenericModel {
         model.id = schoolGroup.getId();
         model.secondDayOfClassInWeek = schoolGroup.getSchecule().getDayOfWeek()[1];
         model.students = StudentModel.toStudentsModels(schoolGroup.getStudents());
-        model.teacher = WokerModel.toWorkerModel(schoolGroup.getTeacher());
         model.timeFirstDay = schoolGroup.getSchecule().getTimes().get(model.firstDayOfClassInWeek);
         model.timeSecondDay = schoolGroup.getSchecule().getTimes().get(model.secondDayOfClassInWeek);
         model.updatedAt = schoolGroup.getUpdatedAt();

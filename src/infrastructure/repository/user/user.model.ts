@@ -9,6 +9,7 @@ import { PersonModel } from "../@shared/person.model";
 import { ParentUserConverter } from "../parent/parent.user.converter";
 import { StudentUserConverter } from "../student/student.user.converter";
 import { WorkerUserconverter } from "../worker/worker.user.converter";
+import { ClassModel } from "../class/class.model";
 
 
 @Entity('user')
@@ -50,7 +51,10 @@ export class UserModel extends GenericModel{
         } else if(user.getAccessType() == AccessType.STUDENT){
             userModel.person = new StudentUserConverter().converter(user.getPerson() as Student);
         } else if(user.getAccessType() == AccessType.TEACHER) {
-            userModel.person = new WorkerUserconverter().converter(user.getPerson() as Worker)
+            let teacher = user.getPerson() as Worker;
+            let schoolGroups = teacher.getClasses();
+            let modelOfClass = ClassModel.toClassModel(schoolGroups[0])
+            userModel.person = new WorkerUserconverter().converter(teacher, modelOfClass)
         } else {
             throw new Error("access type does not exist")
         }

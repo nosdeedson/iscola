@@ -45,6 +45,18 @@ const userTeacher = new User(teacher, 'teste@teste', 'edson', '123', AccessType.
 
 export class DomainMocks {
 
+    static mockSchoolGroup(): Class{
+        return schoolGroup;
+    }
+
+    static mockWorker(role: RoleEnum): Worker{
+        if(role == RoleEnum.TEACHER){
+            return teacher;
+        }else{
+            return admin;
+        }
+    }
+
     static mockPerson(accessType: AccessType): any{
         if(accessType == AccessType.ADMIN){
             return userAdmin;

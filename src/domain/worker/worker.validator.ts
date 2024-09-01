@@ -2,7 +2,7 @@ import { Validator } from "../@shared/validation/validator.interface";
 import { Worker } from './worker'
 import * as yup from 'yup'
 
-export class TeacherValidator implements Validator<Worker>{
+export class WorkerValidator implements Validator<Worker>{
 
     validate(entity: Worker): void {
         try {
