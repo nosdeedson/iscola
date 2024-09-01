@@ -19,7 +19,13 @@ export class StudentValidator implements Validator<Student>{
                 parents: entity.getParents()
             },{
                 abortEarly: false
-            })
+            });
+            if(entity.getParents().length == 0){
+                entity.getNotification()?.addError({
+                    context: 'student',
+                    message: 'should inform at least one parent'
+                })
+            }
         } catch (error) {
             const err = error as yup.ValidationError;
             err.errors.forEach(element =>{

@@ -8,7 +8,7 @@ import { Class } from "src/domain/class/class";
 export class ClassModel extends GenericModel {
 
 
-    private constructor() { super() }
+    // private constructor() { super() }
     
     @Column({
         nullable: false,

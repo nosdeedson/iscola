@@ -19,7 +19,7 @@ describe('Rating unit tests', () => {
         );
 
         const aValidBeginnig = new Date(2024, 7, 1, 0, 0, 0);
-        const aValidEnding = new Date(2024, 10, 29, 0, 0, 0)
+        const aValidEnding = new Date(2024, 10, 29, 0, 0, 0);
         period = new AcademicSemester(true, aValidBeginnig, aValidEnding);
     })
 

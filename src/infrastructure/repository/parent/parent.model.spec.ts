@@ -1,3 +1,4 @@
+import { DomainMocks } from "../../__mocks__/mocks";
 import { Parent } from "../../../domain/parent/parent";
 import { Student } from "../../../domain/student/student";
 import { ParentModel } from "./parent.model";
@@ -7,20 +8,8 @@ describe("ParentModel unit tests", () => {
     let student;
     let parent;
     beforeEach(() =>{
-        student = new Student(
-            new Date,
-            'Maria',
-            '123',
-            []
-        )
-        let students = [student];
-        let birthday = new Date();
-        let name = 'edson';
-        parent = new Parent(
-            birthday,
-            name,
-            students
-        );   
+        student = DomainMocks.mockStudent();
+        parent = DomainMocks.mockParent();  
     })
 
     it('should intantiate a ParentModel', () => {
@@ -34,7 +23,7 @@ describe("ParentModel unit tests", () => {
         expect(model.updatedAt).toBe(parent.getUpdatedAt());
     })
 
-    it('should intantiate a ParentModel', () => {
+    it('should instantiate a ParentModel', () => {
         let models = ParentModel.toParentsModels([parent]);
         expect(models).toBeDefined();
         expect(models[0].birthday).toBe(parent.getBirthday());
@@ -43,5 +32,14 @@ describe("ParentModel unit tests", () => {
         expect(models[0].fullName).toBe(parent.getName());
         expect(models[0].id).toBe(parent.getId());
         expect(models[0].updatedAt).toBe(parent.getUpdatedAt());
+    })
+
+    it('should throw an error', () =>{
+        let parentWithoutStudent = DomainMocks.mockParentWithoutStudent();
+        try {
+            let model = ParentModel.toParentModel(parentWithoutStudent);
+        } catch (error) {
+            expect(error.message).toEqual('should inform at least one student')
+        }
     })
 })

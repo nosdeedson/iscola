@@ -2,7 +2,6 @@ import { Comment } from "src/domain/comment/comment";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { GenericModel } from "../@shared/generic.model/generic.model";
 import { RatingModel } from "../rating/rating.model";
-import { Rating } from "src/domain/rating/rating";
 
 
 @Entity('comment')
@@ -39,7 +38,7 @@ export class CommentModel extends GenericModel {
     @ManyToOne(() => RatingModel, rating => rating.comments)
     rantig: RatingModel;
 
-    static toCommentModel(comment: Comment, rantig: Rating): CommentModel {
+    static toCommentModel(comment: Comment, rating: RatingModel): CommentModel {
         let model = new CommentModel();
         model.comment = comment.getComment();
         model.commentDate = comment.getCommentDate();
@@ -48,11 +47,11 @@ export class CommentModel extends GenericModel {
         model.updatedAt = comment.getUpdatedAt();
         model.id = comment.getId();
         model.idPersonHaveDone = comment.getIdPersonHadDone();
-        model.rantig = RatingModel.toRatingModel(rantig);
+        model.rantig = rating ? rating : null;
         return model;
     }
 
-    static toCommentsModels(comments: Comment[], rating: Rating): CommentModel[] {
+    static toCommentsModels(comments: Comment[], rating: RatingModel): CommentModel[] {
         let models : CommentModel[] = []
         comments.forEach(it => {
             models.push(this.toCommentModel(it, rating));

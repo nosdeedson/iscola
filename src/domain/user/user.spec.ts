@@ -1,5 +1,6 @@
 import { RoleEnum } from "../worker/roleEnum";
 import { Worker } from '../worker/worker'
+import { AccessType } from "./access.type";
 import { User } from "./user";
 
 describe('User unit tests', () => {
@@ -14,7 +15,7 @@ describe('User unit tests', () => {
     })
 
     it('should instantiate a User without error', () => {
-        const user = new User(teacher, 'email@email', 'nickname', 'password', 'teacher');
+        const user = new User(teacher, 'email@email', 'nickname', 'password', AccessType.TEACHER);
         expect(user.getNotification()?.getErrors().length).toBe(0);
         expect(user.getCreatedAt()).toBeDefined()
         expect(user.getUpdatedAt()).toBeDefined()
@@ -28,7 +29,7 @@ describe('User unit tests', () => {
 
     it('notification should inform teacher undefined', () =>{
         let person;
-        const user = new User(person, 'email@email', 'nickname', 'password', 'teacher');
+        const user = new User(person, 'email@email', 'nickname', 'password', AccessType.TEACHER);
         expect(user).toBeDefined();
         expect(user.getNotification()?.getErrors().length).toBe(1);
         expect(user.getNotification()?.messages()).toBe('user: Person of user is undefined,');
@@ -36,7 +37,7 @@ describe('User unit tests', () => {
 
     it('notification should inform email undefined', () =>{
         let email;
-        const user = new User(teacher, email, 'nickname', 'password', 'teacher');
+        const user = new User(teacher, email, 'nickname', 'password', AccessType.TEACHER);
         expect(user).toBeDefined();
         expect(user.getNotification()?.getErrors().length).toBe(1);
         expect(user.getNotification()?.messages()).toBe('user: email of user is undefined,');
@@ -44,7 +45,7 @@ describe('User unit tests', () => {
 
     it('notification should inform nickname undefined', () =>{
         let nickname;
-        const user = new User(teacher, 'email@email', nickname, 'password', 'teacher');
+        const user = new User(teacher, 'email@email', nickname, 'password', AccessType.TEACHER);
         expect(user).toBeDefined();
         expect(user.getNotification()?.getErrors().length).toBe(1);
         expect(user.getNotification()?.messages()).toBe('user: nickname of user is undefined,');
@@ -52,7 +53,7 @@ describe('User unit tests', () => {
 
     it('notification should inform password undefined', () =>{
         let password;
-        const user = new User(teacher, 'email@email', 'nickname', password, 'teacher');
+        const user = new User(teacher, 'email@email', 'nickname', password, AccessType.TEACHER);
         expect(user).toBeDefined();
         expect(user.getNotification()?.getErrors().length).toBe(1);
         expect(user.getNotification()?.messages()).toBe('user: password of user is undefined,');

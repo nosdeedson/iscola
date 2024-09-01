@@ -137,8 +137,6 @@ export class RatingModel extends GenericModel {
 
     static toRatingModel(rating: Rating): RatingModel {
         let model = new RatingModel();
-        let c = rating.getComments();
-        model.comments = CommentModel.toCommentsModels(c, rating)
         model.createdAt = rating.getCreatedAt();
         model.deletedAt = rating.getDeletedAt();
         model.grammar = rating.getGrammar();

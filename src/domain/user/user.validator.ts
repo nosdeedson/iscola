@@ -1,7 +1,6 @@
-import { eachMinuteOfInterval } from 'date-fns';
-import { Validator } from '../@shared/validation/validator.interface';
-import { User } from '../user/user'
 import * as yup from 'yup';
+import { Validator } from '../@shared/validation/validator.interface';
+import { User } from '../user/user';
 
 export class UserValidator implements Validator<User> {
 

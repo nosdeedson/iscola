@@ -7,7 +7,7 @@ export class AcademicSemester extends Entity {
     private actual: boolean;
     private beginningDate: Date;
     private endingDate: Date;
-    private ratings: Rating[];
+    private ratings?: Rating[];
 
     constructor(
         actual: boolean,

@@ -1,6 +1,6 @@
 import { Entity } from "../@shared/entity";
 import { Person } from "../@shared/person";
-import { Validator } from '../@shared/validation/validator.interface'
+import { AccessType } from "./access.type";
 import { UserValidator } from "./user.validator";
 
 export class User extends Entity {
@@ -9,14 +9,14 @@ export class User extends Entity {
     private readonly email: string;
     private readonly nickname: string;
     private readonly password: string;
-    private readonly accessType: string;
+    private readonly accessType: AccessType;
 
     constructor(
         person: Person,
         email: string,
         nickname: string,
         password: string,
-        accessType: string,
+        accessType: AccessType,
         id?: string, 
         createdAt?: Date, 
         updatedAt?: Date, 
@@ -50,7 +50,7 @@ export class User extends Entity {
         return nickname;
     }
 
-    getAccessType(): string{
+    getAccessType(): AccessType{
         const accessType = this.accessType;
         return accessType;
     }

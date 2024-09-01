@@ -2,7 +2,7 @@ import { ChildEntity, Column, OneToMany } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { PersonModel } from "../@shared/person.model";
 import { ClassModel } from "../class/class.model";
-import { Worker } from "src/domain/worker/worker";
+import { Worker } from "../../../domain/worker/worker";
 
 @ChildEntity()
 export class WokerModel extends PersonModel {
