@@ -16,3 +16,5 @@
 # npm test -- --coverage
 
 ## run all test command: npm run test
+
+## run test in folder command: npm run test -- /foldername

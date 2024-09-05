@@ -1,17 +1,17 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { PersonModel } from "src/infrastructure/repository/@shared/person.model";
-import { AcademicSemesterModel } from "src/infrastructure/repository/academic-semester/academic.semester.model";
-import { ClassModel } from "src/infrastructure/repository/class/class.model";
-import { CommentModel } from "src/infrastructure/repository/comment/comment.model";
-import { RatingModel } from "src/infrastructure/repository/rating/rating.model";
-import { UserModel } from "src/infrastructure/repository/user/user.model";
-import { AppService } from "../../services/appservice/AppService";
 import { AppController } from "./AppController";
 import { ConfigModule } from "@nestjs/config";
-import { StudentModel } from "src/infrastructure/repository/student/student.model";
-import { ParentModel } from "src/infrastructure/repository/parent/parent.model";
-import { WorkerModel } from "src/infrastructure/repository/worker/worker.model";
+import { AcademicSemesterEntity } from "src/infrastructure/entities/academic-semester/academic.semester.entity";
+import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
+import { CommentEntity } from "../../../../infrastructure/entities/comment/comment.entity";
+import { RatingEntity } from "../../../../infrastructure/entities/rating/rating.entity";
+import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
+import { UserEntity } from "../../../../infrastructure/entities/user/user.entity";
+import { AppService } from "../../services/appservice/AppService";
 
 @Module({
     imports: [
@@ -28,15 +28,15 @@ import { WorkerModel } from "src/infrastructure/repository/worker/worker.model";
             synchronize: true,
             port: 5432,
             entities: [
-                AcademicSemesterModel,
-                ClassModel,
-                CommentModel,
-                RatingModel,
-                PersonModel,
-                StudentModel,
-                ParentModel,
-                WorkerModel,
-                UserModel
+                AcademicSemesterEntity,
+                ClassEntity,
+                CommentEntity,
+                RatingEntity,
+                PersonEntity,
+                StudentEntity,
+                ParentEntity,
+                WorkerEntity,
+                UserEntity
             ]
         })
     ],

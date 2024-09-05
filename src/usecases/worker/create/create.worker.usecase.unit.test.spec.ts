@@ -10,7 +10,7 @@ describe('Create worker use case test unit', () => {
         worker = {
             name: 'edson',
             birthday: new Date(),
-            role: RoleEnum.ADMINISTRATOR
+            role: RoleEnum.TEACHER
         }
     })
 
@@ -26,7 +26,7 @@ describe('Create worker use case test unit', () => {
 
     it("should create a worker", async () => {
         const workerRepository = mockRepository();
-        const useCase = new CreateWorkerUseCase(workerRepository);
+        const useCase = new CreateWorkerUseCase(workerRepository)
         expect(await useCase.execute(worker)).toBe(void 0)
        // expect(Promise.resolve(await useCase.execute(worker))).resolves.toBe(void 0);
         expect(workerRepository.create).toHaveBeenCalledTimes(1)

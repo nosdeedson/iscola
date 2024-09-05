@@ -1,4 +1,3 @@
-import { RatingModel } from "src/infrastructure/repository/rating/rating.model";
 import { Comment } from "./comment"
 
 describe('Comment unit tests', () =>{

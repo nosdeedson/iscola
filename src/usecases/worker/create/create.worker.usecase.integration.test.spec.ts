@@ -1,17 +1,19 @@
-import { DataSource } from "typeorm"
-import { WorkerModel } from "../../../infrastructure/repository/worker/worker.model"
-import { WorkerRepository } from "../../../infrastructure/repository/worker/worker.repository";
-import CreateWorkerUseCase from "./create.worker.usecase";
+import { DataSource } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
-import { PersonModel } from "../../../infrastructure/repository/@shared/person.model";
-import { StudentModel } from "../../../infrastructure/repository/student/student.model";
-import { ParentModel } from "../../../infrastructure/repository/parent/parent.model";
-import { ClassModel } from "../../../infrastructure/repository/class/class.model";
-import { AcademicSemesterModel } from "../../../infrastructure/repository/academic-semester/academic.semester.model";
-import { CommentModel } from "../../../infrastructure/repository/comment/comment.model";
-import { RatingModel } from "../../../infrastructure/repository/rating/rating.model";
-import { UserModel } from "../../../infrastructure/repository/user/user.model";
+import { PersonEntity } from "../../../infrastructure/entities/@shared/person.entity";
+import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
+import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
+import { CommentEntity } from "../../../infrastructure/entities/comment/comment.entity";
+import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
+import { RatingEntity } from "../../../infrastructure/entities/rating/rating.entity";
+import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
+import { UserEntity } from "../../../infrastructure/entities/user/user.entity";
+import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
+import { WorkerRepository } from "../../../infrastructure/repositories/worker.repository";
+import CreateWorkerUseCase from "./create.worker.usecase";
 
+
+const MILISECONDS = 1000;
 
 describe("Create worker integration test", () =>{
     let AppDataSource;
@@ -23,18 +25,18 @@ describe("Create worker integration test", () =>{
             host: "localhost",
             port: 5432,
             username: "postgres",
-            password: "root",
+            password: "1234@Mudar",
             database: "iscola",
             entities: [
-                WorkerModel, 
-                PersonModel, 
-                StudentModel, 
-                ParentModel, 
-                ClassModel,
-                AcademicSemesterModel,
-                CommentModel,
-                RatingModel,
-                UserModel
+                WorkerEntity, 
+                PersonEntity, 
+                StudentEntity, 
+                ParentEntity, 
+                ClassEntity,
+                AcademicSemesterEntity,
+                CommentEntity,
+                RatingEntity,
+                UserEntity
             ],
             synchronize: true,
             logging: false,
@@ -57,20 +59,20 @@ describe("Create worker integration test", () =>{
         })
             
     it("Create a worker repository", async () =>{
-        workerModel = AppDataSource.getRepository(WorkerModel);
+        workerModel = AppDataSource.getRepository(WorkerEntity);
         let repository = new WorkerRepository(workerModel, AppDataSource);
         expect(repository).toBeDefined();
     })
 
     it('create a worker', async () =>{
-        workerModel = AppDataSource.getRepository(WorkerModel);
+        workerModel = AppDataSource.getRepository(WorkerEntity);
         let repository = new WorkerRepository(workerModel, AppDataSource);
         let useCase = new CreateWorkerUseCase(repository);
-        let worker = {
+        let worker =  {
             name: 'edson',
             birthday: new Date(),
-            role: RoleEnum.ADMINISTRATOR
+            role: RoleEnum.TEACHER
         }
         expect(await useCase.execute(worker)).toBe(void 0)
-    })
+    }, (5 * MILISECONDS))
 })

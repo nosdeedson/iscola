@@ -1,4 +1,4 @@
-import { WorkerModel } from '../../infrastructure/repository/worker/worker.model';
+import { WorkerEntity } from '../../infrastructure/entities/worker/worker.entity';
 import { RepositoryInterface } from '../@shared/repository/repository.interface';
 
-export interface WorkerRepositoryInterface extends RepositoryInterface<WorkerModel> { }
+export interface WorkerRepositoryInterface extends RepositoryInterface<WorkerEntity> { }
