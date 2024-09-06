@@ -3,7 +3,7 @@ import { CreateDateColumn, DeleteDateColumn, PrimaryColumn, UpdateDateColumn } f
 
 export abstract class GenericEntity {
     
-    @PrimaryColumn({ type: 'uuid' })
+    @PrimaryColumn({ type: 'uuid', unique: true })
     id: string;
 
     @CreateDateColumn({

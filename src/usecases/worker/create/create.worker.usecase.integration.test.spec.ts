@@ -9,8 +9,8 @@ import { RatingEntity } from "../../../infrastructure/entities/rating/rating.ent
 import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
 import { UserEntity } from "../../../infrastructure/entities/user/user.entity";
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
-import { WorkerRepository } from "../../../infrastructure/repositories/worker.repository";
 import CreateWorkerUseCase from "./create.worker.usecase";
+import { WorkerRepository } from '../../../infrastructure/repositories/worker/worker.repository'
 
 
 const MILISECONDS = 1000;
@@ -54,9 +54,9 @@ describe("Create worker integration test", () =>{
 
     })
         
-    afterEach( async () =>{
-            AppDataSource.destroy();
-        })
+    afterEach(async () => {
+        AppDataSource.destroy();
+    })
             
     it("Create a worker repository", async () =>{
         workerModel = AppDataSource.getRepository(WorkerEntity);

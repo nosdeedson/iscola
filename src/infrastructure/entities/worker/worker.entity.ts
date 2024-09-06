@@ -34,7 +34,11 @@ export class WorkerEntity extends PersonEntity {
         if(!model.classes){
             model.classes = []
         }
-        model.classes.push(classEntity)
+        if(classEntity){
+            model.classes.push(classEntity)
+        } else {
+            model.classes = []
+        }
         model.createdAt = worker.getCreatedAt();
         model.deletedAt = worker.getDeletedAt();
         model.fullName = worker.getName();
