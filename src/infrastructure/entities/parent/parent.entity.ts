@@ -1,6 +1,6 @@
 import { Parent } from "src/domain/parent/parent";
 import { Student } from "src/domain/student/student";
-import { ChildEntity, ManyToMany } from "typeorm";
+import { ChildEntity, JoinColumn, ManyToMany } from "typeorm";
 import { PersonEntity } from "../@shared/person.entity";
 import { StudentEntity } from "../student/student.entity";
 
@@ -10,7 +10,7 @@ export class ParentEntity extends PersonEntity {
 
     constructor() { super() }
 
-    @ManyToMany(() => StudentEntity, student => student.parents)
+    @ManyToMany(() => StudentEntity, student => student.parents, {onDelete: 'CASCADE'})
     students: StudentEntity[];
 
     static toParentModel(parent: Parent): ParentEntity {

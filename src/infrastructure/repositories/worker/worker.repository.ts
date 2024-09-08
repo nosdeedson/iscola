@@ -1,7 +1,6 @@
-import { WorkerRepositoryInterface } from "../../../domain/worker/worker.repository.interface";
 import { DataSource, QueryFailedError, Repository } from "typeorm";
+import { WorkerRepositoryInterface } from "../../../domain/worker/worker.repository.interface";
 import { WorkerEntity } from "../../entities/worker/worker.entity";
-import { ClassEntity } from "src/infrastructure/entities/class/class.entity";
 
 
 export class WorkerRepository implements WorkerRepositoryInterface {
@@ -35,9 +34,9 @@ export class WorkerRepository implements WorkerRepositoryInterface {
             .execute();
     }
 
-    find(id: string): Promise<WorkerEntity> {
-        let worker = this.workerRespository.findOne({
-            where: { id: id},
+    async find(id: string): Promise<WorkerEntity> {
+        let worker = await this.workerRespository.findOne({
+            where: { id: id },
             relations: {
                 classes: true
             }
@@ -45,18 +44,18 @@ export class WorkerRepository implements WorkerRepositoryInterface {
         return worker;
     }
 
-    findAll(): Promise<WorkerEntity[]> {
-        let all = this.workerRespository.find({relations: { classes: true}});
+    async findAll(): Promise<WorkerEntity[]> {
+        let all = await this.workerRespository.find({ relations: { classes: true } });
         return all;
     }
 
-    update(entity: WorkerEntity, id: string){
-        this.dataSource.createQueryBuilder()
+    async update(entity: WorkerEntity, id: string) {
+        await this.dataSource.createQueryBuilder()
             .update(WorkerEntity)
-            .set({ 
+            .set({
                 updatedAt: new Date(),
                 role: entity.role,
-             })
+            })
             .where("id= :id", { id: id })
             .execute();
     }

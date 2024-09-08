@@ -1,4 +1,4 @@
+import { ClassEntity } from "src/infrastructure/entities/class/class.entity";
 import { RepositoryInterface } from "../@shared/repository/repository.interface";
-import { Class } from "./class";
 
-export interface ClassRepositoryInterface extends RepositoryInterface<Class>{}
+export interface ClassRepositoryInterface extends RepositoryInterface<ClassEntity>{}

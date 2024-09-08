@@ -12,65 +12,37 @@ import { WorkerRepository } from "./worker.repository";
 import { DomainMocks } from '../../__mocks__/mocks'
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { Worker } from "../../../domain/worker/worker";
+import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 
 
 const MILISECONDS = 1000;
 
 describe("WorkerRepository unit tets", () =>{
 
-    let AppDataSource;
+    let appDataSource;
     let workerModel;
     let repository;
     beforeEach(async () => {
 
-        AppDataSource = new DataSource({
-            type: "postgres",
-            host: "localhost",
-            port: 5432,
-            username: "postgres",
-            password: "1234@Mudar",
-            database: "iscola",
-            entities: [
-                WorkerEntity, 
-                PersonEntity, 
-                StudentEntity, 
-                ParentEntity, 
-                ClassEntity,
-                AcademicSemesterEntity,
-                CommentEntity,
-                RatingEntity,
-                UserEntity
-            ],
-            synchronize: true,
-            logging: false,
-            // driver: 'pg'
-        })
-
-        // to initialize the initial connection with the database, register all entities
-        // and "synchronize" database schema, call "initialize()" method of a newly created database
-        // once in your application bootstrap
-        await AppDataSource.initialize()
-            .then(() => {
-                // here you can start to work with your database
-            })
+        appDataSource = AppDataSourceMock.mockAppDataSource();
+        await appDataSource.initialize()
             .catch((error) => console.log(error));
-        workerModel = AppDataSource.getRepository(WorkerEntity);
-        repository = new WorkerRepository(workerModel, AppDataSource);
+            
+        workerModel = appDataSource.getRepository(WorkerEntity);
+        repository = new WorkerRepository(workerModel, appDataSource);
     })
         
     afterEach(async () => {
-        const entities = AppDataSource.entityMetadatas;
+        const entities = appDataSource.entityMetadatas;
         await workerModel.query(
             // `TRUNCATE ${entity.tableName} RESTART IDENTITY CASCADE;`,
              `delete from person cascade`
          );
       
-        AppDataSource.destroy();
+        appDataSource.destroy();
     });
 
     it('should instantiate a workerRepository', () =>{
-        workerModel = AppDataSource.getRepository(WorkerEntity);
-        let repository = new WorkerRepository(workerModel, AppDataSource);
         expect(repository).toBeDefined();
     })
 

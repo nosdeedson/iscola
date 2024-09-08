@@ -1,4 +1,4 @@
+import { AcademicSemesterEntity } from '../../infrastructure/entities/academic-semester/academic.semester.entity'
 import { RepositoryInterface } from '../@shared/repository/repository.interface'
-import { AcademicSemester} from './academic.semester'
 
-export interface AcademicSemesterInterface extends RepositoryInterface<AcademicSemester>{}
+export interface AcademicSemesterInterface extends RepositoryInterface<AcademicSemesterEntity>{}

@@ -36,6 +36,10 @@ export class CommentEntity extends GenericEntity {
         name: 'rating_id'
     })
     @ManyToOne(() => RatingEntity, rating => rating.comments)
+    @JoinColumn({
+        name: 'rating_id',
+        foreignKeyConstraintName: 'fk_comment_rating'
+    })
     rantig: RatingEntity;
 
     static toCommentModel(comment: Comment, rating: RatingEntity): CommentEntity {

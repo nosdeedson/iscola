@@ -1,5 +1,5 @@
-import { RepositoryInterface } from '../@shared/repository/repository.interface'
-import { Parent } from './parent';
+import { ParentEntity } from 'src/infrastructure/entities/parent/parent.entity';
+import { RepositoryInterface } from '../@shared/repository/repository.interface';
 
 
-export interface ParentReporitoryInterface extends RepositoryInterface<Parent>{}
+export interface ParentReporitoryInterface extends RepositoryInterface<ParentEntity> { }

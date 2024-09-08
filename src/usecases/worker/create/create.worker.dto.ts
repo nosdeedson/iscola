@@ -4,4 +4,5 @@ export interface InputCreateWorkerDto {
     name: string;
     birthday: Date;
     role: RoleEnum;
+    classCode: string;
 }

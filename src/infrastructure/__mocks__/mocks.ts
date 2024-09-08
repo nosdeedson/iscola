@@ -9,6 +9,7 @@ import { Schedule } from "../../domain/schedule/schedule";
 import { Student } from "../../domain/student/student";
 import { AccessType } from "../../domain/user/access.type";
 import { User } from "../../domain/user/user";
+import { Comment } from "../../domain/comment/comment";
 
 
 // first August 2024
@@ -42,8 +43,17 @@ const userAdmin = new User(admin, 'teste@teste', 'edson', '123', AccessType.ADMI
 const userParent = new User(parent, 'teste@teste', 'edson', '123', AccessType.PARENT);
 const userStudent = new User(student, 'teste@teste', 'edson', '123', AccessType.STUDENT);
 const userTeacher = new User(teacher, 'teste@teste', 'edson', '123', AccessType.TEACHER);
+const comment = new Comment("just a comment", '85e71875-289c-48b1-82b1-8c4f9ae16104', new Date());
 
 export class DomainMocks {
+
+    static mockComment(): Comment{
+        return comment;
+    }
+
+    static mockSchedule(): Schedule{
+        return schedule;
+    }
 
     static mockSchoolGroup(): Class{
         return schoolGroup;
@@ -91,6 +101,11 @@ export class DomainMocks {
     }
 
     static mockRating(): Rating{
+        return rating;
+    }
+    
+    static mockRatingWithStudent(student: Student): Rating{
+        const rating = new Rating(academicSemester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD,);
         return rating;
     }
 }

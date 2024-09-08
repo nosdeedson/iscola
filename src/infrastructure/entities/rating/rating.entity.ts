@@ -128,7 +128,7 @@ export class RatingEntity extends GenericEntity {
     @OneToMany(() => CommentEntity, comment => comment.rantig)
     comments: CommentEntity[];
 
-    @ManyToOne(() => StudentEntity)
+    @ManyToOne(() => StudentEntity, {cascade: true})
     @JoinColumn({
         name: 'student_id',
         foreignKeyConstraintName: 'fk_student_id'

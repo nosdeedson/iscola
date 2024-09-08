@@ -16,7 +16,7 @@ export class Student extends Person {
         birthday: Date,
         name: string,
         enrolled: string,
-        parents: Parent[],
+        parents?: Parent[],
         id?: string,
         createdAt?: Date,
         updatedAt?: Date,
@@ -40,6 +40,14 @@ export class Student extends Person {
         return this.parents
     }
 
+    setParents(parent: Parent){
+        if(!this.parents){
+            this.parents = [];
+        }
+        this.parents.push(parent);
+    }
+
+
     getEnrolled(): string {
         return this.enrolled;
     }
@@ -51,5 +59,6 @@ export class Student extends Person {
     getSchoolGroup(): Class{
         return this.schoolGroup;
     }
+
 
 }

@@ -10,11 +10,12 @@ describe('Create worker use case test unit', () => {
         worker = {
             name: 'edson',
             birthday: new Date(),
-            role: RoleEnum.TEACHER
+            role: RoleEnum.TEACHER,
+            classCode: '12343'
         }
     })
 
-    const mockRepository = () => {
+    const mockRepositoryWorker = () => {
         return {
             create: jest.fn(),
             delete: jest.fn(),
@@ -24,18 +25,35 @@ describe('Create worker use case test unit', () => {
         }
     }
 
+    const mockRepositorySchoolGroup = () => {
+        return {
+            create: jest.fn(),
+            delete: jest.fn(),
+            find: jest.fn(),
+            findAll: jest.fn(),
+            findByClassCode: jest.fn().mockImplementationOnce(
+                () => {
+                    return {}
+                }
+            ),
+            update: jest.fn()
+        }
+    }
+
     it("should create a worker", async () => {
-        const workerRepository = mockRepository();
-        const useCase = new CreateWorkerUseCase(workerRepository)
+        const workerRepository = mockRepositoryWorker();
+        const classRepository = mockRepositorySchoolGroup();
+        const useCase = new CreateWorkerUseCase(workerRepository, classRepository )
         expect(await useCase.execute(worker)).toBe(void 0)
        // expect(Promise.resolve(await useCase.execute(worker))).resolves.toBe(void 0);
         expect(workerRepository.create).toHaveBeenCalledTimes(1)
     })
 
     it("should throw error name should not be null", async () => {
-        const workerRepository = mockRepository();
+        const workerRepository = mockRepositoryWorker();
+        const classRepository = mockRepositorySchoolGroup();
         worker.name = '';
-        const useCase = new CreateWorkerUseCase(workerRepository);
+        const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker);
         } catch (error) {
@@ -44,10 +62,11 @@ describe('Create worker use case test unit', () => {
     })
 
     it("should throw error birthday should not be null", async () => {
-        const workerRepository = mockRepository();
+        const workerRepository = mockRepositoryWorker();
+        const classRepository = mockRepositorySchoolGroup();
         let nothing;
         worker.birthday = nothing;
-        const useCase = new CreateWorkerUseCase(workerRepository);
+        const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker);
         } catch (error) {
@@ -56,10 +75,11 @@ describe('Create worker use case test unit', () => {
     })
 
     it("should throw error teacher should not be null", async () => {
-        const workerRepository = mockRepository();
+        const workerRepository = mockRepositoryWorker();
+        const classRepository = mockRepositorySchoolGroup();
         let nothing;
         worker.role = nothing;
-        const useCase = new CreateWorkerUseCase(workerRepository);
+        const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker);
         } catch (error) {
@@ -68,11 +88,12 @@ describe('Create worker use case test unit', () => {
     })
 
     it("should throw database not available", async () => {
-        const workerRepository = mockRepository();
+        const workerRepository = mockRepositoryWorker();
+        const classRepository = mockRepositorySchoolGroup();
         workerRepository.create = jest.fn().mockImplementationOnce( () => {
             throw "database not available"
         })
-        const useCase = new CreateWorkerUseCase(workerRepository);
+        const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker)
         } catch (error) {
