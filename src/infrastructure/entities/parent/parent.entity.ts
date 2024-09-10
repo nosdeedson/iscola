@@ -1,5 +1,5 @@
-import { Parent } from "src/domain/parent/parent";
-import { Student } from "src/domain/student/student";
+import { Parent } from "../../../domain/parent/parent";
+import { Student } from "../../../domain/student/student";
 import { ChildEntity, JoinColumn, ManyToMany } from "typeorm";
 import { PersonEntity } from "../@shared/person.entity";
 import { StudentEntity } from "../student/student.entity";

@@ -1,23 +1,18 @@
-import { DataSource } from "typeorm";
+import { Comment } from "../../../domain/comment/comment";
+import { Parent } from "../../../domain/parent/parent";
+import { Student } from "../../../domain/student/student";
+import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../__mocks__/mocks";
-import { WorkerEntity } from "../../entities/worker/worker.entity";
-import { PersonEntity } from "../../entities/@shared/person.entity";
-import { StudentEntity } from "../../entities/student/student.entity";
-import { ParentEntity } from "../../entities/parent/parent.entity";
-import { ClassEntity } from "../../entities/class/class.entity";
 import { AcademicSemesterEntity } from "../../entities/academic-semester/academic.semester.entity";
 import { CommentEntity } from "../../entities/comment/comment.entity";
+import { ParentEntity } from "../../entities/parent/parent.entity";
 import { RatingEntity } from "../../entities/rating/rating.entity";
-import { UserEntity } from "../../entities/user/user.entity";
+import { StudentEntity } from "../../entities/student/student.entity";
+import { ParentRepository } from '../../repositories/parent/parent.repository';
+import { AcademicSemesterRepository } from '../academic-semester/academic-semester.repository';
 import { CommentRepository } from '../comment/comment.respository';
 import { RatingRepositiry } from '../rating/rating.repository';
-import { AcademicSemesterRepository } from '../academic-semester/academic-semester.repository';
-import { StudentRepository } from '../student/student.repository'
-import { Student } from "../../../domain/student/student";
-import { ParentRepository } from '../../repositories/parent/parent.repository'
-import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
-import { Parent } from "../../../domain/parent/parent";
-import { Comment } from "../../../domain/comment/comment";
+import { StudentRepository } from '../student/student.repository';
 
 const MILISECONDS = 1000;
 

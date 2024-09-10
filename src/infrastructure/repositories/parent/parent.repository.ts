@@ -1,4 +1,4 @@
-import { ParentEntity } from 'src/infrastructure/entities/parent/parent.entity';
+import { ParentEntity } from '../../../infrastructure/entities/parent/parent.entity';
 import { ParentReporitoryInterface } from '../../../domain/parent/parent.repository.interface';
 import { DataSource, QueryFailedError, Repository } from 'typeorm';
 
@@ -23,17 +23,45 @@ export class ParentRepository implements ParentReporitoryInterface{
             throw new QueryFailedError(null, null, error);
         }
     }
-    delete(id: string): Promise<void> {
-        throw new Error('Method not implemented.');
+
+    async delete(id: string): Promise<void> {
+        await this.dataSource.createQueryBuilder()
+            .update(ParentEntity)
+            .set({
+                deletedAt : new Date()
+            })
+            .execute();
     }
-    find(id: string): Promise<ParentEntity> {
-        throw new Error('Method not implemented.');
+
+    async find(id: string): Promise<ParentEntity> {
+        const model = await this.parentRepository.findOne({
+            where: {id: id},
+            relations:{
+                students: true
+            }
+        })
+        return model;
     }
-    findAll(): Promise<ParentEntity[]> {
-        throw new Error('Method not implemented.');
+
+    async findAll(): Promise<ParentEntity[]> {
+        return await this.parentRepository.find({
+            relations:{
+                students : true
+            }
+        })
     }
-    update(entity: ParentEntity, id: string) {
-        throw new Error('Method not implemented.');
+
+
+    async update(entity: ParentEntity, id: string) {
+        await this.dataSource.createQueryBuilder()
+            .update(ParentEntity)
+            .set({
+                updatedAt: new Date(),
+                birthday: entity.birthday,
+                fullName: entity.fullName,
+            })
+            .where( 'id= :id', { id: id})
+            .execute();
     }
     
 }
