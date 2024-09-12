@@ -9,21 +9,22 @@ import { ClassRepository } from 'src/infrastructure/repositories/class/class.rep
 export default class CreateWorkerUseCase {
 
     private workerRepository: WorkerRepositoryInterface
-    private schoolGroupRepository: ClassRepository;
+    private schoolGroupRepository: ClassRepositoryInterface;
 
     constructor(
         workerRepository: WorkerRepositoryInterface,
         schoolGroupRepository: ClassRepository,
     ){
         this.workerRepository = workerRepository;
-        this.schoolGroupRepository = schoolGroupRepository as ClassRepository;
+        this.schoolGroupRepository = schoolGroupRepository;
     }
 
     public async execute(input: InputCreateWorkerDto){
         try {
             let worker = new Worker(input.birthday, input.name, input.role);
             let model = WorkerEntity.toWorkerEntity(worker);
-            let schoolGroup = await this.schoolGroupRepository.findByClassCode(input.classCode);
+            let test = this.schoolGroupRepository as ClassRepository;
+            let schoolGroup = await test.findByClassCode(input.classCode);
             model.classes = [];
             model.classes.push(schoolGroup);
             await this.workerRepository.create(model);

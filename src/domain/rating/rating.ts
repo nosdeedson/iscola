@@ -80,28 +80,55 @@ export class Rating extends Entity {
         return this.listing;
     }
 
+    setListing(listing: Grade) {
+        this.listing = listing;
+    }
+
     getWriting(): Grade{
         return this.writing;
+    }
+
+    setWriting(writing: Grade){
+        this.writing = writing;
     }
 
     getReading(): Grade{
         return this.reading;
     }
 
+    setReading(reading: Grade){
+        this.reading = reading;
+    }
+
     getSpeaking(): Grade{
         return this.speaking
     } 
 
+    setSpeaking(speaking: Grade){
+        this.speaking = speaking;
+    }
+
     getGrammar(): Grade{
         return this.grammar;
+    }
+
+    setGrammar(grammar: Grade){
+        this.grammar = grammar;
     }
 
     getHomework(): Grade{
         return this.homework;
     }
 
+    setHomework( homework: Grade){
+        this.homework = homework;
+    }
+
     getVocabulary(): Grade{
         return this.vocabulary;
     }
     
+    setVocabulary(vocabulary: Grade){
+        this.vocabulary = vocabulary;
+    }
 }

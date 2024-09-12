@@ -11,68 +11,47 @@ import { UserEntity } from "../../../infrastructure/entities/user/user.entity";
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 import CreateWorkerUseCase from "./create.worker.usecase";
 import { WorkerRepository } from '../../../infrastructure/repositories/worker/worker.repository'
+import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
+import { ClassRepository } from '../../../infrastructure/repositories/class/class.repository';
+import { InputCreateWorkerDto } from "./create.worker.dto";
 
 
 const MILISECONDS = 1000;
 
 describe("Create worker integration test", () =>{
-    let AppDataSource;
+    let appDataSource;
     let workerModel;
+    let workerRepository;
+    let schoolGroupModel;
+    let schoolGroupRepository; 
+
     beforeEach(async () => {
-
-        AppDataSource = new DataSource({
-            type: "postgres",
-            host: "localhost",
-            port: 5432,
-            username: "postgres",
-            password: "1234@Mudar",
-            database: "iscola",
-            entities: [
-                WorkerEntity, 
-                PersonEntity, 
-                StudentEntity, 
-                ParentEntity, 
-                ClassEntity,
-                AcademicSemesterEntity,
-                CommentEntity,
-                RatingEntity,
-                UserEntity
-            ],
-            synchronize: true,
-            logging: false,
-            // driver: 'pg'
-        })
-
-        // to initialize the initial connection with the database, register all entities
-        // and "synchronize" database schema, call "initialize()" method of a newly created database
-        // once in your application bootstrap
-        await AppDataSource.initialize()
-            .then(() => {
-                // here you can start to work with your database
-            })
+        appDataSource = AppDataSourceMock.mockAppDataSource();
+        await appDataSource.initialize()
             .catch((error) => console.log(error));
-
+        workerModel = appDataSource.getRepository(WorkerEntity)
+        workerRepository = new WorkerRepository(workerModel, appDataSource);
+        schoolGroupModel = appDataSource.getRepository(ClassEntity);
+        schoolGroupRepository = new ClassRepository(schoolGroupModel, appDataSource);
     })
         
     afterEach(async () => {
-        AppDataSource.destroy();
+        appDataSource.destroy();
     })
             
     it("Create a worker repository", async () =>{
-        workerModel = AppDataSource.getRepository(WorkerEntity);
-        let repository = new WorkerRepository(workerModel, AppDataSource);
-        expect(repository).toBeDefined();
+        expect(workerRepository).toBeDefined();
+        expect(schoolGroupRepository).toBeDefined();
     })
 
     it('create a worker', async () =>{
-        workerModel = AppDataSource.getRepository(WorkerEntity);
-        let repository = new WorkerRepository(workerModel, AppDataSource);
-        let useCase = new CreateWorkerUseCase(repository);
+        workerModel = appDataSource.getRepository(WorkerEntity);
+        let useCase = new CreateWorkerUseCase(workerRepository, schoolGroupRepository);
         let worker =  {
             name: 'edson',
             birthday: new Date(),
             role: RoleEnum.TEACHER
-        }
+        } as InputCreateWorkerDto;
         expect(await useCase.execute(worker)).toBe(void 0)
     }, (5 * MILISECONDS))
 })

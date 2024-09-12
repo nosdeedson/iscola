@@ -27,8 +27,13 @@ export class RatingRepositiry implements RatingRepositoryInterface{
         }
     }
 
-    delete(id: string): Promise<void> {
-        throw new Error('Method not implemented.');
+    async delete(id: string): Promise<void> {
+        await this.dataSource.createQueryBuilder()
+            .update(RatingEntity)
+            .set({
+                deletedAt : new Date()
+            })
+            .execute();
     }
 
     async find(id: string): Promise<RatingEntity> {
@@ -40,11 +45,25 @@ export class RatingRepositiry implements RatingRepositoryInterface{
         });
         return model;
     }
-    findAll(): Promise<RatingEntity[]> {
-        throw new Error('Method not implemented.');
+
+    async findAll(): Promise<RatingEntity[]> {
+        const all = await this.ratingRepository.find();
+        return all;
     }
-    update(entity: RatingEntity, id: string) {
-        throw new Error('Method not implemented.');
+
+    async update(entity: RatingEntity, id: string) {
+        await this.dataSource.createQueryBuilder()
+            .update(RatingEntity)
+            .set({
+                writing : entity.writing,
+                listing : entity.listing,
+                reading : entity.reading,
+                speaking : entity.speaking,
+                grammar : entity.grammar,
+                homework : entity.homework,
+                vocabulary : entity.vocabulary,
+            })
+            .execute();
     }
 
 }
