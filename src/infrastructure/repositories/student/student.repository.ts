@@ -1,4 +1,4 @@
-import { StudentEntity } from 'src/infrastructure/entities/student/student.entity';
+import { StudentEntity } from '../../../infrastructure/entities/student/student.entity';
 import { StudentRepositoryInterface } from '../../../domain/student/student.repository.interface';
 import { DataSource, QueryFailedError, Repository } from 'typeorm';
 
@@ -23,17 +23,37 @@ export class StudentRepository implements StudentRepositoryInterface{
             throw new QueryFailedError(null, null, error);
         }
     }
-    delete(id: string): Promise<void> {
-        throw new Error('Method not implemented.');
+
+    async delete(id: string): Promise<void> {
+        await this.dataSource.createQueryBuilder()
+            .update(StudentEntity)
+            .set({
+                deletedAt: new Date(),
+            })
+            .execute();
     }
-    find(id: string): Promise<StudentEntity> {
-        throw new Error('Method not implemented.');
+
+    async find(id: string): Promise<StudentEntity> {
+        return await this.studentRepository.findOne({
+            where: {id: id},
+            relations: {
+                schoolGroup: true
+            }
+        });
     }
-    findAll(): Promise<StudentEntity[]> {
-        throw new Error('Method not implemented.');
+
+    async findAll(): Promise<StudentEntity[]> {
+        return await this.studentRepository.find();
     }
-    update(entity: StudentEntity, id: string) {
-        throw new Error('Method not implemented.');
+
+    async update(entity: StudentEntity, id: string) {
+        this.dataSource.createQueryBuilder()
+            .update(StudentEntity)
+            .set({
+                schoolGroup: entity.schoolGroup
+            })
+            .where({id: id})
+            .execute();
     }
 
 }

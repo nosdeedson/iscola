@@ -60,5 +60,8 @@ export class Student extends Person {
         return this.schoolGroup;
     }
 
+    setSchoolGroup(schoolGroup: Class){
+        this.schoolGroup = schoolGroup;
+    }
 
 }

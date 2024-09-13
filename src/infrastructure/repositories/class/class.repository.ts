@@ -46,16 +46,16 @@ export class ClassRepository implements ClassRepositoryInterface {
         return model;
     }
 
-    async findByClassCode(classCode: string): Promise<ClassEntity>{
-        const model = this.classRepository.findOne({
-            where: {classCode: classCode},
-            relations:{
-                students: true,
-                teacher: true
-            }
-        });
-        return model;
-    }
+    // async findByClassCode(classCode: string): Promise<ClassEntity>{
+    //     const model = this.classRepository.findOne({
+    //         where: {classCode: classCode},
+    //         relations:{
+    //             students: true,
+    //             teacher: true
+    //         }
+    //     });
+    //     return model;
+    // }
 
     async findAll(): Promise<ClassEntity[]> {
         let all = await this.classRepository.find({

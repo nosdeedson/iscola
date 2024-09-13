@@ -8,7 +8,7 @@ import { Class } from '../../../domain/class/class';
 describe('ClassRepository unit test', () => {
 
     let appDataSource;
-    let classrModel;
+    let classModel;
     let repository;
 
     beforeEach(async () => {
@@ -16,13 +16,13 @@ describe('ClassRepository unit test', () => {
         await appDataSource.initialize()
             .catch((error) => console.log(error));
         
-        classrModel = appDataSource.getRepository(ClassEntity);
-        repository = new ClassRepository(classrModel, appDataSource)
+        classModel = appDataSource.getRepository(ClassEntity);
+        repository = new ClassRepository(classModel, appDataSource)
         
     });
 
     afterEach(async () => {
-        await classrModel.query('delete from class cascade');
+        await classModel.query('delete from class cascade');
         appDataSource.destroy();
     })
 

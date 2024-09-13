@@ -1,4 +1,4 @@
-import { ChildEntity, Column, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne } from "typeorm";
+import { ChildEntity, Column, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne } from "typeorm";
 import { PersonEntity } from "../@shared/person.entity";
 import { ClassEntity } from "../class/class.entity";
 import { ParentEntity } from "../parent/parent.entity";
@@ -36,11 +36,11 @@ export class StudentEntity extends PersonEntity {
     })
     parents: ParentEntity[] ;
 
-    @ManyToOne(() => ClassEntity, schoolGroup => schoolGroup.students)
+    @ManyToOne(() => ClassEntity, schoolGroup => schoolGroup.students, {eager: true})
     @JoinColumn({
-        foreignKeyConstraintName: 'fk_student_class',
-        name: 'student_id',
-        referencedColumnName: 'id'
+        name: 'class_id',
+        foreignKeyConstraintName: 'student_class_fk',
+        referencedColumnName: 'id',
     })
     schoolGroup: ClassEntity;
 
