@@ -2,7 +2,17 @@
 module.exports = {
   testEnvironment: "node",
   transform: {
-    "^.+.tsx?$": ["ts-jest",{}],
+    "^.+.tsx?$": ["ts-jest", {}],
   },
-  modulePathIgnorePatterns: ["<rootDir>/dist/"]
+  modulePathIgnorePatterns: ["<rootDir>/dist/"],
+  moduleFileExtensions: [
+    "js",
+    "json",
+    "ts"
+  ],
+  rootDir: "src",
+  testRegex: ".*\\.spec\\.ts$",
+  moduleNameMapper:{
+    "^src/(.*)$": "<rootDir>/$1"
+  }
 };
