@@ -152,4 +152,5 @@ describe('RatingRepository unit tests', () =>{
         expect(result.writing).toEqual(wantedWriting);
         expect(result.listing).toEqual(wantedListing);
     });
+
 })

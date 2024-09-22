@@ -45,7 +45,7 @@ export class WorkerRepository implements WorkerRepositoryInterface {
     }
 
     async findAll(): Promise<WorkerEntity[]> {
-        let all = await this.workerRespository.find({ relations: { classes: true } });
+        let all = await this.workerRespository.find();
         return all;
     }
 

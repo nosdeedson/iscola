@@ -30,6 +30,7 @@ export class ParentRepository implements ParentReporitoryInterface{
             .set({
                 deletedAt : new Date()
             })
+            .where('id= :id', { id: id })
             .execute();
     }
 

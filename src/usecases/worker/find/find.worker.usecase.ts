@@ -1,10 +1,8 @@
-import { Worker } from "../../../domain/worker/worker";
 import { WorkerRepositoryInterface } from "../../../domain/worker/worker.repository.interface";
 import { InputFindWorkerDto, OutputFindWorkerDto } from "./find.worker.dto";
 
 
-
-export class FindWorker {
+export class FindWorkerUseCase {
     private workerRepository: WorkerRepositoryInterface;
 
     constructor(workerRepository: WorkerRepositoryInterface) {

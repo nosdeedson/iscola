@@ -32,6 +32,7 @@ export class CommentRepository implements CommentRepositoryInterface{
             .set({
                 deletedAt: new Date()
             })
+            .where('id= :id', { id: id })
             .execute();
     }
 

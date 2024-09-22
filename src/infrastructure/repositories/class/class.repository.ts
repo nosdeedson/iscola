@@ -36,7 +36,7 @@ export class ClassRepository implements ClassRepositoryInterface {
     }
 
     async find(id: string): Promise<ClassEntity> {
-        let model = this.classRepository.findOne({
+        let model = await this.classRepository.findOne({
             where: { id: id },
             relations: {
                 students: true,
@@ -46,16 +46,16 @@ export class ClassRepository implements ClassRepositoryInterface {
         return model;
     }
 
-    // async findByClassCode(classCode: string): Promise<ClassEntity>{
-    //     const model = this.classRepository.findOne({
-    //         where: {classCode: classCode},
-    //         relations:{
-    //             students: true,
-    //             teacher: true
-    //         }
-    //     });
-    //     return model;
-    // }
+    async findByClassCode(classCode: string): Promise<ClassEntity>{
+        const model = this.classRepository.findOne({
+            where: {classCode: classCode},
+            relations:{
+                students: true,
+                teacher: true
+            }
+        });
+        return model;
+    }
 
     async findAll(): Promise<ClassEntity[]> {
         let all = await this.classRepository.find({

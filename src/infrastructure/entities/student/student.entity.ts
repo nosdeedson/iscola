@@ -36,7 +36,7 @@ export class StudentEntity extends PersonEntity {
     })
     parents: ParentEntity[] ;
 
-    @ManyToOne(() => ClassEntity, schoolGroup => schoolGroup.students, {eager: true})
+    @ManyToOne(() => ClassEntity, schoolGroup => schoolGroup.students, {eager: true, onUpdate: 'CASCADE'})
     @JoinColumn({
         name: 'class_id',
         foreignKeyConstraintName: 'student_class_fk',

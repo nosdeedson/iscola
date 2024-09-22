@@ -31,11 +31,11 @@ describe('Create worker use case test unit', () => {
             delete: jest.fn(),
             find: jest.fn(),
             findAll: jest.fn(),
-            // findByClassCode: jest.fn().mockImplementationOnce(
-            //     () => {
-            //         return {}
-            //     }
-            // ),
+            findByClassCode: jest.fn().mockImplementationOnce(
+                () => {
+                    return {}
+                }
+            ),
             update: jest.fn()
         }
     }
@@ -43,7 +43,7 @@ describe('Create worker use case test unit', () => {
     it("should create a worker", async () => {
         const workerRepository = mockRepositoryWorker();
         const classRepository = mockRepositorySchoolGroup();
-        const useCase = new CreateWorkerUseCase(workerRepository,  )
+        const useCase = new CreateWorkerUseCase(workerRepository, classRepository  )
         expect(await useCase.execute(worker)).toBe(void 0)
        // expect(Promise.resolve(await useCase.execute(worker))).resolves.toBe(void 0);
         expect(workerRepository.create).toHaveBeenCalledTimes(1)
@@ -53,7 +53,7 @@ describe('Create worker use case test unit', () => {
         const workerRepository = mockRepositoryWorker();
         const classRepository = mockRepositorySchoolGroup();
         worker.name = '';
-        const useCase = new CreateWorkerUseCase(workerRepository, );
+        const useCase = new CreateWorkerUseCase(workerRepository,classRepository );
         try {
             await useCase.execute(worker);
         } catch (error) {
@@ -66,7 +66,7 @@ describe('Create worker use case test unit', () => {
         const classRepository = mockRepositorySchoolGroup();
         let nothing;
         worker.birthday = nothing;
-        const useCase = new CreateWorkerUseCase(workerRepository, );
+        const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker);
         } catch (error) {
@@ -79,7 +79,7 @@ describe('Create worker use case test unit', () => {
         const classRepository = mockRepositorySchoolGroup();
         let nothing;
         worker.role = nothing;
-        const useCase = new CreateWorkerUseCase(workerRepository, );
+        const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker);
         } catch (error) {
@@ -93,7 +93,7 @@ describe('Create worker use case test unit', () => {
         workerRepository.create = jest.fn().mockImplementationOnce( () => {
             throw "database not available"
         })
-        const useCase = new CreateWorkerUseCase(workerRepository, );
+        const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker)
         } catch (error) {

@@ -33,6 +33,7 @@ export class RatingRepositiry implements RatingRepositoryInterface{
             .set({
                 deletedAt : new Date()
             })
+            .where('id= :id', { id: id })
             .execute();
     }
 

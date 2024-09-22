@@ -30,6 +30,7 @@ export class StudentRepository implements StudentRepositoryInterface{
             .set({
                 deletedAt: new Date(),
             })
+            .where('id= :id', { id: id })
             .execute();
     }
 
@@ -47,13 +48,14 @@ export class StudentRepository implements StudentRepositoryInterface{
     }
 
     async update(entity: StudentEntity, id: string) {
-        this.dataSource.createQueryBuilder()
-            .update(StudentEntity)
-            .set({
-                schoolGroup: entity.schoolGroup
-            })
-            .where({id: id})
-            .execute();
+        this.studentRepository.save(entity);
+        // this.dataSource.createQueryBuilder()
+        //     .update(StudentEntity)
+        //     .set({
+        //         schoolGroup: entity.schoolGroup
+        //     })
+        //     .where({id: id})
+        //     .execute();
     }
 
 }

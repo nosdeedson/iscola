@@ -152,7 +152,7 @@ describe('CommentRepository unit test', () => {
         await ratingRepository.create(ratingEntity);
 
         //let entityBD = await ratingRepository.find(ratingEntity.id);
-        let wantedId = '123';
+        let wantedId = 'd70bc62e-a53d-4cef-8366-de63099ebf4d';
         let wantedComment = 'just a test';
         let comment = new Comment(wantedComment, 'f07d183f-eb37-417e-8a58-ad9ed4b3910f', new Date(), '489f0126-e7ca-44d6-8b11-13b61adc35d6' );
         let model = CommentEntity.toCommentModel(comment, ratingEntity);
