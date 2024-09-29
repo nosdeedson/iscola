@@ -13,8 +13,10 @@ export class UpdateUseCaseWorker {
 
     public async execute(dto: InputUpdateWorkerDto){
         let worker = await this.workerRepository.find(dto.id);
-        worker = this.update(worker, dto);
-        this.workerRepository.update(worker, dto.id);
+        if(worker){
+            worker = this.update(worker, dto);
+            this.workerRepository.update(worker, worker.id);
+        }
     }
 
     private update(worker: WorkerEntity, dto: InputUpdateWorkerDto): WorkerEntity{

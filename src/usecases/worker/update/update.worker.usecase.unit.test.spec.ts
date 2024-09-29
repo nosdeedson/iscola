@@ -1,7 +1,7 @@
 import { Worker } from "../../../domain/worker/worker";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { UpdateUseCaseWorker } from "./udpate.worker.usecase";
-import { InputUpdateWorkerDto } from '../../../usecases/worker/update/update.worker.dto'
+import { InputUpdateWorkerDto } from './update.worker.dto'
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 
 

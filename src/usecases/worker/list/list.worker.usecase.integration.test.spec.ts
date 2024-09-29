@@ -25,7 +25,7 @@ describe('list usecase integration tests', () => {
 
     afterEach(async () =>{
         await workerModel.query('delete from person cascade');
-        appDataSource.destroy();
+        await appDataSource.destroy();
     });
 
     it('repository must be instantiated', async () =>{

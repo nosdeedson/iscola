@@ -50,14 +50,15 @@ export class WorkerRepository implements WorkerRepositoryInterface {
     }
 
     async update(entity: WorkerEntity, id: string) {
-        await this.dataSource.createQueryBuilder()
-            .update(WorkerEntity)
-            .set({
-                updatedAt: new Date(),
-                role: entity.role,
-            })
-            .where("id= :id", { id: id })
-            .execute();
+        // await this.dataSource.createQueryBuilder()
+        //     .update(WorkerEntity)
+        //     .set({
+        //         updatedAt: new Date(),
+        //         role: entity.role,
+        //     })
+        //     .where("id= :id", { id: id })
+        //     .execute();
+        await this.workerRespository.save(entity);
     }
 
 }

@@ -12,7 +12,7 @@ module.exports = {
   // ],
   rootDir: "src",
   // testRegex: ".*\\.spec\\.ts$",
-  // moduleNameMapper:{
-  //   "^src/(.*)$": "<rootDir>/$1"
-  // }
+  moduleNameMapper:{
+    "^src/(.*)$": "<rootDir>/$1"
+  }
 };

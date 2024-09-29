@@ -1,8 +1,11 @@
 import { RoleEnum } from "../../../domain/worker/roleEnum"
+import { MockRepositoriesForUnitTest } from "../../../infrastructure/__mocks__/mockRepositories";
 import { InputCreateWorkerDto } from "./create.worker.dto"
 import CreateWorkerUseCase  from "./create.worker.usecase"
 
 describe('Create worker use case test unit', () => {
+
+    // TODO CORRECT THE TESTS
 
     let worker: InputCreateWorkerDto;
 
@@ -16,13 +19,7 @@ describe('Create worker use case test unit', () => {
     })
 
     const mockRepositoryWorker = () => {
-        return {
-            create: jest.fn(),
-            delete: jest.fn(),
-            find: jest.fn(),
-            findAll: jest.fn(),
-            update: jest.fn()
-        }
+        return MockRepositoriesForUnitTest.mockRepositories();
     }
 
     const mockRepositorySchoolGroup = () => {

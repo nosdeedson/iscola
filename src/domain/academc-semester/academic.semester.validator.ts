@@ -1,9 +1,9 @@
 import { Validator } from '../@shared/validation/validator.interface'
 import { AcademicSemester } from './academic.semester';
 import * as yup from 'yup'
-import { isAfter, isBefore, isWeekend } from 'date-fns';
+import { isAfter, isBefore, isWeekend, isEqual } from 'date-fns';
 
-export class PeriodValidator implements Validator<AcademicSemester>{
+export class AcademicSemesterValidator implements Validator<AcademicSemester>{
 
     validate(entity: AcademicSemester): void {
         try {
@@ -42,6 +42,12 @@ export class PeriodValidator implements Validator<AcademicSemester>{
                     entity.getNotification()?.addError({
                         context: 'academicSemester',
                         message: 'the academicSemester must end in a weekday'
+                    })
+                }
+                if(isEqual(entity.getBeginningDate(), entity.getEndingDate())){
+                    entity.getNotification()?.addError({
+                        context: 'academicSemester',
+                        message: 'the beggning and the end of the semester can not be equal'
                     })
                 }
         } catch (error) {

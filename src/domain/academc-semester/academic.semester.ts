@@ -1,6 +1,6 @@
 import { Entity } from "../@shared/entity";
 import { Rating } from "../rating/rating";
-import { PeriodValidator } from "./academic.semester.validator";
+import { AcademicSemesterValidator as AcademicSemesterValidator } from "./academic.semester.validator";
 
 export class AcademicSemester extends Entity {
 
@@ -26,7 +26,7 @@ export class AcademicSemester extends Entity {
     }
 
     validate(){
-        new PeriodValidator().validate(this);
+        new AcademicSemesterValidator().validate(this);
     }
 
     getActual(): boolean{

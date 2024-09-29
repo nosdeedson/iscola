@@ -110,6 +110,17 @@ describe('AcademicSemester unit tests', () =>{
         expect(academicSemester).toBeDefined();
         expect(academicSemester.getNotification()?.getErrors().length).toBe(3);
         expect(academicSemester.getNotification()?.messages()).toBe('academicSemester: must inform academicSemester as actual,academicSemester: academicSemester date beginning must be informed,academicSemester: academicSemester date ending must be informed,');
+    });
+
+    it('should have an error if beggning and end of the semester is equal', () =>{
+        const inValidBeginnig = new Date(2024, 9, 30, 10, 59, 59);
+        const inValidEnding = new Date(2024, 9, 30, 10, 59, 59); 
+        const academicSemester = new AcademicSemester(true, inValidBeginnig, inValidEnding);
+
+        expect(academicSemester).toBeDefined();
+        expect(academicSemester.getNotification()?.getErrors().length).toBe(1);
+        expect(academicSemester.getNotification().messages()).toBe('academicSemester: the beggning and the end of the semester can not be equal,')
+
     })
 
 })
