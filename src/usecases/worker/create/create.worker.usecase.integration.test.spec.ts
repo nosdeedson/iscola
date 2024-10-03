@@ -38,7 +38,7 @@ describe("Create worker integration test", () =>{
     afterEach(async () => {
         await workerModel.query('delete from person cascase');
         await schoolGroupModel.query('delete from class cascade');
-        appDataSource.destroy();
+        await appDataSource.destroy();
     })
             
     it("repositories must be instantiated", async () =>{
