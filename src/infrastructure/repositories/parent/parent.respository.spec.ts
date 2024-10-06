@@ -29,7 +29,7 @@ describe('ParentRepository unit test', () =>{
     afterEach( async () =>{
         await parentModel.query('delete from person cascade');
         await studentModel.query('delete from person cascade');
-        appDataSource.destroy();
+        await appDataSource.destroy();
     })
 
     it('repository should be instantiate', () => {

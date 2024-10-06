@@ -23,7 +23,7 @@ describe('AcademicSemesterRepository unit tests', () =>{
 
     afterEach(async () =>{
         await academicSemesterModel.query('delete from academic_semester cascade');
-        appDataSource.destroy();
+        await appDataSource.destroy();
     });
 
     it('acacemicSemester should be instantiated', () => {

@@ -17,7 +17,7 @@ export class AppDataSourceMock {
             host: "localhost",
             port: 5432,
             username: "postgres",
-            password: "1234@Mudar",
+            password: "root",
             database: "iscola",
             entities: [
                 WorkerEntity,

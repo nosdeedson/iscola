@@ -30,7 +30,7 @@ describe('StudentRepository unit test', () =>{
     afterEach(async () => {
         await studentModel.query('delete from person cascade');
         await schoolGroupModel.query('delete from class cascade');
-        appDataSource.destroy();
+        await appDataSource.destroy();
     });
 
     it('studentRepository should instantiated', () =>{

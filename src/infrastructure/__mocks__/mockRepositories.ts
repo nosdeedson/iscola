@@ -1,6 +1,6 @@
-export class MockRepositoriesForUnitTest{
+export class MockRepositoriesForUnitTest {
 
-    public static mockRepositories():any{
+    public static mockRepositories(): any {
         return {
             create: jest.fn(),
             delete: jest.fn(),
@@ -9,4 +9,5 @@ export class MockRepositoriesForUnitTest{
             update: jest.fn()
         }
     }
+
 }

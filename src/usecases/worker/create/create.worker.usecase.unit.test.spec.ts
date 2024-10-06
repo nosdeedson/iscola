@@ -2,11 +2,9 @@ import { RoleEnum } from "../../../domain/worker/roleEnum"
 import { MockRepositoriesForUnitTest } from "../../../infrastructure/__mocks__/mockRepositories";
 import { InputCreateWorkerDto } from "./create.worker.dto"
 import CreateWorkerUseCase  from "./create.worker.usecase"
+import { SystemError } from '../../@shared/system-error'
 
 describe('Create worker use case test unit', () => {
-
-    // TODO CORRECT THE TESTS
-
     let worker: InputCreateWorkerDto;
 
     beforeEach(() => {
@@ -18,83 +16,90 @@ describe('Create worker use case test unit', () => {
         }
     })
 
-    const mockRepositoryWorker = () => {
-        return MockRepositoriesForUnitTest.mockRepositories();
-    }
-
-    const mockRepositorySchoolGroup = () => {
-        return {
-            create: jest.fn(),
-            delete: jest.fn(),
-            find: jest.fn(),
-            findAll: jest.fn(),
-            findByClassCode: jest.fn().mockImplementationOnce(
-                () => {
-                    return {}
-                }
-            ),
-            update: jest.fn()
-        }
-    }
-
     it("should create a worker", async () => {
-        const workerRepository = mockRepositoryWorker();
-        const classRepository = mockRepositorySchoolGroup();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        const classRepository = MockRepositoriesForUnitTest.mockRepositories();
+        classRepository.findByClassCode = jest.fn().mockImplementationOnce(
+            () => {
+                return {}
+            }
+        );
         const useCase = new CreateWorkerUseCase(workerRepository, classRepository  )
         expect(await useCase.execute(worker)).toBe(void 0)
        // expect(Promise.resolve(await useCase.execute(worker))).resolves.toBe(void 0);
-        expect(workerRepository.create).toHaveBeenCalledTimes(1)
+        expect(workerRepository.create).toHaveBeenCalledTimes(1);
+
     })
 
     it("should throw error name should not be null", async () => {
-        const workerRepository = mockRepositoryWorker();
-        const classRepository = mockRepositorySchoolGroup();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        const classRepository = MockRepositoriesForUnitTest.mockRepositories();
+        classRepository.findByClassCode = jest.fn().mockImplementationOnce(
+            () => {
+                return {}
+            }
+        );
         worker.name = '';
         const useCase = new CreateWorkerUseCase(workerRepository,classRepository );
         try {
             await useCase.execute(worker);
         } catch (error) {
-            expect(error.message).toBe("teacher: Name should not be null,")
+            expect(error.errors[0].message).toBe("Name should not be null")
         }
     })
 
     it("should throw error birthday should not be null", async () => {
-        const workerRepository = mockRepositoryWorker();
-        const classRepository = mockRepositorySchoolGroup();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        const classRepository = MockRepositoriesForUnitTest.mockRepositories();
+        classRepository.findByClassCode = jest.fn().mockImplementationOnce(
+            () => {
+                return {}
+            }
+        );
         let nothing;
         worker.birthday = nothing;
         const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker);
         } catch (error) {
-            expect(error.message).toBe("teacher: Birthday should not be null,")
+            expect(error.errors[0].message).toBe("Birthday should not be null")
         }
     })
 
     it("should throw error teacher should not be null", async () => {
-        const workerRepository = mockRepositoryWorker();
-        const classRepository = mockRepositorySchoolGroup();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        const classRepository = MockRepositoriesForUnitTest.mockRepositories();
+        classRepository.findByClassCode = jest.fn().mockImplementationOnce(
+            () => {
+                return {}
+            }
+        );
         let nothing;
         worker.role = nothing;
         const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker);
         } catch (error) {
-            expect(error.message).toBe("teacher: Role should not be null,")
+            expect(error.errors[0].message).toBe("Role should not be null")
         }
     })
 
     it("should throw database not available", async () => {
-        const workerRepository = mockRepositoryWorker();
-        const classRepository = mockRepositorySchoolGroup();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        const classRepository = MockRepositoriesForUnitTest.mockRepositories();
+        classRepository.findByClassCode = jest.fn().mockImplementationOnce(
+            () => {
+                return {}
+            }
+        );
         workerRepository.create = jest.fn().mockImplementationOnce( () => {
-            throw "database not available"
+            throw new SystemError([{context: 'teacher', message: "database not available"}]); 
         })
         const useCase = new CreateWorkerUseCase(workerRepository, classRepository);
         try {
             await useCase.execute(worker)
         } catch (error) {
-            expect(error).toBe('database not available')
+            expect(error.errors[0].message).toBe('database not available')
         }
     })
 })

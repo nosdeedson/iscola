@@ -23,7 +23,7 @@ describe('ClassRepository unit test', () => {
 
     afterEach(async () => {
         await classModel.query('delete from class cascade');
-        appDataSource.destroy();
+        await appDataSource.destroy();
     })
 
     it('repository must be instantiate', async () => {

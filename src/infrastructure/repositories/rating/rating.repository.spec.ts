@@ -39,7 +39,7 @@ describe('RatingRepository unit tests', () =>{
         await ratintModel.query('delete from rating cascade');
         await semesterModel.query('delete from academic_semester cascade');
         await semesterModel.query('delete from person cascade');
-        appDataSource.destroy();
+        await appDataSource.destroy();
     })
 
     it('ratingRepository should be instantiated', () =>{

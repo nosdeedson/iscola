@@ -2,6 +2,8 @@ import { RoleEnum } from '../../../domain/worker/roleEnum';
 import { Worker } from '../../../domain/worker/worker'
 import { WorkerEntity } from '../../../infrastructure/entities/worker/worker.entity';
 import { FindAllWorker } from './list.worker.usecase';
+import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
+
 
 describe('List worker unit test', () =>{
     let workers: WorkerEntity[];
@@ -21,19 +23,9 @@ describe('List worker unit test', () =>{
         workers.push(WorkerEntity.toWorkerEntity(worker));
     });
 
-    const mockRepository = async () =>{
-        return {
-            create: jest.fn(),
-            delete: jest.fn(),
-            find: jest.fn(),
-            findAll: jest.fn().mockReturnValue(await Promise.resolve(workers)),
-            update: jest.fn()
-        }
-    }
-
-
     it('should list all workers', async () => {
-        const workerRepository = mockRepository();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        workerRepository.findAll = jest.fn().mockReturnValue(await Promise.resolve(workers));
         const usecase = new FindAllWorker(await workerRepository);
         const result = await usecase.execute();
 
@@ -47,7 +39,7 @@ describe('List worker unit test', () =>{
     })
 
     it('should return empty list', async () => {
-        const workerRepository = mockRepository();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         (await workerRepository).findAll = jest.fn().mockReturnValue(await Promise.resolve([]));
         const usecase = new FindAllWorker(await workerRepository);
         const result = await usecase.execute();

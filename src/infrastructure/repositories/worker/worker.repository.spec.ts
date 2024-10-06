@@ -30,7 +30,7 @@ describe("WorkerRepository unit tets", () =>{
              `delete from person cascade`
          );
       
-        appDataSource.destroy();
+        await appDataSource.destroy();
     });
 
     it('should instantiate a workerRepository', () =>{

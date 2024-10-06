@@ -3,6 +3,8 @@ import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { UpdateUseCaseWorker } from "./udpate.worker.usecase";
 import { InputUpdateWorkerDto } from './update.worker.dto'
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
+import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
+
 
 
 describe('Update worker unit test', () =>{
@@ -29,26 +31,20 @@ describe('Update worker unit test', () =>{
         }
          
     });
-
-    const mockRepository = async () =>{
-        return {
-            create: jest.fn(),
-            delete: jest.fn(),
-            find: jest.fn().mockReturnValue(Promise.resolve(workerEntity)),
-            findAll: jest.fn(),
-            update: jest.fn().mockReturnValue(await Promise.resolve(void 0))
-        }
-    }
-
+    
     it('should update a worker', async () => {
-        const workerRepository = await mockRepository();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        workerRepository.update = jest.fn().mockReturnValue(await Promise.resolve(void 0));
+        workerRepository.find = jest.fn().mockReturnValue(Promise.resolve(workerEntity));
         const usecase = new UpdateUseCaseWorker(workerRepository);
         expect(await usecase.execute(input)).toBe(void 0);
         expect(workerRepository.update).toHaveBeenCalledTimes(1)
     })
 
     it('should thorw  an error about null name', async () => {
-        const workerRepository = await mockRepository();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        workerRepository.update = jest.fn().mockReturnValue(await Promise.resolve(void 0));
+        workerRepository.find = jest.fn().mockReturnValue(Promise.resolve(workerEntity));
         const usecase = new UpdateUseCaseWorker(workerRepository);
         try {
             let emptyName;
@@ -60,7 +56,9 @@ describe('Update worker unit test', () =>{
     })
 
     it('should thorw  an error about null role', async () => {
-        const workerRepository = await mockRepository();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        workerRepository.update = jest.fn().mockReturnValue(await Promise.resolve(void 0));
+        workerRepository.find = jest.fn().mockReturnValue(Promise.resolve(workerEntity));
         const usecase = new UpdateUseCaseWorker(workerRepository);
         try {
             let emptyRole;

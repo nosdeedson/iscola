@@ -1,8 +1,10 @@
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { Worker } from "../../../domain/worker/worker";
+import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 import { InputFindWorkerDto } from '../../../usecases/worker/find/find.worker.dto';
-import { FindWorker } from '../find/find.worker.usecase';
+import { FindWorkerUseCase } from '../find/find.worker.usecase';
+
 
 describe('Find worker unit tests', () => {
 
@@ -19,19 +21,10 @@ describe('Find worker unit tests', () => {
         workerEntity = WorkerEntity.toWorkerEntity(worker);
     });
 
-    const mockRepository = async () => {
-        return {
-            create: jest.fn(),
-            delete: jest.fn(),
-            find: jest.fn().mockReturnValue(await Promise.resolve(workerEntity)),
-            findAll: jest.fn(),
-            update: jest.fn()
-        }
-    }
-
     it('should find a worker', async () => {
-        const workerRepository = mockRepository();
-        const usecase = new FindWorker(await workerRepository);
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
+        workerRepository.find = jest.fn().mockReturnValue(await Promise.resolve(workerEntity));
+        const usecase = new FindWorkerUseCase(await workerRepository);
         const result = await usecase.execute(input);
 
         expect(result.id).toBe(input.id)
@@ -46,9 +39,9 @@ describe('Find worker unit tests', () => {
     })
 
     it('should return empty result for a worker', async () => {
-        const workerRepository = mockRepository();
+        const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         (await workerRepository).find = jest.fn().mockResolvedValue(await Promise.resolve(null))
-        const usecase = new FindWorker(await workerRepository);
+        const usecase = new FindWorkerUseCase(await workerRepository);
         const result = await usecase.execute(input);
         expect(result.id).toBeUndefined()
         expect(result.birthday).toBeUndefined()
