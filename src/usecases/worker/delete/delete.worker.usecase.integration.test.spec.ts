@@ -1,6 +1,7 @@
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
+import { PersonEntity } from "../../../infrastructure/entities/@shared/person.entity";
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 import { WorkerRepository } from "../../../infrastructure/repositories/worker/worker.repository";
 import { DeleteWorkerUsecase } from '../delete/delete.worker.usecase';
@@ -21,7 +22,8 @@ describe('Delete worker integration test', () => {
     });
 
     afterEach(async () => {
-        await workerModel.query('delete from person cascade');
+        // await workerModel.query('delete from person cascade');
+        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
         await appDataSource.destroy();
     });
 

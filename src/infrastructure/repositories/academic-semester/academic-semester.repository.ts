@@ -46,14 +46,8 @@ export class AcademicSemesterRepository implements AcademicSemesterInterface{
         return await this.academicRepositoryRepository.find();
     }
 
-    async update(entity: AcademicSemesterEntity, id: string) {
-        await this.dataSource.createQueryBuilder()
-            .update(AcademicSemesterEntity)
-            .set({
-                updatedAt: new Date(),
-                actual: entity.actual,
-            })
-            .execute();
+    async update(entity: AcademicSemesterEntity) {
+        await this.academicRepositoryRepository.save(entity);
     }
 
 }

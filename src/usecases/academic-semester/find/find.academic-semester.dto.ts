@@ -1,11 +1,13 @@
-export class FindAcademicSemesterDto{
+export class FindAcademicSemesterDto {
 
+    id: string;
     actual: boolean;
     beginningDate: Date;
     endingDate: Date;
 
 
-    constructor(actual: boolean, beginningDate: Date, endingDate){
+    constructor(id: string, actual: boolean, beginningDate: Date, endingDate: Date) {
+        this.id = id;
         this.actual = actual;
         this.beginningDate = beginningDate;
         this.endingDate = endingDate;

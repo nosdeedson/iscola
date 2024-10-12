@@ -9,6 +9,7 @@ import { Grade } from "../../../domain/enum/grade/grade";
 import { Rating } from "../../../domain/rating/rating";
 import { StudentEntity } from "../../entities/student/student.entity";
 import { Repository } from "typeorm";
+import { PersonEntity } from "../../entities/@shared/person.entity";
 
 describe('RatingRepository unit tests', () =>{
 
@@ -36,9 +37,13 @@ describe('RatingRepository unit tests', () =>{
     });
 
     afterEach( async () =>{
-        await ratintModel.query('delete from rating cascade');
-        await semesterModel.query('delete from academic_semester cascade');
-        await semesterModel.query('delete from person cascade');
+        // await ratintModel.query('delete from rating cascade');
+        // await semesterModel.query('delete from academic_semester cascade');
+        // await semesterModel.query('delete from person cascade');
+
+        await appDataSource.createQueryBuilder().delete().from(RatingEntity).execute();
+        await appDataSource.createQueryBuilder().delete().from(AcademicSemesterEntity).execute();
+        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
         await appDataSource.destroy();
     })
 

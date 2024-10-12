@@ -1,6 +1,7 @@
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { Worker } from "../../../domain/worker/worker";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
+import { PersonEntity } from "../../../infrastructure/entities/@shared/person.entity";
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 import { WorkerRepository } from "../../../infrastructure/repositories/worker/worker.repository";
 import { UpdateUseCaseWorker } from '../../../usecases/worker/update/udpate.worker.usecase';
@@ -21,7 +22,8 @@ describe('Update worker integration test', () => {
     });
 
     afterEach( async () =>{
-        await workerModel.query('delete from person cascade');
+        // await workerModel.query('delete from person cascade');
+        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
         await appDataSource.destroy();
     });
 

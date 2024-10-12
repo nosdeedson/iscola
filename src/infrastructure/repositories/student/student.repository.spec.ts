@@ -5,6 +5,7 @@ import { StudentEntity } from "../../entities/student/student.entity";
 import { StudentRepository } from '../../repositories/student/student.repository';
 import { ClassRepository } from '../../repositories/class/class.repository';
 import { Class } from "../../../domain/class/class";
+import { PersonEntity } from "../../entities/@shared/person.entity";
 
 const MILISECONDS = 1000;
 
@@ -28,8 +29,11 @@ describe('StudentRepository unit test', () =>{
     });
 
     afterEach(async () => {
-        await studentModel.query('delete from person cascade');
-        await schoolGroupModel.query('delete from class cascade');
+        // await studentModel.query('delete from person cascade');
+        // await schoolGroupModel.query('delete from class cascade');
+        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
+        await appDataSource.createQueryBuilder().delete().from(ClassEntity).execute();
+
         await appDataSource.destroy();
     });
 

@@ -2,6 +2,7 @@ import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { Worker } from "../../../domain/worker/worker";
 import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from '../../__mocks__/mocks';
+import { PersonEntity } from "../../entities/@shared/person.entity";
 import { WorkerEntity } from "../../entities/worker/worker.entity";
 import { WorkerRepository } from "./worker.repository";
 
@@ -24,12 +25,12 @@ describe("WorkerRepository unit tets", () =>{
     })
         
     afterEach(async () => {
-        const entities = appDataSource.entityMetadatas;
-        await workerModel.query(
-            // `TRUNCATE ${entity.tableName} RESTART IDENTITY CASCADE;`,
-             `delete from person cascade`
-         );
-      
+        // const entities = appDataSource.entityMetadatas;
+        // await workerModel.query(
+        //     // `TRUNCATE ${entity.tableName} RESTART IDENTITY CASCADE;`,
+        //      `delete from person cascade`
+        //  );
+        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
         await appDataSource.destroy();
     });
 

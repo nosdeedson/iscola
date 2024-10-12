@@ -13,11 +13,13 @@ export class FindAcademicSemesterUseCase {
     async execute(id: string){
         try {
             let semester = await this.semesterRepository.find(id);
-            return new FindAcademicSemesterDto(semester.actual, semester.beginningDate, semester.endingDate);
+            if (!semester) {
+                throw new SystemError([{context: 'academicSemester', message: 'Academic Semester not found'}]);
+            }
+            let dto = new FindAcademicSemesterDto(semester.id, semester.actual, semester.beginningDate, semester.endingDate);
+            return dto;
         } catch (error) {
-            let notification = {context: 'academicSemester', message: 'Failed to find academic semester'};
-            let err = new SystemError([notification]);
-            throw err;
+            throw error;
         }
     }
 }

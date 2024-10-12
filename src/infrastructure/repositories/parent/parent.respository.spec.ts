@@ -1,6 +1,7 @@
 import { Parent } from "../../../domain/parent/parent";
 import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../__mocks__/mocks";
+import { PersonEntity } from "../../entities/@shared/person.entity";
 import { ParentEntity } from "../../entities/parent/parent.entity";
 import { StudentEntity } from "../../entities/student/student.entity";
 import { ParentRepository } from '../parent/parent.repository'; 
@@ -27,8 +28,10 @@ describe('ParentRepository unit test', () =>{
     });
 
     afterEach( async () =>{
-        await parentModel.query('delete from person cascade');
-        await studentModel.query('delete from person cascade');
+        // await parentModel.query('delete from person cascade');
+        // await studentModel.query('delete from person cascade');
+
+        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
         await appDataSource.destroy();
     })
 

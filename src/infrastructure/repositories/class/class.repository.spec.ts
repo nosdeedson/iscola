@@ -22,7 +22,8 @@ describe('ClassRepository unit test', () => {
     });
 
     afterEach(async () => {
-        await classModel.query('delete from class cascade');
+        // await classModel.query('delete from class cascade');
+        await appDataSource.createQueryBuilder().delete().from(ClassEntity).execute();
         await appDataSource.destroy();
     })
 

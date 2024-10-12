@@ -13,16 +13,14 @@ describe('AcademicSemesterRepository unit tests', () =>{
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
         await appDataSource.initialize()
-            .then(() => {
-                //console.log('connected')
-            })
             .catch((error) => console.log(error));
         academicSemesterModel = appDataSource.getRepository(AcademicSemesterEntity);
         repository = new AcademicSemesterRepository(academicSemesterModel, appDataSource);
     });
 
     afterEach(async () =>{
-        await academicSemesterModel.query('delete from academic_semester cascade');
+        // await academicSemesterModel.query('delete from academic_semester cascade');
+        await appDataSource.createQueryBuilder().delete().from(AcademicSemesterEntity).execute();
         await appDataSource.destroy();
     });
 

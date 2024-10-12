@@ -22,7 +22,8 @@ describe('academic semester integration test', () =>{
     });
 
     afterEach(async () => {
-        await semesterModel.query('delete from academic_semester cascade');
+        // await semesterModel.query('delete from academic_semester cascade');
+        await appDataSource.createQueryBuilder().delete().from(AcademicSemesterEntity).execute();
         await appDataSource.destroy();
     })
 
@@ -41,6 +42,19 @@ describe('academic semester integration test', () =>{
         expect(await usecase.execute(wantedId)).toBe(void 0);
         result = await semesterRepository.find(wantedId);
         expect(result).toBeNull();
+    })
+
+    it('should not delete an academic semester from BD if id does not exist', async () =>{
+        let model = AcademicSemesterEntity.toAcademicSemester(semester);
+        let wantedId = '1a5ca91c-25c3-48aa-ad26-7b5c009e65dc';
+        expect(await semesterRepository.create(model)).toBe(void 0);
+        let results = await semesterRepository.findAll();
+        expect(results.length).toBe(1);
+        const usecase = new DeleteAcademicSemesterUseCase(semesterRepository);
+        expect(await usecase.execute(wantedId)).toBe(void 0);
+        results = await semesterRepository.findAll();
+        expect(results.length).toBe(1);
+
     })
 
 

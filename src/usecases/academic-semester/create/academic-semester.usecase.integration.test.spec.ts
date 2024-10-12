@@ -24,7 +24,8 @@ describe('Academic semester integration test', () =>{
     });
 
     afterEach( async () =>{
-        await semesterModel.query('delete from academic_semester cascade');
+        // await semesterModel.query('delete from academic_semester cascade');
+        await appDataSource.createQueryBuilder().delete().from(AcademicSemesterEntity).execute();
         await appDataSource.destroy();
     });
 

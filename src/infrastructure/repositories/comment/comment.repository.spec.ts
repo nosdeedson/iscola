@@ -1,3 +1,4 @@
+import { Person } from "../../../domain/@shared/person";
 import { Comment } from "../../../domain/comment/comment";
 import { Parent } from "../../../domain/parent/parent";
 import { Student } from "../../../domain/student/student";
@@ -58,8 +59,11 @@ describe('CommentRepository unit test', () => {
         await ratingModel.query(`delete from rating cascade`);
         await parentModel.query(`delete from person cascade`);
         await studentModel.query(`delete from person cascade`);
+        // await appDataSource.createQueryBuilder().delete().from(CommentEntity).execute();
+        // await appDataSource.createQueryBuilder().delete().from(RatingEntity).execute();
+        // await appDataSource.createQueryBuilder().delete().from(Person).execute();
         await appDataSource.destroy();
-    }, (MILISECONDS * 5))
+    });
 
     it('commentRepository must be instantiated', async () => {
         expect(repository).toBeDefined();

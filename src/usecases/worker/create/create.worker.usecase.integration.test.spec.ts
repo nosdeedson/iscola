@@ -1,19 +1,12 @@
-import { DataSource } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
-import { PersonEntity } from "../../../infrastructure/entities/@shared/person.entity";
-import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
-import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
-import { CommentEntity } from "../../../infrastructure/entities/comment/comment.entity";
-import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
-import { RatingEntity } from "../../../infrastructure/entities/rating/rating.entity";
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { UserEntity } from "../../../infrastructure/entities/user/user.entity";
-import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
-import CreateWorkerUseCase from "./create.worker.usecase";
-import { WorkerRepository } from '../../../infrastructure/repositories/worker/worker.repository'
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
+import { PersonEntity } from "../../../infrastructure/entities/@shared/person.entity";
+import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
+import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 import { ClassRepository } from '../../../infrastructure/repositories/class/class.repository';
+import { WorkerRepository } from '../../../infrastructure/repositories/worker/worker.repository';
 import { InputCreateWorkerDto } from "./create.worker.dto";
+import CreateWorkerUseCase from "./create.worker.usecase";
 
 
 const MILISECONDS = 1000;
@@ -36,8 +29,11 @@ describe("Create worker integration test", () =>{
     })
         
     afterEach(async () => {
-        await workerModel.query('delete from person cascase');
-        await schoolGroupModel.query('delete from class cascade');
+        // await workerModel.query('delete from person cascase');
+        // await schoolGroupModel.query('delete from class cascade');
+        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
+        await appDataSource.createQueryBuilder().delete().from(ClassEntity).execute();
+
         await appDataSource.destroy();
     })
             
