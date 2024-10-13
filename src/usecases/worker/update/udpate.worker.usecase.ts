@@ -1,5 +1,4 @@
 import { WorkerEntity } from "src/infrastructure/entities/worker/worker.entity";
-import { Worker } from "../../../domain/worker/worker";
 import { WorkerRepositoryInterface } from "../../../domain/worker/worker.repository.interface";
 import { InputUpdateWorkerDto } from "./update.worker.dto";
 
@@ -12,7 +11,7 @@ export class UpdateUseCaseWorker {
     }
 
     public async execute(dto: InputUpdateWorkerDto){
-        let worker = await this.workerRepository.find(dto.id);
+        let worker = await this.workerRepository.find(dto.id)as WorkerEntity;
         if(worker){
             worker = this.update(worker, dto);
             this.workerRepository.update(worker, worker.id);

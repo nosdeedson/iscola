@@ -1,5 +1,5 @@
 import { StudentEntity } from 'src/infrastructure/entities/student/student.entity';
-import { RepositoryInterface } from '../@shared/repository/repository.interface';
+import { PeronRepositoryInterface } from '../@shared/repository/person.repository.interface';
 
 
-export interface StudentRepositoryInterface extends RepositoryInterface<StudentEntity> { }
+export interface StudentRepositoryInterface extends PeronRepositoryInterface<StudentEntity> { }

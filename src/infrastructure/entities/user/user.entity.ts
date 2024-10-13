@@ -33,8 +33,14 @@ export class UserEntity extends GenericEntity{
     })
     accesType: AccessType;
 
+    @Column({
+        nullable: false,
+        name: 'nickname'
+    })
+    nickname: string;
+
     @OneToOne(() => PersonEntity)
-    @JoinColumn()
+    @JoinColumn({foreignKeyConstraintName: 'user_person_fk', name: 'person_id'})
     person: PersonEntity;
 
     static toUserEntity(user: User): UserEntity{
@@ -60,6 +66,7 @@ export class UserEntity extends GenericEntity{
         }
         userModel.updatedAt = user.getUpdatedAt();
         userModel.accesType = user.getAccessType();
+        userModel.nickname = user.getNickname();
 
         return userModel;
     }

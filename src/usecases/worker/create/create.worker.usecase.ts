@@ -30,6 +30,7 @@ export default class CreateWorkerUseCase {
             model.classes = [];
             model.classes.push(schoolGroup);
             await this.workerRepository.create(model);
+            // TODO CREATE THE USER FOR WORKER, WHICH MUST BE DONE IN THE SERVICE THAT WOULD BE CALLED BY THE CONTROLLER
         } catch (error) {
             throw error;
         }

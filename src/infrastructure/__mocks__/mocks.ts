@@ -11,7 +11,6 @@ import { AccessType } from "../../domain/user/access.type";
 import { User } from "../../domain/user/user";
 import { Comment } from "../../domain/comment/comment";
 
-
 // first August 2024
 const aValidBeginnig = new Date(2024, 7, 1, 0, 0, 0);
 // 29 November 2024
@@ -45,7 +44,18 @@ const userStudent = new User(student, 'teste@teste', 'edson', '123', AccessType.
 const userTeacher = new User(teacher, 'teste@teste', 'edson', '123', AccessType.TEACHER);
 const comment = new Comment("just a comment", '85e71875-289c-48b1-82b1-8c4f9ae16104', new Date());
 
+const user1 = new User(teacher, 'teste@email', 'jose', '123', AccessType.TEACHER);
+const user2 = new User(student, 'teste@email', 'jose', '123', AccessType.TEACHER);
+
 export class DomainMocks {
+
+    static mockUserAdmin(): User{
+        return userAdmin;
+    }
+
+    static mockUserTeacher(): User{
+        return userTeacher;
+    }
 
     static mockComment(): Comment{
         return comment;

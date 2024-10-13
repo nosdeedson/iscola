@@ -1,3 +1,4 @@
+import { WorkerEntity } from "src/infrastructure/entities/worker/worker.entity";
 import { WorkerRepositoryInterface } from "../../../domain/worker/worker.repository.interface";
 import { InputFindWorkerDto, OutputFindWorkerDto } from "./find.worker.dto";
 
@@ -10,7 +11,7 @@ export class FindWorkerUseCase {
     }
 
     public async execute(dto: InputFindWorkerDto): Promise<OutputFindWorkerDto> {
-        let worker = await this.workerRepository.find(dto.id);
+        let worker = await this.workerRepository.find(dto.id) as WorkerEntity;
         let output = {} as OutputFindWorkerDto;
         if(worker){
             output = {

@@ -1,15 +1,14 @@
-import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
-import { RatingEntity } from "../../entities/rating/rating.entity";
-import { RatingRepositiry } from '../rating/rating.repository';
-import { DomainMocks } from '../../__mocks__/mocks';
-import { AcademicSemesterEntity } from "../../entities/academic-semester/academic.semester.entity";
-import { AcademicSemesterRepository } from '../academic-semester/academic-semester.repository';
-import { StudentRepository } from '../student/student.repository';
 import { Grade } from "../../../domain/enum/grade/grade";
 import { Rating } from "../../../domain/rating/rating";
-import { StudentEntity } from "../../entities/student/student.entity";
-import { Repository } from "typeorm";
+import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
+import { DomainMocks } from '../../__mocks__/mocks';
 import { PersonEntity } from "../../entities/@shared/person.entity";
+import { AcademicSemesterEntity } from "../../entities/academic-semester/academic.semester.entity";
+import { RatingEntity } from "../../entities/rating/rating.entity";
+import { StudentEntity } from "../../entities/student/student.entity";
+import { AcademicSemesterRepository } from '../academic-semester/academic-semester.repository';
+import { RatingRepositiry } from '../rating/rating.repository';
+import { StudentRepository } from '../student/student.repository';
 
 describe('RatingRepository unit tests', () =>{
 

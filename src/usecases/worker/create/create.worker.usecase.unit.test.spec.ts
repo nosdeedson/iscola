@@ -3,6 +3,7 @@ import { MockRepositoriesForUnitTest } from "../../../infrastructure/__mocks__/m
 import { InputCreateWorkerDto } from "./create.worker.dto"
 import CreateWorkerUseCase  from "./create.worker.usecase"
 import { SystemError } from '../../@shared/system-error'
+import { AccessType } from "../../../domain/user/access.type";
 
 describe('Create worker use case test unit', () => {
     let worker: InputCreateWorkerDto;
@@ -12,7 +13,11 @@ describe('Create worker use case test unit', () => {
             name: 'edson',
             birthday: new Date(),
             role: RoleEnum.TEACHER,
-            classCode: '12343'
+            classCode: '12343',
+            email: 'teste@teste',
+            nickname: 'edson',
+            password: '123',
+            accesstype : AccessType.TEACHER
         }
     })
 

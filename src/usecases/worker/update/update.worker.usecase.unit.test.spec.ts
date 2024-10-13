@@ -6,7 +6,6 @@ import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.ent
 import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
 
 
-
 describe('Update worker unit test', () =>{
 
     let workerEntity: WorkerEntity;

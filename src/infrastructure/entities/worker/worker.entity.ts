@@ -1,4 +1,4 @@
-import { ChildEntity, Column, OneToMany } from "typeorm";
+import { ChildEntity, Column, JoinColumn, OneToMany } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { Worker } from "../../../domain/worker/worker";
 import { PersonEntity } from "../@shared/person.entity";
@@ -30,7 +30,7 @@ export class WorkerEntity extends PersonEntity {
             return undefined;
         }
         let model = new WorkerEntity();
-        model.birthday = worker.getBirthday();
+        model.birthday = worker?.getBirthday();
         if(!model.classes){
             model.classes = []
         }

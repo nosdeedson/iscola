@@ -23,7 +23,8 @@ describe('Find worker unit tests', () => {
 
     it('should find a worker', async () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
-        workerRepository.find = jest.fn().mockReturnValue(await Promise.resolve(workerEntity));
+        workerRepository.find = 
+        jest.fn().mockReturnValue(await Promise.resolve(workerEntity));
         const usecase = new FindWorkerUseCase(await workerRepository);
         const result = await usecase.execute(input);
 

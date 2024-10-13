@@ -1,4 +1,4 @@
 import { WorkerEntity } from '../../infrastructure/entities/worker/worker.entity';
-import { RepositoryInterface } from '../@shared/repository/repository.interface';
+import { PeronRepositoryInterface } from '../@shared/repository/person.repository.interface';
 
-export interface WorkerRepositoryInterface extends RepositoryInterface<WorkerEntity> { }
+export interface WorkerRepositoryInterface extends PeronRepositoryInterface<WorkerEntity> { }

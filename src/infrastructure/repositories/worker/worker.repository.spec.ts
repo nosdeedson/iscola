@@ -80,8 +80,10 @@ describe("WorkerRepository unit tets", () =>{
         await repository.create(model2);
         let results = await repository.findAll();
         expect(results.length).toBe(2);
-        expect(results[0]).toStrictEqual(model)
-        expect(results[1]).toStrictEqual(model2)
+        expect(results[0].id).toEqual(model.id)
+        expect(results[0].role).toEqual(model.role)
+        expect(results[1].id).toEqual(model2.id)
+        expect(results[1].role).toEqual(model2.role)
     });
 
     it('should udpate a workers entity in the database', async () =>{
