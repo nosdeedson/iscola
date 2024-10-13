@@ -3,8 +3,10 @@ import { Person } from "../@shared/person";
 import { StudentValidator } from "./student.validator";
 import { Rating } from "../rating/rating";
 import { Class } from "../class/class";
+import { StudentEntity } from "src/infrastructure/entities/student/student.entity";
 
 export class Student extends Person {
+   
     // TODO create code to generate enrolled code
 
     private enrolled: string;
@@ -47,7 +49,6 @@ export class Student extends Person {
         this.parents.push(parent);
     }
 
-
     getEnrolled(): string {
         return this.enrolled;
     }
@@ -62,6 +63,19 @@ export class Student extends Person {
 
     setSchoolGroup(schoolGroup: Class){
         this.schoolGroup = schoolGroup;
+    }
+
+    static toDomain(entity: StudentEntity): Student {
+        return new Student(
+            entity.birthday,
+            entity.fullName,
+            entity.enrolled,
+            [],
+            entity.id,
+            entity.createdAt,
+            entity.updatedAt,
+            entity.deletedAt,
+        );
     }
 
 }

@@ -51,5 +51,5 @@ describe("Create worker integration test", () =>{
             role: RoleEnum.TEACHER
         } as InputCreateWorkerDto;
         expect(await useCase.execute(worker)).toBe(void 0)
-    }, (5 * MILISECONDS))
+    })
 })

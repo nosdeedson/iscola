@@ -41,7 +41,7 @@ describe('Find worker unit tests', () => {
 
     it('should return empty result for a worker', async () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
-        (await workerRepository).find = jest.fn().mockResolvedValue(await Promise.resolve(null))
+        (await workerRepository).find = jest.fn().mockReturnValueOnce(await Promise.resolve(null))
         const usecase = new FindWorkerUseCase(await workerRepository);
         const result = await usecase.execute(input);
         expect(result.id).toBeUndefined()
