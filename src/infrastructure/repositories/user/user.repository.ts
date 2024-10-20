@@ -43,15 +43,6 @@ export class UserRepository implements UserRepositoryInterface{
     async findAll(): Promise<UserEntity[]> {
         return await this.userRespository.find()
     }
-
-    // async findPerson(personId: string, type: string): Promise<any> {
-    //     const person = await this.dataSource.createQueryBuilder()
-    //     .select(type)
-    //     .from(PersonEntity, type)
-    //     .where(`${type}.id = :id`, {id: personId})
-    //     .getOne();
-    //     return person;
-    // }
     
     async update(entity: UserEntity, id: string): Promise<void> {
         this.userRespository.save(entity);

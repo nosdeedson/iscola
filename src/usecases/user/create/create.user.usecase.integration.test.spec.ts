@@ -36,7 +36,6 @@ describe('create user usecase integration tests', () =>{
     afterEach(async () =>{
         await appDataSource.createQueryBuilder().delete().from(UserEntity).execute();
         await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
-        await appDataSource.cre
         await appDataSource.destroy();
         jest.clearAllMocks();
     });
@@ -45,7 +44,6 @@ describe('create user usecase integration tests', () =>{
         expect(userEntity).toBeDefined();
         expect(userRepository).toBeDefined();
         expect(personEntity).toBeDefined();
-        expect(personRepository).toBeDefined();
     })
 
     it('should create an user of type teacher', async () =>{
@@ -124,4 +122,33 @@ describe('create user usecase integration tests', () =>{
         expect(results[0].id).toBeDefined();
     });
 
+    it('should create an user of type parent', async () =>{
+
+        let parentRepository = new ParentRepository(personEntity, appDataSource); 
+
+        let parent = DomainMocks.mockParent();
+        let parentEntity = ParentEntity.toParentEntity(parent);
+
+        let studentEntity = parentEntity.students[0];
+
+        let studentRepository  = new StudentRepository(personEntity, appDataSource);
+        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+
+        expect(await parentRepository.create(parentEntity)).toBe(void 0);
+
+        let input = {
+            personId: parent.getId(),
+            email: 'teste@teste',
+            password: '1234',
+            nickname: 'teste',
+            accesstype: AccessType.PARENT
+        };
+
+        const useCase = new CreateUserUseCase(userRepository, parentRepository);
+        expect(await useCase.execute(input)).toBe(void 0);
+
+        let results = await userRepository.findAll();
+        expect(results.length).toBe(1);
+        expect(results[0].id).toBeDefined();
+    });
 })

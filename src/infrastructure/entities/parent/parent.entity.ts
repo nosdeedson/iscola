@@ -10,7 +10,7 @@ export class ParentEntity extends PersonEntity {
 
     constructor() { super() }
 
-    @ManyToMany(() => StudentEntity, student => student.parents, {onDelete: 'CASCADE'})
+    @ManyToMany(() => StudentEntity, student => student.parents, {onDelete: 'CASCADE', eager: true})
     students: StudentEntity[];
 
     static toParentEntity(parent: Parent): ParentEntity {
@@ -34,11 +34,12 @@ export class ParentEntity extends PersonEntity {
             let model = new StudentEntity();
             model.birthday = it.getBirthday();
             model.createdAt = it.getBirthday();
-            model.deletedAt = it.getBirthday();
+            model.deletedAt = it.getDeletedAt();
             model.enrolled = it.getEnrolled();
             model.fullName = it.getName();
             model.id = it.getId();
             model.updatedAt = it.getUpdatedAt();
+            studentsModel.push(model);
         })
         return studentsModel;
     }
