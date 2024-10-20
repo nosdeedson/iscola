@@ -7,25 +7,29 @@ import { FindAcademicSemesterUseCase } from "./find.academic-semester.usecase";
 describe('find academic semester unit test', () =>{
     let semester;
 
-    beforeEach(() => {
+    beforeEach(async () => {
         semester = DomainMocks.mockAcademicSemester();
     })
 
+    afterEach( async () => {
+        semester = null;
+        jest.clearAllMocks();
+    })
+
     it('should find an academicSemester', async () =>{
-        let beginningDate = new Date(2024, 9, 11, 10, 0, 0);
-        let endingDate = new Date(2024, 11, 11, 10, 0, 0);
         const semesterRepository = await MockRepositoriesForUnitTest.mockRepositories();
         semesterRepository.find = jest.fn().mockImplementationOnce(() => {
-            return {id: '1234', actual: true, beginningDate, endingDate}
+            return semester
         });
+        let wantedId = semester.getId();
         const useCase = new FindAcademicSemesterUseCase(semesterRepository);
-        let result = await useCase.execute('1234');
+        let result = await useCase.execute(wantedId);
         expect(result).toBeDefined();
-        expect(result.id).toBe('1234');
-        expect(result.beginningDate).toBe(beginningDate)
-        expect(result.endingDate).toBe(endingDate);
+        expect(result.id).toBe(wantedId);
+        expect(result.beginningDate).toBe(semester.getBeginningDate());
+        expect(result.endingDate).toBe(semester.getEndingDate());
         expect(semesterRepository.find).toHaveBeenCalledTimes(1)
-        expect(semesterRepository.find).toHaveBeenCalledWith('1234')
+        expect(semesterRepository.find).toHaveBeenCalledWith(wantedId)
     })
 
     it('should not find an academicSemester with the worng id', async () =>{

@@ -39,8 +39,8 @@ export class UserEntity extends GenericEntity{
     })
     nickname: string;
 
-    @OneToOne(() => PersonEntity)
-    @JoinColumn({foreignKeyConstraintName: 'user_person_fk', name: 'person_id'})
+    @OneToOne(() => PersonEntity, {eager: true})
+    @JoinColumn({foreignKeyConstraintName: 'user_person_fk', name: 'person_id',})
     person: PersonEntity;
 
     static toUserEntity(user: User): UserEntity{
