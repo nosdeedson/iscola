@@ -42,7 +42,7 @@ describe('ParentRepository unit test', () =>{
 
     it('should save a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
-        let model = ParentEntity.toParentModel(parent);
+        let model = ParentEntity.toParentEntity(parent);
         let wantedId = parent.getId();
         expect(await parentRepository.create(model)).toBe(void 0);
 
@@ -53,7 +53,7 @@ describe('ParentRepository unit test', () =>{
 
     it('should delete a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
-        let model = ParentEntity.toParentModel(parent);
+        let model = ParentEntity.toParentEntity(parent);
         let wantedId = parent.getId();
         await parentRepository.create(model);
 
@@ -65,7 +65,7 @@ describe('ParentRepository unit test', () =>{
 
     it('should do anything if parent model does not exist', async () => {
         let parent = DomainMocks.mockParent();
-        let model = ParentEntity.toParentModel(parent);
+        let model = ParentEntity.toParentEntity(parent);
         let wantedId = '6a0e9000-c5f9-4dad-bd4a-e4642964c2fb';
         await parentRepository.create(model);
         let result = await parentRepository.find(parent.getId());
@@ -78,7 +78,7 @@ describe('ParentRepository unit test', () =>{
 
     it('should find a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
-        let model = ParentEntity.toParentModel(parent);
+        let model = ParentEntity.toParentEntity(parent);
         let wantedId = parent.getId();
         await parentRepository.create(model);
 
@@ -89,10 +89,10 @@ describe('ParentRepository unit test', () =>{
 
     it('should find all parent model to the BD', async () => {
         let parent = new Parent(new Date(), 'maria', [DomainMocks.mockStudent()], '157db802-00d6-4d46-bf43-fc11bce8c54b')
-        let model = ParentEntity.toParentModel(parent);
+        let model = ParentEntity.toParentEntity(parent);
         await parentRepository.create(model);
         let parent2 = new Parent(new Date(), 'lucineia', [DomainMocks.mockStudent()], '890e0ad0-a084-46da-add6-a5e7589fdd19')
-        let model2 = ParentEntity.toParentModel(parent2);
+        let model2 = ParentEntity.toParentEntity(parent2);
         await parentRepository.create(model2);
 
         let results = await parentRepository.findAll();
@@ -102,7 +102,7 @@ describe('ParentRepository unit test', () =>{
 
     it('should update a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
-        let model = ParentEntity.toParentModel(parent);
+        let model = ParentEntity.toParentEntity(parent);
         await parentRepository.create(model);
 
         let result = await parentRepository.find(parent.getId());

@@ -1,4 +1,5 @@
 import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
+import { AcademicSemesterEntity } from '../../../infrastructure/entities/academic-semester/academic.semester.entity';
 import { InputCreateAcademicSemesterDto } from '../create/academic-semester.dto';
 import { CreateAcademicSemesterUseCase } from '../create/create.academic-semester.usecase';
 

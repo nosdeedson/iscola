@@ -13,7 +13,7 @@ describe("ParentModel unit tests", () => {
     })
 
     it('should intantiate a ParentModel', () => {
-        let model = ParentEntity.toParentModel(parent);
+        let model = ParentEntity.toParentEntity(parent);
         expect(model).toBeDefined();
         expect(model.birthday).toBe(parent.getBirthday());
         expect(model.createdAt).toBe(parent.getCreatedAt());
@@ -37,7 +37,7 @@ describe("ParentModel unit tests", () => {
     it('should throw an error', () =>{
         let parentWithoutStudent = DomainMocks.mockParentWithoutStudent();
         try {
-            let model = ParentEntity.toParentModel(parentWithoutStudent);
+            let model = ParentEntity.toParentEntity(parentWithoutStudent);
         } catch (error) {
             expect(error.message).toEqual('should inform at least one student')
         }

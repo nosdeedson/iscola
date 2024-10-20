@@ -13,7 +13,7 @@ export class ParentEntity extends PersonEntity {
     @ManyToMany(() => StudentEntity, student => student.parents, {onDelete: 'CASCADE'})
     students: StudentEntity[];
 
-    static toParentModel(parent: Parent): ParentEntity {
+    static toParentEntity(parent: Parent): ParentEntity {
         let model = new ParentEntity();
         model.birthday = parent.getBirthday();
         model.createdAt = parent.getCreatedAt();
@@ -44,7 +44,7 @@ export class ParentEntity extends PersonEntity {
     }
 
     static toParentsModels(parents: Parent[]): ParentEntity[] {
-        let models = parents.map(it => this.toParentModel(it));
+        let models = parents.map(it => this.toParentEntity(it));
         return models;
     }
 }

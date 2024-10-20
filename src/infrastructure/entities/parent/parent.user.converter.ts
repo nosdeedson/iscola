@@ -5,7 +5,7 @@ import { ParentEntity } from "./parent.entity";
 export class ParentUserConverter implements UserConverter<Parent>{
 
     converter(entity: Parent): ParentEntity {
-        return ParentEntity.toParentModel(entity);
+        return ParentEntity.toParentEntity(entity);
     }
     
 }

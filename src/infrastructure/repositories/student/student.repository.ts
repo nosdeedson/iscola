@@ -38,7 +38,8 @@ export class StudentRepository implements StudentRepositoryInterface{
         return await this.studentRepository.findOne({
             where: {id: id},
             relations: {
-                schoolGroup: true
+                schoolGroup: true,
+                parents: true,
             }
         });
     }

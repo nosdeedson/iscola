@@ -59,8 +59,10 @@ export class UserEntity extends GenericEntity{
         } else if(user.getAccessType() == AccessType.TEACHER) {
             let teacher = user.getPerson() as Worker;
             let schoolGroups = teacher.getClasses();
-            let modelOfClass = ClassEntity.toClassEntity(schoolGroups[0])
-            userModel.person = new WorkerUserconverter().converter(teacher, modelOfClass)
+            if(schoolGroups){
+                let modelOfClass = ClassEntity.toClassEntity(schoolGroups[0])
+                userModel.person = new WorkerUserconverter().converter(teacher, modelOfClass)
+            }
         } else {
             throw new Error("access type does not exist")
         }

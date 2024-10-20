@@ -1,7 +1,6 @@
 import { UserRepositoryInterface } from "src/domain/user/user.repository.interface";
-import { UpdateUserDto } from "./update.user.dto";
-import { UserEntity } from "src/infrastructure/entities/user/user.entity";
 import { SystemError } from "src/usecases/@shared/system-error";
+import { UpdateUserDto } from "./update.user.dto";
 
 export class UpdateUserUseCase{
 
@@ -23,7 +22,6 @@ export class UpdateUserUseCase{
             user.email = dto?.email ? dto.email : user.email;
             user.nickname = dto?.nickname ? dto.nickname : user.nickname;
             user.password = dto?.password ? dto.password : user.password;
-            console.log(user);
             await this.userRepository.update(user, dto.id);
         }
     }

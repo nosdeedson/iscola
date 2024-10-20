@@ -4,6 +4,7 @@ import { StudentValidator } from "./student.validator";
 import { Rating } from "../rating/rating";
 import { Class } from "../class/class";
 import { StudentEntity } from "src/infrastructure/entities/student/student.entity";
+import { ParentEntity } from "src/infrastructure/entities/parent/parent.entity";
 
 export class Student extends Person {
    
@@ -66,11 +67,17 @@ export class Student extends Person {
     }
 
     static toDomain(entity: StudentEntity): Student {
+        let parents = [];
+        if(entity?.parents.length > 0){
+            entity.parents.forEach(it => {
+                parents.push(Parent.toDomain(it));
+            })
+        }
         return new Student(
             entity.birthday,
             entity.fullName,
             entity.enrolled,
-            [],
+            parents,
             entity.id,
             entity.createdAt,
             entity.updatedAt,
