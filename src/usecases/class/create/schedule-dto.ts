@@ -1,7 +1,7 @@
 export class ScheduleDto{
 
     dayOfWeeks: string[];
-    times: Map<string, string>
+    times: Map<string, string>;
      
     constructor(
         dayOfWeeks: string[],
