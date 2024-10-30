@@ -27,8 +27,7 @@ export class CommentEntity extends GenericEntity {
     @Column({
         nullable: false,
         name: 'id_person_have_done',
-        type: 'varchar',
-        length: 40
+        type: 'uuid',
     })
     idPersonHaveDone: string;
 
@@ -42,7 +41,7 @@ export class CommentEntity extends GenericEntity {
     })
     rantig: RatingEntity;
 
-    static toCommentModel(comment: Comment, rating: RatingEntity): CommentEntity {
+    static toCommentEntity(comment: Comment, rating: RatingEntity): CommentEntity {
         let model = new CommentEntity();
         model.comment = comment.getComment();
         model.commentDate = comment.getCommentDate();
@@ -55,10 +54,10 @@ export class CommentEntity extends GenericEntity {
         return model;
     }
 
-    static toCommentsModels(comments: Comment[], rating: RatingEntity): CommentEntity[] {
+    static toCommentsEntity(comments: Comment[], rating: RatingEntity): CommentEntity[] {
         let models : CommentEntity[] = []
         comments.forEach(it => {
-            models.push(this.toCommentModel(it, rating));
+            models.push(this.toCommentEntity(it, rating));
         })
         return models;
     }

@@ -96,7 +96,7 @@ describe('CommentRepository unit test', () => {
         //let entityBD = await ratingRepository.find(ratingEntity.id);
 
         let comment = DomainMocks.mockComment();
-        let model = CommentEntity.toCommentModel(comment, ratingEntity);
+        let model = CommentEntity.toCommentEntity(comment, ratingEntity);
         let wantedId = comment.getId();
         await repository.create(model);
 
@@ -129,7 +129,7 @@ describe('CommentRepository unit test', () => {
         let wantedId = '489f0126-e7ca-44d6-8b11-13b61adc35d6';
         let wantedComment = 'just a test';
         let comment = new Comment(wantedComment, 'f07d183f-eb37-417e-8a58-ad9ed4b3910f', new Date(), wantedId );
-        let model = CommentEntity.toCommentModel(comment, ratingEntity);
+        let model = CommentEntity.toCommentEntity(comment, ratingEntity);
         await repository.create(model);
 
         expect( await repository.delete(wantedId)).toBe(void 0)
@@ -159,7 +159,7 @@ describe('CommentRepository unit test', () => {
         let wantedId = 'd70bc62e-a53d-4cef-8366-de63099ebf4d';
         let wantedComment = 'just a test';
         let comment = new Comment(wantedComment, 'f07d183f-eb37-417e-8a58-ad9ed4b3910f', new Date(), '489f0126-e7ca-44d6-8b11-13b61adc35d6' );
-        let model = CommentEntity.toCommentModel(comment, ratingEntity);
+        let model = CommentEntity.toCommentEntity(comment, ratingEntity);
         await repository.create(model);
 
         expect( await repository.delete(wantedId)).toBe(void 0)
@@ -188,7 +188,7 @@ describe('CommentRepository unit test', () => {
         let wantedId = '489f0126-e7ca-44d6-8b11-13b61adc35d6';
         let wantedComment = 'just a test';
         let comment = new Comment(wantedComment, 'f07d183f-eb37-417e-8a58-ad9ed4b3910f', new Date(), wantedId );
-        let model = CommentEntity.toCommentModel(comment, ratingEntity);
+        let model = CommentEntity.toCommentEntity(comment, ratingEntity);
         await repository.create(model);
 
         let result = await repository.find(wantedId);
@@ -217,11 +217,11 @@ describe('CommentRepository unit test', () => {
         await ratingRepository.create(ratingEntity);
 
         let comment = new Comment('just a comment', 'f07d183f-eb37-417e-8a58-ad9ed4b3910f', new Date() );
-        let model = CommentEntity.toCommentModel(comment, ratingEntity);
+        let model = CommentEntity.toCommentEntity(comment, ratingEntity);
         await repository.create(model);
 
         let comment2 = new Comment('just another comment', 'f07d183f-eb37-417e-8a58-ad9ed4b3910f', new Date() );
-        let model2 = CommentEntity.toCommentModel(comment2, ratingEntity);
+        let model2 = CommentEntity.toCommentEntity(comment2, ratingEntity);
         await repository.create(model2);
 
         let results = await repository.findAll();
@@ -255,7 +255,7 @@ describe('CommentRepository unit test', () => {
         let wantedId = '489f0126-e7ca-44d6-8b11-13b61adc35d6';
         let wantedComment = 'just a test';
         let comment = new Comment(wantedComment, 'f07d183f-eb37-417e-8a58-ad9ed4b3910f', new Date(), wantedId );
-        let model = CommentEntity.toCommentModel(comment, ratingEntity);
+        let model = CommentEntity.toCommentEntity(comment, ratingEntity);
         await repository.create(model);
 
         let change = 'changed the comment';

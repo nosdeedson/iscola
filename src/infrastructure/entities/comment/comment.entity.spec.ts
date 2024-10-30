@@ -4,7 +4,6 @@ import { RatingEntity } from "../rating/rating.entity";
 import { CommentEntity } from "./comment.entity";
 
 
-
 jest.mock('../../../domain/rating/rating')
 
 describe("CommentModel unit tests", () => {
@@ -25,7 +24,7 @@ describe("CommentModel unit tests", () => {
 
     it('should instantiate a comment from Comment domain', () => {
         
-        const model = CommentEntity.toCommentModel(comment, ratingModel);
+        const model = CommentEntity.toCommentEntity(comment, ratingModel);
 
         expect(model).toBeDefined();
         expect(model.comment).toEqual(comment.getComment());
