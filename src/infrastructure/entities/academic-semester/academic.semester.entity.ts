@@ -40,7 +40,7 @@ export class AcademicSemesterEntity extends GenericEntity {
         model.endingDate = semester.getEndingDate();
         model.id = semester.getId();
         model.updatedAt = semester.getUpdatedAt()
-        model.ratings = RatingEntity.toRatingsModels(semester.getRating());
+        model.ratings = RatingEntity.toRatingsEntity(semester.getRating());
 
         return model;
     }

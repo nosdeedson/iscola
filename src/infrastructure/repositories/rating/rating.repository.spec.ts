@@ -62,7 +62,7 @@ describe('RatingRepository unit tests', () =>{
         await studentRepository.create(studentEntity);
 
         let rating = new Rating(semester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD,)
-        let ratingEntity = RatingEntity.toRatingModel(rating);
+        let ratingEntity = RatingEntity.toRatingEntity(rating);
         let wantedId = rating.getId();
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
 
@@ -81,7 +81,7 @@ describe('RatingRepository unit tests', () =>{
         await studentRepository.create(studentEntity);
 
         let rating = new Rating(semester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD,)
-        let ratingEntity = RatingEntity.toRatingModel(rating);
+        let ratingEntity = RatingEntity.toRatingEntity(rating);
         let wantedId = rating.getId();
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
         let result = await ratingRepository.find(wantedId);
@@ -99,7 +99,7 @@ describe('RatingRepository unit tests', () =>{
         await studentRepository.create(studentEntity);
 
         let rating = new Rating(semester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD,)
-        let ratingEntity = RatingEntity.toRatingModel(rating);
+        let ratingEntity = RatingEntity.toRatingEntity(rating);
         let wantedId = rating.getId();
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
         let result = await ratingRepository.find(wantedId);
@@ -118,10 +118,10 @@ describe('RatingRepository unit tests', () =>{
         await studentRepository.create(studentEntity);
 
         let rating = new Rating(semester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, '1cfb1c26-5e1e-449e-bdbe-1749bc035379')
-        let ratingEntity = RatingEntity.toRatingModel(rating);
+        let ratingEntity = RatingEntity.toRatingEntity(rating);
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
         let rating2 = new Rating(semester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, 'd146249c-0341-4c52-bd02-421f104e5c45')
-        let ratingEntity2 = RatingEntity.toRatingModel(rating2);
+        let ratingEntity2 = RatingEntity.toRatingEntity(rating2);
         expect(await ratingRepository.create(ratingEntity2)).toBe(void 0);
         let results = await ratingRepository.findAll();
         expect(results).toBeDefined();
@@ -140,7 +140,7 @@ describe('RatingRepository unit tests', () =>{
         await studentRepository.create(studentEntity);
 
         let rating = new Rating(semester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD,)
-        let ratingEntity = RatingEntity.toRatingModel(rating);
+        let ratingEntity = RatingEntity.toRatingEntity(rating);
         let wantedId = rating.getId();
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
 

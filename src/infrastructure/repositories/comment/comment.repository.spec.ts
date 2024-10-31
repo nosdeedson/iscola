@@ -90,7 +90,7 @@ describe('CommentRepository unit test', () => {
         parent.setStudents([student])
 
         let rating = DomainMocks.mockRatingWithStudent(student);
-        ratingEntity = RatingEntity.toRatingModel(rating);
+        ratingEntity = RatingEntity.toRatingEntity(rating);
         await ratingRepository.create(ratingEntity);
 
         //let entityBD = await ratingRepository.find(ratingEntity.id);
@@ -122,7 +122,7 @@ describe('CommentRepository unit test', () => {
         parent.setStudents([student])
 
         let rating = DomainMocks.mockRatingWithStudent(student);
-        ratingEntity = RatingEntity.toRatingModel(rating);
+        ratingEntity = RatingEntity.toRatingEntity(rating);
         await ratingRepository.create(ratingEntity);
 
         //let entityBD = await ratingRepository.find(ratingEntity.id);
@@ -152,7 +152,7 @@ describe('CommentRepository unit test', () => {
         parent.setStudents([student])
 
         let rating = DomainMocks.mockRatingWithStudent(student);
-        ratingEntity = RatingEntity.toRatingModel(rating);
+        ratingEntity = RatingEntity.toRatingEntity(rating);
         await ratingRepository.create(ratingEntity);
 
         //let entityBD = await ratingRepository.find(ratingEntity.id);
@@ -181,7 +181,7 @@ describe('CommentRepository unit test', () => {
         parent.setStudents([student])
 
         let rating = DomainMocks.mockRatingWithStudent(student);
-        ratingEntity = RatingEntity.toRatingModel(rating);
+        ratingEntity = RatingEntity.toRatingEntity(rating);
         await ratingRepository.create(ratingEntity);
 
         //let entityBD = await ratingRepository.find(ratingEntity.id);
@@ -213,7 +213,7 @@ describe('CommentRepository unit test', () => {
         parent.setStudents([student])
 
         let rating = DomainMocks.mockRatingWithStudent(student);
-        ratingEntity = RatingEntity.toRatingModel(rating);
+        ratingEntity = RatingEntity.toRatingEntity(rating);
         await ratingRepository.create(ratingEntity);
 
         let comment = new Comment('just a comment', 'f07d183f-eb37-417e-8a58-ad9ed4b3910f', new Date() );
@@ -249,7 +249,7 @@ describe('CommentRepository unit test', () => {
         parent.setStudents([student])
 
         let rating = DomainMocks.mockRatingWithStudent(student);
-        ratingEntity = RatingEntity.toRatingModel(rating);
+        ratingEntity = RatingEntity.toRatingEntity(rating);
         await ratingRepository.create(ratingEntity);
 
         let wantedId = '489f0126-e7ca-44d6-8b11-13b61adc35d6';

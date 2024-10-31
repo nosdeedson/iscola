@@ -135,7 +135,7 @@ export class RatingEntity extends GenericEntity {
     })
     student: StudentEntity;
 
-    static toRatingModel(rating: Rating): RatingEntity {
+    static toRatingEntity(rating: Rating): RatingEntity {
         let model = new RatingEntity();
         model.createdAt = rating.getCreatedAt();
         model.deletedAt = rating.getDeletedAt();
@@ -154,11 +154,11 @@ export class RatingEntity extends GenericEntity {
         return model;
     }
 
-    static toRatingsModels(ratings: Rating[]): RatingEntity[] {
+    static toRatingsEntity(ratings: Rating[]): RatingEntity[] {
         if (!ratings) {
             return undefined
         }
-        return ratings.map(it => this.toRatingModel(it));
+        return ratings.map(it => this.toRatingEntity(it));
     }
 
 }

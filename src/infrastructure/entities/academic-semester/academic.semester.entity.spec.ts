@@ -6,7 +6,7 @@ describe("AcademicSemester unit test", () => {
 
 
     it('should instantiate an AcademicSemesterModel from AcademicSemester', () => {
-        const ratingFile = jest.spyOn(RatingEntity, 'toRatingsModels')
+        const ratingFile = jest.spyOn(RatingEntity, 'toRatingsEntity')
         // first August 2024
         const aValidBeginnig = new Date(2024, 7, 1, 0, 0, 0);
         // 29 November 2024

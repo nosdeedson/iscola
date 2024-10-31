@@ -18,7 +18,7 @@ describe('RatingModel test units', () =>{
 
     it('should instantiate a RatingModel', () => {
 
-        let model = RatingEntity.toRatingModel(rating);
+        let model = RatingEntity.toRatingEntity(rating);
         expect(model.id).toBeDefined();
         expect(model.createdAt).toBeDefined();
         expect(model.deletedAt).toBeUndefined();
@@ -37,7 +37,7 @@ describe('RatingModel test units', () =>{
     });
 
     it('should convert an array of Rating to RatingModel', () =>{
-        let models = RatingEntity.toRatingsModels(ratings);
+        let models = RatingEntity.toRatingsEntity(ratings);
         expect(models).toBeDefined();
         expect(models.length).toBe(2);
         expect(models[0].id).toStrictEqual(rating.getId());
