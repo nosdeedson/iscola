@@ -7,7 +7,7 @@ export class UpdateCommentDto{
         idComment: string,
         comment: string
     ){
-        this.idComment = this.idComment;
-        this.comment = this.comment;
+        this.idComment = idComment;
+        this.comment = comment;
     }
 }

@@ -51,12 +51,11 @@ export class CommentRepository implements CommentRepositoryInterface{
         await this.dataSource.createQueryBuilder()
             .update(CommentEntity)
             .set(
-                {
-                    comment: entity.comment
-                }
+                { ...entity }
             )
             .where('id= :id', {id : id})
             .execute();
+        //this.commentRepository.save(entity);
     }
     
 }
