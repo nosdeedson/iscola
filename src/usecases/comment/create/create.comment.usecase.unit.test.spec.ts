@@ -11,7 +11,7 @@ describe('create comment use case unit test', () =>{
         const commentRepository = MockRepositoriesForUnitTest.mockRepositories();
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
         
-        const dto = new CreateCommentDto('test a test', '0e2189bd-8f47-4665-90b3-53191b52e606', new Date(), "55c63535-25f8-471e-8184-d1f1d44a042c");
+        const dto = new CreateCommentDto('test a test', '0e2189bd-8f47-4665-90b3-53191b52e606', "55c63535-25f8-471e-8184-d1f1d44a042c");
 
         const usecase = new CreateCommentUseCase(commentRepository,ratingRepository);
         try {
@@ -38,7 +38,7 @@ describe('create comment use case unit test', () =>{
                 return entity
             })
         
-        const dto = new CreateCommentDto('test a test', '0e2189bd-8f47-4665-90b3-53191b52e606', new Date(), rating.getId());
+        const dto = new CreateCommentDto('test a test', '0e2189bd-8f47-4665-90b3-53191b52e606', rating.getId());
 
         const usecase = new CreateCommentUseCase(commentRepository,ratingRepository);
         expect(await usecase.execute(dto)).toBe(void 0);

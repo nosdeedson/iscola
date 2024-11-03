@@ -10,12 +10,10 @@ export class CommentValidator implements Validator<Comment>{
                 .shape({
                     comment: yup.string().required('add a comment'),
                     idPersonHadDone: yup.number().required('id of the person that have done the comment'),
-                    commentDate: yup.date().required('inform the date of the comment')
                 })
                 .validateSync({
                     comment: entity.getComment(),
                     idPersonHadDone: entity.getIdPersonHadDone(),
-                    commentDate: entity.getCommentDate()
                 },{
                     abortEarly: false
                 })

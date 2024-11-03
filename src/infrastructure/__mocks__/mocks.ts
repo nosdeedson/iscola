@@ -42,7 +42,7 @@ const userAdmin = new User(admin, 'teste@teste', 'edson', '123', AccessType.ADMI
 const userParent = new User(parent, 'teste@teste', 'edson', '123', AccessType.PARENT);
 const userStudent = new User(student, 'teste@teste', 'edson', '123', AccessType.STUDENT);
 const userTeacher = new User(teacher, 'teste@teste', 'edson', '123', AccessType.TEACHER);
-const comment = new Comment("just a comment", '85e71875-289c-48b1-82b1-8c4f9ae16104', new Date());
+const comment = new Comment("just a comment", '85e71875-289c-48b1-82b1-8c4f9ae16104');
 
 const user1 = new User(teacher, 'teste@email', 'jose', '123', AccessType.TEACHER);
 const user2 = new User(student, 'teste@email', 'jose', '123', AccessType.TEACHER);

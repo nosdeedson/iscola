@@ -77,7 +77,7 @@ describe('create comment usecase integration tests', () =>{
     });
 
     it('should throw a systemError', async () =>{
-        const dto = new CreateCommentDto('test a test', '0e2189bd-8f47-4665-90b3-53191b52e606', new Date(), "55c63535-25f8-471e-8184-d1f1d44a042c");
+        const dto = new CreateCommentDto('test a test', '0e2189bd-8f47-4665-90b3-53191b52e606', "55c63535-25f8-471e-8184-d1f1d44a042c");
         const usecase = new CreateCommentUseCase(commentRepository, ratingRepository);
 
         try {
@@ -114,7 +114,7 @@ describe('create comment usecase integration tests', () =>{
         let idPersonHaveDone = student.getId();
         let idRating = rating.getId();
 
-        const dto = new CreateCommentDto('test a test', idPersonHaveDone, new Date(), idRating);
+        const dto = new CreateCommentDto('test a test', idPersonHaveDone, idRating);
         const usecase = new CreateCommentUseCase(commentRepository, ratingRepository);
         let results = await commentRepository.findAll();
         expect(results.length).toBe(0);

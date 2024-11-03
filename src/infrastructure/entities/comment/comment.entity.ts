@@ -19,13 +19,6 @@ export class CommentEntity extends GenericEntity {
 
     @Column({
         nullable: false,
-        name: 'comment_date',
-        type: 'timestamp with time zone'
-    })
-    commentDate: Date;
-
-    @Column({
-        nullable: false,
         name: 'id_person_have_done',
         type: 'uuid',
     })
@@ -44,7 +37,6 @@ export class CommentEntity extends GenericEntity {
     static toCommentEntity(comment: Comment, rating: RatingEntity): CommentEntity {
         let model = new CommentEntity();
         model.comment = comment.getComment();
-        model.commentDate = comment.getCommentDate();
         model.createdAt = comment.getCreatedAt();
         model.deletedAt = comment.getDeletedAt();
         model.updatedAt = comment.getUpdatedAt();

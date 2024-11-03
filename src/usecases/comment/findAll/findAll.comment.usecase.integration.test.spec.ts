@@ -1,18 +1,20 @@
-import { AppDataSourceMock } from "src/infrastructure/__mocks__/appDataSourceMock";
-import { AcademicSemesterEntity } from "src/infrastructure/entities/academic-semester/academic.semester.entity";
-import { CommentEntity } from "src/infrastructure/entities/comment/comment.entity";
-import { ParentEntity } from "src/infrastructure/entities/parent/parent.entity";
-import { RatingEntity } from "src/infrastructure/entities/rating/rating.entity";
-import { StudentEntity } from "src/infrastructure/entities/student/student.entity";
-import { AcademicSemesterRepository } from "src/infrastructure/repositories/academic-semester/academic-semester.repository";
-import { CommentRepository } from "src/infrastructure/repositories/comment/comment.respository";
-import { ParentRepository } from "src/infrastructure/repositories/parent/parent.repository";
-import { RatingRepositiry } from "src/infrastructure/repositories/rating/rating.repository";
-import { StudentRepository } from "src/infrastructure/repositories/student/student.repository";
-import { DeleteCommentUseCase } from './delete.comment.usecase';
-import { DomainMocks } from "src/infrastructure/__mocks__/mocks";
+import { Comment } from "../../../domain/comment/comment";
+import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
+import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
+import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
+import { CommentEntity } from "../../../infrastructure/entities/comment/comment.entity";
+import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
+import { RatingEntity } from "../../../infrastructure/entities/rating/rating.entity";
+import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
+import { AcademicSemesterRepository } from "../../../infrastructure/repositories/academic-semester/academic-semester.repository";
+import { CommentRepository } from "../../../infrastructure/repositories/comment/comment.respository";
+import { ParentRepository } from "../../../infrastructure/repositories/parent/parent.repository";
+import { RatingRepositiry } from "../../../infrastructure/repositories/rating/rating.repository";
+import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
+import { FindAllCommentUseCase } from './findAll.comment.usecase';
 
-describe('deleteCommentUsecase integration test', () =>{
+
+describe('findAllCommentUseCase integration tests', () =>{
 
     let appDataSource;
     let commentEntity;
@@ -75,13 +77,14 @@ describe('deleteCommentUsecase integration test', () =>{
         expect(commentRepository).toBeDefined();
     });
 
-    it('given an id that does not exist should not trhow error', async () =>{
-        let wantedId = '2c1d88fb-462e-4e8b-bcb1-27119dac4317';
-        const usecase = new DeleteCommentUseCase(commentRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
-    })
+    it('should return an empty array', async () =>{
+        const usecase = new FindAllCommentUseCase(commentRepository);
+        const results = await usecase.execute();
+        expect(results).toBeDefined();
+        expect(results.all.length).toBe(0);
+    });
 
-    it('given a valid comment should delete it on BD', async () =>{
+    it('should find all comments', async () =>{
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
         expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
@@ -96,19 +99,24 @@ describe('deleteCommentUsecase integration test', () =>{
 
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
 
+        const usecase = new FindAllCommentUseCase(commentRepository);
+
+        let results = await usecase.execute()
+        expect(results.all.length).toBe(0);
+
         let comment = DomainMocks.mockComment(); 
         let commentEntity = CommentEntity.toCommentEntity(comment, ratingEntity);
-        let wantedId = comment.getId();
         expect(await commentRepository.create(commentEntity)).toBe(void 0);
+
+        let comment1 = new Comment('another comment', comment.getIdPersonHadDone());
+        const commentEntity1 = CommentEntity.toCommentEntity(comment1, ratingEntity);
+        expect(await commentRepository.create(commentEntity1)).toBe(void 0);
         
-        let result = await commentRepository.find(wantedId);
-        expect(result).toBeDefined();
+        results = await usecase.execute();
 
-        const usecase = new DeleteCommentUseCase(commentRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
-        result = await commentRepository.find(wantedId);
-        expect(result).toBeNull();
-    });
-
-
+        expect(results).toBeDefined()
+        expect(results.all.length).toBe(2);
+        expect(results.all[0].idComment).toBe(comment.getId());
+        expect(results.all[1].idComment).toBe(comment1.getId());
+    })
 })

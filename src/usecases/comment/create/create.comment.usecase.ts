@@ -25,7 +25,7 @@ export class CreateCommentUseCase{
             if(!ratingEntity){
                 throw new SystemError([{context: 'comment', message: 'Rating not found'}]);
             }
-            let comment = new Comment(dto.comment, dto.idPersonHaveDone, dto.commentDate);
+            let comment = new Comment(dto.comment, dto.idPersonHaveDone);
             let entity = CommentEntity.toCommentEntity(comment, ratingEntity);
             await this.commentRepository.create(entity);
         } catch(error){

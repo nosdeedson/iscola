@@ -16,8 +16,8 @@ describe("CommentModel unit tests", () => {
     
     beforeEach(() =>{
         ratingModel = new RatingEntity();
-        comment = new Comment("comment", '123', new Date());
-        comment1 = new Comment("comment1", '123', new Date());
+        comment = new Comment("comment", '123');
+        comment1 = new Comment("comment1", '123');
         comments.push(comment)
         comments.push(comment1)
     })
@@ -28,7 +28,6 @@ describe("CommentModel unit tests", () => {
 
         expect(model).toBeDefined();
         expect(model.comment).toEqual(comment.getComment());
-        expect(model.commentDate).toEqual(comment.getCommentDate());
         expect(model.createdAt).toEqual(comment.getCreatedAt());
         expect(model.deletedAt).toEqual(comment.getDeletedAt());
         expect(model.id).toEqual(comment.getId());
