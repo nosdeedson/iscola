@@ -44,6 +44,14 @@ export class StudentRepository implements StudentRepositoryInterface{
         });
     }
 
+
+    async findStudentsByIds(studentsIds: string): Promise<StudentEntity[]> {
+        return await this.dataSource.createQueryBuilder(StudentEntity, 'student')
+            .where('student.id IN (:...ids)', {ids: studentsIds})
+            .orderBy('student.id')
+            .getMany();
+    }
+
     async findAll(): Promise<StudentEntity[]> {
         return await this.studentRepository.find();
     }

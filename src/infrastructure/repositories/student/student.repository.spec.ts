@@ -6,6 +6,7 @@ import { StudentRepository } from '../../repositories/student/student.repository
 import { ClassRepository } from '../../repositories/class/class.repository';
 import { Class } from "../../../domain/class/class";
 import { PersonEntity } from "../../entities/@shared/person.entity";
+import { Student } from "../../../domain/student/student";
 
 const MILISECONDS = 1000;
 
@@ -76,6 +77,25 @@ describe('StudentRepository unit test', () =>{
         
         let result = await studentRepository.find(wantedId);
         expect(result).toBeDefined();
+        expect(result.id).toBe(wantedId);
+    });
+
+    it('should find all students by ids in BD', async () => {
+        let student1 = DomainMocks.mockStudent();
+        let model1 = StudentEntity.toStudentEntity(student1);
+        expect(await studentRepository.create(model1)).toBe(void 0);
+
+        let student2 = new Student(new Date, 'edson', '123', student1.getParents());
+        let model2 = StudentEntity.toStudentEntity(student2);
+        expect(await studentRepository.create(model2)).toBe(void 0);
+        
+        let wantedIds = [student1.getId(), student2.getId()];
+
+        let results = await studentRepository.findStudentsByIds(wantedIds)
+        expect(results).toBeDefined();
+        expect(results.length).toBe(2);
+        expect(results[0].id).toBe(wantedIds[0]);
+        expect(results[1].id).toBe(wantedIds[1]);
     });
 
 
