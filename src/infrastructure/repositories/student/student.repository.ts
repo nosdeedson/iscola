@@ -1,14 +1,14 @@
-import { StudentEntity } from '../../../infrastructure/entities/student/student.entity';
-import { StudentRepositoryInterface } from '../../../domain/student/student.repository.interface';
 import { DataSource, QueryFailedError, Repository } from 'typeorm';
+import { StudentRepositoryInterface } from '../../../domain/student/student.repository.interface';
+import { StudentEntity } from '../../../infrastructure/entities/student/student.entity';
 
 
-export class StudentRepository implements StudentRepositoryInterface{
+export class StudentRepository implements StudentRepositoryInterface {
 
     constructor(
         private studentRepository: Repository<StudentEntity>,
         private dataSource: DataSource
-    ){}
+    ) { }
 
     async create(entity: StudentEntity): Promise<void> {
         const queryRunner = this.dataSource.createQueryRunner();
@@ -36,7 +36,7 @@ export class StudentRepository implements StudentRepositoryInterface{
 
     async find(id: string): Promise<StudentEntity> {
         return await this.studentRepository.findOne({
-            where: {id: id},
+            where: { id: id },
             relations: {
                 schoolGroup: true,
                 parents: true,
@@ -47,7 +47,7 @@ export class StudentRepository implements StudentRepositoryInterface{
 
     async findStudentsByIds(studentsIds: string): Promise<StudentEntity[]> {
         return await this.dataSource.createQueryBuilder(StudentEntity, 'student')
-            .where('student.id IN (:...ids)', {ids: studentsIds})
+            .where('student.id IN (:...ids)', { ids: studentsIds })
             .orderBy('student.id')
             .getMany();
     }
@@ -56,15 +56,8 @@ export class StudentRepository implements StudentRepositoryInterface{
         return await this.studentRepository.find();
     }
 
-    async update(entity: StudentEntity, id: string) {
-        this.studentRepository.save(entity);
-        // this.dataSource.createQueryBuilder()
-        //     .update(StudentEntity)
-        //     .set({
-        //         schoolGroup: entity.schoolGroup
-        //     })
-        //     .where({id: id})
-        //     .execute();
+    async update(entity: StudentEntity) {
+        await this.studentRepository.save(entity);
     }
 
 }

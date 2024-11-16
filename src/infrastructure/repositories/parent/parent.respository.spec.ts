@@ -1,4 +1,5 @@
 import { Parent } from "../../../domain/parent/parent";
+import { Student } from "../../../domain/student/student";
 import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../__mocks__/mocks";
 import { PersonEntity } from "../../entities/@shared/person.entity";
@@ -28,9 +29,6 @@ describe('ParentRepository unit test', () =>{
     });
 
     afterEach( async () =>{
-        // await parentModel.query('delete from person cascade');
-        // await studentModel.query('delete from person cascade');
-
         await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
         await appDataSource.destroy();
     })
@@ -39,11 +37,16 @@ describe('ParentRepository unit test', () =>{
         expect(parentRepository).toBeDefined();
     });
 
-
     it('should save a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
         let model = ParentEntity.toParentEntity(parent);
         let wantedId = parent.getId();
+
+        let student = parent.getStudents()[0];
+        let studentEntity = StudentEntity.toStudentEntity(student);
+
+        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+
         expect(await parentRepository.create(model)).toBe(void 0);
 
         let result = await parentRepository.find(wantedId);
@@ -54,6 +57,12 @@ describe('ParentRepository unit test', () =>{
     it('should delete a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
         let model = ParentEntity.toParentEntity(parent);
+
+        let student = parent.getStudents()[0];
+        let studentEntity = StudentEntity.toStudentEntity(student);
+
+        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+
         let wantedId = parent.getId();
         await parentRepository.create(model);
 
@@ -63,9 +72,14 @@ describe('ParentRepository unit test', () =>{
         expect(await parentRepository.delete(wantedId)).toBe(void 0);
     });
 
-    it('should do anything if parent model does not exist', async () => {
+    it('should not throw an error while finding a parent with no-existent id', async () => {
         let parent = DomainMocks.mockParent();
         let model = ParentEntity.toParentEntity(parent);
+
+        let student = parent.getStudents()[0];
+        let studentEntity = StudentEntity.toStudentEntity(student);
+
+        expect(await studentRepository.create(studentEntity)).toBe(void 0);
         let wantedId = '6a0e9000-c5f9-4dad-bd4a-e4642964c2fb';
         await parentRepository.create(model);
         let result = await parentRepository.find(parent.getId());
@@ -79,6 +93,10 @@ describe('ParentRepository unit test', () =>{
     it('should find a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
         let model = ParentEntity.toParentEntity(parent);
+        let student = parent.getStudents()[0];
+        let studentEntity = StudentEntity.toStudentEntity(student);
+
+        expect(await studentRepository.create(studentEntity)).toBe(void 0);
         let wantedId = parent.getId();
         await parentRepository.create(model);
 
@@ -88,33 +106,46 @@ describe('ParentRepository unit test', () =>{
     });
 
     it('should find all parent model to the BD', async () => {
-        let parent = new Parent(new Date(), 'maria', [DomainMocks.mockStudent()], '157db802-00d6-4d46-bf43-fc11bce8c54b')
-        let model = ParentEntity.toParentEntity(parent);
-        await parentRepository.create(model);
-        let parent2 = new Parent(new Date(), 'lucineia', [DomainMocks.mockStudent()], '890e0ad0-a084-46da-add6-a5e7589fdd19')
-        let model2 = ParentEntity.toParentEntity(parent2);
-        await parentRepository.create(model2);
+        let parent = DomainMocks.mockParent();
+        let parent1 = new Parent(new Date(), 'test', [parent.getStudents()[0]])
+
+        let student = parent.getStudents()[0];
+        let studentEntity = StudentEntity.toStudentEntity(student);
+
+        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+
+        let parentEntity = ParentEntity.toParentEntity(parent);
+        let parentEntity1 = ParentEntity.toParentEntity(parent1);
+        expect(await parentRepository.create(parentEntity)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity1)).toBe(void 0);
 
         let results = await parentRepository.findAll();
         expect(results).toBeDefined();
         expect(results.length).toBe(2);
+        expect(results[0].id).toBe(parent.getId());
+        expect(results[1].id).toBe(parent1.getId());
+        
     });
 
     it('should update a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
         let model = ParentEntity.toParentEntity(parent);
-        await parentRepository.create(model);
+        let student = parent.getStudents()[0];
+        let studentEntity = StudentEntity.toStudentEntity(student);
+        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await parentRepository.create(model)).toBe(void 0);
 
+        let anotherStudent = new Student(new Date, 'edson', '123', [parent], '8bb648b2-c0be-4164-a01a-9465d22aa269');
+        let anotherStudentEntity = StudentEntity.toStudentEntity(anotherStudent);
+
+        expect(await studentRepository.create(anotherStudentEntity)).toBe(void 0);
+
+        model.students.push(anotherStudentEntity);
+
+        expect(await parentRepository.update(model)).toBe(void 0);
         let result = await parentRepository.find(parent.getId());
         expect(result).toBeDefined();
-
-        model.birthday = new Date();
-        model.fullName = 'new name'
-        expect(await parentRepository.update(model, parent.getId())).toBe(void 0);
-        result = await parentRepository.find(parent.getId());
-        expect(result).toBeDefined();
-        expect(result.fullName).toEqual('new name');
-        expect(result.birthday.getTime()).toBeGreaterThan(parent.getBirthday().getTime());
+        expect(result.students.length).toBe(2);
     });
 
 })

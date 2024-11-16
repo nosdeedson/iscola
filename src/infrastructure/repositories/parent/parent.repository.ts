@@ -52,17 +52,8 @@ export class ParentRepository implements ParentReporitoryInterface{
         })
     }
 
-
-    async update(entity: ParentEntity, id: string) {
-        await this.dataSource.createQueryBuilder()
-            .update(ParentEntity)
-            .set({
-                updatedAt: new Date(),
-                birthday: entity.birthday,
-                fullName: entity.fullName,
-            })
-            .where( 'id= :id', { id: id})
-            .execute();
+    async update(entity: ParentEntity) {
+        await this.parentRepository.save(entity)
     }
     
 }

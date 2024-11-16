@@ -146,9 +146,9 @@ describe('RatingRepository unit tests', () =>{
 
         let wantedWriting = Grade.GOOD;
         let wantedListing = Grade.GOOD;
-        rating.setWriting(wantedWriting);
-        rating.setListing(wantedListing);
-        expect(await ratingRepository.update(rating, wantedId));
+        ratingEntity.writing = wantedWriting
+        ratingEntity.listing = wantedListing
+        expect(await ratingRepository.update(ratingEntity)).toBe(void 0);
 
         let result = await ratingRepository.find(wantedId);
         expect(result).toBeDefined();

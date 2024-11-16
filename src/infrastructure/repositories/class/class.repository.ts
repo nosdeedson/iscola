@@ -67,7 +67,7 @@ export class ClassRepository implements ClassRepositoryInterface {
         return all;
     }
 
-    async update(entity: ClassEntity, id: string) {
+    async update(entity: ClassEntity) {
         await this.dataSource.createQueryBuilder()
             .update(ClassEntity)
             .set({

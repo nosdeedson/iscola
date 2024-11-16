@@ -85,17 +85,17 @@ describe('StudentRepository unit test', () =>{
         let model1 = StudentEntity.toStudentEntity(student1);
         expect(await studentRepository.create(model1)).toBe(void 0);
 
-        let student2 = new Student(new Date, 'edson', '123', student1.getParents());
+        let student2 = new Student(new Date, 'edson', '123', student1.getParents(), '90be2abb-f2da-46c0-9fc8-520c988b34f9');
         let model2 = StudentEntity.toStudentEntity(student2);
         expect(await studentRepository.create(model2)).toBe(void 0);
         
-        let wantedIds = [student1.getId(), student2.getId()];
+        let wantedIds = [student1.getId(), '90be2abb-f2da-46c0-9fc8-520c988b34f9'];
 
         let results = await studentRepository.findStudentsByIds(wantedIds)
         expect(results).toBeDefined();
         expect(results.length).toBe(2);
-        expect(results[0].id).toBe(wantedIds[0]);
-        expect(results[1].id).toBe(wantedIds[1]);
+        expect(wantedIds).toContain(results[0].id);
+        expect(wantedIds).toContain(results[1].id);
     });
 
 

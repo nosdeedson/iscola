@@ -47,15 +47,8 @@ export class CommentRepository implements CommentRepositoryInterface{
         return await this.commentRepository.find();
     }
 
-    async update(entity: CommentEntity, id: string) {
-        await this.dataSource.createQueryBuilder()
-            .update(CommentEntity)
-            .set(
-                { ...entity }
-            )
-            .where('id= :id', {id : id})
-            .execute();
-        //this.commentRepository.save(entity);
+    async update(entity: CommentEntity) {
+       await this.commentRepository.save(entity);
     }
     
 }

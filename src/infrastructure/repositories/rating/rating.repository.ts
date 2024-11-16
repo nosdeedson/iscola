@@ -52,19 +52,8 @@ export class RatingRepositiry implements RatingRepositoryInterface{
         return all;
     }
 
-    async update(entity: RatingEntity, id: string) {
-        await this.dataSource.createQueryBuilder()
-            .update(RatingEntity)
-            .set({
-                writing : entity.writing,
-                listing : entity.listing,
-                reading : entity.reading,
-                speaking : entity.speaking,
-                grammar : entity.grammar,
-                homework : entity.homework,
-                vocabulary : entity.vocabulary,
-            })
-            .execute();
+    async update(entity: RatingEntity) {
+        await this.ratingRepository.save(entity)
     }
 
 }

@@ -1,8 +1,5 @@
-import { User } from "src/domain/user/user";
 import { UserRepositoryInterface } from "src/domain/user/user.repository.interface";
-import { PersonEntity } from "src/infrastructure/entities/@shared/person.entity";
 import { UserEntity } from "src/infrastructure/entities/user/user.entity";
-import { WorkerEntity } from "src/infrastructure/entities/worker/worker.entity";
 import { DataSource, Repository } from "typeorm";
 
 export class UserRepository implements UserRepositoryInterface{
@@ -44,7 +41,7 @@ export class UserRepository implements UserRepositoryInterface{
         return await this.userRespository.find()
     }
     
-    async update(entity: UserEntity, id: string): Promise<void> {
+    async update(entity: UserEntity): Promise<void> {
         this.userRespository.save(entity);
     }
 
