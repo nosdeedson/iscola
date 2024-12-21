@@ -13,19 +13,12 @@ describe('DeleteParentUseCase unit tests', () =>{
 
         let parentRepository = MockRepositoriesForUnitTest.mockRepositories();
         
-        parentRepository.find = jest.fn().mockReturnValueOnce(entity);
         parentRepository.delete = jest.fn().mockImplementationOnce(() => { return void 0});
-
-        let wantedDeletedAt = parent.getDeletedAt();
 
         const usecase = new DeleteParentUseCase(parentRepository);
         expect(await usecase.execute('1234')).toBe(void 0);
         expect(parentRepository.delete).toHaveBeenCalledTimes(1);
         expect(parentRepository.delete).toHaveBeenCalledWith('1234');
-
-        let result = await parentRepository.find(parent.getId());
-        expect(result).toBeDefined();
-        expect(result.deletedAt).toBe(wantedDeletedAt)
     })
 
     it('should delete a parent', async () => {

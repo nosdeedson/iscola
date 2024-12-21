@@ -1,11 +1,10 @@
-import { FindAllParentUseCase } from './findAll.parent.usecase';
 import { AppDataSourceMock } from '../../../infrastructure/__mocks__/appDataSourceMock';
-import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
 import { ParentEntity } from '../../../infrastructure/entities/parent/parent.entity';
-import { ParentRepository } from '../../../infrastructure/repositories/parent/parent.repository';
 import { StudentEntity } from '../../../infrastructure/entities/student/student.entity';
+import { ParentRepository } from '../../../infrastructure/repositories/parent/parent.repository';
 import { StudentRepository } from '../../../infrastructure/repositories/student/student.repository';
+import { FindAllParentUseCase } from './findAll.parent.usecase';
 
 
 describe('FindAllParentUseCase integration tests', () =>{

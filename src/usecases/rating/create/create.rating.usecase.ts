@@ -30,6 +30,7 @@ export class CreateRatingUseCase{
                 throw new SystemError(rating?.getNotification()?.getErrors());
             }
             const ratingEntity = RatingEntity.toRatingEntity(rating);
+            await this.ratingRepository.create(ratingEntity);
         } catch (error) {
             throw error;
         }
