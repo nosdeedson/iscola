@@ -68,9 +68,9 @@ describe('update rating service integration tests', () => {
         let wantedid = 'b4145be7-0fed-4a64-8a45-24bdd594cd20';
 
         let input = new UpdateRatingDto(wantedid, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD);
-        const usecase = new UpdateRatingService(ratingRepository);
+        const service = new UpdateRatingService(ratingRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error).toBeDefined()
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'Not found' }]);
@@ -93,8 +93,8 @@ describe('update rating service integration tests', () => {
         let wantedid = rating.getId();
 
         let input = new UpdateRatingDto(wantedid, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD);
-        const usecase = new UpdateRatingService(ratingRepository);
-        expect(await usecase.execute(input)).toBe(void 0);
+        const service = new UpdateRatingService(ratingRepository);
+        expect(await service.execute(input)).toBe(void 0);
         let result = await ratingRepository.find(wantedid);
         expect(result.listing).toBe(input.listing);
         expect(result.writing).toBe(input.writing);

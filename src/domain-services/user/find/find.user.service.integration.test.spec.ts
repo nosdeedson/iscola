@@ -53,8 +53,8 @@ describe('find user integration unit test', () =>{
         let entity = UserEntity.toUserEntity(user);
         let wantedId = user.getId();
         expect(await userRepository.create(entity)).toBe(void 0);
-        const usecase = new FindUserService(userRepository);
-        let result = await usecase.execute(wantedId);
+        const service = new FindUserService(userRepository);
+        let result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toBe(wantedId);
         expect(result.personId).toBe(person.getId());
@@ -68,9 +68,9 @@ describe('find user integration unit test', () =>{
         let entity = UserEntity.toUserEntity(user);
         let wantedId = 'f08a20a6-dc13-4e85-b716-3efefecd247a';
         expect(await userRepository.create(entity)).toBe(void 0);
-        const usecase = new FindUserService(userRepository);
+        const service = new FindUserService(userRepository);
         try{
-            let result = await usecase.execute(wantedId);
+            let result = await service.execute(wantedId);
         } catch(error){
             expect(error).toEqual( {errors: [ { context: 'user', message: 'user not found' } ]});
         }

@@ -12,9 +12,9 @@ describe('create comment use service unit test', () =>{
         
         const dto = new CreateCommentDto('test a test', '0e2189bd-8f47-4665-90b3-53191b52e606', "55c63535-25f8-471e-8184-d1f1d44a042c");
 
-        const usecase = new CreateCommentService(commentRepository,ratingRepository);
+        const service = new CreateCommentService(commentRepository,ratingRepository);
         try {
-            expect(await usecase.execute(dto)).toBe(void 0);
+            expect(await service.execute(dto)).toBe(void 0);
         } catch (error) {      
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject( [{
@@ -39,8 +39,8 @@ describe('create comment use service unit test', () =>{
         
         const dto = new CreateCommentDto('test a test', '0e2189bd-8f47-4665-90b3-53191b52e606', rating.getId());
 
-        const usecase = new CreateCommentService(commentRepository,ratingRepository);
-        expect(await usecase.execute(dto)).toBe(void 0);
+        const service = new CreateCommentService(commentRepository,ratingRepository);
+        expect(await service.execute(dto)).toBe(void 0);
         expect(commentRepository.create).toHaveBeenCalledTimes(1);
         expect(ratingRepository.find).toHaveBeenCalledTimes(1);
 

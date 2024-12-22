@@ -28,9 +28,9 @@ describe('update class service unit test', () =>{
         
         const classRepository = MockRepositoriesForUnitTest.mockRepositories();
         classRepository.find = jest.fn().mockImplementationOnce(() => {return null});
-        const usecase = new UpdateClassService(classRepository);
+        const service = new UpdateClassService(classRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error.errors).toMatchObject([{ "context": "class", "message": "class not found"}]);
             expect(classRepository.find).toHaveBeenCalledTimes(1);
@@ -48,9 +48,9 @@ describe('update class service unit test', () =>{
         const classRepository = MockRepositoriesForUnitTest.mockRepositories();
         classRepository.find = jest.fn().mockImplementationOnce(() => {return entity});
         classRepository.update = jest.fn().mockImplementationOnce(() => {entity.bookName = wantedBookName, entity.className = wantedClassName});
-        const usecase = new UpdateClassService(classRepository);
+        const service = new UpdateClassService(classRepository);
 
-        expect(await usecase.execute(input)).toBe(void 0);
+        expect(await service.execute(input)).toBe(void 0);
         expect(classRepository.find).toHaveBeenCalledWith(input.id);
         expect(classRepository.find).toHaveBeenCalledTimes(1);
         expect(classRepository.update).toHaveBeenCalledTimes(1);

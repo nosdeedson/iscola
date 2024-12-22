@@ -21,15 +21,15 @@ describe('DeleteWorkerService unit test', () => {
    
     it("should delete a worker ", async () => {
         const workerRepository = await MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new DeleteWorkerService(workerRepository);
-        expect(await usecase.execute(worker.getId()));
+        const service = new DeleteWorkerService(workerRepository);
+        expect(await service.execute(worker.getId()));
         expect(workerRepository.delete).toHaveBeenCalledTimes(1);
     })
 
     it("should do nothing", async () => {
         const workerRepository = await MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new DeleteWorkerService(workerRepository);
-        expect(await usecase.execute('invalid_id'));
+        const service = new DeleteWorkerService(workerRepository);
+        expect(await service.execute('invalid_id'));
         expect(workerRepository.delete).toHaveBeenCalledTimes(1);
     })
 

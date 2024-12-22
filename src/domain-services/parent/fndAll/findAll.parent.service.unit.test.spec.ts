@@ -11,8 +11,8 @@ describe('FindAllParentService unit tests', () =>{
         parentRepository.findAll = jest.fn().mockImplementationOnce(() => {
             return []
         });
-        const usecase = new FindAllParentService(parentRepository);
-        const results = await usecase.execute()
+        const service = new FindAllParentService(parentRepository);
+        const results = await service.execute()
         expect(results).toBeDefined();
         expect(results.all.length).toBe(0)
     })
@@ -24,8 +24,8 @@ describe('FindAllParentService unit tests', () =>{
         parentRepository.findAll = jest.fn().mockImplementationOnce(() => {
             return [entity]
         });
-        const usecase = new FindAllParentService(parentRepository);
-        const results = await usecase.execute()
+        const service = new FindAllParentService(parentRepository);
+        const results = await service.execute()
         expect(results).toBeDefined();
         expect(results.all.length).toBe(1);
         expect(results.all[0].id).toBe(parent.getId())

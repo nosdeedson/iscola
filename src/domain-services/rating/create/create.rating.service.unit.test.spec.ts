@@ -10,7 +10,7 @@ describe('CreateRatingService unit tests', () => {
     // period of rating must be informed
     it('should throw a systemError if semester is not present', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         const student = DomainMocks.mockStudent();
         let semester;
         const dto = new CreateRatingDto(
@@ -25,7 +25,7 @@ describe('CreateRatingService unit tests', () => {
             Grade.BAD,
         );
         try {
-            await usecase.execute(dto)
+            await service.execute(dto)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'period of rating must be informed' }]);
@@ -36,7 +36,7 @@ describe('CreateRatingService unit tests', () => {
     // student receiving rating must be informed
     it('should throw a systemError if student is not present', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         let student;
         let semester = DomainMocks.mockAcademicSemester();
         const dto = new CreateRatingDto(
@@ -51,7 +51,7 @@ describe('CreateRatingService unit tests', () => {
             Grade.BAD,
         );
         try {
-            await usecase.execute(dto)
+            await service.execute(dto)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'student receiving rating must be informed' }]);
@@ -61,7 +61,7 @@ describe('CreateRatingService unit tests', () => {
     // the listining skill must be informed
     it('should throw a systemError if listining is not graded ', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         let student = DomainMocks.mockStudent();
         let semester = DomainMocks.mockAcademicSemester();
         let listing;
@@ -77,7 +77,7 @@ describe('CreateRatingService unit tests', () => {
             Grade.BAD,
         );
         try {
-            await usecase.execute(dto)
+            await service.execute(dto)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the listining skill must be informed' }]);
@@ -87,7 +87,7 @@ describe('CreateRatingService unit tests', () => {
     // the writing skill must be informed
     it('should throw a systemError if writing is not graded ', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         let student = DomainMocks.mockStudent();
         let semester = DomainMocks.mockAcademicSemester();
         let writing;
@@ -103,7 +103,7 @@ describe('CreateRatingService unit tests', () => {
             Grade.BAD,
         );
         try {
-            await usecase.execute(dto)
+            await service.execute(dto)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the writing skill must be informed' }]);
@@ -113,7 +113,7 @@ describe('CreateRatingService unit tests', () => {
     // the reading skill must be informed
     it('should throw a systemError if reading is not graded ', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         let student = DomainMocks.mockStudent();
         let semester = DomainMocks.mockAcademicSemester();
         let reading;
@@ -129,7 +129,7 @@ describe('CreateRatingService unit tests', () => {
             Grade.BAD,
         );
         try {
-            await usecase.execute(dto)
+            await service.execute(dto)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the reading skill must be informed' }]);
@@ -139,7 +139,7 @@ describe('CreateRatingService unit tests', () => {
     // the speaking skill must be informed
     it('should throw a systemError if speaking is not graded ', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         let student = DomainMocks.mockStudent();
         let semester = DomainMocks.mockAcademicSemester();
         let speaking;
@@ -155,7 +155,7 @@ describe('CreateRatingService unit tests', () => {
             Grade.BAD,
         );
         try {
-            await usecase.execute(dto)
+            await service.execute(dto)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the speaking skill must be informed' }]);
@@ -165,7 +165,7 @@ describe('CreateRatingService unit tests', () => {
     // the grammar skill must be informed
     it('should throw a systemError if grammar is not graded ', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         let student = DomainMocks.mockStudent();
         let semester = DomainMocks.mockAcademicSemester();
         let grammar;
@@ -181,7 +181,7 @@ describe('CreateRatingService unit tests', () => {
             Grade.BAD,
         );
         try {
-            await usecase.execute(dto)
+            await service.execute(dto)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the grammar skill must be informed' }]);
@@ -191,7 +191,7 @@ describe('CreateRatingService unit tests', () => {
     // the homework commitment must be informed
     it('should throw a systemError if homework is not graded ', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         let student = DomainMocks.mockStudent();
         let semester = DomainMocks.mockAcademicSemester();
         let homework;
@@ -207,7 +207,7 @@ describe('CreateRatingService unit tests', () => {
             Grade.BAD,
         );
         try {
-            await usecase.execute(dto)
+            await service.execute(dto)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the homework commitment must be informed' }]);
@@ -217,7 +217,7 @@ describe('CreateRatingService unit tests', () => {
     // the vocabulary improvment must be informed
     it('should throw a systemError if vocabulary is not graded ', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         let student = DomainMocks.mockStudent();
         let semester = DomainMocks.mockAcademicSemester();
         let vocabulary;
@@ -233,7 +233,7 @@ describe('CreateRatingService unit tests', () => {
             vocabulary,
         );
         try {
-            await usecase.execute(dto)
+            await service.execute(dto)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the vocabulary improvment must be informed' }]);

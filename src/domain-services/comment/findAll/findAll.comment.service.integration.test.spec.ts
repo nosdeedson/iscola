@@ -78,8 +78,8 @@ describe('FindAllCommentService integration tests', () =>{
     });
 
     it('should return an empty array', async () =>{
-        const usecase = new FindAllCommentService(commentRepository);
-        const results = await usecase.execute();
+        const service = new FindAllCommentService(commentRepository);
+        const results = await service.execute();
         expect(results).toBeDefined();
         expect(results.all.length).toBe(0);
     });
@@ -99,9 +99,9 @@ describe('FindAllCommentService integration tests', () =>{
 
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
 
-        const usecase = new FindAllCommentService(commentRepository);
+        const service = new FindAllCommentService(commentRepository);
 
-        let results = await usecase.execute()
+        let results = await service.execute()
         expect(results.all.length).toBe(0);
 
         let comment = DomainMocks.mockComment(); 
@@ -112,7 +112,7 @@ describe('FindAllCommentService integration tests', () =>{
         const commentEntity1 = CommentEntity.toCommentEntity(comment1, ratingEntity);
         expect(await commentRepository.create(commentEntity1)).toBe(void 0);
         
-        results = await usecase.execute();
+        results = await service.execute();
 
         expect(results).toBeDefined()
         expect(results.all.length).toBe(2);

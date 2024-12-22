@@ -57,10 +57,10 @@ describe('UpdateUserService integration test', () =>{
         expect(await userRepository.create(userEntity)).toBe(void 0);
         
         let wantedId = 'e211c4ba-da05-4d02-8fa0-f5f0a35d4326';
-        const useCase = new UpdateUserService(userRepository);
+        const service = new UpdateUserService(userRepository);
         let input = new UpdateUserDto(wantedId, '123', 'test', 'test@test');
         try {
-            useCase.execute(input)
+            service.execute(input)
         } catch (error) {
             expect(error).toEqual({errors :[{context: 'user', message: 'id must be informed'}]});
         }
@@ -76,10 +76,10 @@ describe('UpdateUserService integration test', () =>{
         expect(await userRepository.create(userEntity)).toBe(void 0);
         
         let wantedId = user.getId();
-        const useCase = new UpdateUserService(userRepository);
+        const service = new UpdateUserService(userRepository);
         let input = new UpdateUserDto(wantedId);
         try {
-            await useCase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error).toEqual({errors: [{context: 'user', message: 'at least one atribute must be passed to update an user'}]});
             expect(error.errors[0].message).toBe('at least one atribute must be passed to update an user');
@@ -100,8 +100,8 @@ describe('UpdateUserService integration test', () =>{
         expect(userBD).toBeDefined();
 
         let input = new UpdateUserDto(wantedId, '123', 'test', 'test@test');
-        const usecase = new UpdateUserService(userRepository);
-        expect(await usecase.execute(input)).toBe(void 0);
+        const service = new UpdateUserService(userRepository);
+        expect(await service.execute(input)).toBe(void 0);
         let updatedUser = await userRepository.find(wantedId);
         expect(updatedUser).toBeDefined();
         expect(updatedUser.id).toBe(wantedId);
@@ -124,8 +124,8 @@ describe('UpdateUserService integration test', () =>{
         expect(userBD).toBeDefined();
 
         let input = new UpdateUserDto(wantedId, 'different', 'test', 'test@test');
-        const usecase = new UpdateUserService(userRepository);
-        expect(await usecase.execute(input)).toBe(void 0);
+        const service = new UpdateUserService(userRepository);
+        expect(await service.execute(input)).toBe(void 0);
         let updatedUser = await userRepository.find(user.getId());
         expect(updatedUser).toBeDefined();
         expect(updatedUser.id).toBe(user.getId());

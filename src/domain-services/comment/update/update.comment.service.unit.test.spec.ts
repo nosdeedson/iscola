@@ -19,10 +19,10 @@ describe('UpdateCommentService unit tests', () =>{
             return null;
         });
 
-        const usecase = new UpdateCommentService(commentRepository);
+        const service = new UpdateCommentService(commentRepository);
 
         try {
-            await usecase.execute(dto);
+            await service.execute(dto);
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'comment', message: 'comment not found'}]);
@@ -48,8 +48,8 @@ describe('UpdateCommentService unit tests', () =>{
         const commentBefore = entity.comment;
         expect(entity.comment).toBe(commentBefore)
         const dto = new UpdateCommentDto(comment.getId(), wantedComment);
-        const usecase = new UpdateCommentService(commentRepository);
-        expect(await usecase.execute(dto)).toBe(void 0);
+        const service = new UpdateCommentService(commentRepository);
+        expect(await service.execute(dto)).toBe(void 0);
         expect(commentRepository.find).toHaveBeenCalledTimes(1)
         expect(commentRepository.find).toHaveBeenCalledWith(dto.idComment)
         expect(commentRepository.update).toHaveBeenCalledTimes(1);

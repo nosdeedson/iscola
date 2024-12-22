@@ -32,8 +32,8 @@ describe('AcademicSemester integration tests', () =>{
     })
 
     it('should receive an empty array', async () =>{
-        const useCase = new FindAllAcademicSemesterService(semesterRepository);
-        let results = await useCase.execute();
+        const service = new FindAllAcademicSemesterService(semesterRepository);
+        let results = await service.execute();
         expect(results.all.length).toBe(0);
     });
 
@@ -48,8 +48,8 @@ describe('AcademicSemester integration tests', () =>{
         let entity1 = AcademicSemesterEntity.toAcademicSemester(academicSemester);
         expect(await semesterRepository.create(entity1)).toBe(void 0);
         
-        const useCase = new FindAllAcademicSemesterService(semesterRepository);
-        const results = await useCase.execute();
+        const service = new FindAllAcademicSemesterService(semesterRepository);
+        const results = await service.execute();
 
         expect(results.all.length).toBe(2);
         expect(results.all[0].id).toEqual(semester.getId());

@@ -38,8 +38,8 @@ describe('academic semester integration test', () =>{
         expect(await semesterRepository.create(model)).toBe(void 0);
         let result = await semesterRepository.find(wantedId);
         expect(result.id).toBeDefined();
-        const usecase = new DeleteAcademicSemesterService(semesterRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
+        const service = new DeleteAcademicSemesterService(semesterRepository);
+        expect(await service.execute(wantedId)).toBe(void 0);
         result = await semesterRepository.find(wantedId);
         expect(result).toBeNull();
     })
@@ -50,8 +50,8 @@ describe('academic semester integration test', () =>{
         expect(await semesterRepository.create(model)).toBe(void 0);
         let results = await semesterRepository.findAll();
         expect(results.length).toBe(1);
-        const usecase = new DeleteAcademicSemesterService(semesterRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
+        const service = new DeleteAcademicSemesterService(semesterRepository);
+        expect(await service.execute(wantedId)).toBe(void 0);
         results = await semesterRepository.findAll();
         expect(results.length).toBe(1);
 

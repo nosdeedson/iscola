@@ -26,17 +26,17 @@ describe('Academic semester service unit test', () => {
 
     it('should create a semester', async () =>{
         const semesterRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateAcademicSemesterService(semesterRepository);
-        expect(await usecase.execute(semester)).toBe(void 0);
+        const service = new CreateAcademicSemesterService(semesterRepository);
+        expect(await service.execute(semester)).toBe(void 0);
         expect(semesterRepository.create).toHaveBeenCalled();
         expect(semesterRepository.create).toHaveBeenCalledTimes(1);
     });
 
     it('should throw en error when creating a semester with beggning and end of the semester using same date', async () =>{
         const semesterRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateAcademicSemesterService(semesterRepository);
+        const service = new CreateAcademicSemesterService(semesterRepository);
         try {
-            await usecase.execute(semesterWithSameDate);
+            await service.execute(semesterWithSameDate);
         } catch (error) {
             expect(error.errors[0].message).toBe('the beggning and the end of the semester can not be equal')
         }
@@ -49,9 +49,9 @@ describe('Academic semester service unit test', () => {
             endingDate: endingWeekDay
         }
         const semesterRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateAcademicSemesterService(semesterRepository);
+        const service = new CreateAcademicSemesterService(semesterRepository);
         try {
-            await usecase.execute(semesterDateBeginWrong);
+            await service.execute(semesterDateBeginWrong);
         } catch (error) {
             expect(error.errors[0].message).toBe('the academicSemester must start in a weekday')
         }
@@ -64,9 +64,9 @@ describe('Academic semester service unit test', () => {
             endingDate: endingWeekend
         }
         const semesterRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateAcademicSemesterService(semesterRepository);
+        const service = new CreateAcademicSemesterService(semesterRepository);
         try {
-            await usecase.execute(semesterDateBeginWrong);
+            await service.execute(semesterDateBeginWrong);
         } catch (error) {
             expect(error.errors[0].message).toBe('the academicSemester must end in a weekday')
         }
@@ -79,9 +79,9 @@ describe('Academic semester service unit test', () => {
             endingDate: new Date(2024, 8, 30, 10, 59,58)
         }
         const semesterRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateAcademicSemesterService(semesterRepository);
+        const service = new CreateAcademicSemesterService(semesterRepository);
         try {
-            await usecase.execute(semesterDateBeginWrong);
+            await service.execute(semesterDateBeginWrong);
         } catch (error) {
             expect(error.errors[0].message).toBe('the beginning date must be before ending date');
             expect(error.errors[1].message).toBe('the ending date must be after beginning date');

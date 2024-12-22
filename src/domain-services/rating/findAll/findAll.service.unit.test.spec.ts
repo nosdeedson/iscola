@@ -9,8 +9,8 @@ describe('find all rating unit tests', () =>{
     it('should find an empty array', async () =>{
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
         ratingRepository.findAll = jest.fn().mockImplementationOnce(() => {return []})
-        const usecase = new FindAllRatingService(ratingRepository);
-        let results = await usecase.execute();
+        const service = new FindAllRatingService(ratingRepository);
+        let results = await service.execute();
         expect(results.all.length).toBe(0)
     })
 
@@ -20,8 +20,8 @@ describe('find all rating unit tests', () =>{
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
 
         ratingRepository.findAll = jest.fn().mockImplementationOnce(() => {return [entity]})
-        const usecase = new FindAllRatingService(ratingRepository);
-        let results = await usecase.execute();
+        const service = new FindAllRatingService(ratingRepository);
+        let results = await service.execute();
         expect(results.all.length).toBe(1)
         expect(results.all[0].id).toBe(rating.getId());
     })

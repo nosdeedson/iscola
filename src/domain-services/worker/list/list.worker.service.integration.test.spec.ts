@@ -32,8 +32,8 @@ describe('FindAllWorkerService integration tests', () => {
     });
 
     it('if none worker exist should return empty', async () =>{
-        let useCase = new FindAllWorkerService(workerRepository);
-        let results = await useCase.execute();
+        let service = new FindAllWorkerService(workerRepository);
+        let results = await service.execute();
         expect(results.all.length).toBe(0)
     })
 
@@ -50,8 +50,8 @@ describe('FindAllWorkerService integration tests', () => {
         let model2 = WorkerEntity.toWorkerEntity(worker2);
         await workerRepository.create(model2);
 
-        let useCase = new FindAllWorkerService(workerRepository);
-        let results = await useCase.execute();
+        let service = new FindAllWorkerService(workerRepository);
+        let results = await service.execute();
         expect(results.all.length).toBe(3);
 
     })

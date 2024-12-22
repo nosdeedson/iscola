@@ -62,11 +62,11 @@ describe('Delete rating domain service integration tests', () => {
         let ratingEntity = RatingEntity.toRatingEntity(rating);
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
 
-        const usecase = new DeleteRatingService(ratingRepository);
+        const service = new DeleteRatingService(ratingRepository);
 
         let wantedid = 'ecf7719b-4b88-4682-94d9-458321a07459';
 
-        expect(await usecase.execute(wantedid)).toBe(void 0);
+        expect(await service.execute(wantedid)).toBe(void 0);
 
     }, 5000);
 
@@ -83,11 +83,11 @@ describe('Delete rating domain service integration tests', () => {
         let ratingEntity = RatingEntity.toRatingEntity(rating);
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
 
-        const usecase = new DeleteRatingService(ratingRepository);
+        const service = new DeleteRatingService(ratingRepository);
 
         let wantedid = rating.getId();
 
-        expect(await usecase.execute(wantedid)).toBe(void 0);
+        expect(await service.execute(wantedid)).toBe(void 0);
 
     });
 

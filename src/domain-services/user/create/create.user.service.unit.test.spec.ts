@@ -29,14 +29,14 @@ describe('create user service unit test', () =>{
         };
         person = DomainMocks.mockWorker(RoleEnum.TEACHER);
         personEntity = WorkerEntity.toWorkerEntity(person);
-        const createUserUseCase = jest.spyOn(CreateUserService.prototype, 'typePerson')
+        const createUserservice = jest.spyOn(CreateUserService.prototype, 'typePerson')
             .mockImplementationOnce(() => { return person});
         const userRepository = MockRepositoriesForUnitTest.mockRepositories();
         const personRepository = MockRepositoriesForUnitTest.mockRepositories();
         personRepository.find = jest.fn().mockReturnValueOnce(() => personEntity);
-        const useCase = new CreateUserService(userRepository, personRepository);
-        expect(await useCase.execute(input)).toBe(void 0);
-        expect(createUserUseCase).toHaveBeenCalled()
+        const service = new CreateUserService(userRepository, personRepository);
+        expect(await service.execute(input)).toBe(void 0);
+        expect(createUserservice).toHaveBeenCalled()
     });
 
     it('should create an user of type admin', async () =>{
@@ -54,8 +54,8 @@ describe('create user service unit test', () =>{
         const userRepository = MockRepositoriesForUnitTest.mockRepositories();
         const personRepository = MockRepositoriesForUnitTest.mockRepositories();
         personRepository.find = jest.fn().mockReturnValueOnce(() => personEntity);
-        const useCase = new CreateUserService(userRepository, personRepository);
-        expect(await useCase.execute(input)).toBe(void 0);
+        const service = new CreateUserService(userRepository, personRepository);
+        expect(await service.execute(input)).toBe(void 0);
         expect(typePerson).toHaveBeenCalled();
     });
 
@@ -79,9 +79,9 @@ describe('create user service unit test', () =>{
 
         personRepository.find = jest.fn().mockReturnValueOnce(() => personEntity);
 
-        const useCase = new CreateUserService(userRepository, personRepository);
+        const service = new CreateUserService(userRepository, personRepository);
 
-        expect(await useCase.execute(input)).toBe(void 0);
+        expect(await service.execute(input)).toBe(void 0);
         expect(typePerson).toHaveBeenCalled();
     });
 
@@ -105,9 +105,9 @@ describe('create user service unit test', () =>{
 
         personRepository.find = jest.fn().mockReturnValueOnce(() => personEntity);
 
-        const useCase = new CreateUserService(userRepository, personRepository);
+        const service = new CreateUserService(userRepository, personRepository);
         
-        expect(await useCase.execute(input)).toBe(void 0);
+        expect(await service.execute(input)).toBe(void 0);
         expect(typePerson).toHaveBeenCalled();
     })
     

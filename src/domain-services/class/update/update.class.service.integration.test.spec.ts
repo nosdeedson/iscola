@@ -40,9 +40,9 @@ describe('update class integration test', () =>{
         let wantedBookName = 'bookb1';
         let wantedClassName = 'b1';
         let input : UpdateClassDto = new UpdateClassDto(wantedId, wantedBookName, wantedClassName);
-        const usecase = new UpdateClassService(classRepository);
+        const service = new UpdateClassService(classRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject([{ "context": "class", "message": "class not found"}]);
@@ -64,9 +64,9 @@ describe('update class integration test', () =>{
         let wantedClassName = 'b1';
         let input : UpdateClassDto = new UpdateClassDto(wantedId, wantedBookName, wantedClassName);
         
-        const usecase = new UpdateClassService(classRepository);
+        const service = new UpdateClassService(classRepository);
 
-        expect(await usecase.execute(input)).toBe(void 0);
+        expect(await service.execute(input)).toBe(void 0);
 
         result = await classRepository.find(wantedId);
 

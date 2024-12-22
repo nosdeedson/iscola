@@ -12,8 +12,8 @@ describe('delete academic semester unit test', () =>{
 
     it('should delete an academic semester', async () => {
         const semesterRepository = await MockRepositoriesForUnitTest.mockRepositories();
-        const useCase = new DeleteAcademicSemesterService(semesterRepository);
-        expect(await useCase.execute(semester.getId())).toBe(void 0);
+        const service = new DeleteAcademicSemesterService(semesterRepository);
+        expect(await service.execute(semester.getId())).toBe(void 0);
         expect(semesterRepository.delete).toHaveBeenCalledTimes(1)
     })
 

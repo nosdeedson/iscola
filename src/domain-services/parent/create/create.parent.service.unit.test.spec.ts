@@ -19,9 +19,9 @@ describe('CreateParentService unit tests', () =>{
         const students = [DomainMocks.mockStudent()];
 
         const dto = new CreateParentDto(new Date(), 'edson');
-        const usecase = new CreateParentService(parentRepository);
+        const service = new CreateParentService(parentRepository);
 
-        expect(await usecase.execute(dto, students)).toBe(void 0);
+        expect(await service.execute(dto, students)).toBe(void 0);
 
         expect(toParent).toHaveBeenCalled();
         expect(toParent).toHaveBeenCalledWith(dto, students);
@@ -39,10 +39,10 @@ describe('CreateParentService unit tests', () =>{
 
         let name;
         const dto = new CreateParentDto(new Date(), name);
-        const usecase = new CreateParentService(parentRepository);
+        const service = new CreateParentService(parentRepository);
 
         try {
-            await usecase.execute(dto, students);
+            await service.execute(dto, students);
         } catch (error) {
             expect(parentRepository.create).toHaveBeenCalledTimes(0);
             expect(error).toBeDefined();
@@ -58,10 +58,10 @@ describe('CreateParentService unit tests', () =>{
 
         let birthday;
         const dto = new CreateParentDto(birthday, 'edson');
-        const usecase = new CreateParentService(parentRepository);
+        const service = new CreateParentService(parentRepository);
 
         try {
-            await usecase.execute(dto, students);
+            await service.execute(dto, students);
         } catch (error) {
             expect(parentRepository.create).toHaveBeenCalledTimes(0);
             expect(error).toBeDefined();
@@ -77,10 +77,10 @@ describe('CreateParentService unit tests', () =>{
                
         let students = [];
         const dto = new CreateParentDto(new Date(), 'edson');
-        const usecase = new CreateParentService(parentRepository);
+        const service = new CreateParentService(parentRepository);
 
         try {
-            await usecase.execute(dto, students);
+            await service.execute(dto, students);
         } catch (error) {
             expect(parentRepository.create).toHaveBeenCalledTimes(0);
             expect(error).toBeDefined();

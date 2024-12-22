@@ -45,13 +45,13 @@ describe("CreateWorkerService integration test", () =>{
         const schoolGroupEntity = ClassEntity.toClassEntity(schoolGroup);
         expect(await schoolGroupRepository.create(schoolGroupEntity)).toBe(void 0);
         workerModel = appDataSource.getRepository(WorkerEntity);
-        let useCase = new CreateWorkerService(workerRepository, schoolGroupRepository);
+        let service = new CreateWorkerService(workerRepository, schoolGroupRepository);
         let worker =  {
             name: 'edson',
             birthday: new Date(),
             role: RoleEnum.TEACHER,
             classCode: schoolGroup.getClassCode()
         } as InputCreateWorkerDto;
-        expect(await useCase.execute(worker)).toBe(void 0)
+        expect(await service.execute(worker)).toBe(void 0)
     })
 })

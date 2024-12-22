@@ -56,8 +56,8 @@ describe('DeleteParentService integration tests', () =>{
         expect(result.length).toBe(1);
 
         let wantedId = 'e9c826b0-2fb4-41a7-aae8-8eed8fa999e8';
-        const usecase = new DeleteParentService(parentRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
+        const service = new DeleteParentService(parentRepository);
+        expect(await service.execute(wantedId)).toBe(void 0);
          result = await parentRepository.findAll();
         expect(result.length).toBe(1);
     })
@@ -75,8 +75,8 @@ describe('DeleteParentService integration tests', () =>{
         expect(await parentRepository.create(parentEntity)).toBe(void 0);
 
         let wantedId = parent.getId();
-        const usecase = new DeleteParentService(parentRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
+        const service = new DeleteParentService(parentRepository);
+        expect(await service.execute(wantedId)).toBe(void 0);
         let result = await parentRepository.findAll();
         expect(result.length).toBe(0);
     })

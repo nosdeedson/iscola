@@ -9,9 +9,9 @@ describe('FindAllCommentService unit tests', () => {
     it('should return an empty array of comments', async () =>{
         const commentRepository = MockRepositoriesForUnitTest.mockRepositories();
         commentRepository.findAll = jest.fn().mockReturnValueOnce( null)
-        const usecase = new FindAllCommentService(commentRepository);
+        const service = new FindAllCommentService(commentRepository);
 
-        const results = await usecase.execute();
+        const results = await service.execute();
         expect(results.all.length).toBe(0);
         expect(commentRepository.findAll).toHaveBeenCalledTimes(1);
     });
@@ -25,8 +25,8 @@ describe('FindAllCommentService unit tests', () => {
         commentRepository.findAll = jest.fn().mockImplementationOnce(() =>{
             return [entities]
         });
-        const usecase = new FindAllCommentService(commentRepository);
-        const results = await usecase.execute();
+        const service = new FindAllCommentService(commentRepository);
+        const results = await service.execute();
         expect(results).toBeDefined();
         expect(results.all[0].comment).toEqual(entities.comment)
         expect(results.all[0].createdAt).toEqual(entities.createdAt)

@@ -1,6 +1,6 @@
 import { ParentEntity } from '../../../infrastructure/entities/parent/parent.entity';
 import { ParentReporitoryInterface } from '../../../domain/parent/parent.repository.interface';
-import { DataSource, QueryFailedError, Repository } from 'typeorm';
+import { DataSource, In, QueryFailedError, Repository } from 'typeorm';
 
 
 export class ParentRepository implements ParentReporitoryInterface{
@@ -42,6 +42,12 @@ export class ParentRepository implements ParentReporitoryInterface{
             }
         })
         return model;
+    }
+
+    async findByIds(ids: string[]): Promise<ParentEntity[]> {
+        return await this.parentRepository.find({
+            where: { id: In([...ids]) }
+        });
     }
 
     async findAll(): Promise<ParentEntity[]> {

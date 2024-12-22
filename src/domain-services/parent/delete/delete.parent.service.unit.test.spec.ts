@@ -15,8 +15,8 @@ describe('DeleteParentService unit tests', () =>{
         
         parentRepository.delete = jest.fn().mockImplementationOnce(() => { return void 0});
 
-        const usecase = new DeleteParentService(parentRepository);
-        expect(await usecase.execute('1234')).toBe(void 0);
+        const service = new DeleteParentService(parentRepository);
+        expect(await service.execute('1234')).toBe(void 0);
         expect(parentRepository.delete).toHaveBeenCalledTimes(1);
         expect(parentRepository.delete).toHaveBeenCalledWith('1234');
     })
@@ -39,9 +39,9 @@ describe('DeleteParentService unit tests', () =>{
 
         parentRepository.delete = jest.fn().mockImplementationOnce(() => { entity.deletedAt = wantedDeletedAt});
 
-        const usecase = new DeleteParentService(parentRepository);
+        const service = new DeleteParentService(parentRepository);
 
-        expect(await usecase.execute(wantedId)).toBe(void 0);
+        expect(await service.execute(wantedId)).toBe(void 0);
         result = await parentRepository.find(wantedId);
         expect(result).toBeDefined()
         expect(result.deletedAt).toBeDefined();

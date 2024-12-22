@@ -43,8 +43,8 @@ describe('UpdateWorkerService integration test', () => {
             role: RoleEnum.ADMINISTRATOR
         };
 
-        let useCase = new UpdateWorkerService(workerRepository);
-        expect(await useCase.execute(input)).toBe(void 0);
+        let service = new UpdateWorkerService(workerRepository);
+        expect(await service.execute(input)).toBe(void 0);
 
         let result = await workerRepository.find(wantedId);
         expect(result).toBeDefined();
@@ -67,8 +67,8 @@ describe('UpdateWorkerService integration test', () => {
             role: RoleEnum.ADMINISTRATOR
         };
 
-        let useCase = new UpdateWorkerService(workerRepository);
-        expect(await useCase.execute(input)).toBe(void 0);
+        let service = new UpdateWorkerService(workerRepository);
+        expect(await service.execute(input)).toBe(void 0);
 
         let result = await workerRepository.find(worker.getId());
         expect(result).toBeDefined();

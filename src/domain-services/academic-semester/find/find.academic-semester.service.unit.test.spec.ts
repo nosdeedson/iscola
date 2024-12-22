@@ -20,8 +20,8 @@ describe('find academic semester unit test', () =>{
             return semester
         });
         let wantedId = semester.getId();
-        const useCase = new FindAcademicSemesterService(semesterRepository);
-        let result = await useCase.execute(wantedId);
+        const service = new FindAcademicSemesterService(semesterRepository);
+        let result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toBe(wantedId);
         expect(result.beginningDate).toBe(semester.getBeginningDate());
@@ -37,9 +37,9 @@ describe('find academic semester unit test', () =>{
         semesterRepository.find = jest.fn().mockImplementationOnce(() => {
             return null;
         });
-        const useCase = new FindAcademicSemesterService(semesterRepository);
+        const service = new FindAcademicSemesterService(semesterRepository);
         try {
-            let result = await useCase.execute('4321');
+            let result = await service.execute('4321');
         } catch (error) {
             expect(error.errors[0].message).toBe('Academic Semester not found');
         }

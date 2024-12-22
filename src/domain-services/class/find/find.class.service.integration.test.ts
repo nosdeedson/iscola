@@ -32,11 +32,11 @@ describe('find class service integration test', () =>{
         schoolgroup = DomainMocks.mockSchoolGroup();
         let entity = ClassEntity.toClassEntity(schoolgroup);
         expect(await classRepository.create(entity)).toBe(void 0);
-        const usecase = new FindClassService(classRepository);
+        const service = new FindClassService(classRepository);
 
         let wantedId = '95be3d59-a09c-4da5-9140-0c805c5a391d';
         try{
-            let result = await usecase.execute(wantedId);
+            let result = await service.execute(wantedId);
         } catch(error){
             expect(error.errors).toBeDefined();        
             expect(error.errors[0]).toStrictEqual({context: 'class', message: 'class not found'})
@@ -52,10 +52,10 @@ describe('find class service integration test', () =>{
         schoolgroup = DomainMocks.mockSchoolGroup();
         let entity = ClassEntity.toClassEntity(schoolgroup);
         expect(await classRepository.create(entity)).toBe(void 0);
-        const usecase = new FindClassService(classRepository);
+        const service = new FindClassService(classRepository);
 
         let wantedId = schoolgroup.getId();
-        let result = await usecase.execute(wantedId);
+        let result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toEqual(wantedId);
         

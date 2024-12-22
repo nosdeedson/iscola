@@ -102,10 +102,10 @@ describe('UpdateCommentService integration tests', () =>{
         const currentComment = comment.getComment();
         const dto = new UpdateCommentDto(wrongId, 'changing comment');
 
-        const usecase = new UpdateCommentService(commentRepository);
+        const service = new UpdateCommentService(commentRepository);
 
         try {
-            await usecase.execute(dto);
+            await service.execute(dto);
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors[0]).toMatchObject([{context: 'comment', message: 'comment not found'}]);
@@ -137,9 +137,9 @@ describe('UpdateCommentService integration tests', () =>{
         let dto = new UpdateCommentDto(wantedId, updatedComment);
         let result = await commentRepository.find(wantedId);
         expect(result.comment).toBe(currentComment);
-        const usecase = new UpdateCommentService(commentRepository);
+        const service = new UpdateCommentService(commentRepository);
         
-        expect(await usecase.execute(dto)).toBe(void 0);
+        expect(await service.execute(dto)).toBe(void 0);
         result = await commentRepository.find(wantedId);
         expect(result.comment).toBe(updatedComment);
         expect(result.id).toBe(wantedId);

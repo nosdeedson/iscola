@@ -26,8 +26,8 @@ describe('FindAllWorkerService unit test', () =>{
     it('should list all workers', async () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         workerRepository.findAll = jest.fn().mockReturnValue(await Promise.resolve(workers));
-        const usecase = new FindAllWorkerService(await workerRepository);
-        const result = await usecase.execute();
+        const service = new FindAllWorkerService(await workerRepository);
+        const result = await service.execute();
 
         expect(result.all[0].birthday).toEqual(worker.getBirthday());
         expect(result.all[0].name).toEqual(worker.getName());
@@ -41,8 +41,8 @@ describe('FindAllWorkerService unit test', () =>{
     it('should return empty list', async () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         (await workerRepository).findAll = jest.fn().mockReturnValue(await Promise.resolve([]));
-        const usecase = new FindAllWorkerService(await workerRepository);
-        const result = await usecase.execute();
+        const service = new FindAllWorkerService(await workerRepository);
+        const result = await service.execute();
 
         expect(result.all.length).toBe(0);
         expect((await workerRepository).findAll).toHaveBeenCalledTimes(1)

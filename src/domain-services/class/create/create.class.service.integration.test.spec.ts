@@ -46,8 +46,8 @@ describe('create class service integration test', () => {
 
     it('should create a class on BD', async () => {
         let classDto = new CreateClassDto('a1', 'a1class1', scheduleDto);
-        let usecase = new CreateClassService(classRepository);
-        expect(await usecase.execute(classDto)).toBe(void 0);
+        let service = new CreateClassService(classRepository);
+        expect(await service.execute(classDto)).toBe(void 0);
         let results = await classRepository.findAll();
         expect(results).toBeDefined();
         expect(results[0].id).toBeDefined();

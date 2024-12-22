@@ -35,8 +35,8 @@ describe('UpdateWorkerService unit test', () =>{
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         workerRepository.update = jest.fn().mockReturnValue(await Promise.resolve(void 0));
         workerRepository.find = jest.fn().mockReturnValue(Promise.resolve(workerEntity));
-        const usecase = new UpdateWorkerService(workerRepository);
-        expect(await usecase.execute(input)).toBe(void 0);
+        const service = new UpdateWorkerService(workerRepository);
+        expect(await service.execute(input)).toBe(void 0);
         expect(workerRepository.update).toHaveBeenCalledTimes(1)
     })
 
@@ -44,11 +44,11 @@ describe('UpdateWorkerService unit test', () =>{
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         workerRepository.update = jest.fn().mockReturnValue(await Promise.resolve(void 0));
         workerRepository.find = jest.fn().mockReturnValue(Promise.resolve(workerEntity));
-        const usecase = new UpdateWorkerService(workerRepository);
+        const service = new UpdateWorkerService(workerRepository);
         try {
             let emptyName;
             input.name = emptyName;
-            expect(await usecase.execute(input)).toBe(void 0);
+            expect(await service.execute(input)).toBe(void 0);
         } catch (error) {
             expect(error.message).toBe('teacher: Name should not be null,')
         }
@@ -58,11 +58,11 @@ describe('UpdateWorkerService unit test', () =>{
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         workerRepository.update = jest.fn().mockReturnValue(await Promise.resolve(void 0));
         workerRepository.find = jest.fn().mockReturnValue(Promise.resolve(workerEntity));
-        const usecase = new UpdateWorkerService(workerRepository);
+        const service = new UpdateWorkerService(workerRepository);
         try {
             let emptyRole;
             input.role = emptyRole;
-            expect(await usecase.execute(input)).toBe(void 0);
+            expect(await service.execute(input)).toBe(void 0);
         } catch (error) {
             expect(error.message).toBe('teacher: Role should not be null,')
         }

@@ -29,8 +29,8 @@ describe('find class service unit test', () => {
                 return entity;
             });
         let wantedId = schoolgroup.getId();
-        const usecase = new FindClassService(classRepository);
-        let result = await usecase.execute(wantedId);
+        const service = new FindClassService(classRepository);
+        let result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(classRepository.find).toHaveBeenCalledTimes(1);
         expect(classRepository.find).toHaveBeenCalledWith(wantedId);
@@ -46,9 +46,9 @@ describe('find class service unit test', () => {
                 return null;
             });
         let wantedId = 'b5a0db75-f438-4fb6-9213-43c83fc5e8cc';
-        const usecase = new FindClassService(classRepository);
+        const service = new FindClassService(classRepository);
         try {
-            await usecase.execute(wantedId)
+            await service.execute(wantedId)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toStrictEqual([{context: 'class', message: 'class not found'}])

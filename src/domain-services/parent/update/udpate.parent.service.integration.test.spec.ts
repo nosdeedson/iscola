@@ -45,11 +45,11 @@ describe('UpdateParentService integration tests', () =>{
 
     it('should throw an SystemError when using a non-existent id to update a parent', async () =>{
         const noExistentParentId = '65b7d0ff-4f7f-4402-be23-2eb809a7bebc';
-        const usecase = new UpdateParentService(parentRepository);
+        const service = new UpdateParentService(parentRepository);
         const student = DomainMocks.mockStudent();
         const studentEntity = StudentEntity.toStudentEntity(student);
         try {
-            await usecase.execute(studentEntity, noExistentParentId);
+            await service.execute(studentEntity, noExistentParentId);
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'parent', message: 'Parent not found'}]);
@@ -75,8 +75,8 @@ describe('UpdateParentService integration tests', () =>{
         expect(await studentRepository.create(anotherEntity)).toBe(void 0);
         parentEntity.students.push(anotherEntity)
         const wantedParentId = parentEntity.id;
-        const usecase = new UpdateParentService(parentRepository);
-        expect(await usecase.execute(anotherEntity, wantedParentId));
+        const service = new UpdateParentService(parentRepository);
+        expect(await service.execute(anotherEntity, wantedParentId));
         results = await parentRepository.findAll();
         expect(results[0].students.length).toBe(2);
 

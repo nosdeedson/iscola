@@ -13,11 +13,11 @@ describe('FindCommentService unit tests', () =>{
             .mockImplementationOnce( () =>{
                 return null;
             });
-        const usecase = new FindCommentService(commentRepository);
+        const service = new FindCommentService(commentRepository);
 
         const wantedId = '1234';
         try {
-            const result = await usecase.execute(wantedId);
+            const result = await service.execute(wantedId);
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'comment', message: 'comment not found'}]);
@@ -50,8 +50,8 @@ describe('FindCommentService unit tests', () =>{
         });
 
         const wantedId = comment.getId();
-        const usecase = new FindCommentService(commentRepository);
-        const result = await usecase.execute(wantedId);
+        const service = new FindCommentService(commentRepository);
+        const result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.idComment).toBe(wantedId);
         expect(result.comment).toBe(comment.getComment());

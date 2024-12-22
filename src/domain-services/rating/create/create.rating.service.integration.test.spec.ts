@@ -63,8 +63,8 @@ describe('create rating integration tests', () => {
         expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
 
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
-        const usecase = new CreateRatingService(ratingRepository);
-        expect(await usecase.execute(input)).toBe(void 0);
+        const service = new CreateRatingService(ratingRepository);
+        expect(await service.execute(input)).toBe(void 0);
     });
 
     it('should throw a systemError if semester is null', async () => {
@@ -75,9 +75,9 @@ describe('create rating integration tests', () => {
         let semester;
 
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         try {
-            await usecase.execute(input);
+            await service.execute(input);
         } catch (error) {
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'rating', message: 'period of rating must be informed'}]);
@@ -92,9 +92,9 @@ describe('create rating integration tests', () => {
         expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
 
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         try {
-            await usecase.execute(input);
+            await service.execute(input);
         } catch (error) {
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'rating', message: 'student receiving rating must be informed'}]);
@@ -112,9 +112,9 @@ describe('create rating integration tests', () => {
 
         let listing;
         let input = new CreateRatingDto(student, semester, listing, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the listining skill must be informed' }]);
@@ -132,9 +132,9 @@ describe('create rating integration tests', () => {
 
         let writing;
         let input = new CreateRatingDto(student, semester, Grade.BAD, writing, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the writing skill must be informed' }]);
@@ -153,9 +153,9 @@ describe('create rating integration tests', () => {
 
         let reading;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, reading, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the reading skill must be informed' }]);
@@ -173,9 +173,9 @@ describe('create rating integration tests', () => {
 
         let speaking;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, speaking, Grade.BAD, Grade.BAD, Grade.BAD);
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the speaking skill must be informed' }]);
@@ -193,9 +193,9 @@ describe('create rating integration tests', () => {
 
         let grammar;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, grammar, Grade.BAD, Grade.BAD);
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the grammar skill must be informed' }]);
@@ -213,9 +213,9 @@ describe('create rating integration tests', () => {
 
         let homework;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, homework, Grade.BAD);
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the homework commitment must be informed' }]);
@@ -233,9 +233,9 @@ describe('create rating integration tests', () => {
 
         let vocabulary;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, vocabulary);
-        const usecase = new CreateRatingService(ratingRepository);
+        const service = new CreateRatingService(ratingRepository);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the vocabulary improvment must be informed' }]);

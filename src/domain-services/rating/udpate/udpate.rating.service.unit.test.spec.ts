@@ -10,10 +10,10 @@ describe('update rating service unit tests', () => {
     it('shoud throw a SystemError if rating not found', async () => {
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
         ratingRepository.find = jest.fn().mockImplementationOnce(() => { return null });
-        const usecase = new UpdateRatingService(ratingRepository);
+        const service = new UpdateRatingService(ratingRepository);
         let input = new UpdateRatingDto('123', Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD);
         try {
-            await usecase.execute(input)
+            await service.execute(input)
         } catch (error) {
             expect(error).toBeDefined()
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'Not found' }]);
@@ -27,9 +27,9 @@ describe('update rating service unit tests', () => {
         const entity = RatingEntity.toRatingEntity(rating);
         const ratingRepository = MockRepositoriesForUnitTest.mockRepositories();
         ratingRepository.find = jest.fn().mockImplementationOnce(() => { return entity });
-        const usecase = new UpdateRatingService(ratingRepository);
+        const service = new UpdateRatingService(ratingRepository);
         let input = new UpdateRatingDto('123', Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD, Grade.GOOD);
-        expect(await usecase.execute(input)).toBe(void 0);
+        expect(await service.execute(input)).toBe(void 0);
         expect(ratingRepository.find).toHaveBeenCalledTimes(1);
         expect(ratingRepository.update).toHaveBeenCalledTimes(1);
         expect(ratingRepository.update).toHaveBeenCalledWith(entity)

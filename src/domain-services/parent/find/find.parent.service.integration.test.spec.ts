@@ -54,9 +54,9 @@ describe('FindParentService integration tests ', () =>{
 
         const wantedId = 'e9c826b0-2fb4-41a7-aae8-8eed8fa999e8';
 
-        const usecase = new FindParentService(parentRepository);
+        const service = new FindParentService(parentRepository);
         try {
-            let result = await usecase.execute(wantedId);
+            let result = await service.execute(wantedId);
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'parent', message: 'Parent not found'}])
@@ -77,8 +77,8 @@ describe('FindParentService integration tests ', () =>{
 
         const wantedId = parent.getId();
 
-        const usecase = new FindParentService(parentRepository);
-        let result = await usecase.execute(wantedId);
+        const service = new FindParentService(parentRepository);
+        let result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toBe(wantedId);
         expect(result.name).toBe(parent.getName());

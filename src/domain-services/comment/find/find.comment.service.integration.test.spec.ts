@@ -77,10 +77,10 @@ describe('FindCommentService integration tests', () =>{
 
     it('should throw an systemError with non-existent id', async () =>{
         const nonExistentId = '2da72bf9-8a41-420a-be07-1ee16329a63a';
-        const usecase = new FindCommentService(commentRepository);
+        const service = new FindCommentService(commentRepository);
 
         try {
-            let result = await usecase.execute(nonExistentId);
+            let result = await service.execute(nonExistentId);
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'comment', message: 'comment not found'}]);
@@ -119,8 +119,8 @@ describe('FindCommentService integration tests', () =>{
         let wantedId = comment.getId();
         expect(await commentRepository.create(commentEntity)).toBe(void 0);
 
-        const usecase = new FindCommentService(commentRepository);
-        const result = await usecase.execute(wantedId);
+        const service = new FindCommentService(commentRepository);
+        const result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.comment).toBe(comment.getComment());
         expect(result.createdAt).toEqual(comment.getCreatedAt());

@@ -9,10 +9,10 @@ describe('FindParentService unit tests', () =>{
     it('should throw a systemError with parent not found', async () => {
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
         parentRepository.find = jest.fn().mockImplementationOnce(() => { return null});
-        const usecase = new FindParentService(parentRepository);
+        const service = new FindParentService(parentRepository);
         const wantedId = '1234'
         try {
-            await usecase.execute(wantedId);
+            await service.execute(wantedId);
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'parent', message: 'Parent not found'}])
@@ -27,8 +27,8 @@ describe('FindParentService unit tests', () =>{
 
         const wantedId = parent.getId();
 
-        const usecase = new FindParentService(parentRepository);
-        let result = await usecase.execute(wantedId);
+        const service = new FindParentService(parentRepository);
+        let result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toEqual(wantedId);
     })

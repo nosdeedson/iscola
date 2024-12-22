@@ -61,8 +61,8 @@ describe('create user service integration tests', () =>{
             accesstype: AccessType.TEACHER
         };
 
-        const useCase = new CreateUserService(userRepository, personRepository);
-        expect(await useCase.execute(input)).toBe(void 0);
+        const service = new CreateUserService(userRepository, personRepository);
+        expect(await service.execute(input)).toBe(void 0);
 
         let results = await userRepository.findAll();
         expect(results.length).toBe(1);
@@ -84,8 +84,8 @@ describe('create user service integration tests', () =>{
             accesstype: AccessType.ADMIN
         };
 
-        const useCase = new CreateUserService(userRepository, personRepository);
-        expect(await useCase.execute(input)).toBe(void 0);
+        const service = new CreateUserService(userRepository, personRepository);
+        expect(await service.execute(input)).toBe(void 0);
 
         let results = await userRepository.findAll();
         expect(results.length).toBe(1);
@@ -114,8 +114,8 @@ describe('create user service integration tests', () =>{
             accesstype: AccessType.STUDENT
         };
 
-        const useCase = new CreateUserService(userRepository, studentRepository);
-        expect(await useCase.execute(input)).toBe(void 0);
+        const service = new CreateUserService(userRepository, studentRepository);
+        expect(await service.execute(input)).toBe(void 0);
 
         let results = await userRepository.findAll();
         expect(results.length).toBe(1);
@@ -144,8 +144,8 @@ describe('create user service integration tests', () =>{
             accesstype: AccessType.PARENT
         };
 
-        const useCase = new CreateUserService(userRepository, parentRepository);
-        expect(await useCase.execute(input)).toBe(void 0);
+        const service = new CreateUserService(userRepository, parentRepository);
+        expect(await service.execute(input)).toBe(void 0);
 
         let results = await userRepository.findAll();
         expect(results.length).toBe(1);

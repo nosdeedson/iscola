@@ -127,6 +127,25 @@ describe('ParentRepository unit test', () =>{
         
     });
 
+    it('should find parents by ids', async () => {
+        let parent = DomainMocks.mockParent();
+        let parent1 = new Parent(new Date(), 'test', [parent.getStudents()[0]])
+
+        let student = parent.getStudents()[0];
+        let studentEntity = StudentEntity.toStudentEntity(student);
+
+        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+
+        let parentEntity = ParentEntity.toParentEntity(parent);
+        let parentEntity1 = ParentEntity.toParentEntity(parent1);
+        expect(await parentRepository.create(parentEntity)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity1)).toBe(void 0);
+
+        let results = await parentRepository.findByIds([parent.getId(), parent1.getId()]);
+
+        expect(results.length).toBe(2);
+    })
+
     it('should update a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
         let model = ParentEntity.toParentEntity(parent);

@@ -63,9 +63,9 @@ describe('find rating integration tests', () => {
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
 
         let wantedid = 'b4145be7-0fed-4a64-8a45-24bdd594cd20';
-        const usecase = new FindRatingService(ratingRepository);
+        const service = new FindRatingService(ratingRepository);
         try {
-            await usecase.execute(wantedid);
+            await service.execute(wantedid);
         } catch (error) {
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'Not found' }]);
@@ -87,8 +87,8 @@ describe('find rating integration tests', () => {
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
 
         let wantedid = rating.getId();
-        const usecase = new FindRatingService(ratingRepository);
-        let result = await usecase.execute(wantedid);
+        const service = new FindRatingService(ratingRepository);
+        let result = await service.execute(wantedid);
         expect(result).toBeDefined();
         expect(result.id).toBe(rating.getId());
     })

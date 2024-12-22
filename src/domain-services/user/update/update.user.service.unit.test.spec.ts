@@ -23,8 +23,8 @@ describe('UpdateUserService unit tests', () => {
         let input = {  email: 'test@test', nickname: 'test', password: '4321'};
         
         try {
-            const usecase = new UpdateUserService(userRepository);
-            await usecase.execute(input as UpdateUserDto)
+            const service = new UpdateUserService(userRepository);
+            await service.execute(input as UpdateUserDto)
         } catch (error) {
             expect(error).toEqual({errors :[{context: 'user', message: 'id must be informed'}]});
             expect(error.errors[0].message).toBe('id must be informed');
@@ -35,8 +35,8 @@ describe('UpdateUserService unit tests', () => {
         let input = {  id: '4321'};
         
         try {
-            const usecase = new UpdateUserService(userRepository);
-            await usecase.execute(input as UpdateUserDto)
+            const service = new UpdateUserService(userRepository);
+            await service.execute(input as UpdateUserDto)
         } catch (error) {
             expect(error).toEqual({errors: [{context: 'user', message: 'at least one atribute must be passed to update an user'}]});
             expect(error.errors[0].message).toBe('at least one atribute must be passed to update an user');
@@ -46,8 +46,8 @@ describe('UpdateUserService unit tests', () => {
     it('should update an user', async () =>{
         userRepository.find = jest.fn().mockImplementationOnce(() => {return userEntity});
         userRepository.update = jest.fn().mockImplementationOnce(() => {void 0})
-        const usecase = new UpdateUserService(userRepository);
-        expect(await usecase.execute(updateUserDto)).toBe(void 0);
+        const service = new UpdateUserService(userRepository);
+        expect(await service.execute(updateUserDto)).toBe(void 0);
         expect(userRepository.update).toHaveBeenCalledTimes(1);
         expect(userRepository.find).toHaveBeenCalledTimes(1);
         expect(userRepository.find).toHaveBeenCalledWith(updateUserDto.id);

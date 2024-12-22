@@ -30,8 +30,8 @@ describe('AcademicSemester unit tests', () =>{
         
         dto = new UpdateAcademicSemesterDto(semester.getId(), false);
         
-        const useCase = new UpdateAcademicSemesterService(semesterRepository);
-        expect(await useCase.execute(dto)).toBe(void 0);
+        const service = new UpdateAcademicSemesterService(semesterRepository);
+        expect(await service.execute(dto)).toBe(void 0);
         let result = semesterRepository.find(semester.getId());
         expect(result.actual).toBeFalsy();
     });
@@ -45,8 +45,8 @@ describe('AcademicSemester unit tests', () =>{
             let worngId = '1234';
             
             dto = new UpdateAcademicSemesterDto(worngId, false);
-            const useCase = new UpdateAcademicSemesterService(semesterRepository);
-            expect(await useCase.execute(dto)).toBe(void 0);
+            const service = new UpdateAcademicSemesterService(semesterRepository);
+            expect(await service.execute(dto)).toBe(void 0);
             semesterRepository.find = jest.fn()
                 .mockReturnValue(await Promise.resolve(entity));
         let result = semesterRepository.find(semester.getId());

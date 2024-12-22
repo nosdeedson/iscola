@@ -38,9 +38,9 @@ describe('Update AcademicSemester integration tests', () =>{
         let entity = AcademicSemesterEntity.toAcademicSemester(semester);
         expect(await semesterRepository.create(entity)).toBe(void 0);
 
-        const useCase = new UpdateAcademicSemesterService(semesterRepository);
+        const service = new UpdateAcademicSemesterService(semesterRepository);
         let dto = new UpdateAcademicSemesterDto(wantedId, false);
-        expect(await useCase.execute(dto)).toBe(void 0);
+        expect(await service.execute(dto)).toBe(void 0);
         let result = await semesterRepository.find(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toBe(wantedId);

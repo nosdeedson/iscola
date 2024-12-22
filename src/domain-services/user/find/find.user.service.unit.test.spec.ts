@@ -20,8 +20,8 @@ describe('FindUserService tests unit', () =>{
             return user;
         });
         let wantedId = user.getId();
-        const useCase = new FindUserService(userRepository);
-        let result = await useCase.execute(wantedId);
+        const service = new FindUserService(userRepository);
+        let result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toEqual(wantedId);
         expect(userRepository.find).toHaveBeenCalledTimes(1);
@@ -34,9 +34,9 @@ describe('FindUserService tests unit', () =>{
             return null;
         });
         let wantedId = user.getId();
-        const useCase = new FindUserService(userRepository);
+        const service = new FindUserService(userRepository);
         try{
-            let result = await useCase.execute(wantedId);
+            let result = await service.execute(wantedId);
         } catch(error){
             expect(error).toEqual( {errors: [ { context: 'user', message: 'user not found' } ]});
         }

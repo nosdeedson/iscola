@@ -10,8 +10,8 @@ describe('find rating unit tests', () =>{
 
         ratingRepository.find = jest.fn().mockImplementationOnce(() => { return null});
         try {
-            const usecase = new FindRatingService(ratingRepository);
-            let result = await usecase.execute('123');
+            const service = new FindRatingService(ratingRepository);
+            let result = await service.execute('123');
         } catch (error) {   
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'rating', message: 'Not found'}])
@@ -27,9 +27,9 @@ describe('find rating unit tests', () =>{
 
         ratingRepository.find = jest.fn().mockImplementationOnce(() => { return entity});
 
-        const usecase = new FindRatingService(ratingRepository);
+        const service = new FindRatingService(ratingRepository);
         const wantedId = rating.getId();
-        let result = await usecase.execute(wantedId);
+        let result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toBe(rating.getId());
     } )

@@ -45,8 +45,8 @@ describe('FindAllUserService integration tests', () =>{
     });
 
     it('should find an empty array', async () =>{
-        const useCase = new FindAllUserService(userRepository);
-        const results = await useCase.execute();
+        const service = new FindAllUserService(userRepository);
+        const results = await service.execute();
         expect(results).toBeDefined();
         expect(results.all.length).toBe(0);
     })
@@ -69,9 +69,9 @@ describe('FindAllUserService integration tests', () =>{
         expect(await userRepository.create(adminEntity)).toBe(void 0);
         expect(await userRepository.create(teacherEntity)).toBe(void 0);
 
-        const usecase = new FindAllUserService(userRepository);
+        const service = new FindAllUserService(userRepository);
 
-        const results = await usecase.execute();
+        const results = await service.execute();
         expect(results).toBeDefined();
         expect(results.all.length).toBe(2);
         expect(results.all[0].id).toBe(admin.getId());

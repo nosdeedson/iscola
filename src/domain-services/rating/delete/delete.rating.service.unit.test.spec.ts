@@ -11,8 +11,8 @@ describe('DeleteRatingService unit tests', () =>{
 
         ratingRepository.delete = jest.fn().mockImplementationOnce(() => { return void 0});
 
-        const usecase = new DeleteRatingService(ratingRepository);
-        expect(await usecase.execute('123')).toBe(void 0);
+        const service = new DeleteRatingService(ratingRepository);
+        expect(await service.execute('123')).toBe(void 0);
         expect(ratingRepository.delete).toHaveBeenCalledTimes(1);
         expect(ratingRepository.delete).toHaveBeenCalledWith('123')
 
@@ -25,8 +25,8 @@ describe('DeleteRatingService unit tests', () =>{
 
         ratingRepository.delete = jest.fn().mockImplementationOnce(() => { return void 0});
 
-        const usecase = new DeleteRatingService(ratingRepository);
-        expect(await usecase.execute(rating.getId())).toBe(void 0);
+        const service = new DeleteRatingService(ratingRepository);
+        expect(await service.execute(rating.getId())).toBe(void 0);
         expect(ratingRepository.delete).toHaveBeenCalledTimes(1);
         expect(ratingRepository.delete).toHaveBeenCalledWith(rating.getId());
 

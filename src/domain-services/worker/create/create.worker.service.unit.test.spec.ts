@@ -29,9 +29,9 @@ describe('CreateWorkerService test unit', () => {
                 return {}
             }
         );
-        const useCase = new CreateWorkerService(workerRepository, classRepository  )
-        expect(await useCase.execute(worker)).toBe(void 0)
-       // expect(Promise.resolve(await useCase.execute(worker))).resolves.toBe(void 0);
+        const service = new CreateWorkerService(workerRepository, classRepository  )
+        expect(await service.execute(worker)).toBe(void 0)
+       // expect(Promise.resolve(await service.execute(worker))).resolves.toBe(void 0);
         expect(workerRepository.create).toHaveBeenCalledTimes(1);
 
     })
@@ -45,9 +45,9 @@ describe('CreateWorkerService test unit', () => {
             }
         );
         worker.name = '';
-        const useCase = new CreateWorkerService(workerRepository,classRepository );
+        const service = new CreateWorkerService(workerRepository,classRepository );
         try {
-            await useCase.execute(worker);
+            await service.execute(worker);
         } catch (error) {
             expect(error.errors[0].message).toBe("Name should not be null")
         }
@@ -63,9 +63,9 @@ describe('CreateWorkerService test unit', () => {
         );
         let nothing;
         worker.birthday = nothing;
-        const useCase = new CreateWorkerService(workerRepository, classRepository);
+        const service = new CreateWorkerService(workerRepository, classRepository);
         try {
-            await useCase.execute(worker);
+            await service.execute(worker);
         } catch (error) {
             expect(error.errors[0].message).toBe("Birthday should not be null")
         }
@@ -81,9 +81,9 @@ describe('CreateWorkerService test unit', () => {
         );
         let nothing;
         worker.role = nothing;
-        const useCase = new CreateWorkerService(workerRepository, classRepository);
+        const service = new CreateWorkerService(workerRepository, classRepository);
         try {
-            await useCase.execute(worker);
+            await service.execute(worker);
         } catch (error) {
             expect(error.errors[0].message).toBe("Role should not be null")
         }
@@ -100,9 +100,9 @@ describe('CreateWorkerService test unit', () => {
         workerRepository.create = jest.fn().mockImplementationOnce( () => {
             throw new SystemError([{context: 'teacher', message: "database not available"}]); 
         })
-        const useCase = new CreateWorkerService(workerRepository, classRepository);
+        const service = new CreateWorkerService(workerRepository, classRepository);
         try {
-            await useCase.execute(worker)
+            await service.execute(worker)
         } catch (error) {
             expect(error.errors[0].message).toBe('database not available')
         }

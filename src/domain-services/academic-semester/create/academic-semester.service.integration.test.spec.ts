@@ -34,8 +34,8 @@ describe('Academic semester integration test', () =>{
     })
 
     it('should save a academicSemester in BD', async () =>{
-        let useCase = new CreateAcademicSemesterService(semesterRepository);
-        expect(await useCase.execute(input)).toBe(void 0);
+        let service = new CreateAcademicSemesterService(semesterRepository);
+        expect(await service.execute(input)).toBe(void 0);
         let results = await semesterRepository.findAll();
         expect(results).toBeDefined();
         expect(results[0].beginningDate).toEqual(input.beginningDate);

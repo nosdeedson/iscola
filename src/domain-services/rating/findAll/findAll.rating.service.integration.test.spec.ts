@@ -52,8 +52,8 @@ describe('find all rating integration tests', () => {
     });
 
     it('should find an empty array', async () =>{
-        const usecase = new FindAllRatingService(ratingRepository);
-        let results = await usecase.execute();
+        const service = new FindAllRatingService(ratingRepository);
+        let results = await service.execute();
         expect(results.all.length).toBe(0)
     })
 
@@ -70,8 +70,8 @@ describe('find all rating integration tests', () => {
         let ratingEntity = RatingEntity.toRatingEntity(rating);
         expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
 
-        const usecase = new FindAllRatingService(ratingRepository);
-        let results = await usecase.execute();
+        const service = new FindAllRatingService(ratingRepository);
+        let results = await service.execute();
         expect(results.all.length).toBe(1);
         expect(results.all[0].id).toBe(rating.getId())
 

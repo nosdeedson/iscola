@@ -9,8 +9,8 @@ describe('findAll service unit tests', () =>{
             .mockImplementationOnce(() =>{
                 return []
             })
-        const useCase = new FindAllAcademicSemesterService(semesterRepository);
-        let results = await useCase.execute();
+        const service = new FindAllAcademicSemesterService(semesterRepository);
+        let results = await service.execute();
         expect(results.all.length).toBe(0);
         expect(semesterRepository.findAll).toHaveBeenCalledTimes(1)
     })
@@ -28,8 +28,8 @@ describe('findAll service unit tests', () =>{
                     {id: '4321', actual: true, beginningDate1, endingDate1}
                 ]
             })
-        const useCase = new FindAllAcademicSemesterService(semesterRepository);
-        let results = await useCase.execute();
+        const service = new FindAllAcademicSemesterService(semesterRepository);
+        let results = await service.execute();
         expect(results.all.length).toBe(2);
         expect(results.all[0].id).toBe('1234');
         expect(results.all[1].id).toBe('4321');

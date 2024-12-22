@@ -25,8 +25,8 @@ describe('FindWorkerService unit tests', () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         workerRepository.find = 
         jest.fn().mockReturnValue(await Promise.resolve(workerEntity));
-        const usecase = new FindWorkerService(await workerRepository);
-        const result = await usecase.execute(input);
+        const service = new FindWorkerService(await workerRepository);
+        const result = await service.execute(input);
 
         expect(result.id).toBe(input.id)
         expect(result.birthday).toEqual(worker.getBirthday())
@@ -42,8 +42,8 @@ describe('FindWorkerService unit tests', () => {
     it('should return empty result for a worker', async () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         (await workerRepository).find = jest.fn().mockReturnValueOnce(await Promise.resolve(null))
-        const usecase = new FindWorkerService(await workerRepository);
-        const result = await usecase.execute(input);
+        const service = new FindWorkerService(await workerRepository);
+        const result = await service.execute(input);
         expect(result.id).toBeUndefined()
         expect(result.birthday).toBeUndefined()
         expect(result.createdAt).toBeUndefined()

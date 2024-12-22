@@ -18,8 +18,8 @@ describe('FindAllUserService unit test', () =>{
         userRepository.findAll = jest.fn().mockImplementationOnce(() => {
             return [];
         });
-        const usecase = new FindAllUserService(userRepository);
-        let results = await usecase.execute();
+        const service = new FindAllUserService(userRepository);
+        let results = await service.execute();
         expect(results).toBeDefined();
         expect(results.all.length).toBe(0);
         expect(userRepository.findAll).toHaveBeenCalledTimes(1);
@@ -34,8 +34,8 @@ describe('FindAllUserService unit test', () =>{
         userRepository.findAll = jest.fn().mockImplementationOnce(() => {
             return [ adminEntity, teacherEntity];
         });
-        const usecase = new FindAllUserService(userRepository);
-        let results = await usecase.execute();
+        const service = new FindAllUserService(userRepository);
+        let results = await service.execute();
         expect(results).toBeDefined();
         expect(results.all.length).toBe(2);
         expect(userRepository.findAll).toHaveBeenCalledTimes(1);

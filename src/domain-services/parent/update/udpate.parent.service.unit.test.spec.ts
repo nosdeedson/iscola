@@ -9,12 +9,12 @@ describe('UpdateParentService unit test', () =>{
     it('given wrong id should throw an systemError', async () =>{
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
         parentRepository.find = jest.fn().mockImplementationOnce(() => null);
-        const usecase = new UpdateParentService(parentRepository);
+        const service = new UpdateParentService(parentRepository);
         const student = DomainMocks.mockStudent();
         const studentEntity = StudentEntity.toStudentEntity(student);
         const noExistentParentId = 'ce8750b9-6396-4d87-86f1-caa3316ff177'
         try {
-            await usecase.execute(studentEntity, noExistentParentId);
+            await service.execute(studentEntity, noExistentParentId);
         } catch (error) {
             expect(error.errors).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'parent', message: 'Parent not found'}]);
@@ -27,12 +27,12 @@ describe('UpdateParentService unit test', () =>{
         const parentEntity = ParentEntity.toParentEntity(parent);
         parentRepository.find = jest.fn().mockImplementationOnce(() => parentEntity);
         
-        const usecase = new UpdateParentService(parentRepository);
+        const service = new UpdateParentService(parentRepository);
         const student = DomainMocks.mockStudent();
         const studentEntity = StudentEntity.toStudentEntity(student);
         parentRepository.update = jest.fn().mockImplementationOnce(() => parentEntity.students.push(studentEntity))
         const parentId = parent.getId()
-        expect(await usecase.execute(studentEntity, parentId)).toBe(void 0);
+        expect(await service.execute(studentEntity, parentId)).toBe(void 0);
     });
 
 })

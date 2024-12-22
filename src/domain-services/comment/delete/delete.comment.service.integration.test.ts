@@ -77,8 +77,8 @@ describe('DeleteCommentService integration test', () =>{
 
     it('given an id that does not exist should not trhow error', async () =>{
         let wantedId = '2c1d88fb-462e-4e8b-bcb1-27119dac4317';
-        const usecase = new DeleteCommentService(commentRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
+        const service = new DeleteCommentService(commentRepository);
+        expect(await service.execute(wantedId)).toBe(void 0);
     })
 
     it('given a valid comment should delete it on BD', async () =>{
@@ -104,8 +104,8 @@ describe('DeleteCommentService integration test', () =>{
         let result = await commentRepository.find(wantedId);
         expect(result).toBeDefined();
 
-        const usecase = new DeleteCommentService(commentRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
+        const service = new DeleteCommentService(commentRepository);
+        expect(await service.execute(wantedId)).toBe(void 0);
         result = await commentRepository.find(wantedId);
         expect(result).toBeNull();
     });

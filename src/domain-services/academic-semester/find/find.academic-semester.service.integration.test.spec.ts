@@ -39,8 +39,8 @@ describe('Academic semester find integrations tests', () => {
         let result = await semesterRepository.find(wantedId);
         expect(result).toBeNull()
         expect(await semesterRepository.create(model)).toBe(void 0);
-        const usecase = new FindAcademicSemesterService(semesterRepository);
-        result = await usecase.execute(wantedId);
+        const service = new FindAcademicSemesterService(semesterRepository);
+        result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toBe(wantedId);
     })  
@@ -51,9 +51,9 @@ describe('Academic semester find integrations tests', () => {
         let result = await semesterRepository.find(wantedId);
         expect(result).toBeNull()
         expect(await semesterRepository.create(model)).toBe(void 0);
-        const usecase = new FindAcademicSemesterService(semesterRepository);
+        const service = new FindAcademicSemesterService(semesterRepository);
         try {
-            result = await usecase.execute(wantedId);
+            result = await service.execute(wantedId);
         } catch (error) {
             expect(error.errors[0].message).toBe('Academic Semester not found');
         }

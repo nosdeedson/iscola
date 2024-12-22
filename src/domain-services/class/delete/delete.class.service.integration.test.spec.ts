@@ -41,8 +41,8 @@ describe('delete class service integration test', () =>{
         let result = await classRepository.find(wantedId);
         expect(result).toBeDefined();
 
-        const usecase = new DeleteClassService(classRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
+        const service = new DeleteClassService(classRepository);
+        expect(await service.execute(wantedId)).toBe(void 0);
         
         let results = await classRepository.findAll();
         expect(results.length).toBe(0);
@@ -58,8 +58,8 @@ describe('delete class service integration test', () =>{
         let results = await classRepository.findAll();
         expect(results.length).toBe(1);
 
-        const usecase = new DeleteClassService(classRepository);
-        expect(await usecase.execute(wantedId)).toBe(void 0);
+        const service = new DeleteClassService(classRepository);
+        expect(await service.execute(wantedId)).toBe(void 0);
         
         results = await classRepository.findAll();
         expect(results.length).toBe(1);

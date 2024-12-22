@@ -49,9 +49,9 @@ describe('CreateParentService integration tests', () =>{
         let students = [];
         
         let input = new CreateParentDto(new Date(), 'edson');
-        let usecase = new CreateParentService(parentRepository);
+        let service = new CreateParentService(parentRepository);
         try{
-            await usecase.execute(input, students)
+            await service.execute(input, students)
         } catch(error){
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject([ { context: 'parent', message: 'students field must have at least 1 items' } ])
@@ -67,8 +67,8 @@ describe('CreateParentService integration tests', () =>{
         expect(await studentRepository.create(studentEntity)).toBe(void 0)
         
         let input = new CreateParentDto(new Date(), 'edson');
-        let usecase = new CreateParentService(parentRepository);
-        expect(await usecase.execute(input, students)).toBe(void 0);
+        let service = new CreateParentService(parentRepository);
+        expect(await service.execute(input, students)).toBe(void 0);
         let result = await parentRepository.find(parent.getId());
         expect(result).toBeDefined();
         expect(result.id).toBe(parent.getId());

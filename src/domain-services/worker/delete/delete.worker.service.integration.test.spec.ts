@@ -42,9 +42,9 @@ describe('DeleteWorkerService integration test', () => {
 
         let results = await workerRepository.findAll();
         expect(results.length).toBe(1);
-        let useCase =  new DeleteWorkerService(workerRepository);
+        let service =  new DeleteWorkerService(workerRepository);
 
-        await useCase.execute(wantedId);
+        await service.execute(wantedId);
         results = await workerRepository.findAll();
         expect(results.length).toBe(1);
         expect(results[0].deletedAt).toBeDefined();
@@ -61,9 +61,9 @@ describe('DeleteWorkerService integration test', () => {
 
         let result = await workerRepository.find(worker.getId());
         expect(result).toBeDefined();
-        let useCase =  new DeleteWorkerService(workerRepository);
+        let service =  new DeleteWorkerService(workerRepository);
 
-        await useCase.execute(wantedId);
+        await service.execute(wantedId);
         result = await workerRepository.find(worker.getId());
         expect(result.deletedAt).toBeNull();
     })

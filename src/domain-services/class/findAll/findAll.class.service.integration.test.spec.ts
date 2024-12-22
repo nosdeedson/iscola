@@ -32,8 +32,8 @@ describe('findall service integration test', () =>{
     });
 
     it('should not find any class ', async () =>{
-        const useCase = new FindAllClassService(classRepository);
-        let results = await useCase.execute();
+        const service = new FindAllClassService(classRepository);
+        let results = await service.execute();
         expect(results).toBeDefined();
         expect(results.all).toBeDefined();
         expect(results.all.length).toBe(0);
@@ -46,8 +46,8 @@ describe('findall service integration test', () =>{
         let entity = ClassEntity.toClassEntity(schoolgroup);
         expect(await classRepository.create(entity)).toBe(void 0);
 
-        const useCase = new FindAllClassService(classRepository);
-        let results = await useCase.execute();
+        const service = new FindAllClassService(classRepository);
+        let results = await service.execute();
 
         expect(results).toBeDefined();
         expect(results.all).toBeDefined();

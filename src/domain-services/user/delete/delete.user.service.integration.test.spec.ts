@@ -59,8 +59,8 @@ describe('service delete user integration tests', () => {
         expect(userBD).toBeDefined();
         expect(userBD.deleteAt).toBeUndefined();
 
-        const usecase = new DeleteUserService(userRepository);
-        expect(await usecase.execute(wantedId));
+        const service = new DeleteUserService(userRepository);
+        expect(await service.execute(wantedId));
         userBD = await userRepository.find(wantedId);
         expect(userBD).toBeNull();
     });
@@ -79,8 +79,8 @@ describe('service delete user integration tests', () => {
         expect(userBD).toBeDefined();
         expect(userBD.deleteAt).toBeUndefined();
 
-        const usecase = new DeleteUserService(userRepository);
-        expect(await usecase.execute(wantedId));
+        const service = new DeleteUserService(userRepository);
+        expect(await service.execute(wantedId));
         userBD = await userRepository.find(user.getId());
         expect(userBD).toBeDefined();
         expect(userBD.deleteAt).toBeUndefined();

@@ -35,8 +35,8 @@ describe('CreateClassUsecas unit test', () => {
                 return '123456';
             })
         const classRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateClassService(classRepository);
-        expect(await usecase.execute(classDto)).toBe(void 0);
+        const service = new CreateClassService(classRepository);
+        expect(await service.execute(classDto)).toBe(void 0);
         expect(classCodeHelper).toHaveBeenCalledTimes(1);
         expect(classRepository.create).toHaveBeenCalledTimes(1);
     });
@@ -49,9 +49,9 @@ describe('CreateClassUsecas unit test', () => {
                 return '123456';
             })
         const classRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateClassService(classRepository);
+        const service = new CreateClassService(classRepository);
         try {
-            await usecase.execute(classDto);
+            await service.execute(classDto);
         } catch (error) {   
             expect(error.errors).toBeDefined();
             expect(error.errors).toStrictEqual([{context: "class", message: "Name of the book is required"}]);
@@ -67,9 +67,9 @@ describe('CreateClassUsecas unit test', () => {
                 return '123456';
             })
         const classRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateClassService(classRepository);
+        const service = new CreateClassService(classRepository);
         try {
-            await usecase.execute(classDto);
+            await service.execute(classDto);
         } catch (error) {   
             expect(error.errors).toBeDefined();
             expect(error.errors).toStrictEqual([{context: "class", message: "Name of the class is required"}]);
@@ -85,9 +85,9 @@ describe('CreateClassUsecas unit test', () => {
                 return classCode;
             })
         const classRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateClassService(classRepository);
+        const service = new CreateClassService(classRepository);
         try {
-            await usecase.execute(classDto);
+            await service.execute(classDto);
         } catch (error) {   
             expect(error.errors).toBeDefined();
             expect(error.errors).toStrictEqual([{context: "class", message: "classcode is required"}]);
@@ -104,9 +104,9 @@ describe('CreateClassUsecas unit test', () => {
                 return '123456';
             })
         const classRepository = MockRepositoriesForUnitTest.mockRepositories();
-        const usecase = new CreateClassService(classRepository);
+        const service = new CreateClassService(classRepository);
         try {
-            await usecase.execute(classDto);
+            await service.execute(classDto);
         } catch (error) {   
             expect(error.errors).toBeDefined();
             expect(error.errors).toStrictEqual([{context: "class", message: "schedule is required"}]);
