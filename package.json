@@ -8,7 +8,7 @@
     "start:dev": "NODE_ENV=.dev nest start --watch",
     "start:debug": "NODE_ENV=.dev nest start --debug --watch",
     "start:prod": "node dist/main",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "keywords": [],
   "author": "",
@@ -36,5 +36,15 @@
     "typeorm": "^0.3.20",
     "uuid": "^10.0.0",
     "yup": "^1.4.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testRegex": ".*\\.spec\\.ts$",
+    "moduleFileExtensions": ["ts", "js", "json", "node"],
+    "testPathIgnorePatterns": ["/node_modules/", "/dist/"],
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov"]
   }
 }

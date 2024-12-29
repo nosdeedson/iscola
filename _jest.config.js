@@ -11,7 +11,7 @@ module.exports = {
   //   "ts"
   // ],
   rootDir: "src",
-  // testRegex: ".*\\.spec\\.ts$",
+  testRegex: ".*\\.spec\\.ts$",
   moduleNameMapper:{
     "^src/(.*)$": "<rootDir>/$1"
   }

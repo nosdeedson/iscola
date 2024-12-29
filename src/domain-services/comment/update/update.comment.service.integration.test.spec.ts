@@ -108,7 +108,7 @@ describe('UpdateCommentService integration tests', () =>{
             await service.execute(dto);
         } catch (error) {
             expect(error.errors).toBeDefined();
-            expect(error.errors[0]).toMatchObject([{context: 'comment', message: 'comment not found'}]);
+            expect(error.errors).toMatchObject([{context: 'comment', message: 'comment not found'}]);
         }
     });
 

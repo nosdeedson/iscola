@@ -225,7 +225,7 @@ describe('Rating unit tests', () => {
     })
 
     it('should have at leat one comment', () => {
-        let comment = new Comment("comment", '123', new Date());
+        let comment = new Comment("comment", '123');
         const rating = new Rating(
             period,
             student,
@@ -245,7 +245,7 @@ describe('Rating unit tests', () => {
     });
 
     it('should get a comment', () => {
-        let comment = new Comment("comment", '123', new Date());
+        let comment = new Comment("comment", '123');
         const rating = new Rating(
             period,
             student,
