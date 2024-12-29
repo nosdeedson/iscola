@@ -1,4 +1,3 @@
-import { Rating } from "src/domain/rating/rating";
 
 export class UpdateStudentDto {
     id: string;
@@ -9,7 +8,7 @@ export class UpdateStudentDto {
         enrolled: string
     ){
         id = id;
-        enrolled = enrolled;
+        this.enrolled = enrolled;
     }
     
 }

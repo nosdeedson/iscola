@@ -1,4 +1,5 @@
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
+import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
 import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
 import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
@@ -44,5 +45,17 @@ describe('UpdateStudentService integration tests', () =>{
                 expect(error.errors).toMatchObject([{context: 'student', message: 'student not found'}]);
             }
 
+        });
+
+        it('should update a student in database', async () =>{
+            let student = DomainMocks.mockStudent();
+            let studentEntity = StudentEntity.toStudentEntity(student);
+            expect(await studentRepository.create(studentEntity)).toBe(void 0);
+            let updatedErroled = '987';
+            const service = new UpdateStudentService(studentRepository);
+            const dto = new UpdateStudentDto(student.getId(), updatedErroled);
+            expect(await service.execute(dto)).toBe(void 0);
+            const updatedStudent= await studentRepository.find(student.getId());
+            expect(updatedStudent.enrolled).toBe(updatedErroled)
         })
 })
