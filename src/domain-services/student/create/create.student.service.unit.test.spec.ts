@@ -10,7 +10,7 @@ import { Parent } from "../../../domain/parent/parent";
 describe('CreateStudentService', () =>{
 
     it('should throw a SystemError if schoolgroup not found', async () =>{
-        const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ], '123');
+        const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ]);
         
         const parent = DomainMocks.mockParent();
         const parentEntities = ParentEntity.toParentEntity(parent)
@@ -19,7 +19,7 @@ describe('CreateStudentService', () =>{
         parentRepository.findByIds = jest.fn().mockImplementationOnce(() => { return [parentEntities]});
         
         const schoolgroupRepository = MockRepositoriesForUnitTest.mockRepositories();
-        schoolgroupRepository.find = jest.fn().mockImplementationOnce(() => {return null})
+        schoolgroupRepository.findByClassCode = jest.fn().mockImplementationOnce(() => {return null})
         
         const studentRepository = MockRepositoriesForUnitTest.mockRepositories();
         
@@ -30,15 +30,15 @@ describe('CreateStudentService', () =>{
         } catch (error) {
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'student', message: 'Schoolgroup not found'}]);
-            expect(schoolgroupRepository.find).toHaveBeenCalledTimes(1);
+            expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
             expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
-            expect(schoolgroupRepository.find).toHaveBeenCalledWith(dto.schoolGroupId);
+            expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
             expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
         }
     });
 
     it('should throw a SystemError if parents not found', async () =>{
-        const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ], '123');
+        const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ]);
         const schoolGroup = DomainMocks.mockSchoolGroup();
         const schoolGroupEntity = ClassEntity.toClassEntity(schoolGroup);
 
@@ -48,7 +48,7 @@ describe('CreateStudentService', () =>{
         const studentRepository = MockRepositoriesForUnitTest.mockRepositories();
         const schoolgroupRepository = MockRepositoriesForUnitTest.mockRepositories();
 
-        schoolgroupRepository.find = jest.fn().mockImplementationOnce(() => {return schoolGroupEntity});
+        schoolgroupRepository.findByClassCode = jest.fn().mockImplementationOnce(() => {return schoolGroupEntity});
 
         const service = new CreateStudentService(studentRepository, schoolgroupRepository, parentRepository);
 
@@ -57,15 +57,15 @@ describe('CreateStudentService', () =>{
         } catch (error) {
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'student', message: 'At least one parent must be informed'}]);
-            expect(schoolgroupRepository.find).toHaveBeenCalledTimes(1);
+            expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
             expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
-            expect(schoolgroupRepository.find).toHaveBeenCalledWith(dto.schoolGroupId);
+            expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
             expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
         }
     })
 
     it('should throw a SystemError if parents and Schoolgroup not found', async () =>{
-        const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ], '123');
+        const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ]);
 
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
         parentRepository.findByIds = jest.fn().mockImplementationOnce(() => {return []});
@@ -73,7 +73,7 @@ describe('CreateStudentService', () =>{
         const schoolgroupRepository = MockRepositoriesForUnitTest.mockRepositories();
         
         const studentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        schoolgroupRepository.find = jest.fn().mockImplementationOnce(() => {return null});
+        schoolgroupRepository.findByClassCode = jest.fn().mockImplementationOnce(() => {return null});
 
         const service = new CreateStudentService(studentRepository, schoolgroupRepository, parentRepository);
 
@@ -82,16 +82,16 @@ describe('CreateStudentService', () =>{
         } catch (error) {
             expect(error).toBeDefined();
             expect(error.errors).toMatchObject([{context: 'student', message: 'Schoolgroup not found'}, {context: 'student', message: 'At least one parent must be informed'}]);
-            expect(schoolgroupRepository.find).toHaveBeenCalledTimes(1);
+            expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
             expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
-            expect(schoolgroupRepository.find).toHaveBeenCalledWith(dto.schoolGroupId);
+            expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
             expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
         }
     })
 
        // TODO THE REST OF TESTS
     it('should return a list of parent domain while converting from parent entities', async () =>{
-        const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ], '123');
+        const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ]);
 
         const parent = DomainMocks.mockParent();
         const parentEntities = ParentEntity.toParentEntity(parent);
@@ -104,7 +104,7 @@ describe('CreateStudentService', () =>{
 
         const schoolgroupRepository = MockRepositoriesForUnitTest.mockRepositories();
 
-        schoolgroupRepository.find = jest.fn().mockImplementationOnce(() => {return schoolGroupEntity});
+        schoolgroupRepository.findByClassCode = jest.fn().mockImplementationOnce(() => {return schoolGroupEntity});
 
         const studentRepository = MockRepositoriesForUnitTest.mockRepositories();
         studentRepository.create = jest.fn().mockImplementationOnce(() => {return void 0})
@@ -117,9 +117,9 @@ describe('CreateStudentService', () =>{
             .mockReturnValue( parent);
 
         expect(studentRepository.create).toHaveBeenCalledTimes(1);        
-        expect(schoolgroupRepository.find).toHaveBeenCalledTimes(1);
+        expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
         expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
-        expect(schoolgroupRepository.find).toHaveBeenCalledWith(dto.schoolGroupId);
+        expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
         expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
     });
 

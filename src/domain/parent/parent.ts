@@ -35,7 +35,7 @@ export class Parent extends Person{
 
     static toDomain(parentEntity: ParentEntity): Parent {
         let students = [];
-        if(parentEntity?.students.length > 0){
+        if(parentEntity?.students && parentEntity?.students.length > 0){
             parentEntity.students.forEach(it => {
                 students.push(Student.toDomain(it));
             })

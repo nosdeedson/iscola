@@ -27,7 +27,7 @@ export class CreateStudentService {
     async execute(dto: CreateStudentDto) {
         try {
             let errors: NotificationErrorProps[] = [];
-            const schoolGroup = this.schoolgroupRepository.find(dto.schoolGroupId);
+            const schoolGroup = await this.schoolgroupRepository.findByClassCode(dto.enrolled);
             if (!schoolGroup) {
                 errors.push({ context: 'student', message: 'Schoolgroup not found' });
             }
@@ -46,7 +46,7 @@ export class CreateStudentService {
             });
             let student = new Student(dto.birthday, dto.name, dto.enrolled, parentsDomain);
             if(student?.getNotification()?.hasError()){
-                throw new SystemError(student.getNotification());
+                throw new SystemError(student.getNotification().errors);
             }
             let studentEntity = StudentEntity.toStudentEntity(student);
             await this.studentRepository.create(studentEntity);
