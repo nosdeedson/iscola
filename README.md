@@ -11,6 +11,8 @@
 # npm install date-fns --save
 # npm install --save @nestjs/typeorm typeorm pg
 # npm i --save @nestjs/config
+# npm install --save-dev jest ts-jest @types/jest supertest
+
 
 ## how to see the coverage of tests
 # npm test -- --coverage
