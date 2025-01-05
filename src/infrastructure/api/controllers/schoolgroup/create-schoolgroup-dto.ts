@@ -18,7 +18,7 @@ export class Schedule  {
     }
 }
 
-export class SchoolgroupDto {
+export class CreateSchoolgroupDto {
 
     @ApiProperty({description: 'Name of the books that will be used in the lessons', example: 'A1'})
     nameBook: string;

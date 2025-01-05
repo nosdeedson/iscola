@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { SchoolgroupDto } from './create-schoolgroup-dto';
-import { SchoolgroupUsecases } from '../../usecases/schoolgroup-usecases/schoolgroup-usecases';
+import { CreateSchoolgroupDto } from './create-schoolgroup-dto';
+import { SchoolgroupUseCases } from '../../usecases/schoolgroup-usecases/schoolgroup-usecases';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateSchoolgroupDto } from './update-schoolgroup-dto';
 
@@ -8,35 +8,35 @@ import { UpdateSchoolgroupDto } from './update-schoolgroup-dto';
 @Controller('schoolgroup')
 export class SchoolgroupController {
 
-    constructor(private schoolgroupService: SchoolgroupUsecases){}
+    constructor(private schoolgroupUseCase: SchoolgroupUseCases){}
     
     @ApiOperation({description: 'Create a schoolgroup'})
     @ApiResponse({status: 201,})
     @ApiResponse({status: '4XX', description: 'Return status 400 when request has invalid information'})
     @Post()
-    async create(@Body() dto: SchoolgroupDto): Promise<void>{
-        await this.schoolgroupService.create(dto);
+    async create(@Body() dto: CreateSchoolgroupDto): Promise<void>{
+        await this.schoolgroupUseCase.create(dto);
     }
 
     @ApiOperation({description: 'Delete a schoolgroup'})
     @ApiResponse({status: 204, description: 'if schoolgroup does not exist do anything', example: 'fcfca953-946f-40e9-a1ae-22775888583e'})
     @Delete(':id')
     async delete(@Param('id') id: string): Promise<void>{
-        await this.schoolgroupService.delete(id);
+        await this.schoolgroupUseCase.delete(id);
     }
 
     @ApiOperation({description: 'Find a schoolgroup'})
     @ApiResponse({status: 204, description: 'if schoolgroup does not exist do anything'})
     @Get(':id')
     async find(@Param('id') id: string){
-        return await this.schoolgroupService.find(id);
+        return await this.schoolgroupUseCase.find(id);
     }
 
     @ApiOperation({description: 'Find all schoolgroup'})
     @ApiResponse({status: 204, description: 'If there is no schoolgroup return an empty array'})
     @Get()
     async findAll(){
-        return await this.schoolgroupService.findAll();
+        return await this.schoolgroupUseCase.findAll();
     }
 
     @ApiOperation({description: 'Update schoolgroup'})
@@ -44,7 +44,7 @@ export class SchoolgroupController {
     @ApiResponse({status: '4XX', description: 'If schoolgroup not found throw exeception'})
     @Patch()
     async update(@Body() dto: UpdateSchoolgroupDto): Promise<void>{
-        await this.schoolgroupService.update(dto);
+        await this.schoolgroupUseCase.update(dto);
     }
 
 }

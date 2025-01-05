@@ -11,6 +11,7 @@ module.exports = {
   //   "ts"
   // ],
   rootDir: "src",
+  forceExit: true,
   testRegex: ".*\\.spec\\.ts$",
   moduleNameMapper:{
     "^src/(.*)$": "<rootDir>/$1"

@@ -8,11 +8,11 @@ import { ClassEntity } from 'src/infrastructure/entities/class/class.entity';
 import { ClassRepository } from 'src/infrastructure/repositories/class/class.repository';
 import { TrataErros } from 'src/infrastructure/utils/trata-erros/trata-erros';
 import { DataSource } from 'typeorm';
-import { SchoolgroupDto } from '../../controllers/schoolgroup/create-schoolgroup-dto';
+import { CreateSchoolgroupDto } from '../../controllers/schoolgroup/create-schoolgroup-dto';
 import { UpdateSchoolgroupDto } from '../../controllers/schoolgroup/update-schoolgroup-dto';
 
 @Injectable()
-export class SchoolgroupUsecases {
+export class SchoolgroupUseCases {
 
     private entity: any;
     private repository: any;
@@ -24,7 +24,7 @@ export class SchoolgroupUsecases {
         this.repository = new ClassRepository(this.entity, dataSource);
     }
 
-    async create(dto: SchoolgroupDto): Promise<void> {
+    async create(dto: CreateSchoolgroupDto): Promise<void> {
         try {
             let createService = new CreateClassService(this.repository);
             let input = dto.toInput();
