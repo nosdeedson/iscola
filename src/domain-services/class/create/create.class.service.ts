@@ -1,10 +1,10 @@
-import { Class } from "src/domain/class/class";
+import { Class } from "../../../domain/class/class";
 import { ClassRepositoryInterface } from "src/domain/class/class.repository.interface";
-import { Schedule } from "src/domain/schedule/schedule";
-import { ClassCodeHelper } from "src/helpers/classCode/class-code.heper";
-import { ClassEntity } from "src/infrastructure/entities/class/class.entity";
+import { Schedule } from "../../../domain/schedule/schedule";
+import { ClassCodeHelper } from "../../../helpers/classCode/class-code.heper";
+import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
 import { CreateClassDto } from "./create.class.dto";
-import { SystemError } from "src/domain-services/@shared/system-error";
+import { SystemError } from "../../../domain-services/@shared/system-error";
 
 export class CreateClassService {
     private classRepository: ClassRepositoryInterface;

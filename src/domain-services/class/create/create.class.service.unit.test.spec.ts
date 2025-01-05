@@ -29,6 +29,7 @@ describe('CreateClassUsecas unit test', () => {
     });
 
     it('should create a class', async () => {
+        console.log(scheduleDto.times);
         classDto = new CreateClassDto('a1', 'a1class1', scheduleDto);
         const classCodeHelper = jest.spyOn(ClassCodeHelper, 'createClassCode')
             .mockImplementationOnce(() => {

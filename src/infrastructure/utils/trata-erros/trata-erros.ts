@@ -1,0 +1,25 @@
+import { BadRequestException, NotFoundException } from "@nestjs/common";
+import { throwError } from "rxjs";
+import { SystemError } from "src/domain-services/@shared/system-error";
+
+export class TrataErros {
+
+    static tratarErrorsBadRequest(error: SystemError) {
+        error.errors.forEach(element => {
+            let errors = []
+            error.errors.forEach(element => {
+                errors.push(element.message);
+            });
+            throw new BadRequestException(errors.join());
+        });
+    }
+
+    static tratarErrorsNotFound(error: SystemError){
+        let errors = []
+        error.errors.forEach(element => {
+            errors.push(element.message);
+        })
+        throw new NotFoundException(errors.join());
+    }
+
+}

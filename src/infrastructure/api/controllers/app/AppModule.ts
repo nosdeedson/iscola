@@ -11,36 +11,20 @@ import { StudentEntity } from "../../../../infrastructure/entities/student/stude
 import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
 import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
 import { UserEntity } from "../../../../infrastructure/entities/user/user.entity";
-import { AppService } from "../../services/appservice/AppService";
+import { AppUseCase } from "../../usecases/app-usecase/app-usecase";
+import { SemesterModule } from "../semester/semester.module";
+import { SchoolgroupModule } from "../schoolgroup/schoolgroup.module";
 
 @Module({
     imports: [
+        SchoolgroupModule,
+        SemesterModule,
         ConfigModule.forRoot({
             envFilePath: `.env${process.env.NODE_ENV}`,
             //isGlobal: true
         }),
-        TypeOrmModule.forRoot({
-            type: 'postgres',
-            host: process.env.POSTGRES_HOST,
-            username: process.env.POSTGRES_USER_NAME,
-            password: process.env.POSTGRES_PASSWORD,
-            database: process.env.DATABASE_NAME,
-            synchronize: true,
-            port: 5432,
-            entities: [
-                AcademicSemesterEntity,
-                ClassEntity,
-                CommentEntity,
-                RatingEntity,
-                PersonEntity,
-                StudentEntity,
-                ParentEntity,
-                WorkerEntity,
-                UserEntity
-            ]
-        })
     ],
     controllers: [AppController],
-    providers: [AppService]
+    providers: [AppUseCase]
 })
 export class AppModule{}

@@ -16,6 +16,6 @@ export class CreateClassDto{
         this.classCode = classCode;
         this.nameBook = nameBook;
         this.name = name;
-        this.scheduleDto = scheduleDto;
+        this.scheduleDto = scheduleDto as ScheduleDto;
     }
 }

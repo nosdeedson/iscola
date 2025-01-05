@@ -60,14 +60,16 @@ export class ClassTeacherDto {
 export class  ClassScheduleDto {
 
     dayOfWeeks: string[] = [];
-    times: Map<string, string> = new Map<string, string>();
+    times: object;
 
     static toDto(entity: ClassEntity): ClassScheduleDto {
         let dto = new ClassScheduleDto();
         dto.dayOfWeeks.push(entity.firstDayOfClassInWeek);
         dto.dayOfWeeks.push(entity.secondDayOfClassInWeek);
-        dto.times.set(entity.firstDayOfClassInWeek, entity.timeFirstDay);
-        dto.times.set(entity.secondDayOfClassInWeek, entity.timeSecondDay);
+        let t = new Map();
+        t.set(entity.firstDayOfClassInWeek, entity.timeFirstDay);
+        t.set(entity.secondDayOfClassInWeek, entity.timeSecondDay);
+        dto.times = Object.fromEntries(t);
         return dto;
     }
 }
