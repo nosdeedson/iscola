@@ -14,11 +14,13 @@ import { UserEntity } from "../../../../infrastructure/entities/user/user.entity
 import { AppUseCase } from "../../usecases/app-usecase/app-usecase";
 import { SemesterModule } from "../semester/semester.module";
 import { SchoolgroupModule } from "../schoolgroup/schoolgroup.module";
+import { UserModule } from "../user/user.module";
 
 @Module({
     imports: [
         SchoolgroupModule,
         SemesterModule,
+        UserModule,
         ConfigModule.forRoot({
             envFilePath: `.env${process.env.NODE_ENV}`,
             //isGlobal: true

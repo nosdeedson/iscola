@@ -10,13 +10,14 @@ export class WorkerRepository implements WorkerRepositoryInterface {
         private dataSource: DataSource
     ) { }
 
-    async create(entity: WorkerEntity): Promise<void> {
+    async create(entity: WorkerEntity): Promise<WorkerEntity> {
         const queryRunner = this.dataSource.createQueryRunner();
         try {
             await queryRunner.connect();
             await queryRunner.startTransaction();
-            await queryRunner.manager.save(entity);
+            let result = await queryRunner.manager.save(entity);
             await queryRunner.commitTransaction();
+            return result;
         } catch (error) {
             console.log(error);
             await queryRunner.rollbackTransaction();

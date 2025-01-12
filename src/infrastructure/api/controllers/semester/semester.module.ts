@@ -17,9 +17,6 @@ import { DataBaseConnectionModule } from 'src/infrastructure/data-base-connectio
         AcademicSemesterRepository,
     ],
     imports: [
-        // TypeOrmModule.forFeature([
-        //     AcademicSemesterEntity,
-        // ]),
         DataBaseConnectionModule,
     ]
 })

@@ -9,9 +9,9 @@ export class UserRepository implements UserRepositoryInterface{
         private dataSource: DataSource
     ){}
   
-    async create(entity: UserEntity): Promise<void> {
+    async create(entity: UserEntity): Promise<UserEntity> {
         try {
-            await this.userRespository.save(entity);
+            return await this.userRespository.save(entity);
         } catch (error) {
             throw error;
         }    

@@ -1,11 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SemesterUsecases } from '../../usecases/semester-usecases/semester-usecases';
 import { CreateSemesteDto } from './create-semester-dto';
-import { bool, boolean, string } from 'yup';
 
 @ApiTags('Semester controller')
-@Controller('semester')
+@Controller('semesters')
 export class SemesterController {
 
     constructor(private semesterUseCases: SemesterUsecases){}

@@ -7,8 +7,6 @@ import { CreateSchoolgroupDto, Schedule } from '../../controllers/schoolgroup/cr
 import { MockSchoolgroupDto } from '../../../__mocks__/mock-schoolgroup-dto';
 import { BadRequestException } from '@nestjs/common';
 
-
-
 describe('SchoolgroupUsecaseService', () => {
   let service: SchoolgroupUseCases;
   let module: TestingModule

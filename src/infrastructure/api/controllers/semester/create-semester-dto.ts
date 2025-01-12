@@ -12,7 +12,7 @@ export class CreateSemesteDto{
 
     @Type(() => Date)
     @IsDate({message: 'date must be a valid ISO 8601 date string'})
-    @ApiProperty({description: 'Date of the ending of the academic semester'})
+    @ApiProperty({description: 'Date of the ending of the academic semester', example: '2025-06-28T12:00:00Z'})
     ending: Date;
 
     toInput(): InputCreateAcademicSemesterDto{
