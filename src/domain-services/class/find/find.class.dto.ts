@@ -60,7 +60,7 @@ export class ClassTeacherDto {
 export class  ClassScheduleDto {
 
     dayOfWeeks: string[] = [];
-    times: object;
+    times: Record<string, string> = {};
 
     static toDto(entity: ClassEntity): ClassScheduleDto {
         let dto = new ClassScheduleDto();

@@ -1,3 +1,4 @@
+import { Class } from '../../../domain/class/class';
 import { RoleEnum } from '../../../domain/worker/roleEnum';
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
 import { ClassEntity } from '../../../infrastructure/entities/class/class.entity';
@@ -7,7 +8,7 @@ import {ClassScheduleDto, FindClassDto, ClassTeacherDto, ClassStudentDto} from '
 
 describe('find dto unit test', () => {
 
-    let schoolgroup;
+    let schoolgroup: Class;
 
     beforeEach(() =>{
         schoolgroup = DomainMocks.mockSchoolGroup();
@@ -104,8 +105,8 @@ describe('find dto unit test', () => {
         expect(schedule.dayOfWeeks.length).toBe(2);
         expect(schedule.dayOfWeeks[0]).toEqual(entity.firstDayOfClassInWeek);
         expect(schedule.dayOfWeeks[1]).toEqual(entity.secondDayOfClassInWeek);
-        expect(schedule.times.get(entity.firstDayOfClassInWeek)).toEqual(entity.timeFirstDay);
-        expect(schedule.times.get(entity.secondDayOfClassInWeek)).toEqual(entity.timeSecondDay);
+        expect(schedule.times[entity.firstDayOfClassInWeek]).toEqual(entity.timeFirstDay);
+        expect(schedule.times[entity.secondDayOfClassInWeek]).toEqual(entity.timeSecondDay);
 
     });
 })
