@@ -51,7 +51,7 @@ export class SemesterUsecases {
         }
     }
 
-    async findAll(): Promise<any>{
+    async findAll(): Promise<FindAllAcademicSemesterDto>{
         let all = new FindAllAcademicSemesterService(this.repository);
         return await all.execute();
     }

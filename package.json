@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "build": "nest build",
-    "start": "NODE_ENV=.dev nest start",
-    "start:dev": "NODE_ENV=.dev nest start --watch",
-    "start:debug": "NODE_ENV=.dev nest start --debug --watch",
+    "start": "NODE_ENV=dev nest start",
+    "start:dev": "NODE_ENV=dev nest start --watch",
+    "start:debug": "NODE_ENV=dev nest start --debug --watch",
     "start:prod": "node dist/main",
     "test": "jest --detectOpenHandles"
   },
@@ -15,6 +15,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@nestjs/cli": "^11.0.14",
     "@nestjs/testing": "^10.4.15",
     "@swc/cli": "^0.4.0",
     "@swc/core": "^1.7.4",

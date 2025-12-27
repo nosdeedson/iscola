@@ -20,7 +20,7 @@ import { SchoolgroupModule } from "../schoolgroup/schoolgroup.module";
         SchoolgroupModule,
         SemesterModule,
         ConfigModule.forRoot({
-            envFilePath: `.env${process.env.NODE_ENV}`,
+            envFilePath: `.env.${process.env.NODE_ENV}`,
             //isGlobal: true
         }),
     ],
