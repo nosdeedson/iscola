@@ -3,6 +3,7 @@ import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SemesterUsecases } from '../../usecases/semester-usecases/semester-usecases';
 import { CreateSemesteDto } from './create-semester-dto';
 import { bool, boolean, string } from 'yup';
+import { FindAllAcademicSemesterDto } from 'src/domain-services/academic-semester/findAll/findAll.academic-semester.dto';
 
 @ApiTags('Semester controller')
 @Controller('semester')
@@ -35,7 +36,7 @@ export class SemesterController {
     @ApiResponse({status: 200, description: 'Return all Academic semester', })
     @ApiResponse({status: '4XX', description: 'If there is no Academic semester return empty array',})
     @Get()
-    async findAll(): Promise<any>{
+    async findAll(): Promise<FindAllAcademicSemesterDto>{
         return await this.semesterUseCases.findAll();
     }
 
