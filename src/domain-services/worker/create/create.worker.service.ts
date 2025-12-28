@@ -29,7 +29,7 @@ export class CreateWorkerService {
             let schoolGroup = await this.schoolGroupRepository.findByClassCode(input.classCode);
             model.classes = [];
             model.classes.push(schoolGroup);
-            await this.workerRepository.create(model);
+            return await this.workerRepository.create(model);
             // TODO CREATE THE USER FOR WORKER, WHICH MUST BE DONE IN THE SERVICE THAT WOULD BE CALLED BY THE CONTROLLER
         } catch (error) {
             throw error;

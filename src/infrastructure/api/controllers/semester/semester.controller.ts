@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SemesterUsecases } from '../../usecases/semester-usecases/semester-usecases';
-import { CreateSemesteDto } from './create-semester-dto';
+import { CreateSemesterDto } from './create-semester-dto';
 import { bool, boolean, string } from 'yup';
 import { FindAllAcademicSemesterDto } from 'src/domain-services/academic-semester/findAll/findAll.academic-semester.dto';
 
@@ -15,7 +15,7 @@ export class SemesterController {
     @ApiResponse({status: 201, description: 'return 201 if everything ok'})
     @ApiResponse({status: '4XX', description: 'Return exception of 400 status if request has incorrect information'})
     @Post()
-    async create(@Body() dto: CreateSemesteDto): Promise<void>{
+    async create(@Body() dto: CreateSemesterDto): Promise<void>{
        await this.semesterUseCases.createSemester(dto);
     }
 

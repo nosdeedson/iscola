@@ -10,13 +10,14 @@ export class CommentRepository implements CommentRepositoryInterface{
         private dataSource: DataSource
     ){    }
 
-    async create(entity: CommentEntity): Promise<void> {
+    async create(entity: CommentEntity): Promise<CommentEntity> {
         const queryRunner = this.dataSource.createQueryRunner();
         try {
             await queryRunner.connect();
             await queryRunner.startTransaction();
-            await queryRunner.manager.save(entity);
+            const result = await queryRunner.manager.save(entity);
             await queryRunner.commitTransaction();
+            return result;
         } catch (error) {
             console.log(error)
             await queryRunner.rollbackTransaction();

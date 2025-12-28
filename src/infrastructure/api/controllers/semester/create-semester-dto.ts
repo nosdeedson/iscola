@@ -3,7 +3,7 @@ import { Type } from "class-transformer";
 import { IsDate } from "class-validator";
 import { InputCreateAcademicSemesterDto } from "src/domain-services/academic-semester/create/academic-semester.dto";
 
-export class CreateSemesteDto{
+export class CreateSemesterDto{
 
     @ApiProperty({description: 'Date of the beginning academic semester', example: '2025-01-01T12:00:00Z'})
     @Type(() => Date)
