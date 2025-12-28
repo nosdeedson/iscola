@@ -40,8 +40,12 @@ export class SchoolgroupUseCases {
     }
 
     async find(id: string): Promise<any> {
-        let findService = new FindClassService(this.repository);
-        return await findService.execute(id);
+        try {
+            let findService = new FindClassService(this.repository);
+            return await findService.execute(id);
+        } catch (error) {
+            TrataErros.tratarErrorsNotFound(error);
+        }
     }
 
     async findAll(): Promise<any>{

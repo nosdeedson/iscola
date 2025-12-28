@@ -4,8 +4,8 @@ import { SchoolgroupUseCases } from '../../usecases/schoolgroup-usecases/schoolg
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateSchoolgroupDto } from './update-schoolgroup-dto';
 
-@ApiTags('Schoolgroup contoller')
-@Controller('schoolgroup')
+@ApiTags('Class contoller')
+@Controller('class')
 export class SchoolgroupController {
 
     constructor(private schoolgroupUseCase: SchoolgroupUseCases){}

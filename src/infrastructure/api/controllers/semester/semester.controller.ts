@@ -41,7 +41,7 @@ export class SemesterController {
     }
 
     @ApiResponse({status: 200, description: 'Return if exist or do anything if academic sementer does not exist', example: "d90c017a-eabe-4cd5-9dd3-ea8e6c037bd6"})
-    @Patch()
+    @Patch("/:id")
     async update(
         @Param('id') id: string,
         @Query('actual') actual: boolean
