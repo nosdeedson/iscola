@@ -10,6 +10,7 @@ import { CreateUserService } from '../../../../domain-services/user/create/creat
 import { DomainMocks } from '../../../__mocks__/mocks';
 import { WorkerEntity } from '../../../entities/worker/worker.entity';
 import { AccessType } from '../../../../domain/user/access.type';
+import { RoleEnum } from '../../../../domain/worker/roleEnum';
 
 describe('UserUsecasesService', () => {
   let service: UserUsecasesService;
@@ -39,7 +40,7 @@ describe('UserUsecasesService', () => {
 
   describe('create', () => {
     it('should create a user', async () => {
-      const person = WorkerEntity.toWorkerEntity(DomainMocks.mockPerson(AccessType.TEACHER));
+      const person = WorkerEntity.toWorkerEntity(DomainMocks.mockWorker(RoleEnum.TEACHER));
       const mockInput = MockCreateUsers.toCreateWorker();
       const input = new InputCreateWorkerDto(mockInput);
       const createWorker = jest.spyOn(CreateWorkerService.prototype, 'execute')
