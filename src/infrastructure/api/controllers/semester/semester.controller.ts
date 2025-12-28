@@ -6,7 +6,7 @@ import { bool, boolean, string } from 'yup';
 import { FindAllAcademicSemesterDto } from 'src/domain-services/academic-semester/findAll/findAll.academic-semester.dto';
 
 @ApiTags('Semester controller')
-@Controller('semester')
+@Controller('semesters')
 export class SemesterController {
 
     constructor(private semesterUseCases: SemesterUsecases){}
