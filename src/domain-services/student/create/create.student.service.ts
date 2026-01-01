@@ -7,8 +7,9 @@ import { Student } from "src/domain/student/student";
 import { StudentRepositoryInterface } from "src/domain/student/student.repository.interface";
 import { StudentEntity } from "src/infrastructure/entities/student/student.entity";
 import { CreateStudentDto } from "./create.student.dto";
+import { CreateGenericService } from "src/domain-services/@shared/create-generic-service";
 
-export class CreateStudentService {
+export class CreateStudentService extends CreateGenericService{
 
     private studentRepository: StudentRepositoryInterface;
     private schoolgroupRepository: ClassRepositoryInterface;
@@ -19,6 +20,7 @@ export class CreateStudentService {
         schoolgroupRepository: ClassRepositoryInterface,
         parentRepository: ParentReporitoryInterface
     ) {
+        super(studentRepository);
         this.studentRepository = studentRepository;
         this.schoolgroupRepository = schoolgroupRepository;
         this.parentRepository = parentRepository;

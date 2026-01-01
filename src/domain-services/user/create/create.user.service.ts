@@ -12,15 +12,16 @@ import { ParentEntity } from "src/infrastructure/entities/parent/parent.entity";
 import { StudentEntity } from "src/infrastructure/entities/student/student.entity";
 import { Student } from "src/domain/student/student";
 import { TrataErros } from "src/infrastructure/utils/trata-erros/trata-erros";
+import { RepositoryInterface } from "src/domain/@shared/repository/repository.interface";
 
 export class CreateUserService {
 
     private userRepository: UserRepositoryInterface;
-    private personRepository: PeronRepositoryInterface<any>;
+    public personRepository: RepositoryInterface<any>;
 
     constructor(
         userRepository: UserRepositoryInterface,
-        personRepository: PeronRepositoryInterface<any>,
+        personRepository: RepositoryInterface<any>,
     ){
         this.userRepository = userRepository;
         this.personRepository = personRepository

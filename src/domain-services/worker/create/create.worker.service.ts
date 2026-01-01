@@ -16,7 +16,7 @@ export class CreateWorkerService extends CreateGenericService {
         workerRepository: WorkerRepositoryInterface,
         schoolGroupRepository: ClassRepositoryInterface,
     ){
-        super();
+        super(workerRepository);
         this.workerRepository = workerRepository;
         this.schoolGroupRepository = schoolGroupRepository;
     }

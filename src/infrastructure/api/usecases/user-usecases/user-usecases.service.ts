@@ -35,9 +35,9 @@ export class UserUsecasesService {
     async create(dto: CreateWorkersDto): Promise<void> {
         try {
             let inputWorker = new InputCreateWorkerDto(dto);
-            let createperson= this.userServiceFactory.createUserService(dto.accessType);
+            let createperson = this.userServiceFactory.createUserServiceFactory(dto.accessType);
             const person = await createperson.execute(inputWorker);
-            let createUser = new CreateUserService(this.userRepository, this.userRepository);
+            let createUser = new CreateUserService(this.userRepository, createperson.personRepository);
             let input = new InputCreateUserDto(dto, person.id);
             await createUser.execute(input);
         } catch (error) {

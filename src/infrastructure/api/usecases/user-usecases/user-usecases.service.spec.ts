@@ -28,7 +28,7 @@ const createPersonServiceMock = {
 };
 
 const userServiceFactoryMock = {
-  createUserService: jest.fn(),
+  createUserServiceFactory: jest.fn(),
 };
 
 describe('UserUsecasesService', () => {
@@ -68,13 +68,13 @@ describe('UserUsecasesService', () => {
       const person = WorkerEntity.toWorkerEntity(DomainMocks.mockWorker(RoleEnum.TEACHER));
       const mockInput = MockCreateUsers.toCreateWorker();
       const input = new InputCreateWorkerDto(mockInput);
-      userServiceFactoryMock.createUserService.mockReturnValue(createPersonServiceMock as any);
+      userServiceFactoryMock.createUserServiceFactory.mockReturnValue(createPersonServiceMock as any);
       createPersonServiceMock.execute.mockResolvedValue(person);
       const createUserService = jest.spyOn(CreateUserService.prototype, 'execute')
         .mockImplementationOnce(() => Promise.resolve(void 0));     
       await service.create(mockInput);
-      expect(userServiceFactoryMock.createUserService).toHaveBeenCalledTimes(1)
-      expect(userServiceFactoryMock.createUserService).toHaveBeenCalledWith(mockInput.accessType);
+      expect(userServiceFactoryMock.createUserServiceFactory).toHaveBeenCalledTimes(1)
+      expect(userServiceFactoryMock.createUserServiceFactory).toHaveBeenCalledWith(mockInput.accessType);
       expect(createPersonServiceMock.execute).toHaveBeenCalledTimes(1);
       expect(createPersonServiceMock.execute).toHaveBeenCalledWith(input);
       expect(createUserService).toHaveBeenCalledTimes(1);
@@ -87,7 +87,7 @@ describe('UserUsecasesService', () => {
         "message": "error while creating worker",
       }]);
 
-      userServiceFactoryMock.createUserService.mockReturnValue(createPersonServiceMock as any);
+      userServiceFactoryMock.createUserServiceFactory.mockReturnValue(createPersonServiceMock as any);
       createPersonServiceMock.execute.mockRejectedValue(errorToThrow);
 
       const createUser = jest.spyOn(CreateUserService.prototype, 'execute')
@@ -100,7 +100,7 @@ describe('UserUsecasesService', () => {
         await service.create(mockInput);
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
-        expect(userServiceFactoryMock.createUserService).toHaveBeenCalledTimes(1);
+        expect(userServiceFactoryMock.createUserServiceFactory).toHaveBeenCalledTimes(1);
         expect(createPersonServiceMock.execute).toHaveBeenCalledTimes(1);
         expect(createUser).toHaveBeenCalledTimes(0);
         expect(tratarError).toHaveBeenCalledTimes(1);
@@ -117,7 +117,7 @@ describe('UserUsecasesService', () => {
         "message": "error while creating user",
       }]);
       
-      userServiceFactoryMock.createUserService.mockReturnValue(createPersonServiceMock as any);
+      userServiceFactoryMock.createUserServiceFactory.mockReturnValue(createPersonServiceMock as any);
       createPersonServiceMock.execute.mockResolvedValue(person);
 
       const createUser = jest.spyOn(CreateUserService.prototype, 'execute')
@@ -130,7 +130,7 @@ describe('UserUsecasesService', () => {
         await service.create(mockInput);
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
-        expect(userServiceFactoryMock.createUserService).toHaveBeenCalledTimes(1);
+        expect(userServiceFactoryMock.createUserServiceFactory).toHaveBeenCalledTimes(1);
         expect(createPersonServiceMock.execute).toHaveBeenCalledTimes(1);
         expect(createPersonServiceMock.execute).toHaveBeenCalledWith(input);
         expect(createUser).toHaveBeenCalledTimes(1);

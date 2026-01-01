@@ -30,28 +30,28 @@ describe('UserServiceFactoryService', () => {
   });
 
   it('when accessType equal to teacher must return a CreateWorkerSevice', () => {
-    const result = service.createUserService(AccessType.TEACHER);
+    const result = service.createUserServiceFactory(AccessType.TEACHER);
     expect(result).toBeInstanceOf(CreateWorkerService);
   });
 
   it('when accessType equal to admin must return a CreateWorkerSevice', () => {
-    const result = service.createUserService(AccessType.ADMIN);
+    const result = service.createUserServiceFactory(AccessType.ADMIN);
     expect(result).toBeInstanceOf(CreateWorkerService);
   });
 
   it('when accessType equal to student must return a CreateStudentService', () => {
-    const result = service.createUserService(AccessType.STUDENT);
+    const result = service.createUserServiceFactory(AccessType.STUDENT);
     expect(result).toBeInstanceOf(CreateStudentService);
   });
 
   it('when accessType equal to teacher must return a CreateParentService', () => {
-    const result = service.createUserService(AccessType.PARENT);
+    const result = service.createUserServiceFactory(AccessType.PARENT);
     expect(result).toBeInstanceOf(CreateParentService);
   });
 
   it('should throw an error when accessType does not exist', () => {
   expect(() => {
-    service.createUserService('NO_EXIST' as AccessType);
+    service.createUserServiceFactory('NO_EXIST' as AccessType);
   }).toThrow('Invalid access type');
 });
 

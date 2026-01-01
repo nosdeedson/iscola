@@ -12,7 +12,7 @@ export class CreateParentService extends CreateGenericService{
     constructor(
         parentRepository: ParentReporitoryInterface,
     ){
-        super();
+        super(parentRepository);
         this.parentRepository = parentRepository;
     }
 

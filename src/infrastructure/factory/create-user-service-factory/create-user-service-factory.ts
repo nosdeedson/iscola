@@ -19,7 +19,7 @@ export class CreateUserServiceFactory {
 
     constructor(@Inject('DATA_SOURCE') private dataSource: DataSource) { }
 
-    public createUserService(accessType: AccessType): CreateGenericService {
+    public createUserServiceFactory(accessType: AccessType): CreateGenericService {
         switch (accessType) {
             case AccessType.PARENT:
                 const parentRepository = this.createParentRepository();
@@ -50,4 +50,5 @@ export class CreateUserServiceFactory {
         let classEntity = this.dataSource.getRepository(ClassEntity);
         return new ClassRepository(classEntity, this.dataSource);
     }
+
 }
