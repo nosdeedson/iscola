@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { UserEntity } from "../../../infrastructure/entities/user/user.entity";
@@ -8,15 +10,13 @@ import { FindAllUserService } from './findAll.user.service';
 
 describe('FindAllUserService integration tests', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
     
-    let userEntity;
-    let userRepository;
-    let admin;
-    let teacher;
+    let userEntity: Repository<UserEntity>;
+    let userRepository: UserRepository;
 
-    let personEntity;
-    let personRepository;
+    let workerEntity: Repository<WorkerEntity>;
+    let workerRepository: WorkerRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -26,8 +26,8 @@ describe('FindAllUserService integration tests', () =>{
         userEntity = appDataSource.getRepository(UserEntity);
         userRepository = new UserRepository(userEntity, appDataSource);
 
-        personEntity = appDataSource.getRepository(WorkerEntity);
-        personRepository = new WorkerRepository(personEntity, appDataSource);
+        workerEntity = appDataSource.getRepository(WorkerEntity);
+        workerRepository = new WorkerRepository(workerEntity, appDataSource);
     });
 
     afterEach(async () => {
@@ -40,8 +40,8 @@ describe('FindAllUserService integration tests', () =>{
     it('entities and repositories must be instantiated', async () =>{
         expect(userEntity).toBeDefined();
         expect(userRepository).toBeDefined();
-        expect(personEntity).toBeDefined();
-        expect(personRepository).toBeDefined();
+        expect(workerEntity).toBeDefined();
+        expect(workerRepository).toBeDefined();
     });
 
     it('should find an empty array', async () =>{
@@ -52,22 +52,22 @@ describe('FindAllUserService integration tests', () =>{
     })
 
     it('should find two users', async () =>{
-        admin = DomainMocks.mockUserAdmin();
-        teacher = DomainMocks.mockUserTeacher();
+        let admin = DomainMocks.mockUserAdmin();
+        let teacher = DomainMocks.mockUserTeacher();
 
-        let person = admin.getPerson();
-        let person1 = teacher.getPerson();
+        let person = admin.getPerson() as any;
+        let person1 = teacher.getPerson() as any;
         let personEntity = WorkerEntity.toWorkerEntity(person);
         let personEntity1 = WorkerEntity.toWorkerEntity(person1);
 
-        expect(await personRepository.create(personEntity)).toBe(void 0);
-        expect(await personRepository.create(personEntity1)).toBe(void 0);
+        expect(await workerRepository.create(personEntity)).toBeInstanceOf(WorkerEntity);
+        expect(await workerRepository.create(personEntity1)).toBeInstanceOf(WorkerEntity);
 
         let adminEntity = UserEntity.toUserEntity(admin);
         let teacherEntity = UserEntity.toUserEntity(teacher);
 
-        expect(await userRepository.create(adminEntity)).toBe(void 0);
-        expect(await userRepository.create(teacherEntity)).toBe(void 0);
+        expect(await userRepository.create(adminEntity)).toBeInstanceOf(UserEntity);
+        expect(await userRepository.create(teacherEntity)).toBeInstanceOf(UserEntity);
 
         const service = new FindAllUserService(userRepository);
 
@@ -76,6 +76,6 @@ describe('FindAllUserService integration tests', () =>{
         expect(results.all.length).toBe(2);
         expect(results.all[0].id).toBe(admin.getId());
         expect(results.all[1].id).toBe(teacher.getId());
-    })
+    });
 
-})
+});

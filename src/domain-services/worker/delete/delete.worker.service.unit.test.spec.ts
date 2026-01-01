@@ -31,6 +31,6 @@ describe('DeleteWorkerService unit test', () => {
         const service = new DeleteWorkerService(workerRepository);
         expect(await service.execute('invalid_id'));
         expect(workerRepository.delete).toHaveBeenCalledTimes(1);
-    })
+    });
 
-})
+});

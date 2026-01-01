@@ -1,9 +1,10 @@
+import { AcademicSemester } from "../../../domain/academc-semester/academic.semester";
 import { MockRepositoriesForUnitTest } from "../../../infrastructure/__mocks__/mockRepositories";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { FindAcademicSemesterService } from "../find/find.academic-semester.service"
 
 describe('find academic semester unit test', () =>{
-    let semester;
+    let semester: AcademicSemester | null;
 
     beforeEach(async () => {
         semester = DomainMocks.mockAcademicSemester();

@@ -4,9 +4,10 @@ import { Worker } from '../../../domain/worker/worker';
 import { WorkerRepositoryInterface } from '../../../domain/worker/worker.repository.interface';
 import { WorkerEntity } from '../../../infrastructure/entities/worker/worker.entity';
 import { InputCreateWorkerDto } from './create.worker.dto';
+import { CreateGenericService } from 'src/domain-services/@shared/create-generic-service';
 
 
-export class CreateWorkerService {
+export class CreateWorkerService extends CreateGenericService {
 
     private workerRepository: WorkerRepositoryInterface
     private schoolGroupRepository: ClassRepositoryInterface;
@@ -15,6 +16,7 @@ export class CreateWorkerService {
         workerRepository: WorkerRepositoryInterface,
         schoolGroupRepository: ClassRepositoryInterface,
     ){
+        super();
         this.workerRepository = workerRepository;
         this.schoolGroupRepository = schoolGroupRepository;
     }

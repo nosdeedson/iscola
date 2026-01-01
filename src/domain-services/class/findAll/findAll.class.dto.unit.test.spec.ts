@@ -3,12 +3,13 @@ import { FindAllClassDto } from './findAll.class.dto';
 import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories'
 import { ClassRepository } from '../../../infrastructure/repositories/class/class.repository'
 import { ClassEntity } from '../../../infrastructure/entities/class/class.entity';
+import { Class } from '../../../domain/class/class';
 
 // jest.mock('./findAll.class.dto.ts')
 
 describe('findAllClassDto unit test', () =>{
 
-    let schoolgroup;
+    let schoolgroup: Class;
 
     beforeEach(() =>{
         schoolgroup = DomainMocks.mockSchoolGroup();
@@ -43,6 +44,6 @@ describe('findAllClassDto unit test', () =>{
         expect(dtos.all[0].classCode).toEqual(entity.classCode);
         expect(dtos.all[0].id).toEqual(entity.id);
         expect(mockRepository.findAll).toHaveBeenCalledTimes(1);
-    })
+    });
 
 })

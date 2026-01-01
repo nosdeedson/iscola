@@ -125,7 +125,7 @@ export class RatingEntity extends GenericEntity {
     @ManyToOne(() => AcademicSemesterEntity, academicSemester => academicSemester.ratings)
     academicSemester: AcademicSemesterEntity;
 
-    @OneToMany(() => CommentEntity, comment => comment.rantig)
+    @OneToMany(() => CommentEntity, comment => comment.rating)
     comments: CommentEntity[];
 
     @ManyToOne(() => StudentEntity, {cascade: true})

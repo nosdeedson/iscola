@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { AcademicSemester } from "../../../domain/academc-semester/academic.semester";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
@@ -7,9 +9,9 @@ import { FindAllAcademicSemesterService } from "./findAll.academic-semester.serv
 
 describe('AcademicSemester integration tests', () =>{
 
-    let appDataSource;
-    let semesterModel;
-    let semesterRepository;
+    let appDataSource: DataSource;
+    let semesterModel: Repository<AcademicSemesterEntity>;
+    let semesterRepository: AcademicSemesterRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -40,13 +42,13 @@ describe('AcademicSemester integration tests', () =>{
     it('should receive two semester', async () =>{
         let semester = DomainMocks.mockAcademicSemester();
         let entity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(entity)).toBe(void 0);
+        expect(await semesterRepository.create(entity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let aValidBeginnig = new Date(2025 , 1, 5, 10, 0,0,0);
         let aValidEnding = new Date(2025, 6, 1, 1, 0, 0);
         const academicSemester = new AcademicSemester(true, aValidBeginnig, aValidEnding);
         let entity1 = AcademicSemesterEntity.toAcademicSemester(academicSemester);
-        expect(await semesterRepository.create(entity1)).toBe(void 0);
+        expect(await semesterRepository.create(entity1)).toBeInstanceOf(AcademicSemesterEntity);
         
         const service = new FindAllAcademicSemesterService(semesterRepository);
         const results = await service.execute();

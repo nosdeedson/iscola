@@ -8,13 +8,16 @@ import { WorkerRepository } from '../../../infrastructure/repositories/worker/wo
 import { InputCreateWorkerDto } from "./create.worker.dto";
 import { CreateWorkerService } from "./create.worker.service";
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
+import { DataSource } from "typeorm";
+import { WorkerRepositoryInterface } from "../../../domain/worker/worker.repository.interface";
+import { ClassRepositoryInterface } from "../../../domain/class/class.repository.interface";
 
 describe("CreateWorkerService integration test", () =>{
-    let appDataSource;
+    let appDataSource: DataSource;
     let workerModel;
-    let workerRepository;
+    let workerRepository: WorkerRepositoryInterface;
     let schoolGroupModel;
-    let schoolGroupRepository; 
+    let schoolGroupRepository: ClassRepository | ClassRepositoryInterface; 
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -27,8 +30,6 @@ describe("CreateWorkerService integration test", () =>{
     })
         
     afterEach(async () => {
-        // await workerModel.query('delete from person cascase');
-        // await schoolGroupModel.query('delete from class cascade');
         await appDataSource.createQueryBuilder().delete().from(ClassEntity).execute();
         await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
 
@@ -43,7 +44,7 @@ describe("CreateWorkerService integration test", () =>{
     it('create a worker', async () =>{
         const schoolGroup = DomainMocks.mockSchoolGroup();
         const schoolGroupEntity = ClassEntity.toClassEntity(schoolGroup);
-        expect(await schoolGroupRepository.create(schoolGroupEntity)).toBe(void 0);
+        expect(await schoolGroupRepository.create(schoolGroupEntity)).toBeInstanceOf(ClassEntity);
         workerModel = appDataSource.getRepository(WorkerEntity);
         let service = new CreateWorkerService(workerRepository, schoolGroupRepository);
         let worker =  {
@@ -52,6 +53,6 @@ describe("CreateWorkerService integration test", () =>{
             role: RoleEnum.TEACHER,
             classCode: schoolGroup.getClassCode()
         } as InputCreateWorkerDto;
-        expect(await service.execute(worker)).toBe(void 0)
-    })
+        expect(await service.execute(worker)).toBeInstanceOf(WorkerEntity)
+    });
 })

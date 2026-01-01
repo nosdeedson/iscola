@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { Student } from "../../../domain/student/student";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
@@ -9,13 +11,13 @@ import { UpdateParentService } from "./update.parent.service";
 
 describe('UpdateParentService integration tests', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
     
-    let parentEntity;
-    let parentRepository;
+    let parentEntity: Repository<ParentEntity>;
+    let parentRepository: ParentRepository;
 
-    let studentEntity;
-    let studentRepository;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -51,7 +53,9 @@ describe('UpdateParentService integration tests', () =>{
         try {
             await service.execute(studentEntity, noExistentParentId);
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'parent', message: 'Parent not found'}]);
         }
     });
@@ -63,16 +67,16 @@ describe('UpdateParentService integration tests', () =>{
         const student = parent.getStudents()[0];
         const studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
-        expect(await parentRepository.create(parentEntity)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
 
         let results = await parentRepository.findAll();
         expect(results[0].students.length).toBe(1);
 
         const another = new Student(new Date, 'edson', '123', [parent], '5c51dad3-c1a8-45b6-a846-2ec441686b62');
         const anotherEntity = StudentEntity.toStudentEntity(another);
-        expect(await studentRepository.create(anotherEntity)).toBe(void 0);
+        expect(await studentRepository.create(anotherEntity)).toBeInstanceOf(StudentEntity);
         parentEntity.students.push(anotherEntity)
         const wantedParentId = parentEntity.id;
         const service = new UpdateParentService(parentRepository);
@@ -82,4 +86,4 @@ describe('UpdateParentService integration tests', () =>{
 
     });
 
-})
+});

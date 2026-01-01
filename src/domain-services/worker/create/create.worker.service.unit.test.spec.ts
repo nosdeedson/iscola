@@ -14,10 +14,6 @@ describe('CreateWorkerService test unit', () => {
             birthday: new Date(),
             role: RoleEnum.TEACHER,
             classCode: '12343',
-            email: 'teste@teste',
-            nickname: 'edson',
-            password: '123',
-            accesstype : AccessType.TEACHER
         }
     })
 
@@ -49,9 +45,10 @@ describe('CreateWorkerService test unit', () => {
         try {
             await service.execute(worker);
         } catch (error) {
+            //@ts-ignore
             expect(error.errors[0].message).toBe("Name should not be null")
         }
-    })
+    });
 
     it("should throw error birthday should not be null", async () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
@@ -61,12 +58,13 @@ describe('CreateWorkerService test unit', () => {
                 return {}
             }
         );
-        let nothing;
+        let nothing: any;
         worker.birthday = nothing;
         const service = new CreateWorkerService(workerRepository, classRepository);
         try {
             await service.execute(worker);
         } catch (error) {
+            //@ts-ignore
             expect(error.errors[0].message).toBe("Birthday should not be null")
         }
     })
@@ -79,12 +77,13 @@ describe('CreateWorkerService test unit', () => {
                 return {}
             }
         );
-        let nothing;
+        let nothing: any;
         worker.role = nothing;
         const service = new CreateWorkerService(workerRepository, classRepository);
         try {
             await service.execute(worker);
         } catch (error) {
+            //@ts-ignore
             expect(error.errors[0].message).toBe("Role should not be null")
         }
     })
@@ -104,7 +103,8 @@ describe('CreateWorkerService test unit', () => {
         try {
             await service.execute(worker)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors[0].message).toBe('database not available')
         }
-    })
-})
+    });
+});

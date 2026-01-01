@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
@@ -8,11 +10,11 @@ import { StudentRepository } from "../../../infrastructure/repositories/student/
 import { DeleteStudentService } from '../delete/delete.student.service';
 
 describe('DeleteStudentService integraton tests', () => {
-    let appDataSource;
-    let studentEntity;
-    let studentRepository;
-    let parentEntity;
-    let parentRepository;
+    let appDataSource: DataSource;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
+    let parentEntity: Repository<ParentEntity>;
+    let parentRepository: ParentRepository;
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -42,7 +44,7 @@ describe('DeleteStudentService integraton tests', () => {
     it('should not throw a SystemError if id does not exist', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let noExixtentId = 'ddb5186b-9a8d-4c5d-8086-2cccc0499c11';
         const service = new DeleteStudentService(studentRepository);
@@ -52,7 +54,7 @@ describe('DeleteStudentService integraton tests', () => {
     it('should not throw a SystemError if id does not exist', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let wantedId = student.getId();
         const service = new DeleteStudentService(studentRepository);
@@ -60,5 +62,5 @@ describe('DeleteStudentService integraton tests', () => {
 
         const fromBD = await studentRepository.find(wantedId);
         expect(fromBD).toBeNull();
-    })
-})
+    });
+});

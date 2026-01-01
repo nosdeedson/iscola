@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
@@ -16,21 +18,21 @@ import { UpdateCommentService } from './update.comment.service';
 
 describe('UpdateCommentService integration tests', () =>{
     
-    let appDataSource;
-    let commentEntity;
-    let commentRepository;
+    let appDataSource: DataSource;
+    let commentEntity: Repository<CommentEntity>;
+    let commentRepository: CommentRepository;
 
-    let ratingEntity;
-    let ratingRepository;
+    let ratingEntity: RatingEntity | Repository<RatingEntity>;
+    let ratingRepository: RatingRepositiry;
     
-    let semesterEntity;
-    let semesterRepository;
+    let semesterEntity: Repository<AcademicSemesterEntity>;
+    let semesterRepository: AcademicSemesterRepository;
 
-    let studentEntity;
-    let studentRepository;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
-    let parentEntity;
-    let parentRepository;
+    let parentEntity: Repository<ParentEntity>;
+    let parentRepository: ParentRepository;
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -81,22 +83,22 @@ describe('UpdateCommentService integration tests', () =>{
     it('given the wrong id should throw an SystemError', async () =>{
 
         let semester = DomainMocks.mockAcademicSemester();
-        let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        let semesterEntityToSave = AcademicSemesterEntity.toAcademicSemester(semester);
+        expect(await semesterRepository.create(semesterEntityToSave)).toBeInstanceOf(AcademicSemesterEntity);
 
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let rating = DomainMocks.mockRating();
-        let ratingEntity = RatingEntity.toRatingEntity(rating);
+        let ratingEntityToSave = RatingEntity.toRatingEntity(rating);
 
-        expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
+        expect(await ratingRepository.create(ratingEntityToSave)).toBeInstanceOf(RatingEntity);
 
         let comment = DomainMocks.mockComment(); 
-        let commentEntity = CommentEntity.toCommentEntity(comment, ratingEntity);
-        expect(await commentRepository.create(commentEntity)).toBe(void 0);
+        let commentEntityToSave = CommentEntity.toCommentEntity(comment, ratingEntityToSave);
+        expect(await commentRepository.create(commentEntityToSave)).toBeInstanceOf(CommentEntity);
 
         const wrongId = 'df488d38-4890-4e32-a443-ff0ba9ad86eb';
         const currentComment = comment.getComment();
@@ -107,29 +109,31 @@ describe('UpdateCommentService integration tests', () =>{
         try {
             await service.execute(dto);
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'comment', message: 'comment not found'}]);
         }
     });
 
     it('given a valid id should update a comment', async () =>{
         let semester = DomainMocks.mockAcademicSemester();
-        let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        let semesterEntityToSave = AcademicSemesterEntity.toAcademicSemester(semester);
+        expect(await semesterRepository.create(semesterEntityToSave)).toBeInstanceOf(AcademicSemesterEntity);
 
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let rating = DomainMocks.mockRating();
-        let ratingEntity = RatingEntity.toRatingEntity(rating);
+        let ratingEntityToSave = RatingEntity.toRatingEntity(rating);
 
-        expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
+        expect(await ratingRepository.create(ratingEntityToSave)).toBeInstanceOf(RatingEntity);
 
         let comment = DomainMocks.mockComment(); 
-        let commentEntity = CommentEntity.toCommentEntity(comment, ratingEntity);
-        expect(await commentRepository.create(commentEntity)).toBe(void 0);
+        let commentEntityToSave = CommentEntity.toCommentEntity(comment, ratingEntityToSave);
+        expect(await commentRepository.create(commentEntityToSave)).toBeInstanceOf(CommentEntity);
         
         let wantedId = comment.getId();
         let currentComment = comment.getComment();
@@ -143,6 +147,6 @@ describe('UpdateCommentService integration tests', () =>{
         result = await commentRepository.find(wantedId);
         expect(result.comment).toBe(updatedComment);
         expect(result.id).toBe(wantedId);
-    })
+    });
 
-})
+});

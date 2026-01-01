@@ -1,3 +1,5 @@
+import { DataSource } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AppDataSourceMock } from '../../../infrastructure/__mocks__/appDataSourceMock';
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
 import { ParentEntity } from '../../../infrastructure/entities/parent/parent.entity';
@@ -9,13 +11,13 @@ import { FindAllParentService } from './findAll.parent.service';
 
 describe('FindAllParentService integration tests', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
 
-    let parentEntity;
-    let parentRepository;
+    let parentEntity: Repository<ParentEntity>;
+    let parentRepository: ParentRepository;
 
-    let studentEntity;
-    let studentRepository;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -57,9 +59,9 @@ describe('FindAllParentService integration tests', () =>{
         const student = parent.getStudents()[0];
 
         const studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
-        expect(await parentRepository.create(entity)).toBe(void 0);
+        expect(await parentRepository.create(entity)).toBeInstanceOf(ParentEntity);
 
         const service = new FindAllParentService(parentRepository);
 
@@ -67,6 +69,6 @@ describe('FindAllParentService integration tests', () =>{
         expect(results).toBeDefined();
         expect(results.all.length).toBe(1);
         expect(results.all[0].id).toBe(parent.getId());
-    })
+    });
 
 })

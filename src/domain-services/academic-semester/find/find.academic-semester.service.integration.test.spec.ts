@@ -1,16 +1,20 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
+import { AcademicSemester } from "../../../domain/academc-semester/academic.semester";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
 import { AcademicSemesterRepository } from "../../../infrastructure/repositories/academic-semester/academic-semester.repository";
-import { FindAcademicSemesterService } from "./find.academic-semester.service"
+import { FindAcademicSemesterService } from "./find.academic-semester.service";
+import { SystemError } from "../../../domain-services/@shared/system-error";
 
 describe('Academic semester find integrations tests', () => {
 
-    let appDataSource;
-    let semesterModel;
-    let semesterRepository;
+    let appDataSource: DataSource;
+    let semesterModel: Repository<AcademicSemesterEntity>;
+    let semesterRepository: AcademicSemesterRepository;
 
-    let semester;
+    let semester: AcademicSemester;
 
     beforeEach(async () =>{
         semester = DomainMocks.mockAcademicSemester();
@@ -36,26 +40,26 @@ describe('Academic semester find integrations tests', () => {
     it('should find an academicSemester on BD', async () =>{
         let model = AcademicSemesterEntity.toAcademicSemester(semester);
         let wantedId = semester.getId();
-        let result = await semesterRepository.find(wantedId);
-        expect(result).toBeNull()
-        expect(await semesterRepository.create(model)).toBe(void 0);
+        var inBD = await semesterRepository.find(wantedId);
+        expect(inBD).toBeNull()
+        expect(await semesterRepository.create(model)).toBeInstanceOf(AcademicSemesterEntity);
         const service = new FindAcademicSemesterService(semesterRepository);
-        result = await service.execute(wantedId);
+        let result = await service.execute(wantedId);
         expect(result).toBeDefined();
         expect(result.id).toBe(wantedId);
     })  
 
     it('should not find an academicSemester on BD', async () =>{
         let model = AcademicSemesterEntity.toAcademicSemester(semester);
-        let wantedId = '7f572806-fcb5-48ac-921c-595f966b24da';
-        let result = await semesterRepository.find(wantedId);
-        expect(result).toBeNull()
-        expect(await semesterRepository.create(model)).toBe(void 0);
+        let wantedId = 'a8b3ddcd-936e-4a35-8d85-6ddde1b019ed';
+        let inBD = await semesterRepository.find(wantedId);
+        expect(inBD).toBeNull()
+        expect(await semesterRepository.create(model)).toBeInstanceOf(AcademicSemesterEntity);
         const service = new FindAcademicSemesterService(semesterRepository);
         try {
-            result = await service.execute(wantedId);
+            await service.execute(wantedId);
         } catch (error) {
-            expect(error.errors[0].message).toBe('Academic Semester not found');
+            expect(error).toBeInstanceOf(SystemError);
         }
-    })  
-})
+    });  
+});

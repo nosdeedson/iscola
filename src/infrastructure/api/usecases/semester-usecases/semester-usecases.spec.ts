@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SemesterUsecases } from './semester-usecases';
 import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
 import { setEnv } from '../../../__mocks__/env.mock';
-import { CreateSemesteDto } from '../../controllers/semester/create-semester-dto';
+import { CreateSemesterDto } from '../../controllers/semester/create-semester-dto';
 import { CreateAcademicSemesterService } from '../../../../domain-services/academic-semester/create/create.academic-semester.service';
 import { InputCreateAcademicSemesterDto } from '../../../../domain-services/academic-semester/create/academic-semester.dto';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
@@ -41,7 +41,7 @@ describe('SemesterUsecases', () => {
 
   describe('createSemester', () => {
     it('should create a semester', async () => {
-      const dto = new CreateSemesteDto();
+      const dto = new CreateSemesterDto();
       dto.beginning = new Date('2025-01-01');
       dto.ending = new Date('2025-06-30');
 
@@ -57,7 +57,7 @@ describe('SemesterUsecases', () => {
     });
 
     it('should handle errors', async () => {
-      const dto = new CreateSemesteDto();
+      const dto = new CreateSemesterDto();
       const mockInput = new InputCreateAcademicSemesterDto(new Date(), new Date());
       jest.spyOn(dto, 'toInput').mockReturnValue(mockInput);
       jest.spyOn(CreateAcademicSemesterService.prototype, 'execute')

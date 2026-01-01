@@ -6,9 +6,6 @@ import { FindAllUserService } from './findAll.user.service';
 
 describe('FindAllUserService unit test', () =>{
 
-    let admin;
-    let teacher;
-
     afterEach(() =>{
         jest.clearAllMocks();
     })
@@ -26,8 +23,8 @@ describe('FindAllUserService unit test', () =>{
     });
 
     it('should find two users', async () =>{
-        admin = DomainMocks.mockUserAdmin();
-        teacher = DomainMocks.mockUserTeacher();
+        let admin = DomainMocks.mockUserAdmin();
+        let teacher = DomainMocks.mockUserTeacher();
         let adminEntity = UserEntity.toUserEntity(admin)
         let teacherEntity = UserEntity.toUserEntity(teacher);
         const userRepository = MockRepositoriesForUnitTest.mockRepositories();
@@ -42,4 +39,4 @@ describe('FindAllUserService unit test', () =>{
         expect(results.all[0].id).toBeDefined();
         expect(results.all[1].id).toBeDefined();
     });
-})
+});

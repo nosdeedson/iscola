@@ -1,3 +1,5 @@
+import { DataSource } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Worker } from '../../../domain/worker/worker';
 import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../__mocks__/mocks";
@@ -6,13 +8,13 @@ import { WorkerEntity } from "../../entities/worker/worker.entity";
 import { UserRepository } from '../user/user.repository';
 import { WorkerRepository } from "../worker/worker.repository";
 
-describe('UserRepository uni test', () =>{
+describe('UserRepository unit test', () =>{
 
-    let appDataSource;
-    let userModel;
-    let userRepository;
-    let workerModel;
-    let workerRepository;
+    let appDataSource: DataSource;
+    let userModel: Repository<UserEntity>;
+    let userRepository: UserRepository;
+    let workerModel: Repository<WorkerEntity>;
+    let workerRepository: WorkerRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -42,11 +44,11 @@ describe('UserRepository uni test', () =>{
         let user = DomainMocks.mockUserTeacher();
         let worker = user.getPerson() as Worker;
         let model = WorkerEntity.toWorkerEntity(worker);
-        expect(await workerRepository.create(model)).toBe(void 0);
+        expect(await workerRepository.create(model)).toBeInstanceOf(WorkerEntity);
 
         let wantedid = user.getId();
         let entity = UserEntity.toUserEntity(user);
-        expect(await userRepository.create(entity)).toBe(void 0);
+        expect(await userRepository.create(entity)).toBeInstanceOf(UserEntity);
         let result = await userRepository.find(wantedid);
         expect(result).toBeDefined();
         expect(result.id).toBe(wantedid);
@@ -56,11 +58,11 @@ describe('UserRepository uni test', () =>{
         let user = DomainMocks.mockUserTeacher();
         let worker = user.getPerson() as Worker;
         let model = WorkerEntity.toWorkerEntity(worker);
-        expect(await workerRepository.create(model)).toBe(void 0);
+        expect(await workerRepository.create(model)).toBeInstanceOf(WorkerEntity);
 
         let wantedid = user.getId();
         let entity = UserEntity.toUserEntity(user);
-        expect(await userRepository.create(entity)).toBe(void 0);
+        expect(await userRepository.create(entity)).toBeInstanceOf(UserEntity)
 
         let result = await userRepository.find(wantedid);
         expect(result).toBeDefined();
@@ -75,13 +77,13 @@ describe('UserRepository uni test', () =>{
         let user = DomainMocks.mockUserTeacher();
         let worker = user.getPerson() as Worker;
         let model = WorkerEntity.toWorkerEntity(worker);
-        expect(await workerRepository.create(model)).toBe(void 0);
+        expect(await workerRepository.create(model)).toBeInstanceOf(WorkerEntity);
 
         let wantedid = user.getId();
         let entity = UserEntity.toUserEntity(user);
         let result = await userRepository.find(wantedid);
         expect(result).toBeNull();
-        expect(await userRepository.create(entity)).toBe(void 0);
+        expect(await userRepository.create(entity)).toBeInstanceOf(UserEntity);
 
         result = await userRepository.find(wantedid);
         expect(result).toBeDefined();
@@ -94,16 +96,16 @@ describe('UserRepository uni test', () =>{
 
         let worker = user.getPerson() as Worker;
         let model = WorkerEntity.toWorkerEntity(worker);
-        expect(await workerRepository.create(model)).toBe(void 0);
+        expect(await workerRepository.create(model)).toBeInstanceOf(WorkerEntity);
 
         let worker1 = user1.getPerson() as Worker;
         let model1 = WorkerEntity.toWorkerEntity(worker1);
-        expect(await workerRepository.create(model1)).toBe(void 0);
+        expect(await workerRepository.create(model1)).toBeInstanceOf(WorkerEntity);
 
         let entity = UserEntity.toUserEntity(user);
         let entity1 = UserEntity.toUserEntity(user1);
-        expect(await userRepository.create(entity)).toBe(void 0);
-        expect(await userRepository.create(entity1)).toBe(void 0);
+        expect(await userRepository.create(entity)).toBeInstanceOf(UserEntity);
+        expect(await userRepository.create(entity1)).toBeInstanceOf(UserEntity);
 
         let results = await userRepository.findAll();
         expect(results).toBeDefined();
@@ -114,12 +116,12 @@ describe('UserRepository uni test', () =>{
         let user = DomainMocks.mockUserTeacher();
         let worker = user.getPerson() as Worker;
         let model = WorkerEntity.toWorkerEntity(worker);
-        expect(await workerRepository.create(model)).toBe(void 0);
+        expect(await workerRepository.create(model)).toBeInstanceOf(WorkerEntity);
 
         let wantedid = user.getId();
 
         let entity = UserEntity.toUserEntity(user);
-        expect(await userRepository.create(entity)).toBe(void 0);
+        expect(await userRepository.create(entity)).toBeInstanceOf(UserEntity);
 
         let fromBD = await userRepository.find(wantedid);
         let wantedNickname = 'new nickname'
@@ -128,6 +130,6 @@ describe('UserRepository uni test', () =>{
         fromBD = await userRepository.find(wantedid);
         expect(fromBD).toBeDefined();
         expect(fromBD.nickname).toEqual(wantedNickname);
-    })
+    });
 
-})
+});

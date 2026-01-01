@@ -1,3 +1,4 @@
+import { DataSource } from "typeorm";
 import { Parent } from "../../../domain/parent/parent";
 import { Student } from "../../../domain/student/student";
 import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
@@ -11,11 +12,11 @@ import { StudentRepository } from '../student/student.repository';
 
 describe('ParentRepository unit test', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
     let parentModel;
-    let parentRepository;
+    let parentRepository: ParentRepository;
     let studentModel;
-    let studentRepository;
+    let studentRepository: StudentRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -45,9 +46,9 @@ describe('ParentRepository unit test', () =>{
         let student = parent.getStudents()[0];
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
-        expect(await parentRepository.create(model)).toBe(void 0);
+        expect(await parentRepository.create(model)).toBeInstanceOf(ParentEntity);
 
         let result = await parentRepository.find(wantedId);
         expect(result).toBeDefined();
@@ -61,7 +62,7 @@ describe('ParentRepository unit test', () =>{
         let student = parent.getStudents()[0];
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let wantedId = parent.getId();
         await parentRepository.create(model);
@@ -79,7 +80,7 @@ describe('ParentRepository unit test', () =>{
         let student = parent.getStudents()[0];
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
         let wantedId = '6a0e9000-c5f9-4dad-bd4a-e4642964c2fb';
         await parentRepository.create(model);
         let result = await parentRepository.find(parent.getId());
@@ -96,7 +97,7 @@ describe('ParentRepository unit test', () =>{
         let student = parent.getStudents()[0];
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
         let wantedId = parent.getId();
         await parentRepository.create(model);
 
@@ -112,12 +113,12 @@ describe('ParentRepository unit test', () =>{
         let student = parent.getStudents()[0];
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let parentEntity = ParentEntity.toParentEntity(parent);
         let parentEntity1 = ParentEntity.toParentEntity(parent1);
-        expect(await parentRepository.create(parentEntity)).toBe(void 0);
-        expect(await parentRepository.create(parentEntity1)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
+        expect(await parentRepository.create(parentEntity1)).toBeInstanceOf(ParentEntity);
 
         let results = await parentRepository.findAll();
         expect(results).toBeDefined();
@@ -134,30 +135,30 @@ describe('ParentRepository unit test', () =>{
         let student = parent.getStudents()[0];
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let parentEntity = ParentEntity.toParentEntity(parent);
         let parentEntity1 = ParentEntity.toParentEntity(parent1);
-        expect(await parentRepository.create(parentEntity)).toBe(void 0);
-        expect(await parentRepository.create(parentEntity1)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
+        expect(await parentRepository.create(parentEntity1)).toBeInstanceOf(ParentEntity);
 
         let results = await parentRepository.findByIds([parent.getId(), parent1.getId()]);
 
         expect(results.length).toBe(2);
-    })
+    });
 
     it('should update a parent model to the BD', async () => {
         let parent = DomainMocks.mockParent();
         let model = ParentEntity.toParentEntity(parent);
         let student = parent.getStudents()[0];
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
-        expect(await parentRepository.create(model)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
+        expect(await parentRepository.create(model)).toBeInstanceOf(ParentEntity);
 
         let anotherStudent = new Student(new Date, 'edson', '123', [parent], '8bb648b2-c0be-4164-a01a-9465d22aa269');
         let anotherStudentEntity = StudentEntity.toStudentEntity(anotherStudent);
 
-        expect(await studentRepository.create(anotherStudentEntity)).toBe(void 0);
+        expect(await studentRepository.create(anotherStudentEntity)).toBeInstanceOf(StudentEntity);
 
         model.students.push(anotherStudentEntity);
 
@@ -167,4 +168,4 @@ describe('ParentRepository unit test', () =>{
         expect(result.students.length).toBe(2);
     });
 
-})
+});

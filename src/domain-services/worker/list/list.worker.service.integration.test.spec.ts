@@ -1,5 +1,7 @@
+import { DataSource } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { Worker } from "../../../domain/worker/worker";
+import { WorkerRepositoryInterface } from "../../../domain/worker/worker.repository.interface";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { PersonEntity } from "../../../infrastructure/entities/@shared/person.entity";
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
@@ -8,9 +10,9 @@ import { FindAllWorkerService } from './list.worker.service';
 
 describe('FindAllWorkerService integration tests', () => {
 
-    let appDataSource;
+    let appDataSource: DataSource;
     let workerModel;
-    let workerRepository;
+    let workerRepository: WorkerRepositoryInterface;
 
     beforeEach( async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();

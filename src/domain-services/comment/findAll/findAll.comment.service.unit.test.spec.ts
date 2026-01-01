@@ -32,6 +32,6 @@ describe('FindAllCommentService unit tests', () => {
         expect(results.all[0].createdAt).toEqual(entities.createdAt)
         expect(results.all[0].idComment).toEqual(entities.id)
         expect(results.all[0].idPersonHadDone).toEqual(entities.idPersonHaveDone)
-    })
+    });
 
-})
+});

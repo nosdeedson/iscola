@@ -1,15 +1,18 @@
+import { DataSource } from "typeorm";
+import { AcademicSemesterInterface } from "../../../domain/academc-semester/academic.semester.repository.interface";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
 import { AcademicSemesterRepository } from '../../../infrastructure/repositories/academic-semester/academic-semester.repository';
+import { InputCreateAcademicSemesterDto } from "./academic-semester.dto";
 import { CreateAcademicSemesterService } from './create.academic-semester.service';
 
 
 describe('Academic semester integration test', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
     let semesterModel;
-    let semesterRepository;
-    let input;
+    let semesterRepository: AcademicSemesterInterface;
+    let input: InputCreateAcademicSemesterDto;
 
     beforeEach( async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();

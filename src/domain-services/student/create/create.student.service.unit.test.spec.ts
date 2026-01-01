@@ -29,6 +29,7 @@ describe('CreateStudentService', () =>{
             await service.execute(dto);
         } catch (error) {
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'student', message: 'Schoolgroup not found'}]);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
             expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
@@ -56,6 +57,7 @@ describe('CreateStudentService', () =>{
             await service.execute(dto);
         } catch (error) {
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'student', message: 'At least one parent must be informed'}]);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
             expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
@@ -81,15 +83,15 @@ describe('CreateStudentService', () =>{
             await service.execute(dto);
         } catch (error) {
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'student', message: 'Schoolgroup not found'}, {context: 'student', message: 'At least one parent must be informed'}]);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
             expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
             expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
         }
-    })
+    });
 
-       // TODO THE REST OF TESTS
     it('should return a list of parent domain while converting from parent entities', async () =>{
         const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ]);
 
@@ -123,13 +125,36 @@ describe('CreateStudentService', () =>{
         expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
     });
 
-    it('should convert dto to student', async () =>{
-        expect(true).toBe(true);
-    })
-    it('should convert dto to student entity', async () =>{
-        expect(true).toBe(true);
-    })
     it('should save student', async () =>{
-        expect(true).toBe(true);
-    })
-})
+        const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ]);
+
+        const parent = DomainMocks.mockParent();
+        const parentEntities = ParentEntity.toParentEntity(parent);
+
+        const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
+        parentRepository.findByIds = jest.fn().mockImplementationOnce(() => { return [parentEntities]});
+        
+        const schoolGroup = DomainMocks.mockSchoolGroup();
+        const schoolGroupEntity = ClassEntity.toClassEntity(schoolGroup);
+
+        const schoolgroupRepository = MockRepositoriesForUnitTest.mockRepositories();
+
+        schoolgroupRepository.findByClassCode = jest.fn().mockImplementationOnce(() => {return schoolGroupEntity});
+
+        const studentRepository = MockRepositoriesForUnitTest.mockRepositories();
+        studentRepository.create = jest.fn().mockImplementationOnce(() => {return void 0})
+
+        const service = new CreateStudentService(studentRepository, schoolgroupRepository, parentRepository);
+
+        expect(await service.execute(dto)).toBe(void 0);
+
+        const parentToDomain = jest.spyOn(Parent, 'toDomain')
+            .mockReturnValue( parent);
+
+        expect(studentRepository.create).toHaveBeenCalledTimes(1);        
+        expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
+        expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
+        expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
+        expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
+    });
+});

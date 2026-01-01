@@ -1,5 +1,5 @@
-import { UpdateStudentDto } from '../update/udpate.student.dto';
-import { UpdateStudentService } from '../update/udpate.student.service';
+import { UpdateStudentDto } from './udpate.student.dto';
+import { UpdateStudentService } from './udpate.student.service';
 import { StudentEntity } from '../../../infrastructure/entities/student/student.entity';
 import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
@@ -15,7 +15,9 @@ describe('UpdateStudentService unit test', () =>{
             await service.execute(dto);
         } catch (error) {
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors.length).toBe(1);
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'student', message: 'student not found'}]);
         }
     });

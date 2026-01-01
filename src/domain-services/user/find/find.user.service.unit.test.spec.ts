@@ -5,16 +5,12 @@ import { FindUserService } from './find.user.service';
 
 describe('FindUserService tests unit', () =>{
 
-    let user;
-    beforeEach(() =>{
-        user = DomainMocks.mockUserTeacher();
-    });
-
     afterEach(() => {
         jest.clearAllMocks();
     })
 
     it('should find an user', async () =>{
+        let user = DomainMocks.mockUserTeacher();
         const userRepository = await MockRepositoriesForUnitTest.mockRepositories();
         userRepository.find = jest.fn().mockImplementationOnce(() =>{
             return user;
@@ -29,6 +25,7 @@ describe('FindUserService tests unit', () =>{
     });
 
     it('should not find an user', async () =>{
+        let user = DomainMocks.mockUserTeacher();
         const userRepository = await MockRepositoriesForUnitTest.mockRepositories();
         userRepository.find = jest.fn().mockImplementationOnce(() =>{
             return null;
@@ -40,5 +37,5 @@ describe('FindUserService tests unit', () =>{
         } catch(error){
             expect(error).toEqual( {errors: [ { context: 'user', message: 'user not found' } ]});
         }
-    })
-})
+    });
+});

@@ -3,13 +3,15 @@ import { ClassEntity } from "../../../infrastructure/entities/class/class.entity
 import { ClassRepository } from "../../../infrastructure/repositories/class/class.repository";
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
 import { DeleteClassService } from './delete.class.service';
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 
 
 describe('delete class service integration test', () =>{
 
-    let appDatasource;
-    let classEntity;
-    let classRepository;
+    let appDatasource: DataSource;
+    let classEntity: Repository<ClassEntity>;
+    let classRepository: ClassRepository;
 
     let entity;
 
@@ -36,7 +38,7 @@ describe('delete class service integration test', () =>{
         let schoolgroup = DomainMocks.mockSchoolGroup();
         let entity = ClassEntity.toClassEntity(schoolgroup);
         let wantedId = schoolgroup.getId();
-        expect(await classRepository.create(entity)).toBe(void 0);
+        expect(await classRepository.create(entity)).toBeInstanceOf(ClassEntity);
 
         let result = await classRepository.find(wantedId);
         expect(result).toBeDefined();
@@ -53,7 +55,7 @@ describe('delete class service integration test', () =>{
         let entity = ClassEntity.toClassEntity(schoolgroup);
         let wantedId = 'a58827ba-0560-4cab-b283-19d1435fbdd2';
         
-        expect(await classRepository.create(entity)).toBe(void 0);
+        expect(await classRepository.create(entity)).toBeInstanceOf(ClassEntity);
 
         let results = await classRepository.findAll();
         expect(results.length).toBe(1);

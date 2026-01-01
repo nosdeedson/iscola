@@ -1,3 +1,6 @@
+import { DataSource } from 'typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../../../domain/user/user';
 import { AppDataSourceMock } from '../../../infrastructure/__mocks__/appDataSourceMock';
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
 import { UserEntity } from '../../../infrastructure/entities/user/user.entity';
@@ -10,14 +13,14 @@ import { UpdateUserService } from './update.user.service';
 
 describe('UpdateUserService integration test', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
 
-    let userEntity;
-    let userRepository;
-    let user;
+    let userEntity: Repository<UserEntity>;
+    let userRepository: UserRepository;
+    let user: User;
 
-    let personEntity;
-    let personRepository;
+    let workerEntity: Repository<WorkerEntity>;
+    let workerRepository: WorkerRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -29,8 +32,8 @@ describe('UpdateUserService integration test', () =>{
         userEntity = appDataSource.getRepository(UserEntity);
         userRepository = new UserRepository(userEntity, appDataSource);
 
-        personEntity = appDataSource.getRepository(WorkerEntity);
-        personRepository = new WorkerRepository(personEntity, appDataSource);
+        workerEntity = appDataSource.getRepository(WorkerEntity);
+        workerRepository = new WorkerRepository(workerEntity, appDataSource);
     });
 
     afterEach(async () => {
@@ -43,18 +46,18 @@ describe('UpdateUserService integration test', () =>{
     it('entities and repositories must be instantiated', () =>{
         expect(userEntity).toBeDefined();
         expect(userRepository).toBeDefined();
-        expect(personEntity).toBeDefined();
-        expect(personRepository).toBeDefined();
+        expect(workerEntity).toBeDefined();
+        expect(workerRepository).toBeDefined();
     });
 
     it('should thorw an error with id not passed', async () =>{
         
-        let person = user.getPerson();
+        let person = user.getPerson() as any;
         let personEntity = WorkerEntity.toWorkerEntity(person);
-        expect(await personRepository.create(personEntity)).toBe(void 0);
+        expect(await workerRepository.create(personEntity)).toBeInstanceOf(WorkerEntity);
         
         let userEntity = UserEntity.toUserEntity(user);
-        expect(await userRepository.create(userEntity)).toBe(void 0);
+        expect(await userRepository.create(userEntity)).toBeInstanceOf(UserEntity);
         
         let wantedId = 'e211c4ba-da05-4d02-8fa0-f5f0a35d4326';
         const service = new UpdateUserService(userRepository);
@@ -68,12 +71,12 @@ describe('UpdateUserService integration test', () =>{
 
     it('should throw error if input does not have attributes but id', async () =>{
         
-        let person = user.getPerson();
+        let person = user.getPerson() as any;
         let personEntity = WorkerEntity.toWorkerEntity(person);
-        expect(await personRepository.create(personEntity)).toBe(void 0);
+        expect(await workerRepository.create(personEntity)).toBeInstanceOf(WorkerEntity);
         
         let userEntity = UserEntity.toUserEntity(user);
-        expect(await userRepository.create(userEntity)).toBe(void 0);
+        expect(await userRepository.create(userEntity)).toBeInstanceOf(UserEntity);
         
         let wantedId = user.getId();
         const service = new UpdateUserService(userRepository);
@@ -82,18 +85,19 @@ describe('UpdateUserService integration test', () =>{
             await service.execute(input)
         } catch (error) {
             expect(error).toEqual({errors: [{context: 'user', message: 'at least one atribute must be passed to update an user'}]});
+            //@ts-ignore
             expect(error.errors[0].message).toBe('at least one atribute must be passed to update an user');
         }
     });
 
     it('should update an user', async () =>{
         
-        let person = user.getPerson();
+        let person = user.getPerson() as any;
         let personEntity = WorkerEntity.toWorkerEntity(person);
-        expect(await personRepository.create(personEntity)).toBe(void 0);
+        expect(await workerRepository.create(personEntity)).toBeInstanceOf(WorkerEntity);
         
         let userEntity = UserEntity.toUserEntity(user);
-        expect(await userRepository.create(userEntity)).toBe(void 0);
+        expect(await userRepository.create(userEntity)).toBeInstanceOf(UserEntity);
         
         let wantedId = user.getId();
         let userBD = await userRepository.find(wantedId);
@@ -112,12 +116,12 @@ describe('UpdateUserService integration test', () =>{
 
     it('should not update an user ', async () =>{
         
-        let person = user.getPerson();
+        let person = user.getPerson() as any;
         let personEntity = WorkerEntity.toWorkerEntity(person);
-        expect(await personRepository.create(personEntity)).toBe(void 0);
+        expect(await workerRepository.create(personEntity)).toBeInstanceOf(WorkerEntity);
         
         let userEntity = UserEntity.toUserEntity(user);
-        expect(await userRepository.create(userEntity)).toBe(void 0);
+        expect(await userRepository.create(userEntity)).toBeInstanceOf(UserEntity);
         
         let wantedId = 'e211c4ba-da05-4d02-8fa0-f5f0a35d4326';
         let userBD = await userRepository.find(user.getId());
@@ -132,6 +136,6 @@ describe('UpdateUserService integration test', () =>{
         expect(updatedUser.password == input.password).toBeFalsy();
         expect(updatedUser.nickname == input.nickname).toBeFalsy();
         expect(updatedUser.email == input.email).toBeFalsy();
-    })
+    });
 
-})
+});

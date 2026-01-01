@@ -15,7 +15,8 @@ describe('update rating service unit tests', () => {
         try {
             await service.execute(input)
         } catch (error) {
-            expect(error).toBeDefined()
+            expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'Not found' }]);
             expect(ratingRepository.find).toHaveBeenCalledTimes(1);
             expect(ratingRepository.update).toHaveBeenCalledTimes(0);
@@ -33,6 +34,6 @@ describe('update rating service unit tests', () => {
         expect(ratingRepository.find).toHaveBeenCalledTimes(1);
         expect(ratingRepository.update).toHaveBeenCalledTimes(1);
         expect(ratingRepository.update).toHaveBeenCalledWith(entity)
-    })
+    });
 
-})
+});

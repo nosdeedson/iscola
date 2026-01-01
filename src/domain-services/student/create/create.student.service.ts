@@ -53,8 +53,6 @@ export class CreateStudentService {
         } catch (error) {
             throw error;
         }
-
-
     }
 
 

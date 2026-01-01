@@ -5,16 +5,18 @@ import { ParentRepository } from "../../../infrastructure/repositories/parent/pa
 import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
 import { DeleteParentService } from './delete.parent.service';
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 
 describe('DeleteParentService integration tests', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
 
-    let parentEntity;
-    let parentRepository;
+    let parentEntity: Repository<ParentEntity>;
+    let parentRepository: ParentRepository;
 
-    let studentEntity;
-    let studentRepository;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
     beforeEach( async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -47,10 +49,10 @@ describe('DeleteParentService integration tests', () =>{
         let students = parent.getStudents()
 
         let studentEntity = StudentEntity.toStudentEntity(students[0]);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let parentEntity = ParentEntity.toParentEntity(parent);
-        expect(await parentRepository.create(parentEntity)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
 
         let result = await parentRepository.findAll();
         expect(result.length).toBe(1);
@@ -69,16 +71,16 @@ describe('DeleteParentService integration tests', () =>{
         students[0].setParents(parent);
 
         let studentEntity = StudentEntity.toStudentEntity(students[0]);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let parentEntity = ParentEntity.toParentEntity(parent);
-        expect(await parentRepository.create(parentEntity)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
 
         let wantedId = parent.getId();
         const service = new DeleteParentService(parentRepository);
         expect(await service.execute(wantedId)).toBe(void 0);
         let result = await parentRepository.findAll();
         expect(result.length).toBe(0);
-    })
+    });
 
 })

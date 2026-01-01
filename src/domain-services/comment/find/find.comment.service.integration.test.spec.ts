@@ -11,24 +11,26 @@ import { RatingRepositiry } from "../../../infrastructure/repositories/rating/ra
 import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
 import { FindCommentService } from './find.comment.service';
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 
 describe('FindCommentService integration tests', () =>{
 
-    let appDataSource;
-    let commentEntity;
-    let commentRepository;
+    let appDataSource: DataSource;
+    let commentEntity: Repository<CommentEntity>;
+    let commentRepository: CommentRepository;
 
-    let ratingEntity;
-    let ratingRepository;
+    let ratingEntity: Repository<RatingEntity>;
+    let ratingRepository: RatingRepositiry;
     
-    let semesterEntity;
-    let semesterRepository;
+    let semesterEntity: Repository<AcademicSemesterEntity>;
+    let semesterRepository: AcademicSemesterRepository;
 
-    let studentEntity;
-    let studentRepository;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
-    let parentEntity;
-    let parentRepository;
+    let parentEntity: Repository<ParentEntity>;
+    let parentRepository: ParentRepository;
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -82,17 +84,22 @@ describe('FindCommentService integration tests', () =>{
         try {
             let result = await service.execute(nonExistentId);
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'comment', message: 'comment not found'}]);
+            //@ts-ignore
             expect(error.errors).toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({context: 'comment'}),
                     expect.objectContaining({message: 'comment not found'})
                 ])
             );
+            //@ts-ignore
             expect(error.errors[0]).toEqual(
                 expect.objectContaining({context: 'comment'})
             );
+            //@ts-ignore
             expect(error.errors[0]).toEqual(
                 expect.objectContaining({message: 'comment not found'})
             )
@@ -102,22 +109,22 @@ describe('FindCommentService integration tests', () =>{
     it('should a comment', async () =>{
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let rating = DomainMocks.mockRating();
         let ratingEntity = RatingEntity.toRatingEntity(rating);
 
-        expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
+        expect(await ratingRepository.create(ratingEntity)).toBeInstanceOf(RatingEntity);
 
         let comment = DomainMocks.mockComment(); 
         let commentEntity = CommentEntity.toCommentEntity(comment, ratingEntity);
         let wantedId = comment.getId();
-        expect(await commentRepository.create(commentEntity)).toBe(void 0);
+        expect(await commentRepository.create(commentEntity)).toBeInstanceOf(CommentEntity);
 
         const service = new FindCommentService(commentRepository);
         const result = await service.execute(wantedId);

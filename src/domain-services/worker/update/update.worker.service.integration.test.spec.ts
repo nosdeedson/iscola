@@ -5,12 +5,13 @@ import { PersonEntity } from "../../../infrastructure/entities/@shared/person.en
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 import { WorkerRepository } from "../../../infrastructure/repositories/worker/worker.repository";
 import { UpdateWorkerService } from '../../../domain-services/worker/update/udpate.worker.service';
+import { DataSource } from "typeorm";
 
 describe('UpdateWorkerService integration test', () => {
 
-    let appDataSource;
+    let appDataSource: DataSource;
     let workerModel;
-    let workerRepository;
+    let workerRepository: WorkerRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -46,7 +47,7 @@ describe('UpdateWorkerService integration test', () => {
         let service = new UpdateWorkerService(workerRepository);
         expect(await service.execute(input)).toBe(void 0);
 
-        let result = await workerRepository.find(wantedId);
+        let result = await workerRepository.find(wantedId) as WorkerEntity;
         expect(result).toBeDefined();
         expect(result.id).toEqual(input.id);
         expect(result.role).toEqual(input.role);
@@ -79,4 +80,4 @@ describe('UpdateWorkerService integration test', () => {
         expect(result.updatedAt.getTime()).toEqual(worker.getUpdatedAt().getTime());
     } );
 
-})
+});

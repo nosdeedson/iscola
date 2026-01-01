@@ -10,18 +10,19 @@ import { CreateRatingService } from './create.rating.service';
 import { CreateRatingDto } from './create.rating.dto';
 import { Grade } from "../../../domain/enum/grade/grade";
 import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
+import { DataSource, Repository } from "typeorm";
 
 describe('create rating integration tests', () => {
 
-    let appDataSource;
-    let ratingEntity;
-    let ratingRepository;
+    let appDataSource: DataSource;
+    let ratingEntity: Repository<RatingEntity>;
+    let ratingRepository: RatingRepositiry;
 
-    let studentEntity;
-    let studentRepository;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
-    let semesterEntity;
-    let semesterRepository;
+    let semesterEntity: Repository<AcademicSemesterEntity>;
+    let semesterRepository: AcademicSemesterRepository;
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -31,7 +32,7 @@ describe('create rating integration tests', () => {
         ratingRepository = new RatingRepositiry(ratingEntity, appDataSource);
         studentEntity = appDataSource.getRepository(StudentEntity);
         studentRepository = new StudentRepository(studentEntity, appDataSource);
-        semesterEntity = appDataSource.getRepository(semesterEntity);
+        semesterEntity = appDataSource.getRepository(AcademicSemesterEntity);
         semesterRepository = new AcademicSemesterRepository(semesterEntity, appDataSource);
     });
 
@@ -56,11 +57,11 @@ describe('create rating integration tests', () => {
     it('should insert a rating on database', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
         const service = new CreateRatingService(ratingRepository);
@@ -70,7 +71,7 @@ describe('create rating integration tests', () => {
     it('should throw a systemError if semester is null', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester;
 
@@ -80,6 +81,7 @@ describe('create rating integration tests', () => {
             await service.execute(input);
         } catch (error) {
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'rating', message: 'period of rating must be informed'}]);
         }
     });
@@ -89,7 +91,7 @@ describe('create rating integration tests', () => {
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
         const service = new CreateRatingService(ratingRepository);
@@ -97,6 +99,7 @@ describe('create rating integration tests', () => {
             await service.execute(input);
         } catch (error) {
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'rating', message: 'student receiving rating must be informed'}]);
         }
     });
@@ -104,11 +107,11 @@ describe('create rating integration tests', () => {
     it('should throw a systemError if listing is null', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let listing;
         let input = new CreateRatingDto(student, semester, listing, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
@@ -116,7 +119,9 @@ describe('create rating integration tests', () => {
         try {
             await service.execute(input)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the listining skill must be informed' }]);
         }
     });
@@ -124,11 +129,11 @@ describe('create rating integration tests', () => {
     it('should throw a systemError if writing is null', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let writing;
         let input = new CreateRatingDto(student, semester, Grade.BAD, writing, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
@@ -136,7 +141,9 @@ describe('create rating integration tests', () => {
         try {
             await service.execute(input)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the writing skill must be informed' }]);
         }
     });
@@ -145,11 +152,11 @@ describe('create rating integration tests', () => {
     it('should throw a systemError if reading is null', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let reading;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, reading, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD);
@@ -157,7 +164,9 @@ describe('create rating integration tests', () => {
         try {
             await service.execute(input)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the reading skill must be informed' }]);
         }
     });
@@ -165,11 +174,11 @@ describe('create rating integration tests', () => {
     it('should throw a systemError if speaking is null', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let speaking;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, speaking, Grade.BAD, Grade.BAD, Grade.BAD);
@@ -177,7 +186,9 @@ describe('create rating integration tests', () => {
         try {
             await service.execute(input)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the speaking skill must be informed' }]);
         }
     });
@@ -185,11 +196,11 @@ describe('create rating integration tests', () => {
     it('should throw a systemError if grammar is null', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let grammar;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, grammar, Grade.BAD, Grade.BAD);
@@ -197,7 +208,9 @@ describe('create rating integration tests', () => {
         try {
             await service.execute(input)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the grammar skill must be informed' }]);
         }
     });
@@ -205,11 +218,11 @@ describe('create rating integration tests', () => {
     it('should throw a systemError if homework is null', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let homework;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, homework, Grade.BAD);
@@ -217,7 +230,9 @@ describe('create rating integration tests', () => {
         try {
             await service.execute(input)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the homework commitment must be informed' }]);
         }
     });
@@ -225,11 +240,11 @@ describe('create rating integration tests', () => {
     it('should throw a systemError if vocabulary is null', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let vocabulary;
         let input = new CreateRatingDto(student, semester, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, vocabulary);
@@ -237,11 +252,10 @@ describe('create rating integration tests', () => {
         try {
             await service.execute(input)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the vocabulary improvment must be informed' }]);
         }
     });
-
-    
-
-})
+});

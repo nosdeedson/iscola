@@ -1,16 +1,19 @@
+import { DataSource } from "typeorm";
 import { AcademicSemester } from "../../../domain/academc-semester/academic.semester";
 import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../entities/academic-semester/academic.semester.entity";
 import { AcademicSemesterRepository } from './academic-semester.repository';
+import { setEnv } from "../../__mocks__/env.mock";
 
 describe('AcademicSemesterRepository unit tests', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
     let academicSemesterModel;
-    let repository;
+    let repository: AcademicSemesterRepository;
 
     beforeEach(async () =>{
+        // setEnv();
         appDataSource = AppDataSourceMock.mockAppDataSource();
         await appDataSource.initialize()
             .catch((error) => console.log(error));
@@ -90,7 +93,7 @@ describe('AcademicSemesterRepository unit tests', () =>{
         
         let wantedActual = false;
         model.actual = wantedActual;
-        await repository.update(model, wantedId);
+        await repository.update(model);
         let result = await repository.find(wantedId);
         expect(result).toBeDefined();
         expect(result.actual).toBeFalsy();

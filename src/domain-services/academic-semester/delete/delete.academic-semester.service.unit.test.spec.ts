@@ -1,10 +1,11 @@
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks'
 import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories'
 import { DeleteAcademicSemesterService } from '../../academic-semester/delete/delete.academic-semester.service';
+import { AcademicSemester } from '../../../domain/academc-semester/academic.semester';
 
 describe('delete academic semester unit test', () =>{
 
-    let semester;
+    let semester: AcademicSemester;
 
     beforeEach(() => {
         semester = DomainMocks.mockAcademicSemester();

@@ -10,7 +10,7 @@ export class FindAcademicSemesterService {
         this.semesterRepository = semesterRepository;
     }
 
-    async execute(id: string){
+    async execute(id: string): Promise<FindAcademicSemesterDto>{
         try {
             let semester = await this.semesterRepository.find(id);
             if (!semester) {

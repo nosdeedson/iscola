@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
@@ -8,9 +10,9 @@ import { UpdateAcademicSemesterService } from "./update.academic-semester.servic
 
 describe('Update AcademicSemester integration tests', () =>{
 
-    let appDataSource;
-    let semesterModel;
-    let semesterRepository;
+    let appDataSource: DataSource;
+    let semesterModel: Repository<AcademicSemesterEntity>;
+    let semesterRepository: AcademicSemesterRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -36,7 +38,7 @@ describe('Update AcademicSemester integration tests', () =>{
         let semester = DomainMocks.mockAcademicSemester();
         let wantedId = semester.getId();
         let entity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(entity)).toBe(void 0);
+        expect(await semesterRepository.create(entity)).toBeInstanceOf(AcademicSemesterEntity);
 
         const service = new UpdateAcademicSemesterService(semesterRepository);
         let dto = new UpdateAcademicSemesterDto(wantedId, false);

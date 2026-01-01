@@ -8,7 +8,7 @@ jest.mock('../../../domain/rating/rating')
 
 describe("CommentModel unit tests", () => {
 
-    let comment;
+    let comment: Comment;
     let comment1;
     let comments: Comment[] = [];
     let rating: Rating;
@@ -32,7 +32,6 @@ describe("CommentModel unit tests", () => {
         expect(model.deletedAt).toEqual(comment.getDeletedAt());
         expect(model.id).toEqual(comment.getId());
         expect(model.idPersonHaveDone).toEqual(comment.getIdPersonHadDone());
-        // expect(model.rantig).toEqual(comment.getRating());
         expect(model.updatedAt).toEqual(comment.getUpdatedAt());
-    })
-})
+    });
+});

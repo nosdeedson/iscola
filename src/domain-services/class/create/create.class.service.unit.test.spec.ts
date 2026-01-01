@@ -13,8 +13,8 @@ describe('CreateClassUsecas unit test', () => {
     let dayOfWeek2;
     let times = new Map<string, string>();
 
-    let scheduleDto;
-    let classDto;
+    let scheduleDto: ScheduleDto;
+    let classDto: CreateClassDto;
 
     beforeEach(() => {
         dayOfWeek1 = DateHelper.getDayOfweek(aValidDate1);
@@ -43,7 +43,7 @@ describe('CreateClassUsecas unit test', () => {
     });
 
     it('should throw erro namebook required', async () => {
-        let nameBook;
+        let nameBook = '';
         classDto = new CreateClassDto(nameBook, 'a1class1', scheduleDto);
         const classCodeHelper = jest.spyOn(ClassCodeHelper, 'createClassCode')
             .mockImplementationOnce(() => {
@@ -51,17 +51,21 @@ describe('CreateClassUsecas unit test', () => {
             })
         const classRepository = MockRepositoriesForUnitTest.mockRepositories();
         const service = new CreateClassService(classRepository);
+        
         try {
             await service.execute(classDto);
         } catch (error) {   
-            expect(error.errors).toBeDefined();
-            expect(error.errors).toStrictEqual([{context: "class", message: "Name of the book is required"}]);
+            //@ts-ignore
+            expect(error?.errors).toBeDefined();
+            //@ts-ignore
+            expect(error?.errors).toStrictEqual([{context: "class", message: "Name of the book is required"}]);
             expect(classRepository.create).toHaveBeenCalledTimes(0);
+            expect(classCodeHelper).toHaveBeenCalledTimes(1);
         }
     })
 
     it('should throw erro name of class required', async () => {
-        let nameOfClass;
+        let nameOfClass= '';
         classDto = new CreateClassDto('a1', nameOfClass, scheduleDto);
         const classCodeHelper = jest.spyOn(ClassCodeHelper, 'createClassCode')
             .mockImplementationOnce(() => {
@@ -72,14 +76,16 @@ describe('CreateClassUsecas unit test', () => {
         try {
             await service.execute(classDto);
         } catch (error) {   
+            // @ts-ignore
             expect(error.errors).toBeDefined();
+            // @ts-ignore
             expect(error.errors).toStrictEqual([{context: "class", message: "Name of the class is required"}]);
             expect(classRepository.create).toHaveBeenCalledTimes(0);
         }
     })
 
     it('should throw erro classcode is required', async () => {
-        let classCode;
+        let classCode = 'undefined';
         classDto = new CreateClassDto('a1', 'nameofclass', scheduleDto);
         const classCodeHelper = jest.spyOn(ClassCodeHelper, 'createClassCode')
             .mockImplementationOnce(() => {
@@ -89,8 +95,10 @@ describe('CreateClassUsecas unit test', () => {
         const service = new CreateClassService(classRepository);
         try {
             await service.execute(classDto);
-        } catch (error) {   
+        } catch (error) { 
+            // @ts-ignore  
             expect(error.errors).toBeDefined();
+            // @ts-ignore
             expect(error.errors).toStrictEqual([{context: "class", message: "classcode is required"}]);
             expect(classRepository.create).toHaveBeenCalledTimes(0);
         }
@@ -98,7 +106,7 @@ describe('CreateClassUsecas unit test', () => {
     })
 
     it('should throw erro schedule is required', async () => {
-        let schedule;
+        let schedule: any;
         classDto = new CreateClassDto('a1', 'nameofclass', schedule);
         const classCodeHelper = jest.spyOn(ClassCodeHelper, 'createClassCode')
             .mockImplementationOnce(() => {
@@ -109,11 +117,13 @@ describe('CreateClassUsecas unit test', () => {
         try {
             await service.execute(classDto);
         } catch (error) {   
+            // @ts-ignore
             expect(error.errors).toBeDefined();
+            // @ts-ignore
             expect(error.errors).toStrictEqual([{context: "class", message: "schedule is required"}]);
             expect(classRepository.create).toHaveBeenCalledTimes(0);
         }
 
-    })
+    });
 
 })

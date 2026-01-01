@@ -1,3 +1,4 @@
+import { DataSource } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { Worker } from "../../../domain/worker/worker";
 import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
@@ -11,9 +12,9 @@ const MILISECONDS = 1000;
 
 describe("WorkerRepository unit tets", () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
     let workerModel;
-    let repository;
+    let repository: WorkerRepository;
     beforeEach(async () => {
 
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -93,7 +94,7 @@ describe("WorkerRepository unit tets", () =>{
         let worker2 = DomainMocks.mockWorker(RoleEnum.TEACHER);
         let model2 = WorkerEntity.toWorkerEntity(worker2);
         await repository.create(model);
-        expect(await repository.update(model2, expectedId)).toBe(void 0);
+        expect(await repository.update(model2)).toBe(void 0);
         let result = await repository.find(expectedId);
         expect(result).toBeDefined()
         //expect(result).toStrictEqual(model2)

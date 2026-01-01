@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
@@ -11,15 +13,15 @@ import { FindAllRatingService } from './findAll.rating.service';
 
 describe('find all rating integration tests', () => {
 
-    let appDataSource;
-    let ratingEntity;
-    let ratingRepository;
+    let appDataSource: DataSource;
+    let ratingEntity: Repository<RatingEntity>;
+    let ratingRepository: RatingRepositiry;
 
-    let studentEntity;
-    let studentRepository;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
-    let semesterEntity;
-    let semesterRepository;
+    let semesterEntity: Repository<AcademicSemesterEntity>;
+    let semesterRepository: AcademicSemesterRepository;
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -29,7 +31,7 @@ describe('find all rating integration tests', () => {
         ratingRepository = new RatingRepositiry(ratingEntity, appDataSource);
         studentEntity = appDataSource.getRepository(StudentEntity);
         studentRepository = new StudentRepository(studentEntity, appDataSource);
-        semesterEntity = appDataSource.getRepository(semesterEntity);
+        semesterEntity = appDataSource.getRepository(AcademicSemesterEntity);
         semesterRepository = new AcademicSemesterRepository(semesterEntity, appDataSource);
     });
 
@@ -60,21 +62,21 @@ describe('find all rating integration tests', () => {
     it('should find all rating', async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
 
         let rating = DomainMocks.mockRating();
         let ratingEntity = RatingEntity.toRatingEntity(rating);
-        expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
+        expect(await ratingRepository.create(ratingEntity)).toBeInstanceOf(RatingEntity);
 
         const service = new FindAllRatingService(ratingRepository);
         let results = await service.execute();
         expect(results.all.length).toBe(1);
         expect(results.all[0].id).toBe(rating.getId())
 
-    })
+    });
 
-})
+});

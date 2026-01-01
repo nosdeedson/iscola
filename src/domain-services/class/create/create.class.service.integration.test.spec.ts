@@ -5,19 +5,21 @@ import { ClassRepository } from '../../../infrastructure/repositories/class/clas
 import { CreateClassDto } from './create.class.dto';
 import { ScheduleDto } from './schedule-dto';
 import { CreateClassService } from './create.class.service';
+import { DataSource } from 'typeorm';
+import { Repository } from 'typeorm';
 
 describe('create class service integration test', () => {
 
-    let appDatasource;
-    let classEntity;
-    let classRepository;
+    let appDatasource: DataSource;
+    let classEntity: Repository<ClassEntity>;
+    let classRepository: ClassRepository;
 
     let aValidDate1 = new Date(2024, 7, 9, 17, 5, 0, 0);
     let aValidDate2 = new Date(2024, 7, 8, 17, 5, 0, 0);
     let dayOfWeek1;
     let dayOfWeek2;
     let times = new Map<string, string>();
-    let scheduleDto;
+    let scheduleDto: ScheduleDto;
 
     beforeEach( async () => {
         appDatasource = AppDataSourceMock.mockAppDataSource();

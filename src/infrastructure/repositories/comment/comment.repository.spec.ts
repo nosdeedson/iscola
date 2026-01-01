@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { Comment } from "../../../domain/comment/comment";
 import { Parent } from "../../../domain/parent/parent";
 import { Student } from "../../../domain/student/student";
@@ -17,18 +19,18 @@ import { StudentRepository } from '../student/student.repository';
 
 describe('CommentRepository unit test', () => {
 
-    let appDataSource;
-    let commentModel;
-    let repository;
-    let ratingModel;
-    let ratingRepository;
+    let appDataSource: DataSource;
+    let commentModel: Repository<CommentEntity>;
+    let repository: CommentRepository;
+    let ratingModel: Repository<RatingEntity>;
+    let ratingRepository: RatingRepositiry;
     let ratingEntity;
     let semesterModel;
-    let semesterRepository;
-    let studentModel;
-    let studentRepository;
-    let parentModel;
-    let parentRepository;
+    let semesterRepository: AcademicSemesterRepository;
+    let studentModel: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
+    let parentModel: Repository<ParentEntity>;
+    let parentRepository: ParentRepository;
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -57,9 +59,6 @@ describe('CommentRepository unit test', () => {
         await ratingModel.query(`delete from rating cascade`);
         await parentModel.query(`delete from person cascade`);
         await studentModel.query(`delete from person cascade`);
-        // await appDataSource.createQueryBuilder().delete().from(CommentEntity).execute();
-        // await appDataSource.createQueryBuilder().delete().from(RatingEntity).execute();
-        // await appDataSource.createQueryBuilder().delete().from(Person).execute();
         await appDataSource.destroy();
     });
 
@@ -96,7 +95,7 @@ describe('CommentRepository unit test', () => {
         let comment = DomainMocks.mockComment();
         let model = CommentEntity.toCommentEntity(comment, ratingEntity);
         let wantedId = comment.getId();
-        await repository.create(model);
+        expect(await repository.create(model)).toBeInstanceOf(CommentEntity);
 
         let result = await repository.find(wantedId);
         expect(result).toBeDefined();
@@ -134,7 +133,7 @@ describe('CommentRepository unit test', () => {
     })
 
 
-    it('should not throw error when deleting a comment if a wrong id', async () =>{
+    it('should not throw error when deleting a comment with a wrong id', async () =>{
         let semester = DomainMocks.mockAcademicSemester();
         let academicSemester = AcademicSemesterEntity.toAcademicSemester(semester);
         await semesterRepository.create(academicSemester);
@@ -259,13 +258,13 @@ describe('CommentRepository unit test', () => {
         let change = 'changed the comment';
         model.comment = change;
 
-        expect(await repository.update(model, wantedId)).toBe(void 0);
+        expect(await repository.update(model)).toBe(void 0);
 
         let result = await repository.find(wantedId);
 
         expect(result).toBeDefined();
         expect(result.id).toEqual(wantedId)
         expect(result.comment).toEqual(change)
-    })
+    });
 
-})
+});

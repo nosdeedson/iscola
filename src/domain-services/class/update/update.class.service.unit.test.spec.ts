@@ -32,6 +32,7 @@ describe('update class service unit test', () =>{
         try {
             await service.execute(input)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ "context": "class", "message": "class not found"}]);
             expect(classRepository.find).toHaveBeenCalledTimes(1);
             expect(classRepository.find).toHaveBeenCalledWith(input.id);

@@ -4,13 +4,14 @@ import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { UserEntity } from "../../../infrastructure/entities/user/user.entity";
 import { UpdateUserDto } from './update.user.dto';
 import { UpdateUserService } from './update.user.service';
+import { Repository } from "typeorm";
 
 describe('UpdateUserService unit tests', () => {
 
     let user;
-    let userEntity;
+    let userEntity: UserEntity;
     let updateUserDto: UpdateUserDto;
-    let userRepository;
+    let userRepository: any;
 
     beforeEach(() => {
         user = DomainMocks.mockUserTeacher();
@@ -27,6 +28,7 @@ describe('UpdateUserService unit tests', () => {
             await service.execute(input as UpdateUserDto)
         } catch (error) {
             expect(error).toEqual({errors :[{context: 'user', message: 'id must be informed'}]});
+            //@ts-ignore
             expect(error.errors[0].message).toBe('id must be informed');
         }
     });
@@ -39,6 +41,7 @@ describe('UpdateUserService unit tests', () => {
             await service.execute(input as UpdateUserDto)
         } catch (error) {
             expect(error).toEqual({errors: [{context: 'user', message: 'at least one atribute must be passed to update an user'}]});
+            //@ts-ignore
             expect(error.errors[0].message).toBe('at least one atribute must be passed to update an user');
         }
     });
@@ -52,7 +55,5 @@ describe('UpdateUserService unit tests', () => {
         expect(userRepository.find).toHaveBeenCalledTimes(1);
         expect(userRepository.find).toHaveBeenCalledWith(updateUserDto.id);
         expect(userRepository.update).toHaveBeenCalled( );
-    })
-
-
-})
+    });
+});

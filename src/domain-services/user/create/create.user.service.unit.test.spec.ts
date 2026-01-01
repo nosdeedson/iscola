@@ -12,8 +12,8 @@ import { InputCreateUserDto } from "./input.create.user.dto";
 describe('create user service unit test', () =>{
 
     let input: InputCreateUserDto;
-    let personEntity;
-    let person;
+    let personEntity: any;
+    let person: any;
 
     afterEach(() =>{
         jest.clearAllMocks()

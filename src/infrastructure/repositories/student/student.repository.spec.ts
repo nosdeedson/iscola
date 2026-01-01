@@ -7,16 +7,17 @@ import { ClassRepository } from '../../repositories/class/class.repository';
 import { Class } from "../../../domain/class/class";
 import { PersonEntity } from "../../entities/@shared/person.entity";
 import { Student } from "../../../domain/student/student";
+import { DataSource } from "typeorm";
 
 const MILISECONDS = 1000;
 
 describe('StudentRepository unit test', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
     let studentModel;
-    let studentRepository;
+    let studentRepository: StudentRepository;
     let schoolGroupModel;
-    let schoolGroupRepository;
+    let schoolGroupRepository: ClassRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -30,8 +31,6 @@ describe('StudentRepository unit test', () =>{
     });
 
     afterEach(async () => {
-        // await studentModel.query('delete from person cascade');
-        // await schoolGroupModel.query('delete from class cascade');
         await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
         await appDataSource.createQueryBuilder().delete().from(ClassEntity).execute();
 
@@ -47,7 +46,7 @@ describe('StudentRepository unit test', () =>{
         let student = DomainMocks.mockStudent();
         let model = StudentEntity.toStudentEntity(student);
         let wantedId = student.getId();
-        expect(await studentRepository.create(model)).toBe(void 0);
+        expect(await studentRepository.create(model)).toBeInstanceOf(StudentEntity);
         
         let result = await studentRepository.find(wantedId);
         expect(result).toBeDefined();
@@ -58,7 +57,7 @@ describe('StudentRepository unit test', () =>{
         let student = DomainMocks.mockStudent();
         let model = StudentEntity.toStudentEntity(student);
         let wantedId = student.getId();
-        expect(await studentRepository.create(model)).toBe(void 0);
+        expect(await studentRepository.create(model)).toBeInstanceOf(StudentEntity);
         
         let result = await studentRepository.find(wantedId);
         expect(result).toBeDefined();
@@ -73,7 +72,7 @@ describe('StudentRepository unit test', () =>{
         let student = DomainMocks.mockStudent();
         let model = StudentEntity.toStudentEntity(student);
         let wantedId = student.getId();
-        expect(await studentRepository.create(model)).toBe(void 0);
+        expect(await studentRepository.create(model)).toBeInstanceOf(StudentEntity);
         
         let result = await studentRepository.find(wantedId);
         expect(result).toBeDefined();
@@ -83,13 +82,13 @@ describe('StudentRepository unit test', () =>{
     it('should find all students by ids in BD', async () => {
         let student1 = DomainMocks.mockStudent();
         let model1 = StudentEntity.toStudentEntity(student1);
-        expect(await studentRepository.create(model1)).toBe(void 0);
+        expect(await studentRepository.create(model1)).toBeInstanceOf(StudentEntity);
 
         let student2 = new Student(new Date, 'edson', '123', student1.getParents(), '90be2abb-f2da-46c0-9fc8-520c988b34f9');
         let model2 = StudentEntity.toStudentEntity(student2);
-        expect(await studentRepository.create(model2)).toBe(void 0);
+        expect(await studentRepository.create(model2)).toBeInstanceOf(StudentEntity);
         
-        let wantedIds = [student1.getId(), '90be2abb-f2da-46c0-9fc8-520c988b34f9'];
+        let wantedIds = [student1.getId(), '90be2abb-f2da-46c0-9fc8-520c988b34f9'] as any;
 
         let results = await studentRepository.findStudentsByIds(wantedIds)
         expect(results).toBeDefined();
@@ -111,7 +110,7 @@ describe('StudentRepository unit test', () =>{
         let wantedId = student.getId();
         let model = StudentEntity.toStudentEntity(student);
         
-        expect(await studentRepository.create(model)).toBe(void 0);
+        expect(await studentRepository.create(model)).toBeInstanceOf(StudentEntity);
 
         let result = await studentRepository.find(wantedId);
         expect(result).toBeDefined();
@@ -124,11 +123,10 @@ describe('StudentRepository unit test', () =>{
 
         let newSchoolGroup = await schoolGroupRepository.find(wantedSchoolGroupId);
         result.schoolGroup = newSchoolGroup;
-        expect(await studentRepository.update(result, result.id)).toBe(void 0);
+        expect(await studentRepository.update(result)).toBe(void 0);
 
         result = await studentRepository.find(result.id);
         expect(result).toBeDefined();
         expect(result.schoolGroup.classCode).toEqual(schoolGroup1.getClassCode());
     });
-
-})
+});

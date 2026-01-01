@@ -15,11 +15,12 @@ describe('FindStudentService unit tests', () =>{
             await service.execute('123')
         } catch (error) {
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'student', message: 'student not found'}]);
             expect(studentRepository.find).toHaveBeenCalledTimes(1);
             expect(studentRepository.find).toHaveBeenCalledWith('123');
         }
-    })
+    });
 
     it('should find a student', async () =>{
         let student = DomainMocks.mockStudent();
@@ -32,6 +33,6 @@ describe('FindStudentService unit tests', () =>{
         expect(result.id).toBe(student.getId());
         expect(result.createdAt).toEqual(student.getCreatedAt());
         expect(result.name).toEqual(student.getName());        
-    })
+    });
 
-})
+});

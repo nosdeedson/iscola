@@ -12,24 +12,26 @@ import { RatingRepositiry } from "../../../infrastructure/repositories/rating/ra
 import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { CreateCommentService } from './create.comment.service';
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 
 describe('create comment service integration tests', () =>{
 
-    let appDataSource;
-    let commentEntity;
-    let commentRepository;
+    let appDataSource: DataSource;
+    let commentEntity: Repository<CommentEntity>;
+    let commentRepository: CommentRepository;
 
-    let ratingEntity;
-    let ratingRepository;
+    let ratingEntity: Repository<RatingEntity>;
+    let ratingRepository: RatingRepositiry;
     
-    let semesterEntity;
-    let semesterRepository;
+    let semesterEntity: Repository<AcademicSemesterEntity>;
+    let semesterRepository: AcademicSemesterRepository;
 
-    let studentEntity;
-    let studentRepository;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
-    let parentEntity;
-    let parentRepository;
+    let parentEntity: Repository<ParentEntity>;
+    let parentRepository: ParentRepository;
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -83,7 +85,9 @@ describe('create comment service integration tests', () =>{
         try {
             await service.execute(dto);
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject( [{
                 "context": "comment",
                 "message": "Rating not found",
@@ -95,21 +99,17 @@ describe('create comment service integration tests', () =>{
 
         let semester = DomainMocks.mockAcademicSemester();
         let semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
-        expect(await semesterRepository.create(semesterEntity)).toBe(void 0);
+        expect(await semesterRepository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity)
 
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        // let parent = student.getParents()[0];
-        // let parentEntity = ParentEntity.toParentEntity(parent);
-
-        // //expect(await parentRepository.create(parentEntity)).toBe(void 0);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let rating = DomainMocks.mockRating();
         let ratingEntity = RatingEntity.toRatingEntity(rating);
 
-        expect(await ratingRepository.create(ratingEntity)).toBe(void 0);
+        expect(await ratingRepository.create(ratingEntity)).toBeInstanceOf(RatingEntity);
 
         let idPersonHaveDone = student.getId();
         let idRating = rating.getId();

@@ -32,7 +32,7 @@ export class CommentEntity extends GenericEntity {
         name: 'rating_id',
         foreignKeyConstraintName: 'fk_comment_rating'
     })
-    rantig: RatingEntity;
+    rating: RatingEntity;
 
     static toCommentEntity(comment: Comment, rating: RatingEntity): CommentEntity {
         let model = new CommentEntity();
@@ -42,7 +42,7 @@ export class CommentEntity extends GenericEntity {
         model.updatedAt = comment.getUpdatedAt();
         model.id = comment.getId();
         model.idPersonHaveDone = comment.getIdPersonHadDone();
-        model.rantig = rating ? rating : null;
+        model.rating = rating ? rating : null;
         return model;
     }
 

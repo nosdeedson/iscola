@@ -1,23 +1,27 @@
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
 import { AppDataSourceMock } from '../../../infrastructure/__mocks__/appDataSourceMock';
-import { ClassEntity } from 'src/infrastructure/entities/class/class.entity';
-import { ClassRepository } from 'src/infrastructure/repositories/class/class.repository';
+import { ClassEntity } from '../../../infrastructure/entities/class/class.entity';
+import { ClassRepository } from '../../../infrastructure/repositories/class/class.repository';
 import { FindClassService } from './find.class.service';
+import { DataSource } from 'typeorm';
+import { Repository } from 'typeorm';
+import { ClassRepositoryInterface } from '../../../domain/class/class.repository.interface';
+import { Class } from '../../../domain/class/class';
 
 
 describe('find class service integration test', () =>{
 
-    let appDataSource;
-    let classEntity;
-    let classRepository;
+    let appDataSource: DataSource;
+    let classEntity: Repository<ClassEntity>;
+    let classRepository: ClassRepositoryInterface | ClassRepository;
 
-    let schoolgroup;
+    let schoolgroup: Class;
 
     beforeEach( async () =>{
         schoolgroup = DomainMocks.mockSchoolGroup();
         appDataSource = AppDataSourceMock.mockAppDataSource();
         await appDataSource.initialize()
-            .catch(error => console.log(error))
+            .catch((error: any) => console.log(error))
         classEntity = appDataSource.getRepository(ClassEntity);
         classRepository = new ClassRepository(classEntity, appDataSource);
     });
@@ -31,14 +35,16 @@ describe('find class service integration test', () =>{
     it('should not find a class on BD with wrong id', async () =>{
         schoolgroup = DomainMocks.mockSchoolGroup();
         let entity = ClassEntity.toClassEntity(schoolgroup);
-        expect(await classRepository.create(entity)).toBe(void 0);
+        expect(await classRepository.create(entity)).toBeInstanceOf(ClassEntity);
         const service = new FindClassService(classRepository);
 
         let wantedId = '95be3d59-a09c-4da5-9140-0c805c5a391d';
         try{
             let result = await service.execute(wantedId);
         } catch(error){
+            //@ts-ignore
             expect(error.errors).toBeDefined();        
+            //@ts-ignore
             expect(error.errors[0]).toStrictEqual({context: 'class', message: 'class not found'})
         }
     });
@@ -51,7 +57,7 @@ describe('find class service integration test', () =>{
     it('should find a class on BD', async () =>{
         schoolgroup = DomainMocks.mockSchoolGroup();
         let entity = ClassEntity.toClassEntity(schoolgroup);
-        expect(await classRepository.create(entity)).toBe(void 0);
+        expect(await classRepository.create(entity)).toBeInstanceOf(ClassEntity);
         const service = new FindClassService(classRepository);
 
         let wantedId = schoolgroup.getId();

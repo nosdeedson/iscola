@@ -17,6 +17,7 @@ describe('create comment use service unit test', () =>{
             expect(await service.execute(dto)).toBe(void 0);
         } catch (error) {      
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject( [{
                 "context": "comment",
                 "message": "Rating not found",

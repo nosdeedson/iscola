@@ -16,7 +16,9 @@ describe('UpdateParentService unit test', () =>{
         try {
             await service.execute(studentEntity, noExistentParentId);
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'parent', message: 'Parent not found'}]);
         }
     });

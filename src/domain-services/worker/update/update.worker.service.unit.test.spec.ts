@@ -38,7 +38,7 @@ describe('UpdateWorkerService unit test', () =>{
         const service = new UpdateWorkerService(workerRepository);
         expect(await service.execute(input)).toBe(void 0);
         expect(workerRepository.update).toHaveBeenCalledTimes(1)
-    })
+    });
 
     it('should thorw  an error about null name', async () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
@@ -46,13 +46,14 @@ describe('UpdateWorkerService unit test', () =>{
         workerRepository.find = jest.fn().mockReturnValue(Promise.resolve(workerEntity));
         const service = new UpdateWorkerService(workerRepository);
         try {
-            let emptyName;
+            let emptyName: any;
             input.name = emptyName;
             expect(await service.execute(input)).toBe(void 0);
         } catch (error) {
+            //@ts-ignore
             expect(error.message).toBe('teacher: Name should not be null,')
         }
-    })
+    });
 
     it('should thorw  an error about null role', async () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
@@ -60,11 +61,12 @@ describe('UpdateWorkerService unit test', () =>{
         workerRepository.find = jest.fn().mockReturnValue(Promise.resolve(workerEntity));
         const service = new UpdateWorkerService(workerRepository);
         try {
-            let emptyRole;
+            let emptyRole: any;
             input.role = emptyRole;
             expect(await service.execute(input)).toBe(void 0);
         } catch (error) {
+            //@ts-ignore
             expect(error.message).toBe('teacher: Role should not be null,')
         }
-    })
-})
+    });
+});

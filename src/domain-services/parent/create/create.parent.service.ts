@@ -3,20 +3,22 @@ import { ParentReporitoryInterface } from "src/domain/parent/parent.repository.i
 import { Student } from "src/domain/student/student";
 import { ParentEntity } from "src/infrastructure/entities/parent/parent.entity";
 import { CreateParentDto } from "./create.parent.dto";
+import { CreateGenericService } from "src/domain-services/@shared/create-generic-service";
 
-export class CreateParentService{
+export class CreateParentService extends CreateGenericService{
     
     private parentRepository: ParentReporitoryInterface;
 
     constructor(
         parentRepository: ParentReporitoryInterface,
     ){
+        super();
         this.parentRepository = parentRepository;
     }
 
-    async execute(dto: CreateParentDto, students: Student[]){
+    async execute(dto: CreateParentDto){
         try {
-            let parent = CreateParentDto.toParent(dto, students);
+            let parent = CreateParentDto.toParent(dto);
             if(parent?.getNotification().hasError()){
                 throw new SystemError(parent.getNotification()?.getErrors());
             }

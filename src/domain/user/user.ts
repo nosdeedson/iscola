@@ -35,7 +35,7 @@ export class User extends Entity {
         new UserValidator().validate(this);
     }
 
-    getPerson(): Person{
+    getPerson(): Person {
         const person = this.person;
         return person;
     }

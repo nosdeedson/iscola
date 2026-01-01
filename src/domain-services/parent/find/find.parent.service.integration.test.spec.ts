@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
@@ -8,13 +10,13 @@ import { FindParentService } from './find.parent.service';
 
 describe('FindParentService integration tests ', () =>{
 
-    let appDataSource;
+    let appDataSource: DataSource;
 
-    let parentEntity;
-    let parentRepository;
+    let parentEntity: Repository<ParentEntity>;
+    let parentRepository: ParentRepository;
 
-    let studentEntity;
-    let studentRepository;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -47,10 +49,10 @@ describe('FindParentService integration tests ', () =>{
         let students = parent.getStudents();
 
         let studentEntity = StudentEntity.toStudentEntity(students[0]);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let parentEntity = ParentEntity.toParentEntity(parent);
-        expect(await parentRepository.create(parentEntity)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
 
         const wantedId = 'e9c826b0-2fb4-41a7-aae8-8eed8fa999e8';
 
@@ -58,7 +60,9 @@ describe('FindParentService integration tests ', () =>{
         try {
             let result = await service.execute(wantedId);
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'parent', message: 'Parent not found'}])
         }
     })
@@ -70,10 +74,10 @@ describe('FindParentService integration tests ', () =>{
         students[0].setParents(parent);
 
         let studentEntity = StudentEntity.toStudentEntity(students[0]);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let parentEntity = ParentEntity.toParentEntity(parent);
-        expect(await parentRepository.create(parentEntity)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
 
         const wantedId = parent.getId();
 
@@ -82,7 +86,7 @@ describe('FindParentService integration tests ', () =>{
         expect(result).toBeDefined();
         expect(result.id).toBe(wantedId);
         expect(result.name).toBe(parent.getName());
-    })
+    });
 
 
 })

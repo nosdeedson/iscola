@@ -1,3 +1,5 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
@@ -7,9 +9,9 @@ import { FindAllClassService } from './findAll.class.service';
 
 describe('findall service integration test', () =>{
 
-    let appDataSource;
-    let classEntity;
-    let classRepository;
+    let appDataSource: DataSource;
+    let classEntity: Repository<ClassEntity>;
+    let classRepository: ClassRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -44,7 +46,7 @@ describe('findall service integration test', () =>{
     it('should find one class', async () =>{
         let schoolgroup = DomainMocks.mockSchoolGroup();
         let entity = ClassEntity.toClassEntity(schoolgroup);
-        expect(await classRepository.create(entity)).toBe(void 0);
+        expect(await classRepository.create(entity)).toBeInstanceOf(ClassEntity);
 
         const service = new FindAllClassService(classRepository);
         let results = await service.execute();
@@ -53,6 +55,6 @@ describe('findall service integration test', () =>{
         expect(results.all).toBeDefined();
         expect(results.all[0].id).toEqual(schoolgroup.getId());
         expect(results.all.length).toBe(1)
-    })
+    });
 
 })

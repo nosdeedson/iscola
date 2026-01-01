@@ -1,3 +1,4 @@
+import { DataSource } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
@@ -9,9 +10,9 @@ import { DeleteWorkerService } from './delete.worker.service';
 
 describe('DeleteWorkerService integration test', () => {
 
-    let appDataSource;
+    let appDataSource: DataSource;
     let workerModel;
-    let workerRepository;
+    let workerRepository: WorkerRepository;
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -38,7 +39,7 @@ describe('DeleteWorkerService integration test', () => {
 
         let wantedId = worker.getId();
 
-        expect(await workerRepository.create(workerModel)).toBe(void 0);
+        expect(await workerRepository.create(workerModel)).toBeInstanceOf(WorkerEntity);
 
         let results = await workerRepository.findAll();
         expect(results.length).toBe(1);
@@ -57,7 +58,7 @@ describe('DeleteWorkerService integration test', () => {
 
         let wantedId = '00ac5b00-1326-40ce-8db9-bafaaa95f762';
 
-        expect(await workerRepository.create(workerModel)).toBe(void 0);
+        expect(await workerRepository.create(workerModel)).toBeInstanceOf(WorkerEntity);
 
         let result = await workerRepository.find(worker.getId());
         expect(result).toBeDefined();
@@ -66,6 +67,6 @@ describe('DeleteWorkerService integration test', () => {
         await service.execute(wantedId);
         result = await workerRepository.find(worker.getId());
         expect(result.deletedAt).toBeNull();
-    })
+    });
 
-})
+});

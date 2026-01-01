@@ -12,15 +12,17 @@ import { WorkerRepository } from "../../../infrastructure/repositories/worker/wo
 import { CreateUserService } from "./create.user.service";
 import { StudentRepository } from '../../../infrastructure/repositories/student/student.repository';
 import { ParentRepository } from '../../../infrastructure/repositories/parent/parent.repository';
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 
 describe('create user service integration tests', () =>{
 
-    let appDataSource;
-    let userEntity;
-    let userRepository;
+    let appDataSource: DataSource;
+    let userEntity: Repository<UserEntity>;
+    let userRepository: UserRepository;
 
-    let personEntity;
-    let personRepository;
+    let personEntity: Repository<any>;
+    let personRepository: any;
 
     beforeEach( async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -50,8 +52,8 @@ describe('create user service integration tests', () =>{
 
         personRepository = new WorkerRepository(personEntity, appDataSource); 
         let person = DomainMocks.mockWorker(RoleEnum.TEACHER);
-        personEntity = WorkerEntity.toWorkerEntity(person);
-        expect(await personRepository.create(personEntity)).toBe(void 0);
+        let teacherEntity = WorkerEntity.toWorkerEntity(person);
+        expect(await personRepository.create(teacherEntity)).toBeInstanceOf(WorkerEntity);
 
         let input = {
             personId: person.getId(),
@@ -73,8 +75,8 @@ describe('create user service integration tests', () =>{
 
         personRepository = new WorkerRepository(personEntity, appDataSource); 
         let person = DomainMocks.mockWorker(RoleEnum.ADMINISTRATOR);
-        personEntity = WorkerEntity.toWorkerEntity(person);
-        expect(await personRepository.create(personEntity)).toBe(void 0);
+        let workerAdmin = WorkerEntity.toWorkerEntity(person);
+        expect(await personRepository.create(workerAdmin)).toBeInstanceOf(WorkerEntity);
 
         let input = {
             personId: person.getId(),
@@ -102,9 +104,9 @@ describe('create user service integration tests', () =>{
         let parent = studentEntity.parents[0];
 
         let parentRepository = new ParentRepository(personEntity, appDataSource);
-        expect(await parentRepository.create(parent)).toBe(void 0);
+        expect(await parentRepository.create(parent)).toBeInstanceOf(ParentEntity);
 
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let input = {
             personId: student.getId(),
@@ -132,9 +134,9 @@ describe('create user service integration tests', () =>{
         let studentEntity = parentEntity.students[0];
 
         let studentRepository  = new StudentRepository(personEntity, appDataSource);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
-        expect(await parentRepository.create(parentEntity)).toBe(void 0);
+        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
 
         let input = {
             personId: parent.getId(),

@@ -4,13 +4,15 @@ import { ClassRepository } from '../../../infrastructure/repositories/class/clas
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks'; 
 import { UpdateClassDto } from './udpate.class.dto'
 import { UpdateClassService } from './update.class.service';
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 
 
 describe('update class integration test', () =>{
 
-    let appDataSource;
-    let classRepository;
-    let classEntity;
+    let appDataSource: DataSource;
+    let classRepository: ClassRepository;
+    let classEntity: Repository<ClassEntity>;
 
     beforeEach( async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -34,7 +36,7 @@ describe('update class integration test', () =>{
     it('should throw an error while updating class if id does not exist', async () =>{
         let schoolgroup = DomainMocks.mockSchoolGroup();
         let entity = ClassEntity.toClassEntity(schoolgroup);
-        expect(await classRepository.create(entity)).toBe(void 0);
+        expect(await classRepository.create(entity)).toBeInstanceOf(ClassEntity);
         
         let wantedId = 'ea224f51-5404-4228-8a77-2795b900702d';
         let wantedBookName = 'bookb1';
@@ -45,6 +47,7 @@ describe('update class integration test', () =>{
             await service.execute(input)
         } catch (error) {
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ "context": "class", "message": "class not found"}]);
         }
     });
@@ -52,7 +55,7 @@ describe('update class integration test', () =>{
     it('should update a class', async () =>{
         let schoolgroup = DomainMocks.mockSchoolGroup();
         let entity = ClassEntity.toClassEntity(schoolgroup);
-        expect(await classRepository.create(entity)).toBe(void 0);
+        expect(await classRepository.create(entity)).toBeInstanceOf(ClassEntity);
         let wantedId = schoolgroup.getId();
 
         let result = await classRepository.find(wantedId);
@@ -76,6 +79,6 @@ describe('update class integration test', () =>{
         expect(result.bookName).toBe(input.bookName);
         expect(result.updatedAt.getTime()).toBeGreaterThan(schoolgroup.getUpdatedAt().getTime());
         
-    })
+    });
 
-})
+});

@@ -5,12 +5,14 @@ import { StudentEntity } from "../../../infrastructure/entities/student/student.
 import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { FindStudentService } from '../find/find.student.service';
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
 
 
 describe('FindStudentService integration tests', () => {
-    let appDataSource;
-    let studentEntity;
-    let studentRepository;
+    let appDataSource: DataSource;
+    let studentEntity: Repository<StudentEntity>;
+    let studentRepository: StudentRepository;
 
     beforeEach(async () => {
         appDataSource = AppDataSourceMock.mockAppDataSource();
@@ -36,7 +38,7 @@ describe('FindStudentService integration tests', () => {
     it('should throw a SystemError if student does not exisit', async () =>{
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let noExixtentId = 'ddb5186b-9a8d-4c5d-8086-2cccc0499c11';
         const service = new FindStudentService(studentRepository);
@@ -44,15 +46,17 @@ describe('FindStudentService integration tests', () => {
             await service.execute(noExixtentId);
         } catch (error) {
             expect(error).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'student', message: 'student not found'}]);
-            expect(error.errors.length).toBe(1)
+            //@ts-ignore
+            expect(error.errors.length).toBe(1);
         }
     })
 
-    it('should a student', async () =>{
+    it('should find a student', async () =>{
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBe(void 0);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let wantedId = student.getId();
         const service = new FindStudentService(studentRepository);
@@ -61,5 +65,5 @@ describe('FindStudentService integration tests', () => {
         expect(result.id).toBe(wantedId);
         expect(result.name).toBe(student.getName());
         expect(result.enrolled).toBe(student.getEnrolled());
-    })
-})
+    });
+});

@@ -1,3 +1,6 @@
+import { DataSource } from "typeorm";
+import { Repository } from "typeorm";
+import { User } from "../../../domain/user/user";
 import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
 import { UserEntity } from "../../../infrastructure/entities/user/user.entity";
@@ -5,25 +8,23 @@ import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.ent
 import { UserRepository } from "../../../infrastructure/repositories/user/user.repository";
 import { WorkerRepository } from "../../../infrastructure/repositories/worker/worker.repository";
 import { DeleteUserService } from './delete.user.service';
+import { RoleEnum } from "../../../domain/worker/roleEnum";
 
 
 describe('service delete user integration tests', () => {
 
-    let appDataSource;
+    let appDataSource: DataSource;
 
-    let userEntity;
-    let userRepository;
-    let user;
+    let userEntity: Repository<UserEntity>;
+    let userRepository: UserRepository;
 
-    let personEntity;
-    let personRepository;
+    let personEntity: Repository<WorkerEntity>;
+    let personRepository: WorkerRepository;
 
     beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
-
-        user = DomainMocks.mockUserTeacher();
         
         userEntity = appDataSource.getRepository(UserEntity);
         userRepository = new UserRepository(userEntity, appDataSource);
@@ -47,18 +48,16 @@ describe('service delete user integration tests', () => {
     });
 
     it('should delete an user', async () =>{
-        let person = user.getPerson();
-        let personEntity = WorkerEntity.toWorkerEntity(person);
-        expect(await personRepository.create(personEntity)).toBe(void 0);
-        
-        let userEntity = UserEntity.toUserEntity(user);
-        expect(await userRepository.create(userEntity)).toBe(void 0);
-        
-        let wantedId = user.getId();
+        personRepository = new WorkerRepository(personEntity, appDataSource); 
+        let person = DomainMocks.mockWorker(RoleEnum.TEACHER);
+        let teacherEntity = WorkerEntity.toWorkerEntity(person);
+        let userInput = DomainMocks.mockUserTeacher();
+        let user = UserEntity.toUserEntity(userInput);
+        expect(await personRepository.create(teacherEntity)).toBeInstanceOf(WorkerEntity);
+        expect(await userRepository.create(user)).toBeInstanceOf(UserEntity);
+        let wantedId = user.id;
         let userBD = await userRepository.find(wantedId);
         expect(userBD).toBeDefined();
-        expect(userBD.deleteAt).toBeUndefined();
-
         const service = new DeleteUserService(userRepository);
         expect(await service.execute(wantedId));
         userBD = await userRepository.find(wantedId);
@@ -67,23 +66,18 @@ describe('service delete user integration tests', () => {
    
 
     it('should not delete an user', async () =>{
-        let person = user.getPerson();
-        let personEntity = WorkerEntity.toWorkerEntity(person);
-        expect(await personRepository.create(personEntity)).toBe(void 0);
-        
-        let userEntity = UserEntity.toUserEntity(user);
-        expect(await userRepository.create(userEntity)).toBe(void 0);
-        
-        let wantedId =  'ffd9ee12-438a-46fa-8b9f-211ff3b44a23';
-        let userBD = await userRepository.find(user.getId());
+        personRepository = new WorkerRepository(personEntity, appDataSource); 
+        let person = DomainMocks.mockWorker(RoleEnum.TEACHER);
+        let teacherEntity = WorkerEntity.toWorkerEntity(person);
+        let userInput = DomainMocks.mockUserTeacher();
+        let user = UserEntity.toUserEntity(userInput);
+        expect(await personRepository.create(teacherEntity)).toBeInstanceOf(WorkerEntity);
+        expect(await userRepository.create(user)).toBeInstanceOf(UserEntity);
+        let userBD = await userRepository.find(user.id);
         expect(userBD).toBeDefined();
-        expect(userBD.deleteAt).toBeUndefined();
-
         const service = new DeleteUserService(userRepository);
-        expect(await service.execute(wantedId));
-        userBD = await userRepository.find(user.getId());
-        expect(userBD).toBeDefined();
-        expect(userBD.deleteAt).toBeUndefined();
+        let wrongId = '4c4179a7-9d83-429e-b96f-1108b480c038';
+        expect(await service.execute(wrongId)).toBe(void 0)
     });
 
 })

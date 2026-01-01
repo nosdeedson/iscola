@@ -27,7 +27,9 @@ describe('CreateRatingService unit tests', () => {
         try {
             await service.execute(dto)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'period of rating must be informed' }]);
         }
     });
@@ -53,7 +55,9 @@ describe('CreateRatingService unit tests', () => {
         try {
             await service.execute(dto)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'student receiving rating must be informed' }]);
         }
     });
@@ -79,7 +83,9 @@ describe('CreateRatingService unit tests', () => {
         try {
             await service.execute(dto)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the listining skill must be informed' }]);
         }
     });
@@ -105,7 +111,9 @@ describe('CreateRatingService unit tests', () => {
         try {
             await service.execute(dto)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the writing skill must be informed' }]);
         }
     });
@@ -131,7 +139,9 @@ describe('CreateRatingService unit tests', () => {
         try {
             await service.execute(dto)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the reading skill must be informed' }]);
         }
     });
@@ -157,7 +167,9 @@ describe('CreateRatingService unit tests', () => {
         try {
             await service.execute(dto)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the speaking skill must be informed' }]);
         }
     });
@@ -183,7 +195,9 @@ describe('CreateRatingService unit tests', () => {
         try {
             await service.execute(dto)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the grammar skill must be informed' }]);
         }
     });
@@ -209,7 +223,9 @@ describe('CreateRatingService unit tests', () => {
         try {
             await service.execute(dto)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the homework commitment must be informed' }]);
         }
     });
@@ -235,9 +251,11 @@ describe('CreateRatingService unit tests', () => {
         try {
             await service.execute(dto)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toMatchObject([{ context: 'rating', message: 'the vocabulary improvment must be informed' }]);
         }
     });
 
-})
+});
