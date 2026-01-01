@@ -11,6 +11,7 @@ import { Parent } from "src/domain/parent/parent";
 import { ParentEntity } from "src/infrastructure/entities/parent/parent.entity";
 import { StudentEntity } from "src/infrastructure/entities/student/student.entity";
 import { Student } from "src/domain/student/student";
+import { TrataErros } from "src/infrastructure/utils/trata-erros/trata-erros";
 
 export class CreateUserService {
 

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/infrastructure/entities/user/user.entity';
 import { UserRepository } from 'src/infrastructure/repositories/user/user.repository';
 import { DataSource } from 'typeorm';
@@ -12,39 +12,73 @@ import { ClassRepository } from 'src/infrastructure/repositories/class/class.rep
 import { InputCreateWorkerDto } from 'src/domain-services/worker/create/create.worker.dto';
 import { TrataErros } from 'src/infrastructure/utils/trata-erros/trata-erros';
 import { InputCreateUserDto } from 'src/domain-services/user/create/input.create.user.dto';
+import { DeleteUserService } from 'src/domain-services/user/delete/delete.user.service';
+import { DeleteWorkerService } from 'src/domain-services/worker/delete/delete.worker.service';
+import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto/find-user-outPut-dto';
+import { FindUserService } from 'src/domain-services/user/find/find.user.service';
+import { FindAllUserService } from 'src/domain-services/user/findAll/findAll.user.service';
+import { CreateUserServiceFactory } from 'src/infrastructure/factory/create-user-service-factory/create-user-service-factory';
 
 @Injectable()
 export class UserUsecasesService {
     userEntity: any;
     userRepository: any;
 
-    workerEntity: any;
-    workerRepository: any;
-
-    classEntity: any;
-    classRepository: any;
-
     constructor(
         @Inject('DATA_SOURCE') private dataSource: DataSource,
+        private userServiceFactory: CreateUserServiceFactory
     ) {
         this.userEntity = this.dataSource.getRepository(UserEntity);
         this.userRepository = new UserRepository(this.userEntity, this.dataSource);
-        this.workerEntity = this.dataSource.getRepository(PersonEntity);
-        this.workerRepository = new WorkerRepository(this.workerEntity, this.dataSource);
-        this.classEntity = this.dataSource.getRepository(ClassEntity);
-        this.classRepository = new ClassRepository(this.classEntity, this.dataSource);
     }
 
     async create(dto: CreateWorkersDto): Promise<void> {
         try {
-            let createWorker = new CreateWorkerService(this.workerRepository, this.classRepository);
             let inputWorker = new InputCreateWorkerDto(dto);
-            const person = await createWorker.execute(inputWorker);
+            let createperson= this.userServiceFactory.createUserService(dto.accessType);
+            const person = await createperson.execute(inputWorker);
             let createUser = new CreateUserService(this.userRepository, this.userRepository);
             let input = new InputCreateUserDto(dto, person.id);
-            createUser.execute(input);
+            await createUser.execute(input);
         } catch (error) {
             TrataErros.tratarErrorsBadRequest(error);
         }
     }
+
+    async delete(id: string): Promise<void> {
+        try {
+            // TODO REDO BECAUSE THIS METHOSD SHOULD DELETE ANY KIND OF USER (teacher, admin, student, parent)
+            // let deleteWorker = new DeleteWorkerService(this.workerRepository);
+            // await deleteWorker.execute(id);       
+            // let deleteUserService = new DeleteUserService(this.userRepository);
+            // await deleteUserService.execute(id);
+        } catch (error) {
+            TrataErros.tratarErrorsBadRequest(error);
+        }
+    }
+
+    async find(id: string): Promise<FindUserOutPutDto> {
+        try {
+            // let findUserService = new FindUserService(this.userRepository);
+            // let user = await findUserService.execute(id);
+            // let person = await this.workerRepository.find(user.personId);
+            // return new FindUserOutPutDto(user, person.name);
+            return null;
+        } catch (error) {
+            TrataErros.tratarErrorsBadRequest(error);
+        }
+    }
+
+    async findAll(): Promise<FindUserOutPutDto[]>{
+        // let findAllUserService = new FindAllUserService(this.userRepository);
+        // const users = await findAllUserService.execute();
+        // const usersOutput = [];
+        // for (const user of users.all) {
+        //     let person = await this.workerRepository.find(user.personId);
+        //     usersOutput.push(new FindUserOutPutDto(user, person.name));
+        // }
+        // return usersOutput;
+        return null;
+    }
+
 }
