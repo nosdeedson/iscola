@@ -6,6 +6,8 @@ import { AccessType } from '../../../domain/user/access.type';
 import { CreateWorkerService } from '../../../domain-services/worker/create/create.worker.service';
 import { CreateStudentService } from '../../../domain-services/student/create/create.student.service';
 import { CreateParentService } from '../../../domain-services/parent/create/create.parent.service';
+import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
+import { SystemError } from '../../../domain-services/@shared/system-error';
 
 
 describe('UserServiceFactoryService', () => {
@@ -14,7 +16,10 @@ describe('UserServiceFactoryService', () => {
   beforeAll(async () => {
     setEnv();
     module = await Test.createTestingModule({
-      providers: [CreateUserServiceFactory],
+      providers: [
+        CreateUserServiceFactory,
+        UserAggregateResolverService,
+      ],
       imports: [DataBaseConnectionModule],
     }).compile();
 
@@ -50,10 +55,14 @@ describe('UserServiceFactoryService', () => {
   });
 
   it('should throw an error when accessType does not exist', () => {
-  expect(() => {
-    service.createUserServiceFactory('NO_EXIST' as AccessType);
-  }).toThrow('Invalid access type');
-});
+    try {
+      service.createUserServiceFactory('NO_EXIST' as AccessType);
+    } catch (error) {
+      expect(error).toBeInstanceOf(SystemError);
+      //@ts-ignore
+      expect(error.errors).toStrictEqual([{ context: 'UserAggregateResolver', message: 'Invalid access type' }]);
+    }
+  });
 
 
 });

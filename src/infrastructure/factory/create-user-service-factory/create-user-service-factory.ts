@@ -13,42 +13,29 @@ import { ParentRepository } from 'src/infrastructure/repositories/parent/parent.
 import { StudentRepository } from 'src/infrastructure/repositories/student/student.repository';
 import { WorkerRepository } from 'src/infrastructure/repositories/worker/worker.repository';
 import { DataSource, In } from 'typeorm';
+import { ParentAggregateContext, UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 
 @Injectable()
 export class CreateUserServiceFactory {
 
-    constructor(@Inject('DATA_SOURCE') private dataSource: DataSource) { }
+    constructor(private readonly userAggregateContext: UserAggregateResolverService) { }
 
     public createUserServiceFactory(accessType: AccessType): CreateGenericService {
-        switch (accessType) {
-            case AccessType.PARENT:
-                const parentRepository = this.createParentRepository();
-                return new CreateParentService(parentRepository);
-            case AccessType.STUDENT:
-                const studentEntity = this.dataSource.getRepository(StudentEntity);
-                const studentRepository = new StudentRepository(studentEntity, this.dataSource);
-                const classRepository = this.createClassRespository();
-                const parentsRepository = this.createParentRepository();
-                return new CreateStudentService(studentRepository, classRepository, parentsRepository)
-            case AccessType.TEACHER:
-            case AccessType.ADMIN:
-                let workerEntity = this.dataSource.getRepository(WorkerEntity);
-                let workerRepository = new WorkerRepository(workerEntity, this.dataSource)
-                let myClassRepository = this.createClassRespository();
-                return new CreateWorkerService(workerRepository, myClassRepository);
-            default:
-                throw new Error('Invalid access type');
+        try {
+            const context = this.userAggregateContext.resolve(accessType);
+            switch (context.accessType) {
+                case AccessType.PARENT:
+                    return new CreateParentService(context?.parentRepository);
+                case AccessType.STUDENT:
+                    return new CreateStudentService(context.studentRepository, context.classRepository, context.parentsRepository);
+                case AccessType.TEACHER:
+                case AccessType.ADMIN:
+                    return new CreateWorkerService(context.workerRepository, context.classRepository);
+                default:
+                    throw new Error('Invalid access type');
+            }
+        } catch (error) {
+            throw error;
         }
     }
-
-    public createParentRepository(): ParentRepository {
-        let parentEntity = this.dataSource.getRepository(ParentEntity);
-        return new ParentRepository(parentEntity, this.dataSource);
-    }
-
-    public createClassRespository(): ClassRepository {
-        let classEntity = this.dataSource.getRepository(ClassEntity);
-        return new ClassRepository(classEntity, this.dataSource);
-    }
-
 }

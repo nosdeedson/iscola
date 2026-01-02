@@ -1,24 +1,17 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { UserEntity } from 'src/infrastructure/entities/user/user.entity';
-import { UserRepository } from 'src/infrastructure/repositories/user/user.repository';
-import { DataSource } from 'typeorm';
-import { CreateWorkersDto } from '../../controllers/users/workers/create-workers-dto/create-workers-dto';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserService } from 'src/domain-services/user/create/create.user.service';
-import { PersonEntity } from 'src/infrastructure/entities/@shared/person.entity';
-import { WorkerRepository } from 'src/infrastructure/repositories/worker/worker.repository';
-import { CreateWorkerService } from 'src/domain-services/worker/create/create.worker.service';
-import { ClassEntity } from 'src/infrastructure/entities/class/class.entity';
-import { ClassRepository } from 'src/infrastructure/repositories/class/class.repository';
-import { InputCreateWorkerDto } from 'src/domain-services/worker/create/create.worker.dto';
-import { TrataErros } from 'src/infrastructure/utils/trata-erros/trata-erros';
 import { InputCreateUserDto } from 'src/domain-services/user/create/input.create.user.dto';
 import { DeleteUserService } from 'src/domain-services/user/delete/delete.user.service';
-import { DeleteWorkerService } from 'src/domain-services/worker/delete/delete.worker.service';
-import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto/find-user-outPut-dto';
 import { FindUserService } from 'src/domain-services/user/find/find.user.service';
-import { FindAllUserService } from 'src/domain-services/user/findAll/findAll.user.service';
+import { InputCreateWorkerDto } from 'src/domain-services/worker/create/create.worker.dto';
+import { UserEntity } from 'src/infrastructure/entities/user/user.entity';
 import { CreateUserServiceFactory } from 'src/infrastructure/factory/create-user-service-factory/create-user-service-factory';
 import { DeleteUserFactoryService } from 'src/infrastructure/factory/delete-user-factory/delete-user-factory.service';
+import { UserRepository } from 'src/infrastructure/repositories/user/user.repository';
+import { TrataErros } from 'src/infrastructure/utils/trata-erros/trata-erros';
+import { DataSource } from 'typeorm';
+import { CreateWorkersDto } from '../../controllers/users/workers/create-workers-dto/create-workers-dto';
+import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto/find-user-outPut-dto';
 
 @Injectable()
 export class UserUsecasesService {
@@ -62,8 +55,9 @@ export class UserUsecasesService {
 
     async find(id: string): Promise<FindUserOutPutDto> {
         try {
-            // let findUserService = new FindUserService(this.userRepository);
-            // let user = await findUserService.execute(id);
+            let findUserService = new FindUserService(this.userRepository);
+            let user = await findUserService.execute(id);
+            // TODO HAVE TO GET PERSON FROM BD
             // let person = await this.workerRepository.find(user.personId);
             // return new FindUserOutPutDto(user, person.name);
             return null;

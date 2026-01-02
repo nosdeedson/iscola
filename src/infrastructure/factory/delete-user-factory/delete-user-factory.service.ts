@@ -12,27 +12,23 @@ import { ParentRepository } from 'src/infrastructure/repositories/parent/parent.
 import { StudentRepository } from 'src/infrastructure/repositories/student/student.repository';
 import { WorkerRepository } from 'src/infrastructure/repositories/worker/worker.repository';
 import { DataSource } from 'typeorm';
+import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 
 @Injectable()
 export class DeleteUserFactoryService {
 
-    constructor(@Inject('DATA_SOURCE') private dataSource: DataSource ){}
+    constructor( private userAggregateContext: UserAggregateResolverService){}
 
-    public async deleteUserServiceFactory(accessType: AccessType): Promise<DeleteGenericService> {
-        switch (accessType) {
+    public deleteUserServiceFactory(accessType: AccessType): DeleteGenericService {
+        const context = this.userAggregateContext.resolve(accessType);
+        switch (context.accessType) {
             case AccessType.PARENT:
-                let parentEntity = this.dataSource.getRepository(ParentEntity);
-                let parentRepository = new ParentRepository(parentEntity, this.dataSource);
-                return new DeleteParentService(parentRepository);
+                return new DeleteParentService(context.parentRepository);
             case AccessType.STUDENT:
-                let studentEntity = this.dataSource.getRepository(StudentEntity);
-                let studentRepository = new StudentRepository(studentEntity, this.dataSource);
-                return new DeleteStudentService(studentRepository);
+                return new DeleteStudentService(context.studentRepository);
             case AccessType.TEACHER:
             case AccessType.ADMIN:
-                let workerEntity = this.dataSource.getRepository(WorkerEntity);
-                let workerRepository = new WorkerRepository(workerEntity, this.dataSource);
-                return new DeleteWorkerService(workerRepository);
+                return new DeleteWorkerService(context.workerRepository);
             default:
                 throw new SystemError([{context: "delete User", message: 'fail to create service to delete'}]);
         }
