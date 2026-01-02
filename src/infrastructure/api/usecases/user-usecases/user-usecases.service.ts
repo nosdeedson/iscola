@@ -18,6 +18,7 @@ import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto
 import { FindUserService } from 'src/domain-services/user/find/find.user.service';
 import { FindAllUserService } from 'src/domain-services/user/findAll/findAll.user.service';
 import { CreateUserServiceFactory } from 'src/infrastructure/factory/create-user-service-factory/create-user-service-factory';
+import { DeleteUserFactoryService } from 'src/infrastructure/factory/delete-user-factory/delete-user-factory.service';
 
 @Injectable()
 export class UserUsecasesService {
@@ -26,7 +27,8 @@ export class UserUsecasesService {
 
     constructor(
         @Inject('DATA_SOURCE') private dataSource: DataSource,
-        private userServiceFactory: CreateUserServiceFactory
+        private userServiceFactory: CreateUserServiceFactory,
+        private userDeleteFactory: DeleteUserFactoryService,
     ) {
         this.userEntity = this.dataSource.getRepository(UserEntity);
         this.userRepository = new UserRepository(this.userEntity, this.dataSource);
@@ -47,11 +49,12 @@ export class UserUsecasesService {
 
     async delete(id: string): Promise<void> {
         try {
-            // TODO REDO BECAUSE THIS METHOSD SHOULD DELETE ANY KIND OF USER (teacher, admin, student, parent)
-            // let deleteWorker = new DeleteWorkerService(this.workerRepository);
-            // await deleteWorker.execute(id);       
-            // let deleteUserService = new DeleteUserService(this.userRepository);
-            // await deleteUserService.execute(id);
+            let userFindService = new FindUserService(this.userRepository);
+            let userToDelete = await userFindService.execute(id);
+            let deletePerson = await this.userDeleteFactory.deleteUserServiceFactory(userToDelete.accessType);
+            await deletePerson.execute(userToDelete.personId);
+            let deleteUserService = new DeleteUserService(this.userRepository);
+            await deleteUserService.execute(id);
         } catch (error) {
             TrataErros.tratarErrorsBadRequest(error);
         }

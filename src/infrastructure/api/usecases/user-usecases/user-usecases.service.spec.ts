@@ -11,6 +11,7 @@ import { DeleteWorkerService } from '../../../../domain-services/worker/delete/d
 import { AccessType } from '../../../../domain/user/access.type';
 import { RoleEnum } from '../../../../domain/worker/roleEnum';
 import { CreateUserServiceFactory } from '../../../factory/create-user-service-factory/create-user-service-factory';
+import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/delete-user-factory.service';
 import { WorkerRepository } from '../../../../infrastructure/repositories/worker/worker.repository';
 import { setEnv } from '../../../__mocks__/env.mock';
 import { MockCreateUsers } from '../../../__mocks__/mock-create-users-dto';
@@ -21,7 +22,10 @@ import { TrataErros } from '../../../utils/trata-erros/trata-erros';
 import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto/find-user-outPut-dto';
 import { UserUsecasesService } from './user-usecases.service';
 import { InputCreateUserDto } from '../../../../domain-services/user/create/input.create.user.dto';
+import { mockFindUserDto } from '../../../__mocks__/mock-dtos/mock-dtos';
 
+
+// create user mocks
 // my return from the factory
 const createPersonServiceMock = {
   execute: jest.fn(),
@@ -29,6 +33,16 @@ const createPersonServiceMock = {
 
 const userServiceFactoryMock = {
   createUserServiceFactory: jest.fn(),
+};
+
+// delete user mocks 
+// return this from factory
+const deletePersonServiceMock = {
+  execute: jest.fn(),
+};
+
+const userServiceDeleteFactory = {
+  deleteUserServiceFactory: jest.fn(),
 };
 
 describe('UserUsecasesService', () => {
@@ -47,6 +61,10 @@ describe('UserUsecasesService', () => {
         {
           provide: CreateUserServiceFactory,
           useValue: userServiceFactoryMock
+        },
+        {
+          provide: DeleteUserFactoryService,
+          useValue: userServiceDeleteFactory,
         },
       ],
     }).compile();
@@ -141,59 +159,138 @@ describe('UserUsecasesService', () => {
   });
 
   describe('delele', () =>{
+
     it('should delete a user', async () => {
-      expect(true).toBe(true)
-      // const id = '1';
-      // const deleteWorker = jest.spyOn(DeleteWorkerService.prototype, 'execute')
-      //   .mockImplementation(async () => await Promise.resolve(void 0));
-      // const deleteUser = jest.spyOn(DeleteUserService.prototype, 'execute')
-      //   .mockImplementation(async () => await Promise.resolve(void 0));
-      // expect(await service.delete(id)).toBe(void 0);
-      // expect(deleteWorker).toHaveBeenCalledTimes(1);
-      // expect(deleteWorker).toHaveBeenCalledWith(id);
-      // expect(deleteUser).toHaveBeenCalledTimes(1);
-      // expect(deleteUser).toHaveBeenCalledWith(id);
-    });
+      let foundUser = mockFindUserDto();
+      const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.resolve(foundUser));
+      userServiceDeleteFactory.deleteUserServiceFactory.mockReturnValue(deletePersonServiceMock as any);
+      deletePersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(void 0 ));
 
-    it('should not delete a worker', async () =>{
-      expect(true).toBe(true)
-      // const id = '1';
-      // const deleteWorker = jest.spyOn(DeleteWorkerService.prototype, 'execute')
-      //   .mockRejectedValue(new SystemError([{
-      //     "context": "worker",
-      //     "message": "error while deleting worker",
-      //   }]));
-      // const deleteUser = jest.spyOn(DeleteUserService.prototype, 'execute')
-      //   .mockImplementation(async () => await Promise.resolve(void 0));
-      // try {
-      //   await service.delete(id);
-      // } catch (error) {
-      //   expect(error).toBeInstanceOf(BadRequestException);
-      //   expect(deleteWorker).toHaveBeenCalledTimes(1);
-      //   expect(deleteWorker).toHaveBeenCalledWith(id);
-      //   expect(deleteUser).toHaveBeenCalledTimes(0);
-      // }
-    });
-
-    it('should not delete a user', async () =>{
-      const id = '1';
-      const deleteWorker = jest.spyOn(DeleteWorkerService.prototype, 'execute')
-        .mockImplementation(async () => await Promise.resolve(void 0));
       const deleteUser = jest.spyOn(DeleteUserService.prototype, 'execute')
-        .mockRejectedValue(new SystemError([{
-          "context": "user",
-          "message": "error while deleting user",
-        }]));
+        .mockImplementation(async () => await Promise.resolve(void 0));
+      expect(await service.delete(foundUser.id)).toBe(void 0);
+      expect(findUserService).toHaveBeenCalledTimes(1);
+      expect(userServiceDeleteFactory.deleteUserServiceFactory).toHaveBeenCalledTimes(1);
+      expect(userServiceDeleteFactory.deleteUserServiceFactory).toHaveBeenCalledWith(foundUser.accessType);
+      expect(deletePersonServiceMock.execute).toHaveBeenCalledTimes(1);
+      expect(deletePersonServiceMock.execute).toHaveBeenCalledWith(foundUser.personId);
+      expect(deleteUser).toHaveBeenCalledTimes(1);
+      expect(deleteUser).toHaveBeenCalledWith(foundUser.id);
+    });
+
+    it('should not find a user to delete', async () =>{
+      let foundUser: any = null;
+      let expectedId = "1";
+      const errorToThrow = new SystemError([{
+        "context": "user",
+        "message": "user not found",
+      }]);
+      const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.reject(errorToThrow));
+      userServiceDeleteFactory.deleteUserServiceFactory.mockReturnValue(deletePersonServiceMock as any);
+      deletePersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(void 0 ));
+      const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
+        .mockImplementation(() => {throw new BadRequestException('test')});
       try {
-        await service.delete(id);
+        await service.delete(expectedId);
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
-        expect(deleteWorker).toHaveBeenCalledTimes(1);
-        expect(deleteWorker).toHaveBeenCalledWith(id);
-        expect(deleteUser).toHaveBeenCalledTimes(1);
-        expect(deleteUser).toHaveBeenCalledWith(id);
+        expect(findUserService).toHaveBeenCalledTimes(1);
+        expect(findUserService).toHaveBeenCalledWith(expectedId);
+        expect(tratarError).toHaveBeenCalledTimes(1);
+        expect(tratarError).toHaveBeenCalledWith(errorToThrow);
+        expect(userServiceDeleteFactory.deleteUserServiceFactory).toHaveBeenCalledTimes(0);
+        expect(deletePersonServiceMock.execute).toHaveBeenCalledTimes(0);
       }
     });
+
+    it('should not create a service to delete', async () =>{
+       let foundUser = mockFindUserDto();
+      const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.resolve(foundUser));
+      const errorToThrow = new SystemError([{
+        "context": "delete user",
+        "message": "fail to create service to delete",
+      }]);
+      userServiceDeleteFactory.deleteUserServiceFactory.mockRejectedValue(errorToThrow);
+      deletePersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(void 0 ));
+      const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
+        .mockImplementation(() => {throw new BadRequestException('test')});
+      try {
+        await service.delete(foundUser.id);
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+        expect(findUserService).toHaveBeenCalledTimes(1);
+        expect(findUserService).toHaveBeenCalledWith(foundUser.id);
+        expect(userServiceDeleteFactory.deleteUserServiceFactory).toHaveBeenCalledTimes(1);
+        expect(tratarError).toHaveBeenCalledTimes(1);
+        expect(tratarError).toHaveBeenCalledWith(errorToThrow);
+        expect(deletePersonServiceMock.execute).toHaveBeenCalledTimes(0);
+      }
+    });
+
+    it('should not delete a person', async () =>{
+      let foundUser = mockFindUserDto();
+      const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.resolve(foundUser));
+      const errorToThrow = new SystemError([{
+        "context": "delete user",
+        "message": "fail to create service to delete",
+      }]);
+      userServiceDeleteFactory.deleteUserServiceFactory.mockReturnValue(deletePersonServiceMock as any);
+      deletePersonServiceMock.execute.mockRejectedValue(errorToThrow);
+
+      const deleteUser = jest.spyOn(DeleteUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.resolve(void 0));
+      const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
+        .mockImplementation(() => {throw new BadRequestException('test')});
+      try {
+        await service.delete(foundUser.id);
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+        expect(findUserService).toHaveBeenCalledTimes(1);
+        expect(findUserService).toHaveBeenCalledWith(foundUser.id);
+        expect(tratarError).toHaveBeenCalledTimes(1);
+        expect(tratarError).toHaveBeenCalledWith(errorToThrow);
+        expect(userServiceDeleteFactory.deleteUserServiceFactory).toHaveBeenCalledTimes(1);
+        expect(deletePersonServiceMock.execute).toHaveBeenCalledTimes(1);
+        expect(deletePersonServiceMock.execute).toHaveBeenCalledWith(foundUser.personId);
+        expect(deleteUser).toHaveBeenCalledTimes(0);
+      }
+    });
+
+    it('should not delete an user', async () =>{
+      let foundUser = mockFindUserDto();
+      const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.resolve(foundUser));
+      const errorToThrow = new SystemError([{
+        "context": "delete user",
+        "message": "fail to create service to delete",
+      }]);
+      userServiceDeleteFactory.deleteUserServiceFactory.mockReturnValue(deletePersonServiceMock as any);
+      deletePersonServiceMock.execute.mockImplementation( async () => await Promise.resolve(void 0 ));
+
+      const deleteUser = jest.spyOn(DeleteUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.reject(errorToThrow));
+      const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
+        .mockImplementation(() => {throw new BadRequestException('test')});
+      try {
+        await service.delete(foundUser.id);
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+        expect(findUserService).toHaveBeenCalledTimes(1);
+        expect(findUserService).toHaveBeenCalledWith(foundUser.id);
+        expect(tratarError).toHaveBeenCalledTimes(1);
+        expect(tratarError).toHaveBeenCalledWith(errorToThrow);
+        expect(userServiceDeleteFactory.deleteUserServiceFactory).toHaveBeenCalledTimes(1);
+        expect(deletePersonServiceMock.execute).toHaveBeenCalledTimes(1);
+        expect(deletePersonServiceMock.execute).toHaveBeenCalledWith(foundUser.personId);
+        expect(deleteUser).toHaveBeenCalledTimes(1);
+        expect(deleteUser).toHaveBeenCalledWith(foundUser.id);
+      }
+    });
+
   });
 
   describe('find', () =>{

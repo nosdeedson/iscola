@@ -1,0 +1,15 @@
+import { FindUserDto } from "../../../domain-services/user/find/find.user.dto";
+import { AccessType } from "../../../domain/user/access.type";
+
+export function mockFindUserDto (
+    overrides: Partial<FindUserDto> = {},
+): FindUserDto {
+    return {
+        id: '6956c177-6bf8-8326-afdf-61bafe1207d1',
+        personId: '8204a6ee-b80b-4ace-9b32-92a11195cda4',
+        email: 'john.doe@example.com',
+        nickname: 'johndoe',
+        accessType: AccessType.TEACHER,
+        ...overrides,
+    }
+}
