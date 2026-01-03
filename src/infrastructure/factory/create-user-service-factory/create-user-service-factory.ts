@@ -1,19 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateGenericService } from 'src/domain-services/@shared/create-generic-service';
 import { CreateParentService } from 'src/domain-services/parent/create/create.parent.service';
 import { CreateStudentService } from 'src/domain-services/student/create/create.student.service';
 import { CreateWorkerService } from 'src/domain-services/worker/create/create.worker.service';
 import { AccessType } from 'src/domain/user/access.type';
-import { ClassEntity } from 'src/infrastructure/entities/class/class.entity';
-import { ParentEntity } from 'src/infrastructure/entities/parent/parent.entity';
-import { StudentEntity } from 'src/infrastructure/entities/student/student.entity';
-import { WorkerEntity } from 'src/infrastructure/entities/worker/worker.entity';
-import { ClassRepository } from 'src/infrastructure/repositories/class/class.repository';
-import { ParentRepository } from 'src/infrastructure/repositories/parent/parent.repository';
-import { StudentRepository } from 'src/infrastructure/repositories/student/student.repository';
-import { WorkerRepository } from 'src/infrastructure/repositories/worker/worker.repository';
-import { DataSource, In } from 'typeorm';
-import { ParentAggregateContext, UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
+import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 
 @Injectable()
 export class CreateUserServiceFactory {

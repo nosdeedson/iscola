@@ -6,8 +6,8 @@ import { DeleteWorkerService } from '../../../domain-services/worker/delete/dele
 import { DataBaseConnectionModule } from '../../data-base-connection/data-base-connection.module';
 import { setEnv } from '../../__mocks__/env.mock';
 import { AccessType } from '../../../domain/user/access.type';
-import { SystemError } from '../../../domain-services/@shared/system-error';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
+import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
 
 describe('DeleteUserFactoryService', () => {
   let service: DeleteUserFactoryService;
@@ -19,6 +19,7 @@ describe('DeleteUserFactoryService', () => {
       providers: [
       DeleteUserFactoryService,
       UserAggregateResolverService,
+      RepositoryFactoryService,
     ],
       imports: [DataBaseConnectionModule]
     }).compile();

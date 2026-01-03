@@ -3,26 +3,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SystemError } from '../../../../domain-services/@shared/system-error';
 import { CreateUserService } from '../../../../domain-services/user/create/create.user.service';
 import { DeleteUserService } from '../../../../domain-services/user/delete/delete.user.service';
-import { FindUserDto } from '../../../../domain-services/user/find/find.user.dto';
 import { FindUserService } from '../../../../domain-services/user/find/find.user.service';
 import { InputCreateWorkerDto } from '../../../../domain-services/worker/create/create.worker.dto';
-import { CreateWorkerService } from '../../../../domain-services/worker/create/create.worker.service';
-import { DeleteWorkerService } from '../../../../domain-services/worker/delete/delete.worker.service';
-import { AccessType } from '../../../../domain/user/access.type';
 import { RoleEnum } from '../../../../domain/worker/roleEnum';
-import { CreateUserServiceFactory } from '../../../factory/create-user-service-factory/create-user-service-factory';
-import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/delete-user-factory.service';
-import { WorkerRepository } from '../../../../infrastructure/repositories/worker/worker.repository';
+import { RepositoryFactoryService } from '../../../../infrastructure/factory/repositiry-factory/repository-factory.service';
 import { setEnv } from '../../../__mocks__/env.mock';
 import { MockCreateUsers } from '../../../__mocks__/mock-create-users-dto';
+import { mockFindUserDto } from '../../../__mocks__/mock-dtos/mock-dtos';
 import { DomainMocks } from '../../../__mocks__/mocks';
 import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
 import { WorkerEntity } from '../../../entities/worker/worker.entity';
+import { CreateUserServiceFactory } from '../../../factory/create-user-service-factory/create-user-service-factory';
+import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/delete-user-factory.service';
 import { TrataErros } from '../../../utils/trata-erros/trata-erros';
-import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto/find-user-outPut-dto';
 import { UserUsecasesService } from './user-usecases.service';
-import { InputCreateUserDto } from '../../../../domain-services/user/create/input.create.user.dto';
-import { mockFindUserDto } from '../../../__mocks__/mock-dtos/mock-dtos';
+
 
 
 // create user mocks
@@ -58,6 +53,7 @@ describe('UserUsecasesService', () => {
       imports: [DataBaseConnectionModule],
       providers: [
         UserUsecasesService,
+        RepositoryFactoryService,
         {
           provide: CreateUserServiceFactory,
           useValue: userServiceFactoryMock

@@ -8,6 +8,7 @@ import { CreateStudentService } from '../../../domain-services/student/create/cr
 import { CreateParentService } from '../../../domain-services/parent/create/create.parent.service';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 import { SystemError } from '../../../domain-services/@shared/system-error';
+import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
 
 
 describe('UserServiceFactoryService', () => {
@@ -19,6 +20,7 @@ describe('UserServiceFactoryService', () => {
       providers: [
         CreateUserServiceFactory,
         UserAggregateResolverService,
+        RepositoryFactoryService,
       ],
       imports: [DataBaseConnectionModule],
     }).compile();

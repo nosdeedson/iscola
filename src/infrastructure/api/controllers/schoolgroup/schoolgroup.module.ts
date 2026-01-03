@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { DataBaseConnectionModule } from 'src/infrastructure/data-base-connection/data-base-connection.module';
 import { SchoolgroupController } from './schoolgroup.controller';
 import { SchoolgroupUseCases } from '../../usecases/schoolgroup-usecases/schoolgroup-usecases';
+import { RepositoryFactoryService } from 'src/infrastructure/factory/repositiry-factory/repository-factory.service';
+import { DataBaseConnectionModule } from 'src/infrastructure/data-base-connection/data-base-connection.module';
 
 @Module({
     controllers: [
         SchoolgroupController,
     ],
-    imports: [
-        DataBaseConnectionModule
-    ],
     providers: [
-        SchoolgroupUseCases
-    ]
+        SchoolgroupUseCases,
+        RepositoryFactoryService
+    ],
+    imports: [DataBaseConnectionModule]
 })
 export class SchoolgroupModule { }

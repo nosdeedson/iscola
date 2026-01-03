@@ -10,18 +10,18 @@ import { TrataErros } from 'src/infrastructure/utils/trata-erros/trata-erros';
 import { DataSource } from 'typeorm';
 import { CreateSchoolgroupDto } from '../../controllers/schoolgroup/create-schoolgroup-dto';
 import { UpdateSchoolgroupDto } from '../../controllers/schoolgroup/update-schoolgroup-dto';
+import { RepositoryFactoryService } from 'src/infrastructure/factory/repositiry-factory/repository-factory.service';
+import { TypeRepository } from 'src/infrastructure/factory/repositiry-factory/type-repository';
 
 @Injectable()
 export class SchoolgroupUseCases {
 
-    private entity: any;
-    private repository: any;
+    private repository: ClassRepository;
 
     constructor(
-        @Inject('DATA_SOURCE') private dataSource: DataSource
+        private repositoryFactory: RepositoryFactoryService
     ) {
-        this.entity = this.dataSource.getRepository(ClassEntity);
-        this.repository = new ClassRepository(this.entity, dataSource);
+        this.repository = this.repositoryFactory.createRepository(TypeRepository.CLASS) as ClassRepository;
     }
 
     async create(dto: CreateSchoolgroupDto): Promise<void> {

@@ -9,6 +9,8 @@ import { FindAllAcademicSemesterDto  } from '../../../../domain-services/academi
 import { DomainMocks } from "../../../__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../../entities/academic-semester/academic.semester.entity";
 import { BadRequestException } from '@nestjs/common';
+import { RepositoryFactoryService } from '../../../../infrastructure/factory/repositiry-factory/repository-factory.service';
+
 
 describe('SemesterController', () => {
   let controller: SemesterController;
@@ -18,7 +20,10 @@ describe('SemesterController', () => {
     setEnv();
     module = await Test.createTestingModule({
       controllers: [SemesterController],
-      providers: [SemesterUsecases],
+      providers: [
+        SemesterUsecases,
+        RepositoryFactoryService,
+      ],
       imports: [DataBaseConnectionModule]
     }).compile();
 

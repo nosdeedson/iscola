@@ -1,30 +1,28 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserService } from 'src/domain-services/user/create/create.user.service';
 import { InputCreateUserDto } from 'src/domain-services/user/create/input.create.user.dto';
 import { DeleteUserService } from 'src/domain-services/user/delete/delete.user.service';
 import { FindUserService } from 'src/domain-services/user/find/find.user.service';
 import { InputCreateWorkerDto } from 'src/domain-services/worker/create/create.worker.dto';
-import { UserEntity } from 'src/infrastructure/entities/user/user.entity';
 import { CreateUserServiceFactory } from 'src/infrastructure/factory/create-user-service-factory/create-user-service-factory';
 import { DeleteUserFactoryService } from 'src/infrastructure/factory/delete-user-factory/delete-user-factory.service';
+import { RepositoryFactoryService } from 'src/infrastructure/factory/repositiry-factory/repository-factory.service';
+import { TypeRepository } from 'src/infrastructure/factory/repositiry-factory/type-repository';
 import { UserRepository } from 'src/infrastructure/repositories/user/user.repository';
 import { TrataErros } from 'src/infrastructure/utils/trata-erros/trata-erros';
-import { DataSource } from 'typeorm';
 import { CreateWorkersDto } from '../../controllers/users/workers/create-workers-dto/create-workers-dto';
 import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto/find-user-outPut-dto';
 
 @Injectable()
 export class UserUsecasesService {
-    userEntity: any;
-    userRepository: any;
+    private userRepository: UserRepository;
 
     constructor(
-        @Inject('DATA_SOURCE') private dataSource: DataSource,
         private userServiceFactory: CreateUserServiceFactory,
         private userDeleteFactory: DeleteUserFactoryService,
+        private repositoryFactory: RepositoryFactoryService
     ) {
-        this.userEntity = this.dataSource.getRepository(UserEntity);
-        this.userRepository = new UserRepository(this.userEntity, this.dataSource);
+        this.userRepository = this.repositoryFactory.createRepository(TypeRepository.USER) as UserRepository;
     }
 
     async create(dto: CreateWorkersDto): Promise<void> {

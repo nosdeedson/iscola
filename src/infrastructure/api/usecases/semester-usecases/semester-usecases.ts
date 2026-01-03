@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { CreateAcademicSemesterService } from "src/domain-services/academic-semester/create/create.academic-semester.service";
 import { DeleteAcademicSemesterService } from "src/domain-services/academic-semester/delete/delete.academic-semester.service";
 import { FindAcademicSemesterService } from "src/domain-services/academic-semester/find/find.academic-semester.service";
@@ -6,23 +6,21 @@ import { FindAllAcademicSemesterDto } from "src/domain-services/academic-semeste
 import { FindAllAcademicSemesterService } from "src/domain-services/academic-semester/findAll/findAll.academic-semester.service";
 import { UpdateAcademicSemesterDto } from "src/domain-services/academic-semester/update/udpate.academic-semester.dto";
 import { UpdateAcademicSemesterService } from "src/domain-services/academic-semester/update/update.academic-semester.service";
-import { AcademicSemesterEntity } from "src/infrastructure/entities/academic-semester/academic.semester.entity";
 import { AcademicSemesterRepository } from "src/infrastructure/repositories/academic-semester/academic-semester.repository";
 import { TrataErros } from "src/infrastructure/utils/trata-erros/trata-erros";
-import { DataSource } from "typeorm";
 import { CreateSemesterDto } from "../../controllers/semester/create-semester-dto";
+import { RepositoryFactoryService } from "src/infrastructure/factory/repositiry-factory/repository-factory.service";
+import { TypeRepository } from "src/infrastructure/factory/repositiry-factory/type-repository";
 
 @Injectable()
 export class SemesterUsecases {
 
-    entity: any;
-    repository: any;
+    private repository: AcademicSemesterRepository;
 
     constructor(
-        @Inject('DATA_SOURCE') private dataSource: DataSource,
+        private repositoryFactory: RepositoryFactoryService
     ){
-        this.entity = this.dataSource.getRepository(AcademicSemesterEntity);
-        this.repository = new AcademicSemesterRepository(this.entity, this.dataSource);
+        this.repository = this.repositoryFactory.createRepository(TypeRepository.ACADEMIC_SEMESTER) as AcademicSemesterRepository;
      }
 
     async createSemester(dto: CreateSemesterDto): Promise<void>{

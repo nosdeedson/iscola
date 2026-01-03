@@ -1,21 +1,21 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { SchoolgroupUseCases } from './schoolgroup-usecases';
-import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
-import { setEnv } from '../../../__mocks__/env.mock';
-import { CreateClassService } from '../../../../domain-services/class/create/create.class.service';
-import { CreateSchoolgroupDto, Schedule } from '../../controllers/schoolgroup/create-schoolgroup-dto';
-import { MockSchoolgroupDto } from '../../../__mocks__/mock-schoolgroup-dto';
 import { BadRequestException } from '@nestjs/common';
-import { FindClassDto, ClassScheduleDto, ClassStudentDto, ClassTeacherDto } from "../../../../domain-services/class/find/find.class.dto";
-import { DomainMocks } from '../../../__mocks__/mocks';
-import { FindClassService } from '../../../../domain-services/class/find/find.class.service';
-import { ClassEntity } from '../../../entities/class/class.entity';
-import {FindAllClassService} from '../../../../domain-services/class/findAll/findAll.class.service';
-import { FindAllClassDto } from '../../../../domain-services/class/findAll/findAll.class.dto';
+import { Test, TestingModule } from '@nestjs/testing';
+import { CreateClassService } from '../../../../domain-services/class/create/create.class.service';
 import { DeleteClassService } from '../../../../domain-services/class/delete/delete.class.service';
+import { FindClassDto } from "../../../../domain-services/class/find/find.class.dto";
+import { FindClassService } from '../../../../domain-services/class/find/find.class.service';
+import { FindAllClassDto } from '../../../../domain-services/class/findAll/findAll.class.dto';
+import { FindAllClassService } from '../../../../domain-services/class/findAll/findAll.class.service';
 import { UpdateClassService } from '../../../../domain-services/class/update/update.class.service';
-import { UpdateClassDto  } from '../../../../domain-services/class/update/udpate.class.dto';
+import { RepositoryFactoryService } from '../../../../infrastructure/factory/repositiry-factory/repository-factory.service';
+import { setEnv } from '../../../__mocks__/env.mock';
+import { MockSchoolgroupDto } from '../../../__mocks__/mock-schoolgroup-dto';
+import { DomainMocks } from '../../../__mocks__/mocks';
+import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
+import { ClassEntity } from '../../../entities/class/class.entity';
+import { CreateSchoolgroupDto } from '../../controllers/schoolgroup/create-schoolgroup-dto';
 import { UpdateSchoolgroupDto } from '../../controllers/schoolgroup/update-schoolgroup-dto';
+import { SchoolgroupUseCases } from './schoolgroup-usecases';
 
 
 describe('SchoolgroupUsecaseService', () => {
@@ -38,7 +38,7 @@ describe('SchoolgroupUsecaseService', () => {
     setEnv();
     module = await Test.createTestingModule({
       imports: [DataBaseConnectionModule],
-      providers: [SchoolgroupUseCases],
+      providers: [SchoolgroupUseCases, RepositoryFactoryService],
     }).compile();
 
     service = module.get<SchoolgroupUseCases>(SchoolgroupUseCases);

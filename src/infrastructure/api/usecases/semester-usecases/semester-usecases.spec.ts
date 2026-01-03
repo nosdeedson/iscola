@@ -14,6 +14,7 @@ import { AcademicSemesterEntity } from '../../../entities/academic-semester/acad
 import { DomainMocks } from '../../../__mocks__/mocks';
 import { DeleteAcademicSemesterService } from '../../../../domain-services/academic-semester/delete/delete.academic-semester.service';
 import { UpdateAcademicSemesterService } from '../../../../domain-services/academic-semester/update/update.academic-semester.service';
+import { RepositoryFactoryService } from "../../../../infrastructure/factory/repositiry-factory/repository-factory.service";
 
 
 describe('SemesterUsecases', () => {
@@ -24,7 +25,10 @@ describe('SemesterUsecases', () => {
     setEnv();
     module = await Test.createTestingModule({
       imports: [DataBaseConnectionModule],
-      providers: [SemesterUsecases],
+      providers: [
+        SemesterUsecases,
+        RepositoryFactoryService
+      ],
     }).compile();
 
     service = module.get<SemesterUsecases>(SemesterUsecases);

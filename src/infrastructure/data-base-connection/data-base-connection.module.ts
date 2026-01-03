@@ -23,27 +23,6 @@ import { DataSource } from 'typeorm';
     exports: [
         'DATA_SOURCE'
     ],
-    imports: [
-        // TypeOrmModule.forRoot({
-        //     type: 'postgres',
-        //     host: process.env.POSTGRES_HOST,
-        //     username: process.env.POSTGRES_USER_NAME,
-        //     password: process.env.POSTGRES_PASSWORD,
-        //     database: process.env.DATABASE_NAME,
-        //     synchronize: true,
-        //     port: 5432,
-        //     entities: [
-        //         AcademicSemesterEntity,
-        //         ClassEntity,
-        //         CommentEntity,
-        //         RatingEntity,
-        //         PersonEntity,
-        //         StudentEntity,
-        //         ParentEntity,
-        //         WorkerEntity,
-        //         UserEntity
-        //     ]
-        // })
-    ]
+    imports: [ ]
 })
 export class DataBaseConnectionModule {}

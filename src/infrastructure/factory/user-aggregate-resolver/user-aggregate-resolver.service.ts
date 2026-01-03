@@ -10,6 +10,8 @@ import { ParentRepository } from 'src/infrastructure/repositories/parent/parent.
 import { StudentRepository } from 'src/infrastructure/repositories/student/student.repository';
 import { WorkerRepository } from 'src/infrastructure/repositories/worker/worker.repository';
 import { DataSource } from 'typeorm';
+import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
+import { TypeRepository } from '../repositiry-factory/type-repository';
 
 export interface ParentAggregateContext {
     accessType: AccessType.PARENT;
@@ -36,28 +38,28 @@ export type UserAggregateContext =
 
 @Injectable()
 export class UserAggregateResolverService {
-    constructor(@Inject('DATA_SOURCE') private readonly dataSource: DataSource ){ }
+    constructor(private repositoryFactory: RepositoryFactoryService){ }
 
     resolve(accessType: AccessType): UserAggregateContext {
         switch(accessType){
             case AccessType.PARENT:
                 return {
                     accessType: accessType,
-                    parentRepository: new ParentRepository(this.dataSource.getRepository(ParentEntity), this.dataSource)
+                    parentRepository: this.repositoryFactory.createRepository(TypeRepository.PARENT) as ParentRepository,
                 };
             case AccessType.STUDENT:
                 return {
                     accessType: accessType,
-                    studentRepository: new StudentRepository(this.dataSource.getRepository(StudentEntity), this.dataSource),
-                    classRepository: new ClassRepository(this.dataSource.getRepository(ClassEntity), this.dataSource),
-                    parentsRepository: new ParentRepository(this.dataSource.getRepository(ParentEntity), this.dataSource)
+                    studentRepository: this.repositoryFactory.createRepository(TypeRepository.STUDENT) as StudentRepository,
+                    classRepository: this.repositoryFactory.createRepository(TypeRepository.CLASS) as ClassRepository,
+                    parentsRepository: this.repositoryFactory.createRepository(TypeRepository.PARENT) as ParentRepository,
                 };
             case AccessType.TEACHER:
             case AccessType.ADMIN:
                 return {
                     accessType: accessType,
-                    workerRepository: new WorkerRepository(this.dataSource.getRepository(WorkerEntity), this.dataSource),
-                    classRepository: new ClassRepository(this.dataSource.getRepository(ClassEntity), this.dataSource)
+                    workerRepository: this.repositoryFactory.createRepository(TypeRepository.WORKER) as WorkerRepository,
+                    classRepository: this.repositoryFactory.createRepository(TypeRepository.CLASS) as ClassRepository,
                 };
             default:
                 throw new SystemError([{ context: 'UserAggregateResolver', message: 'Invalid access type' },]);

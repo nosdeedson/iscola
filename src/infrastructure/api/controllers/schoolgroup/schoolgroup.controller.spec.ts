@@ -6,6 +6,7 @@ import { DataBaseConnectionModule } from '../../../data-base-connection/data-bas
 import { SchoolgroupUseCases } from '../../usecases/schoolgroup-usecases/schoolgroup-usecases';
 import { SchoolgroupController } from './schoolgroup.controller';
 import { UpdateSchoolgroupDto } from './update-schoolgroup-dto';
+import { RepositoryFactoryService } from '../../../factory/repositiry-factory/repository-factory.service';
 
 describe('SchoolgroupController', () => {
   let controller: SchoolgroupController;
@@ -15,7 +16,10 @@ describe('SchoolgroupController', () => {
     setEnv();
     module = await Test.createTestingModule({
       controllers: [SchoolgroupController],
-      providers: [SchoolgroupUseCases],
+      providers: [
+        SchoolgroupUseCases,
+        RepositoryFactoryService,
+      ],
       imports: [DataBaseConnectionModule]
     }).compile();
 

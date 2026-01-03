@@ -3,11 +3,11 @@ import { ParentAggregateContext, StudentAggregateContext, UserAggregateResolverS
 import { setEnv } from '../../__mocks__/env.mock';
 import { DataBaseConnectionModule } from '../../data-base-connection/data-base-connection.module';
 import { AccessType } from '../../../domain/user/access.type';
-import { ClassRepository } from '../../../infrastructure/repositories/class/class.repository';
 import { ParentRepository } from '../../../infrastructure/repositories/parent/parent.repository';
 import { StudentRepository } from '../../../infrastructure/repositories/student/student.repository';
 import { WorkerRepository } from '../../../infrastructure/repositories/worker/worker.repository';
 import { WorkerAggregateContext } from './user-aggregate-resolver.service';
+import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
 
 describe('UserAggregateResolverService', () => {
   let service: UserAggregateResolverService;
@@ -16,7 +16,9 @@ describe('UserAggregateResolverService', () => {
   beforeEach(async () => {
     setEnv();
     module = await Test.createTestingModule({
-      providers: [UserAggregateResolverService],
+      providers: [
+        UserAggregateResolverService, 
+        RepositoryFactoryService],
       imports: [DataBaseConnectionModule]
     }).compile();
 
