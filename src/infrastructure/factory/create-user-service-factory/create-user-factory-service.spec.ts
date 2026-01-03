@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateUserServiceFactory } from './create-user-service-factory';
+import { CreateUserFactoryService } from './create-user-factory-service';
 import { DataBaseConnectionModule } from '../../data-base-connection/data-base-connection.module';
 import { setEnv } from '../../__mocks__/env.mock';
 import { AccessType } from '../../../domain/user/access.type';
@@ -12,20 +12,20 @@ import { RepositoryFactoryService } from '../repositiry-factory/repository-facto
 
 
 describe('UserServiceFactoryService', () => {
-  let service: CreateUserServiceFactory;
+  let service: CreateUserFactoryService;
   let module: TestingModule;
   beforeAll(async () => {
     setEnv();
     module = await Test.createTestingModule({
       providers: [
-        CreateUserServiceFactory,
+        CreateUserFactoryService,
         UserAggregateResolverService,
         RepositoryFactoryService,
       ],
       imports: [DataBaseConnectionModule],
     }).compile();
 
-    service = module.get<CreateUserServiceFactory>(CreateUserServiceFactory);
+    service = module.get<CreateUserFactoryService>(CreateUserFactoryService);
   });
 
   afterAll(async () => {

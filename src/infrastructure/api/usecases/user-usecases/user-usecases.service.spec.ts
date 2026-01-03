@@ -13,10 +13,10 @@ import { mockFindUserDto } from '../../../__mocks__/mock-dtos/mock-dtos';
 import { DomainMocks } from '../../../__mocks__/mocks';
 import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
 import { WorkerEntity } from '../../../entities/worker/worker.entity';
-import { CreateUserServiceFactory } from '../../../factory/create-user-service-factory/create-user-service-factory';
 import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/delete-user-factory.service';
 import { TrataErros } from '../../../utils/trata-erros/trata-erros';
 import { UserUsecasesService } from './user-usecases.service';
+import { CreateUserFactoryService } from '../../../factory/create-user-service-factory/create-user-factory-service';
 
 
 
@@ -55,7 +55,7 @@ describe('UserUsecasesService', () => {
         UserUsecasesService,
         RepositoryFactoryService,
         {
-          provide: CreateUserServiceFactory,
+          provide: CreateUserFactoryService,
           useValue: userServiceFactoryMock
         },
         {

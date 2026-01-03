@@ -7,7 +7,7 @@ import { AccessType } from 'src/domain/user/access.type';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 
 @Injectable()
-export class CreateUserServiceFactory {
+export class CreateUserFactoryService {
 
     constructor(private readonly userAggregateContext: UserAggregateResolverService) { }
 

@@ -4,7 +4,7 @@ import { InputCreateUserDto } from 'src/domain-services/user/create/input.create
 import { DeleteUserService } from 'src/domain-services/user/delete/delete.user.service';
 import { FindUserService } from 'src/domain-services/user/find/find.user.service';
 import { InputCreateWorkerDto } from 'src/domain-services/worker/create/create.worker.dto';
-import { CreateUserServiceFactory } from 'src/infrastructure/factory/create-user-service-factory/create-user-service-factory';
+import { CreateUserFactoryService } from 'src/infrastructure/factory/create-user-service-factory/create-user-factory-service';
 import { DeleteUserFactoryService } from 'src/infrastructure/factory/delete-user-factory/delete-user-factory.service';
 import { RepositoryFactoryService } from 'src/infrastructure/factory/repositiry-factory/repository-factory.service';
 import { TypeRepository } from 'src/infrastructure/factory/repositiry-factory/type-repository';
@@ -18,7 +18,7 @@ export class UserUsecasesService {
     private userRepository: UserRepository;
 
     constructor(
-        private userServiceFactory: CreateUserServiceFactory,
+        private userServiceFactory: CreateUserFactoryService,
         private userDeleteFactory: DeleteUserFactoryService,
         private repositoryFactory: RepositoryFactoryService
     ) {
