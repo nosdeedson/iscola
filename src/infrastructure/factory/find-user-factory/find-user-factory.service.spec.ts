@@ -14,7 +14,7 @@ describe('FindUserFactoryService', () => {
   let service: FindUserFactoryService;
   let module: TestingModule;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     setEnv();
     module = await Test.createTestingModule({
       providers: [
@@ -31,28 +31,29 @@ describe('FindUserFactoryService', () => {
   afterEach(async () => {
     jest.clearAllMocks();
   });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return a FindParentService', () => {
-    const findParentService = service.findUserServiceFactory(AccessType.PARENT);
+  it('should return a FindParentService', async () => {
+    const findParentService = await service.findUserServiceFactory(AccessType.PARENT);
     expect(findParentService).toBeInstanceOf(FindParentService);
   });
 
-  it('should return a FindStudentService', () => {
-    const findStudentService = service.findUserServiceFactory(AccessType.STUDENT);
+  it('should return a FindStudentService', async () => {
+    const findStudentService = await service.findUserServiceFactory(AccessType.STUDENT);
     expect(findStudentService).toBeInstanceOf(FindStudentService);
   });
 
-  it('should return a FindWorkerService', () => {
-    const findWorkerService = service.findUserServiceFactory(AccessType.TEACHER);
+  it('should return a FindWorkerService', async () => {
+    const findWorkerService = await service.findUserServiceFactory(AccessType.TEACHER);
     expect(findWorkerService).toBeInstanceOf(FindWorkerService);
   });
 
-  it('should throw a SystemError from aggegateResolver', () => {
+  it('should throw a SystemError from aggegateResolver', async () => {
     try {
-      service.findUserServiceFactory('NO_EXIXT' as AccessType);
+      await service.findUserServiceFactory('NO_EXIXT' as AccessType);
     } catch (error) {
       expect(error).toBeInstanceOf(SystemError);
       //@ts-ignore
@@ -60,14 +61,14 @@ describe('FindUserFactoryService', () => {
     }
   });
 
-  it('should throw a SystemError from findUserFactory', () => {
+  it('should throw a SystemError from findUserFactory', async () => {
     try {
       jest.spyOn(UserAggregateResolverService.prototype, 'resolve')
         .mockImplementation(() => ({
           accessType: 'NO_EXIST' as AccessType,
           parentRepository: undefined
         }) as UserAggregateContext)
-      service.findUserServiceFactory('NO_EXIST' as AccessType);
+      await service.findUserServiceFactory('NO_EXIST' as AccessType);
     } catch (error) {
       expect(error).toBeInstanceOf(SystemError);
       //@ts-ignore

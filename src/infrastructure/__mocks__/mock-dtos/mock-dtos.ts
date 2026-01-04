@@ -1,5 +1,7 @@
 import { FindUserDto } from "../../../domain-services/user/find/find.user.dto";
 import { AccessType } from "../../../domain/user/access.type";
+import {OutputFindWorkerDto} from '../../../domain-services/worker/find/find.worker.dto'
+import { RoleEnum } from "../../../domain/worker/roleEnum";
 
 export function mockFindUserDto (
     overrides: Partial<FindUserDto> = {},
@@ -10,6 +12,20 @@ export function mockFindUserDto (
         email: 'john.doe@example.com',
         nickname: 'johndoe',
         accessType: AccessType.TEACHER,
+        ...overrides,
+    }
+}
+
+export function mockOutputFindWorkerDto (
+    overrides: Partial<OutputFindWorkerDto> = {},
+): OutputFindWorkerDto {
+    return {
+        id: '6956c177-6bf8-8326-afdf-61bafe1207d1',
+        createdAt: new Date(),
+        udpatedAt: new Date(),
+        birthday: new Date(),
+        name: 'john doe',
+        role: RoleEnum.TEACHER,
         ...overrides,
     }
 }

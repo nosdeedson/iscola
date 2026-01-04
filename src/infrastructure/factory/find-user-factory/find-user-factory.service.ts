@@ -10,7 +10,7 @@ import { FindWorkerService } from 'src/domain-services/worker/find/find.worker.s
 export class FindUserFactoryService {
     constructor(private userAggregateResolver: UserAggregateResolverService) {}
 
-    findUserServiceFactory(accessType: AccessType) {
+    async findUserServiceFactory(accessType: AccessType) {
         const context = this.userAggregateResolver.resolve(accessType);
         switch (context.accessType) {
             case AccessType.PARENT:

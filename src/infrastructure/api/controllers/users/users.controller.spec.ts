@@ -7,6 +7,7 @@ import { RepositoryFactoryService } from '../../../factory/repositiry-factory/re
 import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/delete-user-factory.service';
 import { UserAggregateResolverService } from '../../../factory/user-aggregate-resolver/user-aggregate-resolver.service';
 import { CreateUserFactoryService } from '../../../factory/create-user-service-factory/create-user-factory-service';
+import { FindUserFactoryService } from '../../../factory/find-user-factory/find-user-factory.service';
 
 
 describe('UsersController', () => {
@@ -22,6 +23,7 @@ describe('UsersController', () => {
         CreateUserFactoryService,
         RepositoryFactoryService,
         DeleteUserFactoryService,
+        FindUserFactoryService,
         UserAggregateResolverService,
       ],
       imports: [DataBaseConnectionModule],

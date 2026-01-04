@@ -7,6 +7,7 @@ import { PersonEntity } from "../../../infrastructure/entities/@shared/person.en
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 import { WorkerRepository } from "../../../infrastructure/repositories/worker/worker.repository";
 import { FindWorkerService } from './find.worker.service'
+import { SystemError } from "../../@shared/system-error";
 
 
 describe('FindWorkerService integration test', () =>{
@@ -40,8 +41,7 @@ describe('FindWorkerService integration test', () =>{
         await workerRepository.create(model);
 
         let service = new FindWorkerService(workerRepository);
-        let input = { id : worker.getId()};
-        let output = await service.execute(input);
+        let output = await service.execute(worker.getId());
         expect(output).toBeDefined();
         expect( output.id).toEqual(worker.getId());
         expect(output.birthday).toEqual(worker.getBirthday());
@@ -56,12 +56,15 @@ describe('FindWorkerService integration test', () =>{
         await workerRepository.create(model);
 
         let nonExistentId = '31420be1-0ca7-4619-83e9-50101d9ace72'
-        let input = { id : nonExistentId};
 
         let service = new FindWorkerService(workerRepository);
-        let output = await service.execute(input);
-        expect(output).toBeDefined();
-        expect( output).toEqual({});
+        try {  
+            let output = await service.execute(nonExistentId);
+        } catch (error) {
+            expect(error).toBeInstanceOf(SystemError);
+            //@ts-ignore
+            expect(error.errors).toStrictEqual([{context: "find user", message: "Failed to find the user"}]);
+        }
     } );
 
 });

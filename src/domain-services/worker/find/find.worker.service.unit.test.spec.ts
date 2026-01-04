@@ -4,19 +4,15 @@ import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/m
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 import { InputFindWorkerDto } from '../../../domain-services/worker/find/find.worker.dto';
 import { FindWorkerService } from './find.worker.service';
+import { SystemError } from "../../@shared/system-error";
 
 
 describe('FindWorkerService unit tests', () => {
 
-    let input: InputFindWorkerDto;
     let worker: Worker;
     let workerEntity: WorkerEntity;
 
     beforeEach(() => {
-        input = {
-            id: '123'
-        };
-
         worker = new Worker(new Date(), 'jose', RoleEnum.TEACHER, '123')
         workerEntity = WorkerEntity.toWorkerEntity(worker);
     });
@@ -26,9 +22,10 @@ describe('FindWorkerService unit tests', () => {
         workerRepository.find = 
         jest.fn().mockReturnValue(await Promise.resolve(workerEntity));
         const service = new FindWorkerService(await workerRepository);
-        const result = await service.execute(input);
+        let id = '123';
+        const result = await service.execute(id);
 
-        expect(result.id).toBe(input.id)
+        expect(result.id).toBe(id)
         expect(result.birthday).toEqual(worker.getBirthday())
         expect(result.createdAt).toEqual(worker.getCreatedAt())
         expect(result.id).toBe(worker.getId())
@@ -36,22 +33,20 @@ describe('FindWorkerService unit tests', () => {
         expect(result.role).toBe(worker.getRole())
         expect(result.udpatedAt).toEqual(worker.getUpdatedAt())
         expect((await workerRepository).find).toHaveBeenCalledTimes(1)
-        expect((await workerRepository).find).toHaveBeenCalledWith(input.id)
+        expect((await workerRepository).find).toHaveBeenCalledWith(id)
     })
 
     it('should return empty result for a worker', async () => {
         const workerRepository = MockRepositoriesForUnitTest.mockRepositories();
         (await workerRepository).find = jest.fn().mockReturnValueOnce(await Promise.resolve(null))
         const service = new FindWorkerService(await workerRepository);
-        const result = await service.execute(input);
-        expect(result.id).toBeUndefined()
-        expect(result.birthday).toBeUndefined()
-        expect(result.createdAt).toBeUndefined()
-        expect(result.id).toBeUndefined()
-        expect(result.name).toBeUndefined()
-        expect(result.role).toBeUndefined()
-        expect(result.udpatedAt).toBeUndefined()
-        expect((await workerRepository).find).toHaveBeenCalledTimes(1)
-        expect((await workerRepository).find).toHaveBeenCalledWith(input.id)
-    })
-})
+        let id = '123';
+        try {
+            const result = await service.execute(id);
+        } catch (error) {
+            expect(error).toBeInstanceOf(SystemError);
+            expect((await workerRepository).find).toHaveBeenCalledTimes(1)
+            expect((await workerRepository).find).toHaveBeenCalledWith(id)
+        }
+    });
+});

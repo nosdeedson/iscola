@@ -9,15 +9,16 @@ import { RoleEnum } from '../../../../domain/worker/roleEnum';
 import { RepositoryFactoryService } from '../../../../infrastructure/factory/repositiry-factory/repository-factory.service';
 import { setEnv } from '../../../__mocks__/env.mock';
 import { MockCreateUsers } from '../../../__mocks__/mock-create-users-dto';
-import { mockFindUserDto } from '../../../__mocks__/mock-dtos/mock-dtos';
+import { mockFindUserDto, mockOutputFindWorkerDto } from '../../../__mocks__/mock-dtos/mock-dtos';
 import { DomainMocks } from '../../../__mocks__/mocks';
 import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
 import { WorkerEntity } from '../../../entities/worker/worker.entity';
-import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/delete-user-factory.service';
 import { TrataErros } from '../../../utils/trata-erros/trata-erros';
 import { UserUsecasesService } from './user-usecases.service';
 import { CreateUserFactoryService } from '../../../factory/create-user-service-factory/create-user-factory-service';
-
+import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/delete-user-factory.service';
+import { FindUserFactoryService } from '../../../factory/find-user-factory/find-user-factory.service';
+import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto/find-user-outPut-dto';
 
 
 // create user mocks
@@ -38,6 +39,15 @@ const deletePersonServiceMock = {
 
 const userServiceDeleteFactory = {
   deleteUserServiceFactory: jest.fn(),
+};
+
+// this will be returned by the userServiceFindFactory
+const findPersonServiceMock = {
+  execute: jest.fn(),
+}
+
+const userServiceFindFactory = {
+  findUserServiceFactory: jest.fn(),
 };
 
 describe('UserUsecasesService', () => {
@@ -62,6 +72,10 @@ describe('UserUsecasesService', () => {
           provide: DeleteUserFactoryService,
           useValue: userServiceDeleteFactory,
         },
+        {
+          provide: FindUserFactoryService,
+          useValue: userServiceFindFactory,
+        }
       ],
     }).compile();
 
@@ -176,7 +190,6 @@ describe('UserUsecasesService', () => {
     });
 
     it('should not find a user to delete', async () =>{
-      let foundUser: any = null;
       let expectedId = "1";
       const errorToThrow = new SystemError([{
         "context": "user",
@@ -292,45 +305,102 @@ describe('UserUsecasesService', () => {
   describe('find', () =>{
 
     it('should find a user which role is teacher', async () => {
-      expect(true).toBe(true)
-
-      // const worker = WorkerEntity.toWorkerEntity(DomainMocks.mockWorker(RoleEnum.TEACHER));
-      // const id = worker.id;
+      const foundUser = mockFindUserDto();
+      const wantedId = foundUser.id;
+      const person = mockOutputFindWorkerDto();
+      const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.resolve(foundUser));
       
-      // let userFoundDto = new FindUserDto('1', worker.id, 'email', 'nickname', AccessType.TEACHER);
-      // const findUser = jest.spyOn(FindUserService.prototype, 'execute')
-      // .mockImplementation(async () => await Promise.resolve(userFoundDto));
-      // const findPerson = jest.spyOn(WorkerRepository.prototype, 'find')
-      // .mockImplementation(async () => await Promise.resolve(worker));
-      // const result = await service.find(id);
-      // expect(result).toBeInstanceOf(FindUserOutPutDto);
-      // expect(findUser).toHaveBeenCalledTimes(1);
-      // expect(findUser).toHaveBeenCalledWith(id);
-      // expect(findPerson).toHaveBeenCalledTimes(1);
-      // expect(findPerson).toHaveBeenCalledWith(worker.id);
+      userServiceFindFactory.findUserServiceFactory.mockReturnValue(findPersonServiceMock);
+      findPersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(person));
+
+      const result = await service.find(wantedId);
+      expect(result).toBeInstanceOf(FindUserOutPutDto);
+      expect(result).toHaveProperty('role', RoleEnum.TEACHER);
+      expect(findUserService).toHaveBeenCalledTimes(1)
+      expect(findUserService).toHaveBeenCalledWith(wantedId);
+      expect(userServiceFindFactory.findUserServiceFactory).toHaveBeenCalledTimes(1);
+      expect(userServiceFindFactory.findUserServiceFactory).toHaveBeenCalledWith(foundUser.accessType);
+      expect(findPersonServiceMock.execute).toHaveBeenCalledTimes(1);
+      expect(findPersonServiceMock.execute).toHaveBeenCalledWith(foundUser.personId);
     });
 
-    it('when trying to get a user should throw an error if user does not exist', async () => {
-      expect(true).toBe(true)
+    it('when trying to find a user should fail', async () => {
+      const person = mockOutputFindWorkerDto();
+      const errorToThrow = new SystemError([{context: 'user', message: 'user not found'}]);
+      const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.reject(errorToThrow));
+      
+      userServiceFindFactory.findUserServiceFactory.mockReturnValue(findPersonServiceMock);
+      findPersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(person));
+      const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
+        .mockImplementation(() => {throw new BadRequestException('test')});
+      
+      try {
+        await service.find('1');
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+        expect(findUserService).toHaveBeenCalledTimes(1);
+        expect(userServiceFindFactory.findUserServiceFactory).toHaveBeenCalledTimes(0);
+        expect(findPersonServiceMock.execute).toHaveBeenCalledTimes(0);
+        expect(tratarError).toHaveBeenCalledTimes(1);
+        expect(tratarError).toHaveBeenCalledWith(errorToThrow);
+      }
+    });
 
-      // const id = '1';
-      // const findUser = jest.spyOn(FindUserService.prototype, 'execute')
-      //   .mockImplementation(async () => await Promise.reject(new SystemError([{context: 'user', message: 'user not found'}])));
-      // const worker = WorkerEntity.toWorkerEntity(DomainMocks.mockWorker(RoleEnum.TEACHER));
-      // const findPerson = jest.spyOn(WorkerRepository.prototype, 'find')
-      //   .mockImplementation(async () => await Promise.resolve(worker));
-      // const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-      //   .mockImplementation(() => {throw new BadRequestException('user not found')});
-      // try {
-      //   const result = await service.find(id);
-      // } catch (error) {
-      //   expect(error).toBeInstanceOf(BadRequestException);
-      //   expect(findUser).toHaveBeenCalledTimes(1);
-      //   expect(findUser).toHaveBeenCalledWith(id);
-      //   expect(findPerson).toHaveBeenCalledTimes(0);
-      //   expect(tratarError).toHaveBeenCalledTimes(1);
-      //   expect(tratarError).toHaveBeenCalledWith(new SystemError([{context: 'user', message: 'user not found'}]));
-      // }
+    it('when trying to create the find service should fail', async () => {
+      const foundUser = mockFindUserDto();
+      const wantedId = foundUser.id;
+      const person = mockOutputFindWorkerDto();
+      const errorToThrow = new SystemError([{ context: 'UserAggregateResolver', message: 'Invalid access type' },]);
+
+      const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.resolve(foundUser));
+      userServiceFindFactory.findUserServiceFactory.mockRejectedValue(errorToThrow);
+      findPersonServiceMock.execute.mockImplementation(async () => await Promise.resolve(person));
+
+      const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
+        .mockImplementation(() => {throw new BadRequestException('test')});
+
+      try {
+        await service.find(wantedId);
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+        expect(findUserService).toHaveBeenCalledTimes(1)
+        expect(findUserService).toHaveBeenCalledWith(wantedId);
+        expect(userServiceFindFactory.findUserServiceFactory).toHaveBeenCalledTimes(1);
+        expect(findPersonServiceMock.execute).toHaveBeenCalledTimes(0);
+        expect(tratarError).toHaveBeenCalledTimes(1);
+        expect(tratarError).toHaveBeenCalledWith(errorToThrow);
+      }
+    });
+
+    it('when trying to find a person as teacher should fail', async () => {
+      const foundUser = mockFindUserDto();
+      const wantedId = foundUser.id;
+      const person = mockOutputFindWorkerDto();
+      const errorToThrow = new SystemError([{context: "find user", message: "Failed to find the user"}]);
+
+      const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
+        .mockImplementation(async () => await Promise.resolve(foundUser));
+      userServiceFactoryMock.createUserServiceFactory.mockReturnValue(findPersonServiceMock);
+      findPersonServiceMock.execute.mockRejectedValue(errorToThrow);
+      const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
+        .mockImplementation(() => {throw new BadRequestException('test')});
+      try {
+        
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+        expect(findUserService).toHaveBeenCalledTimes(1)
+        expect(findUserService).toHaveBeenCalledWith(wantedId);
+        expect(userServiceFindFactory.findUserServiceFactory).toHaveBeenCalledTimes(1);
+        expect(userServiceFindFactory.findUserServiceFactory).toHaveBeenCalledWith(foundUser.accessType);
+        expect(findPersonServiceMock.execute).toHaveBeenCalledTimes(1);
+        expect(findPersonServiceMock.execute).toHaveBeenCalledWith(foundUser.personId);
+        expect(tratarError).toHaveBeenCalledTimes(1);
+        expect(tratarError).toHaveBeenCalledWith(errorToThrow);
+      }
+
     });
 
   });

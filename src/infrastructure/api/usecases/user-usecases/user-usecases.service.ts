@@ -12,6 +12,7 @@ import { UserRepository } from 'src/infrastructure/repositories/user/user.reposi
 import { TrataErros } from 'src/infrastructure/utils/trata-erros/trata-erros';
 import { CreateWorkersDto } from '../../controllers/users/workers/create-workers-dto/create-workers-dto';
 import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto/find-user-outPut-dto';
+import { FindUserFactoryService } from 'src/infrastructure/factory/find-user-factory/find-user-factory.service';
 
 @Injectable()
 export class UserUsecasesService {
@@ -20,6 +21,7 @@ export class UserUsecasesService {
     constructor(
         private userServiceFactory: CreateUserFactoryService,
         private userDeleteFactory: DeleteUserFactoryService,
+        private userFindFactory: FindUserFactoryService,
         private repositoryFactory: RepositoryFactoryService
     ) {
         this.userRepository = this.repositoryFactory.createRepository(TypeRepository.USER) as UserRepository;
@@ -55,10 +57,9 @@ export class UserUsecasesService {
         try {
             let findUserService = new FindUserService(this.userRepository);
             let user = await findUserService.execute(id);
-            // TODO HAVE TO GET PERSON FROM BD
-            // let person = await this.workerRepository.find(user.personId);
-            // return new FindUserOutPutDto(user, person.name);
-            return null;
+            let findPersonService = await this.userFindFactory.findUserServiceFactory(user.accessType); 
+            let person = await findPersonService.execute(user.personId);
+            return new FindUserOutPutDto(user, person.name);
         } catch (error) {
             TrataErros.tratarErrorsBadRequest(error);
         }
