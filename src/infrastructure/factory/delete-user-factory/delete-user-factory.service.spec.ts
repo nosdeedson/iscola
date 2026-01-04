@@ -8,6 +8,7 @@ import { setEnv } from '../../__mocks__/env.mock';
 import { AccessType } from '../../../domain/user/access.type';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
+import { SystemError } from '../../../domain-services/@shared/system-error';
 
 describe('DeleteUserFactoryService', () => {
   let service: DeleteUserFactoryService;
@@ -51,14 +52,14 @@ describe('DeleteUserFactoryService', () => {
     expect(deleteWorkerService).toBeInstanceOf(DeleteWorkerService);
   });
 
-  // it('should throw an error when accessType does not exist', () => {
-  //   try {
-  //     service.deleteUserServiceFactory('NO_EXIST' as AccessType);
-  //   } catch (error) {
-  //     expect(error).toBeInstanceOf(SystemError);
-  //     //@ts-ignore
-  //     expect(error.errors).toStrictEqual([{ context: 'UserAggregateResolver', message: 'Invalid access type' }]);
-  //   }
-  // });
+  it('should throw an error when accessType does not exist', () => {
+    try {
+      service.deleteUserServiceFactory('NO_EXIST' as AccessType);
+    } catch (error) {
+      expect(error).toBeInstanceOf(SystemError);
+      //@ts-ignore
+      expect(error.errors).toStrictEqual([{ context: 'UserAggregateResolver', message: 'Invalid access type' }]);
+    }
+  });
 
 });
