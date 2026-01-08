@@ -3,7 +3,7 @@ import { ClassRepositoryInterface } from '../../../domain/class/class.repository
 import { Worker } from '../../../domain/worker/worker';
 import { WorkerRepositoryInterface } from '../../../domain/worker/worker.repository.interface';
 import { WorkerEntity } from '../../../infrastructure/entities/worker/worker.entity';
-import { InputCreateWorkerDto } from './create.worker.dto';
+import { CreateWorkerDto } from './create.worker.dto';
 import { CreateGenericService } from 'src/domain-services/@shared/create-generic-service';
 
 
@@ -21,7 +21,7 @@ export class CreateWorkerService extends CreateGenericService {
         this.schoolGroupRepository = schoolGroupRepository;
     }
 
-    public async execute(input: InputCreateWorkerDto){
+    public async execute(input: CreateWorkerDto){
         try {
             let worker = new Worker(input.birthday, input.name, input.role);
             if(worker.getNotification()?.hasError()){

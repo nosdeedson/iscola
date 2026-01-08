@@ -2,6 +2,7 @@ import { FindUserDto } from "../../../domain-services/user/find/find.user.dto";
 import { AccessType } from "../../../domain/user/access.type";
 import {OutputFindWorkerDto} from '../../../domain-services/worker/find/find.worker.dto'
 import { RoleEnum } from "../../../domain/worker/roleEnum";
+import { CreateUserDto } from "../../api/controllers/users/dtos/create-user-dto/create-user-dto";
 
 export function mockFindUserDto (
     overrides: Partial<FindUserDto> = {},
@@ -27,5 +28,21 @@ export function mockOutputFindWorkerDto (
         name: 'john doe',
         role: RoleEnum.TEACHER,
         ...overrides,
+    }
+}
+
+
+export function mockCreateWorkersDto(
+    overrides: Partial<CreateUserDto> = {},
+): CreateUserDto {
+    return {
+        name : 'worker',
+        birthDate : '2025-02-03T12:00:00Z',
+        email : 'worker@email.com',
+        password : '1234@Mudar',
+        accessType : AccessType.ADMIN,
+        classCode : "1234",
+        nickname : 'worker',
+        ...overrides
     }
 }

@@ -4,18 +4,21 @@ import { Student } from "src/domain/student/student";
 export class CreateParentDto {
     birthday: Date;
     name: string;
-    students: Student[]
+    students: string[]
 
     constructor(
         birthday: Date,
         name: string,
+        students: string[]
     ) {
         this.birthday = birthday;
         this.name = name;
+        this.students = students;
     }
 
     static toParent(dto: CreateParentDto): Parent {
-        let parent = new Parent(dto.birthday, dto.name, dto.students);
+        // TODO FIX HERE students must be found be name
+        let parent = new Parent(dto.birthday, dto.name, null);
         return parent;
     }
 }

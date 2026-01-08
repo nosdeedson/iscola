@@ -34,7 +34,7 @@ describe('CreateStudentService', () =>{
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
             expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-            expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
+            expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
         }
     });
 
@@ -62,7 +62,7 @@ describe('CreateStudentService', () =>{
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
             expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-            expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
+            expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
         }
     })
 
@@ -88,7 +88,7 @@ describe('CreateStudentService', () =>{
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
             expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-            expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
+            expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
         }
     });
 
@@ -122,7 +122,7 @@ describe('CreateStudentService', () =>{
         expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
         expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
         expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-        expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
+        expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
     });
 
     it('should save student', async () =>{
@@ -155,6 +155,6 @@ describe('CreateStudentService', () =>{
         expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
         expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
         expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-        expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsId);
+        expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
     });
 });

@@ -1,22 +1,16 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { AppController } from "./AppController";
+import { Global, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { AcademicSemesterEntity } from "src/infrastructure/entities/academic-semester/academic.semester.entity";
-import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
-import { CommentEntity } from "../../../../infrastructure/entities/comment/comment.entity";
-import { RatingEntity } from "../../../../infrastructure/entities/rating/rating.entity";
-import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
-import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
-import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
-import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
-import { UserEntity } from "../../../../infrastructure/entities/user/user.entity";
 import { AppUseCase } from "../../usecases/app-usecase/app-usecase";
-import { SemesterModule } from "../semester/semester.module";
+import { IsStrongPasswordConstraint } from "../../validators/is-strong-password-constraint/is-strong-password-constraint";
 import { SchoolgroupModule } from "../schoolgroup/schoolgroup.module";
+import { SemesterModule } from "../semester/semester.module";
+import { UsersModule } from "../users/users.module";
+import { AppController } from "./AppController";
 
+@Global()
 @Module({
     imports: [
+        UsersModule,
         SchoolgroupModule,
         SemesterModule,
         ConfigModule.forRoot({
@@ -25,6 +19,9 @@ import { SchoolgroupModule } from "../schoolgroup/schoolgroup.module";
         }),
     ],
     controllers: [AppController],
-    providers: [AppUseCase]
+    providers: [
+        AppUseCase,
+        IsStrongPasswordConstraint
+    ]
 })
 export class AppModule{}

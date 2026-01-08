@@ -4,18 +4,18 @@ export class CreateStudentDto{
     birthday: Date;
     name: string;
     enrolled: string;
-    parentsId: string[] = [];
+    parentsName: string[] = [];
 
     constructor(
         birthday: Date,
         name: string,
         enrolled: string,
-        parentsId: string[],
+        parentsName: string[],
     ){
         this.birthday = birthday;
         this.name = name;
         this.enrolled = enrolled;
-        this.parentsId = parentsId;
+        this.parentsName = parentsName;
     }
 
 }

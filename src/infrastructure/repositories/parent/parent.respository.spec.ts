@@ -142,7 +142,7 @@ describe('ParentRepository unit test', () =>{
         expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
         expect(await parentRepository.create(parentEntity1)).toBeInstanceOf(ParentEntity);
 
-        let results = await parentRepository.findByIds([parent.getId(), parent1.getId()]);
+        let results = await parentRepository.findByNames([parent.getName(), parent1.getId()]);
 
         expect(results.length).toBe(2);
     });

@@ -5,7 +5,7 @@ import { ClassEntity } from "../../../infrastructure/entities/class/class.entity
 import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
 import { ClassRepository } from '../../../infrastructure/repositories/class/class.repository';
 import { WorkerRepository } from '../../../infrastructure/repositories/worker/worker.repository';
-import { InputCreateWorkerDto } from "./create.worker.dto";
+import { CreateWorkerDto } from "./create.worker.dto";
 import { CreateWorkerService } from "./create.worker.service";
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
 import { DataSource } from "typeorm";
@@ -52,7 +52,7 @@ describe("CreateWorkerService integration test", () =>{
             birthday: new Date(),
             role: RoleEnum.TEACHER,
             classCode: schoolGroup.getClassCode()
-        } as InputCreateWorkerDto;
+        } as CreateWorkerDto;
         expect(await service.execute(worker)).toBeInstanceOf(WorkerEntity)
     });
 })

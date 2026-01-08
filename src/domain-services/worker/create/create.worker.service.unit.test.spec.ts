@@ -1,12 +1,12 @@
 import { RoleEnum } from "../../../domain/worker/roleEnum"
 import { MockRepositoriesForUnitTest } from "../../../infrastructure/__mocks__/mockRepositories";
-import { InputCreateWorkerDto } from "./create.worker.dto"
+import { CreateWorkerDto } from "./create.worker.dto"
 import { CreateWorkerService }  from "./create.worker.service"
 import { SystemError } from '../../@shared/system-error'
 import { AccessType } from "../../../domain/user/access.type";
 
 describe('CreateWorkerService test unit', () => {
-    let worker: InputCreateWorkerDto;
+    let worker: CreateWorkerDto;
 
     beforeEach(() => {
         worker = {

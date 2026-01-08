@@ -1,6 +1,19 @@
-import { Controller } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserUsecasesService } from '../../usecases/user-usecases/user-usecases.service';
+import { CreateUserDto } from './dtos/create-user-dto/create-user-dto';
 
 @ApiTags('Users Workers')
-@Controller('users/workers')
-export class UsersController {}
+@Controller('users')
+export class UsersController {
+
+    constructor(private userUsecase: UserUsecasesService){}
+
+    @ApiOperation({description: 'Create a user accordingly with accesstype'})
+    @ApiResponse({status: 201, description: 'Return status 201 when user is created'})
+    @ApiResponse({status: '4XX', description: 'Retun when error if request has invalid information'})
+    @Post()
+    async create(@Body() dto: CreateUserDto): Promise<void> {
+        return await this.userUsecase.create(dto);
+    }
+}

@@ -33,7 +33,7 @@ export class CreateStudentService extends CreateGenericService{
             if (!schoolGroup) {
                 errors.push({ context: 'student', message: 'Schoolgroup not found' });
             }
-            const parents = await this.parentRepository.findByIds(dto.parentsId);
+            const parents = await this.parentRepository.findByNames(dto.parentsName);
             if (parents.length == 0) {
                 errors.push({ context: 'student', message: 'At least one parent must be informed' });
             }

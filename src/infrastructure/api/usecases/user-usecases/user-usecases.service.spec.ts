@@ -4,12 +4,11 @@ import { SystemError } from '../../../../domain-services/@shared/system-error';
 import { CreateUserService } from '../../../../domain-services/user/create/create.user.service';
 import { DeleteUserService } from '../../../../domain-services/user/delete/delete.user.service';
 import { FindUserService } from '../../../../domain-services/user/find/find.user.service';
-import { InputCreateWorkerDto } from '../../../../domain-services/worker/create/create.worker.dto';
+import { CreateWorkerDto } from '../../../../domain-services/worker/create/create.worker.dto';
 import { RoleEnum } from '../../../../domain/worker/roleEnum';
 import { RepositoryFactoryService } from '../../../../infrastructure/factory/repositiry-factory/repository-factory.service';
 import { setEnv } from '../../../__mocks__/env.mock';
-import { MockCreateUsers } from '../../../__mocks__/mock-create-users-dto';
-import { mockFindUserDto, mockOutputFindWorkerDto } from '../../../__mocks__/mock-dtos/mock-dtos';
+import { mockCreateWorkersDto, mockFindUserDto, mockOutputFindWorkerDto } from '../../../__mocks__/mock-dtos/mock-dtos';
 import { DomainMocks } from '../../../__mocks__/mocks';
 import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
 import { WorkerEntity } from '../../../entities/worker/worker.entity';
@@ -18,7 +17,7 @@ import { UserUsecasesService } from './user-usecases.service';
 import { CreateUserFactoryService } from '../../../factory/create-user-service-factory/create-user-factory-service';
 import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/delete-user-factory.service';
 import { FindUserFactoryService } from '../../../factory/find-user-factory/find-user-factory.service';
-import { FindUserOutPutDto } from '../../controllers/users/workers/find-user-dto/find-user-outPut-dto';
+import { FindUserOutPutDto } from '../../controllers/users/dtos/find-user-dto/find-user-outPut-dto';
 
 
 // create user mocks
@@ -94,8 +93,8 @@ describe('UserUsecasesService', () => {
   describe('create', () => {
     it('should create a user as a TEACHER', async () => {
       const person = WorkerEntity.toWorkerEntity(DomainMocks.mockWorker(RoleEnum.TEACHER));
-      const mockInput = MockCreateUsers.toCreateWorker();
-      const input = new InputCreateWorkerDto(mockInput);
+      const mockInput = mockCreateWorkersDto();
+      const input = new CreateWorkerDto(mockInput);
       userServiceFactoryMock.createUserServiceFactory.mockReturnValue(createPersonServiceMock as any);
       createPersonServiceMock.execute.mockResolvedValue(person);
       const createUserService = jest.spyOn(CreateUserService.prototype, 'execute')
@@ -109,7 +108,7 @@ describe('UserUsecasesService', () => {
     });
 
     it('should throw an error when creating worker', async () => {
-      const mockInput = MockCreateUsers.toCreateWorker();
+      const mockInput = mockCreateWorkersDto();
       var errorToThrow = new SystemError([{
         "context": "worker",
         "message": "error while creating worker",
@@ -138,8 +137,8 @@ describe('UserUsecasesService', () => {
 
     it('should throw an error when creating user', async () => {
       const person = WorkerEntity.toWorkerEntity(DomainMocks.mockWorker(RoleEnum.TEACHER));
-      const mockInput = MockCreateUsers.toCreateWorker();
-      const input = new InputCreateWorkerDto(mockInput);
+      const mockInput = mockCreateWorkersDto();
+      const input = new CreateWorkerDto(mockInput);
       var errorToThrow = new SystemError([{
         "context": "user",
         "message": "error while creating user",

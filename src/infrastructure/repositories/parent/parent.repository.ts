@@ -45,9 +45,9 @@ export class ParentRepository implements ParentReporitoryInterface{
         return model;
     }
 
-    async findByIds(ids: string[]): Promise<ParentEntity[]> {
+    async findByNames(names: string[]): Promise<ParentEntity[]> {
         const parents = await this.parentRepository.createQueryBuilder('parent')
-            .where('parent.id IN(:...ids)',{ids})
+            .where('parent.fullName IN (:...names)',{names})
             .getMany();
         return parents;
     }

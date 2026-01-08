@@ -35,7 +35,9 @@ export class UserEntity extends GenericEntity{
 
     @Column({
         nullable: false,
-        name: 'nickname'
+        name: 'nickname',
+        type: 'varchar',
+        length: 50
     })
     nickname: string;
 

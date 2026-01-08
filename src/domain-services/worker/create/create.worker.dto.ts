@@ -1,8 +1,8 @@
 import { AccessType } from "src/domain/user/access.type";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
-import { CreateWorkersDto } from "src/infrastructure/api/controllers/users/workers/create-workers-dto/create-workers-dto";
+import { CreateUserDto } from "src/infrastructure/api/controllers/users/dtos/create-user-dto/create-user-dto";
 
-export class InputCreateWorkerDto {
+export class CreateWorkerDto {
     name: string;
     birthday: Date;
     role: RoleEnum;
@@ -15,7 +15,7 @@ export class InputCreateWorkerDto {
     // accesstype: AccessType;
 
 
-    constructor(dto: CreateWorkersDto){
+    constructor(dto: CreateUserDto){
         this.name = dto.name;
         this.birthday = new Date(dto.birthDate);
         this.role = dto.accessType == AccessType.ADMIN ? RoleEnum.ADMINISTRATOR : RoleEnum.TEACHER;

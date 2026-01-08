@@ -3,7 +3,7 @@ import { throwError } from "rxjs";
 import { SystemError } from "src/domain-services/@shared/system-error";
 
 export class TrataErros {
-
+    // TODO ADD HTTP STATUS TO SystemError
     static tratarErrorsBadRequest(error: SystemError) {
         error.errors.forEach(element => {
             let errors = []

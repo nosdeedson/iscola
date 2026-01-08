@@ -1,5 +1,5 @@
 import { AccessType } from "src/domain/user/access.type";
-import { CreateWorkersDto } from "src/infrastructure/api/controllers/users/workers/create-workers-dto/create-workers-dto";
+import { CreateUserDto } from "src/infrastructure/api/controllers/users/dtos/create-user-dto/create-user-dto";
 
 export class InputCreateUserDto{
     
@@ -9,7 +9,7 @@ export class InputCreateUserDto{
     nickname:string;
     accesstype: AccessType;
 
-    constructor(dto: CreateWorkersDto, idPerson: string){
+    constructor(dto: CreateUserDto, idPerson: string){
         this.personId = idPerson;
         this.email = dto?.email;
         this.password = dto?.password;

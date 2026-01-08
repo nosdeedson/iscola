@@ -3,5 +3,5 @@ import { PeronRepositoryInterface } from '../@shared/repository/person.repositor
 
 
 export interface ParentReporitoryInterface extends PeronRepositoryInterface<ParentEntity> {
-    findByIds(ids: string[]): Promise<ParentEntity[]>;
+    findByNames(names: string[]): Promise<ParentEntity[]>;
  }

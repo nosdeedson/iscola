@@ -8,6 +8,8 @@ import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/d
 import { UserAggregateResolverService } from '../../../factory/user-aggregate-resolver/user-aggregate-resolver.service';
 import { CreateUserFactoryService } from '../../../factory/create-user-service-factory/create-user-factory-service';
 import { FindUserFactoryService } from '../../../factory/find-user-factory/find-user-factory.service';
+import { mockCreateWorkersDto } from '../../../__mocks__/mock-dtos/mock-dtos';
+import { BadRequestException } from '@nestjs/common';
 
 
 describe('UsersController', () => {
@@ -35,4 +37,19 @@ describe('UsersController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  it('should create a new user', async () => {
+    const dto = mockCreateWorkersDto();
+    const userUsecasesService = jest.spyOn(UserUsecasesService.prototype, 'create')
+      .mockImplementation(async () => Promise.resolve(void 0));
+    await expect(controller.create(dto)).resolves.not.toThrow();
+  });
+
+  it('should throw an error when create a new user', async () => {
+    const dto = mockCreateWorkersDto();
+    const userUsecasesService = jest.spyOn(UserUsecasesService.prototype, 'create')
+      .mockImplementation(async () => Promise.reject(new BadRequestException("Error creating user")));
+    await expect(controller.create(dto)).rejects.toThrow(BadRequestException);
+  });
+
 });

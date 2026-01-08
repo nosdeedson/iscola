@@ -16,10 +16,9 @@ describe('CreateParentService unit tests', () =>{
         const toParent  = jest.spyOn(CreateParentDto, 'toParent').mockReturnValueOnce(mockParent);
         const toEntity  = jest.spyOn(ParentEntity, 'toParentEntity').mockReturnValueOnce(mockEntity);
 
-        const students = [DomainMocks.mockStudent()];
+        const students = DomainMocks.mockStudent();
 
-        const dto = new CreateParentDto(new Date(), 'edson');
-        dto.students = students;
+        const dto = new CreateParentDto(new Date(), 'edson', [students.getName()]);
         const service = new CreateParentService(parentRepository);
 
         expect(await service.execute(dto)).toBe(void 0);
@@ -36,11 +35,10 @@ describe('CreateParentService unit tests', () =>{
     it('should throw an error while trying to save a parent without name', async () =>{
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
                
-        const students = [DomainMocks.mockStudent()];
+        const students = DomainMocks.mockStudent();
 
         let name: any;
-        const dto = new CreateParentDto(new Date(), name);
-        dto.students = students;
+        const dto = new CreateParentDto(new Date(), name, [students.getName()]);
         const service = new CreateParentService(parentRepository);
 
         try {
@@ -57,11 +55,10 @@ describe('CreateParentService unit tests', () =>{
     it('should throw an error while trying to save a parent without birthday', async () =>{
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
                
-        const students = [DomainMocks.mockStudent()];
+        const students = DomainMocks.mockStudent();
 
         let birthday: any;
-        const dto = new CreateParentDto(birthday, 'edson');
-        dto.students = students;
+        const dto = new CreateParentDto(birthday, 'edson', [students.getName()]);
         const service = new CreateParentService(parentRepository);
 
         try {
@@ -81,7 +78,7 @@ describe('CreateParentService unit tests', () =>{
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
                
         let students: any = [];
-        const dto = new CreateParentDto(new Date(), 'edson');
+        const dto = new CreateParentDto(new Date(), 'edson', []);
         dto.students = students;
         const service = new CreateParentService(parentRepository);
 

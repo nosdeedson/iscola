@@ -15,7 +15,9 @@ export abstract class PersonEntity extends GenericEntity {
     
     @Column({
         nullable: false,
-        name: 'full_name'
+        name: 'full_name',
+        length: 250,
+        type: 'varchar'
     })
     fullName: string;
 }
