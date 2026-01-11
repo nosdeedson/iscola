@@ -18,9 +18,22 @@ export class CreateParentService extends CreateGenericService{
 
     async execute(dto: CreateParentDto){
         try {
+            const parentExist = await this.parentRepository.findByNames([dto.name], dto.students);
+            if(parentExist){
+                parentExist.forEach(parent => {
+                   parent.birthday = dto.birthday;
+                   if(parent.students){
+                    parent.students.forEach(it => {
+                        if(!dto.students.includes(it.fullName)){
+                            throw new SystemError([{context: 'parent', message: 'the name of students do not match.'}]);
+                        }
+                    })
+                   }
+                });
+            }
             let parent = CreateParentDto.toParent(dto);
-            if(parent?.getNotification().hasError()){
-                throw new SystemError(parent.getNotification()?.getErrors());
+            if(parent?.notification.hasError()){
+                throw new SystemError(parent.notification?.getErrors());
             }
             let entity = ParentEntity.toParentEntity(parent);
             await this.parentRepository.create(entity);

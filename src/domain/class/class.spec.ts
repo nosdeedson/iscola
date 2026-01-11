@@ -1,5 +1,4 @@
 import { DateHelper } from "../../helpers/date/date.helper"
-import { Parent } from "../parent/parent";
 import { Schedule } from "../schedule/schedule";
 import { Student } from "../student/student";
 import { RoleEnum } from "../worker/roleEnum";
@@ -156,37 +155,13 @@ describe('Class tests units', () => {
         expect(c.notification).toBeDefined()
         expect(c.notification?.getErrors().length).toBe(4)
         expect(c.notification?.messages()).toBe("class: classcode is required,class: Name of the book is required,class: Name of the class is required,class: Schedule of the class is required,")
-    })
-
-    it('should have at least one student', () => {
-        // date of the year: august 9 2024
-        const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
-        const parent = new Parent(
-            'Maria',
-            null as any,
-            [] as any,
-        )
-        let parents = [parent];
-        let birthday = new Date();
-        let name = 'edson';
-        let enrolled = '123'
-        let student = new Student(
-            birthday,
-            name,
-            enrolled,
-            parents
-        );
-        c.setStudent(student);
-        expect(c).toBeDefined()
-        expect(c.getStudents().length).toBe(1)
-        expect(c.notification?.getErrors().length).toBe(0)
-    })
+    });
 
     it('should instantiate a class with a teacher', () => {
         const expectedBirthDay = new Date();
         const expectedName = 'edson';
         const expectedRole = RoleEnum.TEACHER;
-        const teacher = new Worker(expectedBirthDay, expectedName, expectedRole);
+        const teacher = new Worker({birthday: expectedBirthDay, name: expectedName, role: expectedRole});
         
         c.setTeacher(teacher);
         expect(c).toBeDefined()
@@ -270,21 +245,15 @@ describe('Class tests units', () => {
     });
 
     it('should have at least one student', () => {
-        const parent = new Parent(
-            'Maria',
-            null as any,
-            [] as any
-        )
-        let parents = [parent];
+        
         let birthday = new Date();
         let name = 'edson';
         let enrolled = '123'
-        let student = new Student(
+        let student = new Student({
             birthday,
             name,
             enrolled,
-            parents
-        );
+        });
         let students : Student[] = [];
         students.push(student)
         c.setStudents(students);
@@ -324,13 +293,6 @@ describe('Class tests units', () => {
         let times = new Map();
         DateHelper.setTime(times, firstDay, '08:00');
         DateHelper.setTime(times, secondDay, '09:00');
-
-        let schedule = new Schedule(
-            [firstDay, secondDay],
-            times
-        )
-
-        
         expect(c.getCreatedAt()).toBeDefined();
         expect(c.getUpdatedAt()).toBeDefined();
         expect(c.getId()).toBeDefined();

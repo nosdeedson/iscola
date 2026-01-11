@@ -16,7 +16,7 @@ describe('CreateStudentService', () =>{
         const parentEntities = ParentEntity.toParentEntity(parent)
         
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByIds = jest.fn().mockImplementationOnce(() => { return [parentEntities]});
+        parentRepository.findByNames = jest.fn().mockImplementationOnce(() => { return [parentEntities]});
         
         const schoolgroupRepository = MockRepositoriesForUnitTest.mockRepositories();
         schoolgroupRepository.findByClassCode = jest.fn().mockImplementationOnce(() => {return null})
@@ -32,9 +32,9 @@ describe('CreateStudentService', () =>{
             //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'student', message: 'Schoolgroup not found'}]);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
-            expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
+            expect(parentRepository.findByNames).toHaveBeenCalledTimes(1);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-            expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
+            expect(parentRepository.findByNames).toHaveBeenCalledWith(dto.parentsName);
         }
     });
 
@@ -44,7 +44,7 @@ describe('CreateStudentService', () =>{
         const schoolGroupEntity = ClassEntity.toClassEntity(schoolGroup);
 
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByIds = jest.fn().mockImplementationOnce(() => {return []});
+        parentRepository.findByNames = jest.fn().mockImplementationOnce(() => {return []});
 
         const studentRepository = MockRepositoriesForUnitTest.mockRepositories();
         const schoolgroupRepository = MockRepositoriesForUnitTest.mockRepositories();
@@ -60,9 +60,9 @@ describe('CreateStudentService', () =>{
             //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'student', message: 'At least one parent must be informed'}]);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
-            expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
+            expect(parentRepository.findByNames).toHaveBeenCalledTimes(1);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-            expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
+            expect(parentRepository.findByNames).toHaveBeenCalledWith(dto.parentsName);
         }
     })
 
@@ -70,7 +70,7 @@ describe('CreateStudentService', () =>{
         const dto = new CreateStudentDto(new Date(), 'edson', '123', ['123', '1234', ]);
 
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByIds = jest.fn().mockImplementationOnce(() => {return []});
+        parentRepository.findByNames = jest.fn().mockImplementationOnce(() => {return []});
 
         const schoolgroupRepository = MockRepositoriesForUnitTest.mockRepositories();
         
@@ -86,9 +86,9 @@ describe('CreateStudentService', () =>{
             //@ts-ignore
             expect(error.errors).toMatchObject([{context: 'student', message: 'Schoolgroup not found'}, {context: 'student', message: 'At least one parent must be informed'}]);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
-            expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
+            expect(parentRepository.findByNames).toHaveBeenCalledTimes(1);
             expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-            expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
+            expect(parentRepository.findByNames).toHaveBeenCalledWith(dto.parentsName);
         }
     });
 
@@ -99,7 +99,7 @@ describe('CreateStudentService', () =>{
         const parentEntities = ParentEntity.toParentEntity(parent);
 
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByIds = jest.fn().mockImplementationOnce(() => { return [parentEntities]});
+        parentRepository.findByNames = jest.fn().mockImplementationOnce(() => { return [parentEntities]});
         
         const schoolGroup = DomainMocks.mockSchoolGroup();
         const schoolGroupEntity = ClassEntity.toClassEntity(schoolGroup);
@@ -120,9 +120,9 @@ describe('CreateStudentService', () =>{
 
         expect(studentRepository.create).toHaveBeenCalledTimes(1);        
         expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
-        expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
+        expect(parentRepository.findByNames).toHaveBeenCalledTimes(1);
         expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-        expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
+        expect(parentRepository.findByNames).toHaveBeenCalledWith(dto.parentsName);
     });
 
     it('should save student', async () =>{
@@ -132,7 +132,7 @@ describe('CreateStudentService', () =>{
         const parentEntities = ParentEntity.toParentEntity(parent);
 
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByIds = jest.fn().mockImplementationOnce(() => { return [parentEntities]});
+        parentRepository.findByNames = jest.fn().mockImplementationOnce(() => { return [parentEntities]});
         
         const schoolGroup = DomainMocks.mockSchoolGroup();
         const schoolGroupEntity = ClassEntity.toClassEntity(schoolGroup);
@@ -153,8 +153,8 @@ describe('CreateStudentService', () =>{
 
         expect(studentRepository.create).toHaveBeenCalledTimes(1);        
         expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledTimes(1);
-        expect(parentRepository.findByIds).toHaveBeenCalledTimes(1);
+        expect(parentRepository.findByNames).toHaveBeenCalledTimes(1);
         expect(schoolgroupRepository.findByClassCode).toHaveBeenCalledWith(dto.enrolled);
-        expect(parentRepository.findByIds).toHaveBeenCalledWith(dto.parentsName);
+        expect(parentRepository.findByNames).toHaveBeenCalledWith(dto.parentsName);
     });
 });

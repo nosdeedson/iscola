@@ -47,8 +47,8 @@ export class CreateStudentService extends CreateGenericService{
                 parentsDomain.push(parent)
             });
             let student = new Student(dto.birthday, dto.name, dto.enrolled, parentsDomain);
-            if(student?.getNotification()?.hasError()){
-                throw new SystemError(student.getNotification().errors);
+            if(student?.notification?.hasError()){
+                throw new SystemError(student.notification.errors);
             }
             let studentEntity = StudentEntity.toStudentEntity(student);
             await this.studentRepository.create(studentEntity);

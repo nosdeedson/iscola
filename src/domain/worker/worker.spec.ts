@@ -27,7 +27,7 @@ describe('Teacher unit test', () =>{
         const expectedBirthDay = new Date();
         const expectedName = 'edson';
         const expectedRole = RoleEnum.TEACHER;
-        const teacher = new Worker(expectedBirthDay, expectedName, expectedRole);
+        const teacher = new Worker({ birthday: expectedBirthDay, name: expectedName, role: expectedRole});
 
         expect(teacher.getId()).toBeDefined();
         expect(teacher.getName()).toBeDefined();
@@ -43,7 +43,7 @@ describe('Teacher unit test', () =>{
         const expectedBirthDay = new Date();
         const expectedName = 'edson';
         const expectedRole = RoleEnum.ADMINISTRATOR;
-        const teacher = new Worker(expectedBirthDay, expectedName, expectedRole);
+        const teacher = new Worker({ birthday: expectedBirthDay, name: expectedName, role: expectedRole});
 
         expect(teacher.getId()).toBeDefined();
         expect(teacher.getName()).toBeDefined();
@@ -57,7 +57,7 @@ describe('Teacher unit test', () =>{
     it('should have error if name empty', () =>{
         const expectedBirthDay = new Date();
         const expectedRole = RoleEnum.TEACHER;
-        const teacher = new Worker(expectedBirthDay, '', expectedRole);
+        const teacher = new Worker({birthday: expectedBirthDay, name: '', role: expectedRole});
         expect(teacher.notification?.getErrors().length).toBe(1)
         expect(teacher.notification?.getErrors()[0].message).toBe('Name should not be null')
         expect(teacher.notification?.messages('teacher')).toBe('teacher: Name should not be null,')
@@ -67,7 +67,7 @@ describe('Teacher unit test', () =>{
         let expectedBirthDay;
         let name = 'edson';
         let expectedRole = RoleEnum.TEACHER;
-        const teacher = new Worker(expectedBirthDay as any, name, expectedRole);
+        const teacher = new Worker({birthday: expectedBirthDay as any, name, role: expectedRole});
         expect(teacher.notification?.getErrors().length).toBe(1)
         expect(teacher.notification?.getErrors()[0].message).toBe('Birthday should not be null')
         expect(teacher.notification?.messages('teacher')).toBe('teacher: Birthday should not be null,')
@@ -77,7 +77,7 @@ describe('Teacher unit test', () =>{
         const expectedBirthDay = new Date();
         const name = 'edson';
         let expectedRole;
-        const teacher = new Worker(expectedBirthDay, name, expectedRole as any);
+        const teacher = new Worker({birthday:expectedBirthDay, name, role: expectedRole as any});
         expect(teacher.notification?.getErrors().length).toBe(1)
         expect(teacher.notification?.getErrors()[0].message).toBe('Role should not be null')
         expect(teacher.notification?.messages('teacher')).toBe('teacher: Role should not be null,')
@@ -87,7 +87,7 @@ describe('Teacher unit test', () =>{
         let expectedBirthDay;
         let name;
         let expectedRole;
-        const teacher = new Worker(expectedBirthDay as any, name as any, expectedRole as any);
+        const teacher = new Worker({birthday: expectedBirthDay as any, name: name as any, role: expectedRole as any});
         expect(teacher.notification?.getErrors().length).toBe(3)
         expect(teacher.notification?.getErrors()[0].message).toBe('Name should not be null')
         expect(teacher.notification?.getErrors()[1].message).toBe('Birthday should not be null')
@@ -108,7 +108,7 @@ describe('Teacher unit test', () =>{
         const expectedBirthDay = new Date();
         const expectedName = 'edson';
         const expectedRole = RoleEnum.TEACHER;
-        const teacher = new Worker(expectedBirthDay, expectedName, expectedRole);
+        const teacher = new Worker({birthday: expectedBirthDay, name: expectedName, role: expectedRole});
         teacher.setClass(c);
 
         expect(teacher.getId()).toBeDefined();

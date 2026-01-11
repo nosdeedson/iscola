@@ -11,12 +11,12 @@ describe('Rating unit tests', () => {
     let period: AcademicSemester;
 
     beforeEach(() => {
-        student = new Student(
-            new Date(),
-            'jose',
-            '123',
-            []
-        );
+        student = new Student({
+            birthday: new Date(),
+            name: 'jose',
+            enrolled: '123',
+            nameParents: ['maria']
+        });
 
         const aValidBeginnig = new Date(2024, 7, 1, 0, 0, 0);
         const aValidEnding = new Date(2024, 10, 29, 0, 0, 0);

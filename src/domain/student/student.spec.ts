@@ -5,21 +5,11 @@ import { Student } from "./student";
 describe("student unit tests", () =>{
 
     it('should instantiate a student', () =>{
-        const parent = new Parent(
-            'Maria',
-            null as any,
-            [] as any,
-        )
-        let parents = [parent];
+        let nameParents = ['maria'];
         let birthday = new Date();
         let name = 'edson';
         let enrolled = '123'
-        let student = new Student(
-            birthday,
-            name,
-            enrolled,
-            parents
-        );
+        let student = new Student({birthday: birthday, name: name, enrolled: enrolled, nameParents: nameParents});
         
 
         expect(student.getId()).toBeDefined();
@@ -36,19 +26,9 @@ describe("student unit tests", () =>{
     it('should have error if name empty', () =>{
         let birthday = new Date();
         let name;
-        const parent = new Parent(
-            'Maria',
-            null as any,
-            [] as any
-        )
-        let parents = [parent];
+        const nameParents = ['maria'];
         let enrolled = '123'
-        let student = new Student(
-            birthday,
-            name as any,
-            enrolled,
-            parents
-        );
+        let student = new Student({birthday: birthday, name: name as any, enrolled: enrolled, nameParents});
 
         expect(student.notification?.getErrors().length).toBe(1)
         expect(student.notification?.getErrors()[0].message).toBe('Name should not be null')
@@ -58,19 +38,9 @@ describe("student unit tests", () =>{
     it('should have error if birthday empty', () =>{
         let birthday;
         let name = 'edson';
-        const parent = new Parent(
-            'Maria',
-            null as any,
-            [] as any
-        )
-        let parents = [parent];
+        const nameParents = ['maria'];
         let enrolled = '123'
-        let student = new Student(
-            birthday as any,
-            name,
-            enrolled,
-            parents
-        );
+        let student = new Student({birthday: birthday as any, name: name, enrolled: enrolled, nameParents});
 
         expect(student.notification?.getErrors().length).toBe(1)
         expect(student.notification?.getErrors()[0].message).toBe('Birthday should not be null')
@@ -80,19 +50,9 @@ describe("student unit tests", () =>{
     it('should have error if enrolled empty', () =>{
         let birthday = new Date();
         let name = 'edson';
-        const parent = new Parent(
-            'Maria',
-            null as any,
-            [] as any
-        )
-        let parents = [parent];
-        let enrolled;
-        let student = new Student(
-            birthday,
-            name,
-            enrolled as any,
-            parents
-        );
+        let nameParents = ['Maria'];
+        let enrolled; 
+        let student = new Student({birthday, name, nameParents, enrolled: enrolled as any});
 
         expect(student.notification?.getErrors().length).toBe(1)
         expect(student.notification?.getErrors()[0].message).toBe('Enrolled should not be null')
@@ -102,14 +62,9 @@ describe("student unit tests", () =>{
     it('should have error if parents empty', () =>{
         let birthday = new Date();
         let name = 'edson';
-        let parents = [] as any;
-        let enrolled = '123'
-        let student = new Student(
-            birthday,
-            name,
-            enrolled,
-            parents
-        );
+        let enrolled = '123';
+        let nameParents = [] as any;
+        let student = new Student({birthday, name, enrolled, nameParents});
 
         expect(student.notification?.getErrors().length).toBe(1)
         expect(student.notification?.getErrors()[0].message).toBe('parents field must have at least 1 items')
@@ -119,24 +74,35 @@ describe("student unit tests", () =>{
     it('should have two errors', () =>{
         let birthday;
         let name;
-        const parent = new Parent(
-            'Maria',
-            null as any,
-            [] as any
-        )
-        let parents = [parent];
+        const nameParents = ['maria'];
         let enrolled = '123'
-        let student = new Student(
-            birthday as any,
-            name as any,
-            enrolled,
-            parents
-        );
+        let student = new Student({birthday: birthday as any, name: name as any, enrolled: enrolled, nameParents} );
 
         expect(student.notification?.getErrors().length).toBe(2)
         expect(student.notification?.getErrors()[0].message).toBe('Name should not be null')
         expect(student.notification?.getErrors()[1].message).toBe('Birthday should not be null')
         expect(student.notification?.messages('student')).toBe('student: Name should not be null,student: Birthday should not be null,')
-    })
+    });
+
+    it('should create a student with just a name', () => {
+        let result = Student.createMyParent('edson');
+        expect(result).toBeDefined();
+        expect(result.getName()).toBe('edson');
+        expect(result.getId()).toBeDefined();
+        expect(result).toBeInstanceOf(Parent);
+    });
+
+    it('should return an array of students', () => {
+        let results = Student.createMyParents(['edson', 'Marie']);
+        expect(results).toBeDefined();
+        expect(Array.isArray(results)).toBeTruthy();
+        expect(results.length).toBe(2);
+        expect(results[0].getName()).toBe('edson');
+        expect(results[1].getName()).toBe('Marie');
+        expect(results[0].getId()).toBeDefined();
+        expect(results[1].getId()).toBeDefined();
+        expect(results[0]).toBeInstanceOf(Parent);
+        expect(results[1]).toBeInstanceOf(Parent);
+    });
 
 });

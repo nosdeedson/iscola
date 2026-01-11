@@ -11,7 +11,7 @@ export class Worker extends Person {
     private role: RoleEnum;
     private classes: Class[]
 
-    constructor(
+    constructor(params: {
         birthday: Date,
         name: string,
         role: RoleEnum,
@@ -19,9 +19,15 @@ export class Worker extends Person {
         createdAt?: Date,
         updatedAt?: Date,
         deletedAt?: Date,
-    ) {
-        super(birthday, name, id, createdAt, updatedAt, deletedAt);
-        this.role = role;
+    }) {
+        super({
+            birthday: params.birthday, 
+            name: params.name, 
+            id: params.id, 
+            createdAt: params.createdAt, 
+            updatedAt: params.updatedAt, 
+            deletedAt: params.deletedAt});
+        this.role = params.role;
         this.validate();
     }
 
@@ -49,16 +55,16 @@ export class Worker extends Person {
     }
 
     static toDomain(person: WorkerEntity, accessType: AccessType): Worker{
-        if(AccessType.ADMIN == accessType || AccessType.TEACHER == accessType ){
-            return new Worker(
-                person.birthday,
-                person.fullName,
-                person.role,
-                person.id,
-                person.createdAt,
-                person.updatedAt,
-                person.deletedAt
-            );
+        if (AccessType.ADMIN == accessType || AccessType.TEACHER == accessType) {
+            return new Worker({
+                birthday: person.birthday,
+                name: person.fullName,
+                role: person.role,
+                id: person.id,
+                createdAt: person.createdAt,
+                updatedAt: person.updatedAt,
+                deletedAt: person.deletedAt
+            });
         }
     }
 

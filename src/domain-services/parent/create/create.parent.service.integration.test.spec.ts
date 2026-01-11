@@ -46,17 +46,16 @@ describe('CreateParentService integration tests', () =>{
     });
 
     it('should throw an error when trying to save a parent without students', async () =>{
-        let parent = DomainMocks.mockParentWithoutStudent()
-        let students: never[] = [];
+        let students: string[] = [];
         
-        let input = new CreateParentDto(new Date(), 'edson');
-        input.students = students;
+        let input = new CreateParentDto(new Date(), 'edson', students);
         let service = new CreateParentService(parentRepository);
         try{
             await service.execute(input)
         } catch(error){
             expect(error).toBeDefined();
-            // expect(error.errors).toMatchObject([ { context: 'parent', message: 'students field must have at least 1 items' } ])
+            //@ts-ignore
+            expect(error.errors).toMatchObject([ { context: 'parent', message: 'students field must have at least 1 items' } ])
         }
     })
 
@@ -68,12 +67,11 @@ describe('CreateParentService integration tests', () =>{
         let studentEntity = StudentEntity.toStudentEntity(students[0]);
         expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity)
         
-        let input = new CreateParentDto(new Date(), 'edson');
-        input.students = students;
+        let input = new CreateParentDto(new Date(), 'edson', [students[0].getName()]);
         let service = new CreateParentService(parentRepository);
         expect(await service.execute(input)).toBe(void 0);
         let result = await parentRepository.find(parent.getId());
         expect(result).toBeDefined();
         expect(result.id).toBe(parent.getId());
     });
-})
+});

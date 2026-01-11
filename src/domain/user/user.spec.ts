@@ -11,7 +11,7 @@ describe('User unit tests', () => {
         const expectedBirthDay = new Date();
         const expectedName = 'edson';
         const expectedRole = RoleEnum.TEACHER;
-        teacher = new Worker(expectedBirthDay, expectedName, expectedRole);
+        teacher = new Worker({ birthday: expectedBirthDay, name: expectedName, role: expectedRole});
     })
 
     it('should instantiate a User without error', () => {

@@ -23,9 +23,9 @@ export class CreateWorkerService extends CreateGenericService {
 
     public async execute(input: CreateWorkerDto){
         try {
-            let worker = new Worker(input.birthday, input.name, input.role);
-            if(worker.getNotification()?.hasError()){
-                throw new SystemError(worker.getNotification().getErrors());
+            let worker = new Worker({birthday: input.birthday, name: input.name, role: input.role});
+            if(worker.notification?.hasError()){
+                throw new SystemError(worker.notification.getErrors());
             }
             let model = WorkerEntity.toWorkerEntity(worker);
             let schoolGroup = await this.schoolGroupRepository.findByClassCode(input.classCode);

@@ -21,8 +21,8 @@ export class CreateClassService {
             }
             let schedule = new Schedule(dto.scheduleDto.dayOfWeeks, dto.scheduleDto.times);
             let schoolGroup = new Class(dto.classCode, dto.nameBook, dto.name, schedule);
-            if( schoolGroup.getNotification().hasError()){
-                throw new SystemError(schoolGroup.getNotification()?.getErrors());
+            if( schoolGroup.notification.hasError()){
+                throw new SystemError(schoolGroup.notification?.getErrors());
             }    
             let entity = ClassEntity.toClassEntity(schoolGroup);
             await this.classRepository.create(entity);

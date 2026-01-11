@@ -4,35 +4,40 @@ import { StudentValidator } from "./student.validator";
 import { Rating } from "../rating/rating";
 import { Class } from "../class/class";
 import { StudentEntity } from "src/infrastructure/entities/student/student.entity";
-import { ParentEntity } from "src/infrastructure/entities/parent/parent.entity";
 
 export class Student extends Person {
    
     // TODO create code to generate enrolled code
 
     private enrolled: string;
-    private parents: Parent[];
+    private parents?: Parent[];
     private ratings: Rating[];
     private schoolGroup: Class;
 
-    constructor(
+    constructor(params: {
+        nameParents?: string[],
         birthday: Date,
         name: string,
         enrolled: string,
-        parents?: Parent[],
         id?: string,
         createdAt?: Date,
         updatedAt?: Date,
         deletedAt?: Date,
-    ) {
-        super(birthday, name,
-            id, 
-            createdAt, 
-            updatedAt, 
-            deletedAt)
-        this.enrolled = enrolled;
-        this.parents = parents;
-        this.validate()
+    }) {
+
+        super( {
+            name: params.name, 
+            birthday: params.birthday, 
+            id: params.id, 
+            createdAt: params.createdAt, 
+            updatedAt: params.updatedAt, 
+            deletedAt: params.deletedAt
+        });
+        this.enrolled = params.enrolled;
+        if(params.nameParents){
+            this.parents= Student.createMyParents(params.nameParents);
+            this.validate();
+        }
     }
 
     validate(): void{
@@ -68,21 +73,38 @@ export class Student extends Person {
 
     static toDomain(entity: StudentEntity): Student {
         let parents = [];
-        if(entity. parents && entity?.parents.length > 0){
+        if(entity.parents && entity?.parents.length > 0){
             entity.parents.forEach(it => {
                 parents.push(Parent.toDomain(it));
             })
         }
-        return new Student(
-            entity.birthday,
-            entity.fullName,
-            entity.enrolled,
-            parents,
-            entity.id,
-            entity.createdAt,
-            entity.updatedAt,
-            entity.deletedAt,
-        );
+        let student = new Student({
+            birthday: entity.birthday,
+            name: entity.fullName,
+            enrolled: entity.enrolled,
+            id: entity.id,
+            createdAt: entity.createdAt,
+            updatedAt: entity.updatedAt,
+            deletedAt: entity.deletedAt,
+        });
+        parents.forEach(it => {
+            student.setParents(it);
+        });
+        return student;
+    }
+
+    static createMyParent(nameParent: string): Parent{
+        return new Parent({
+            name: nameParent,
+        });
+    }
+
+    static createMyParents(nameParents: string[]): Parent[]{
+        let parents = [];
+        nameParents.forEach(it => {
+            parents.push(Student.createMyParent(it));
+        })
+        return parents;
     }
 
 }

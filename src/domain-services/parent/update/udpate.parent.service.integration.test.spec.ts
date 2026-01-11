@@ -74,7 +74,7 @@ describe('UpdateParentService integration tests', () =>{
         let results = await parentRepository.findAll();
         expect(results[0].students.length).toBe(1);
 
-        const another = new Student(new Date, 'edson', '123', [parent], '5c51dad3-c1a8-45b6-a846-2ec441686b62');
+        const another = new Student({ birthday: new Date(), name: 'another', enrolled: '123', nameParents: [parent.getName()], id: '5c51dad3-c1a8-45b6-a846-2ec441686b62'});
         const anotherEntity = StudentEntity.toStudentEntity(another);
         expect(await studentRepository.create(anotherEntity)).toBeInstanceOf(StudentEntity);
         parentEntity.students.push(anotherEntity)
