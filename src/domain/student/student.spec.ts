@@ -6,9 +6,9 @@ describe("student unit tests", () =>{
 
     it('should instantiate a student', () =>{
         const parent = new Parent(
-            new Date,
             'Maria',
-            []
+            null as any,
+            [] as any,
         )
         let parents = [parent];
         let birthday = new Date();
@@ -37,72 +37,72 @@ describe("student unit tests", () =>{
         let birthday = new Date();
         let name;
         const parent = new Parent(
-            new Date,
             'Maria',
-            []
+            null as any,
+            [] as any
         )
         let parents = [parent];
         let enrolled = '123'
         let student = new Student(
             birthday,
-            name,
+            name as any,
             enrolled,
             parents
         );
 
-        expect(student.getNotification()?.getErrors().length).toBe(1)
-        expect(student.getNotification()?.getErrors()[0].message).toBe('Name should not be null')
-        expect(student.getNotification()?.messages('student')).toBe('student: Name should not be null,')
+        expect(student.notification?.getErrors().length).toBe(1)
+        expect(student.notification?.getErrors()[0].message).toBe('Name should not be null')
+        expect(student.notification?.messages('student')).toBe('student: Name should not be null,')
     })
 
     it('should have error if birthday empty', () =>{
         let birthday;
         let name = 'edson';
         const parent = new Parent(
-            new Date,
             'Maria',
-            []
+            null as any,
+            [] as any
         )
         let parents = [parent];
         let enrolled = '123'
         let student = new Student(
-            birthday,
+            birthday as any,
             name,
             enrolled,
             parents
         );
 
-        expect(student.getNotification()?.getErrors().length).toBe(1)
-        expect(student.getNotification()?.getErrors()[0].message).toBe('Birthday should not be null')
-        expect(student.getNotification()?.messages('student')).toBe('student: Birthday should not be null,')
+        expect(student.notification?.getErrors().length).toBe(1)
+        expect(student.notification?.getErrors()[0].message).toBe('Birthday should not be null')
+        expect(student.notification?.messages('student')).toBe('student: Birthday should not be null,')
     })
 
     it('should have error if enrolled empty', () =>{
         let birthday = new Date();
         let name = 'edson';
         const parent = new Parent(
-            new Date,
             'Maria',
-            []
+            null as any,
+            [] as any
         )
         let parents = [parent];
         let enrolled;
         let student = new Student(
             birthday,
             name,
-            enrolled,
+            enrolled as any,
             parents
         );
 
-        expect(student.getNotification()?.getErrors().length).toBe(1)
-        expect(student.getNotification()?.getErrors()[0].message).toBe('Enrolled should not be null')
-        expect(student.getNotification()?.messages('student')).toBe('student: Enrolled should not be null,')
+        expect(student.notification?.getErrors().length).toBe(1)
+        expect(student.notification?.getErrors()[0].message).toBe('Enrolled should not be null')
+        expect(student.notification?.messages('student')).toBe('student: Enrolled should not be null,')
     })
 
     it('should have error if parents empty', () =>{
         let birthday = new Date();
         let name = 'edson';
-        let parents = [];
+        let parents = [] as any;
         let enrolled = '123'
         let student = new Student(
             birthday,
@@ -111,32 +111,32 @@ describe("student unit tests", () =>{
             parents
         );
 
-        expect(student.getNotification()?.getErrors().length).toBe(1)
-        expect(student.getNotification()?.getErrors()[0].message).toBe('parents field must have at least 1 items')
-        expect(student.getNotification()?.messages('student')).toBe('student: parents field must have at least 1 items,')
+        expect(student.notification?.getErrors().length).toBe(1)
+        expect(student.notification?.getErrors()[0].message).toBe('parents field must have at least 1 items')
+        expect(student.notification?.messages('student')).toBe('student: parents field must have at least 1 items,')
     })
 
     it('should have two errors', () =>{
         let birthday;
         let name;
         const parent = new Parent(
-            new Date,
             'Maria',
-            []
+            null as any,
+            [] as any
         )
         let parents = [parent];
         let enrolled = '123'
         let student = new Student(
-            birthday,
-            name,
+            birthday as any,
+            name as any,
             enrolled,
             parents
         );
 
-        expect(student.getNotification()?.getErrors().length).toBe(2)
-        expect(student.getNotification()?.getErrors()[0].message).toBe('Name should not be null')
-        expect(student.getNotification()?.getErrors()[1].message).toBe('Birthday should not be null')
-        expect(student.getNotification()?.messages('student')).toBe('student: Name should not be null,student: Birthday should not be null,')
+        expect(student.notification?.getErrors().length).toBe(2)
+        expect(student.notification?.getErrors()[0].message).toBe('Name should not be null')
+        expect(student.notification?.getErrors()[1].message).toBe('Birthday should not be null')
+        expect(student.notification?.messages('student')).toBe('student: Name should not be null,student: Birthday should not be null,')
     })
 
-})
+});

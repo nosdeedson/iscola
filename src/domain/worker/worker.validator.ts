@@ -22,7 +22,7 @@ export class WorkerValidator implements Validator<Worker>{
         } catch (error) {
             const err = error as yup.ValidationError;
             err.errors.forEach(element => {
-                entity.getNotification()?.addError({
+                entity.notification?.addError({
                     context: 'teacher',
                     message: element
                 });

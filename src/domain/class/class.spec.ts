@@ -12,7 +12,7 @@ describe('Class tests units', () => {
     let schedule: Schedule;
     let aValidDate: Date;
     let aValidDate2: Date;
-    let c;
+    let c: Class;
 
     beforeEach(() =>{
          // date of the year: august 9 2024 Friday
@@ -44,7 +44,7 @@ describe('Class tests units', () => {
     it('Verify validate is called', () => {
         const classFile = jest.spyOn(Class.prototype, 'validate')
             .mockImplementationOnce(() => {
-                console.log('mocked')
+                void 0
             })
         c.validate();
 
@@ -66,7 +66,7 @@ describe('Class tests units', () => {
 
     it('should have notification with class code empty', () => {
         let cCode;
-        c.setClassCode(cCode);
+        c.setClassCode(cCode as any);
         expect(c.notification).toBeDefined();
         expect(c.notification?.hasError()).toBeTruthy();
         expect(c.notification?.getErrors().length).toBe(1);
@@ -75,7 +75,7 @@ describe('Class tests units', () => {
 
     it('should have notification with class book is empty ', () => {
         let bookName;
-        c.setNameBook(bookName)
+        c.setNameBook(bookName as any)
 
         expect(c.notification).toBeDefined();
         expect(c.notification?.hasError()).toBeTruthy();
@@ -85,7 +85,7 @@ describe('Class tests units', () => {
 
     it('should have notification with class name is empty ', () => {
         let name;
-        c.setName(name)
+        c.setName(name as any)
         expect(c.notification).toBeDefined();
         expect(c.notification?.hasError()).toBeTruthy();
         expect(c.notification?.getErrors().length).toBe(1);
@@ -93,7 +93,7 @@ describe('Class tests units', () => {
     })
 
     it('should have notification if class do not have a schedule', () => {
-        c.setSchecule(null);
+        c.setSchecule(null as any);
 
         expect(c.notification).toBeDefined();
         expect(c.notification?.hasError()).toBeTruthy();
@@ -147,24 +147,24 @@ describe('Class tests units', () => {
         let name;
         let schedule;
         const c = new Class(
-            code,
-            bookName,
-            name,
-            schedule
+            code as any,
+            bookName as any,
+            name as any,
+            schedule as any
         )
 
-        expect(c.getNotification()).toBeDefined()
-        expect(c.getNotification()?.getErrors().length).toBe(4)
-        expect(c.getNotification()?.messages()).toBe("class: classcode is required,class: Name of the book is required,class: Name of the class is required,class: Schedule of the class is required,")
+        expect(c.notification).toBeDefined()
+        expect(c.notification?.getErrors().length).toBe(4)
+        expect(c.notification?.messages()).toBe("class: classcode is required,class: Name of the book is required,class: Name of the class is required,class: Schedule of the class is required,")
     })
 
     it('should have at least one student', () => {
         // date of the year: august 9 2024
         const aValidDate = new Date(2024, 7, 9, 17, 5, 0, 0);
         const parent = new Parent(
-            new Date,
             'Maria',
-            []
+            null as any,
+            [] as any,
         )
         let parents = [parent];
         let birthday = new Date();
@@ -234,7 +234,7 @@ describe('Class tests units', () => {
             [firstDay, secondDay ],
             times
         )
-        c.setSchecule()
+        c.setSchecule(null as any)
         expect(c).toBeDefined()
         expect(c.notification?.getErrors().length).toBe(1)
         expect(c.notification?.messages()).toBe("class: Schedule of the class is required,")
@@ -271,9 +271,9 @@ describe('Class tests units', () => {
 
     it('should have at least one student', () => {
         const parent = new Parent(
-            new Date,
             'Maria',
-            []
+            null as any,
+            [] as any
         )
         let parents = [parent];
         let birthday = new Date();
@@ -309,7 +309,7 @@ describe('Class tests units', () => {
              times
          )
          c.setSchecule(schedule);
-         expect(c.getNotification().hasError()).toBeTruthy();
+         expect(c.notification.hasError()).toBeTruthy();
     });
 
     it('Should instantiate a class', () => {
@@ -342,4 +342,4 @@ describe('Class tests units', () => {
         expect(c.getStudents().length).toBe(0);
     });
 
-})
+});

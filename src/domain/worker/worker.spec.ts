@@ -6,7 +6,7 @@ import { Worker } from "./worker";
 
 describe('Teacher unit test', () =>{
 
-    let schedule;
+    let schedule: Schedule;
 
     beforeEach(() =>{
         // date of the year: august 9 2024
@@ -58,41 +58,41 @@ describe('Teacher unit test', () =>{
         const expectedBirthDay = new Date();
         const expectedRole = RoleEnum.TEACHER;
         const teacher = new Worker(expectedBirthDay, '', expectedRole);
-        expect(teacher.getNotification()?.getErrors().length).toBe(1)
-        expect(teacher.getNotification()?.getErrors()[0].message).toBe('Name should not be null')
-        expect(teacher.getNotification()?.messages('teacher')).toBe('teacher: Name should not be null,')
+        expect(teacher.notification?.getErrors().length).toBe(1)
+        expect(teacher.notification?.getErrors()[0].message).toBe('Name should not be null')
+        expect(teacher.notification?.messages('teacher')).toBe('teacher: Name should not be null,')
     })
 
     it('should have error if birthDay empty', () =>{
         let expectedBirthDay;
         let name = 'edson';
         let expectedRole = RoleEnum.TEACHER;
-        const teacher = new Worker(expectedBirthDay, name, expectedRole);
-        expect(teacher.getNotification()?.getErrors().length).toBe(1)
-        expect(teacher.getNotification()?.getErrors()[0].message).toBe('Birthday should not be null')
-        expect(teacher.getNotification()?.messages('teacher')).toBe('teacher: Birthday should not be null,')
+        const teacher = new Worker(expectedBirthDay as any, name, expectedRole);
+        expect(teacher.notification?.getErrors().length).toBe(1)
+        expect(teacher.notification?.getErrors()[0].message).toBe('Birthday should not be null')
+        expect(teacher.notification?.messages('teacher')).toBe('teacher: Birthday should not be null,')
     })
 
     it('should have error if role empty', () =>{
         const expectedBirthDay = new Date();
         const name = 'edson';
         let expectedRole;
-        const teacher = new Worker(expectedBirthDay, name, expectedRole);
-        expect(teacher.getNotification()?.getErrors().length).toBe(1)
-        expect(teacher.getNotification()?.getErrors()[0].message).toBe('Role should not be null')
-        expect(teacher.getNotification()?.messages('teacher')).toBe('teacher: Role should not be null,')
+        const teacher = new Worker(expectedBirthDay, name, expectedRole as any);
+        expect(teacher.notification?.getErrors().length).toBe(1)
+        expect(teacher.notification?.getErrors()[0].message).toBe('Role should not be null')
+        expect(teacher.notification?.messages('teacher')).toBe('teacher: Role should not be null,')
     })
 
     it('should have 3 errors ', () =>{
         let expectedBirthDay;
         let name;
         let expectedRole;
-        const teacher = new Worker(expectedBirthDay, name, expectedRole);
-        expect(teacher.getNotification()?.getErrors().length).toBe(3)
-        expect(teacher.getNotification()?.getErrors()[0].message).toBe('Name should not be null')
-        expect(teacher.getNotification()?.getErrors()[1].message).toBe('Birthday should not be null')
-        expect(teacher.getNotification()?.getErrors()[2].message).toBe('Role should not be null')
-        expect(teacher.getNotification()?.messages('teacher')).toBe('teacher: Name should not be null,teacher: Birthday should not be null,teacher: Role should not be null,')
+        const teacher = new Worker(expectedBirthDay as any, name as any, expectedRole as any);
+        expect(teacher.notification?.getErrors().length).toBe(3)
+        expect(teacher.notification?.getErrors()[0].message).toBe('Name should not be null')
+        expect(teacher.notification?.getErrors()[1].message).toBe('Birthday should not be null')
+        expect(teacher.notification?.getErrors()[2].message).toBe('Role should not be null')
+        expect(teacher.notification?.messages('teacher')).toBe('teacher: Name should not be null,teacher: Birthday should not be null,teacher: Role should not be null,')
     });
 
     it('should instantiate a Teacher with one class', () =>{

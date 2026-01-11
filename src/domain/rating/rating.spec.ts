@@ -7,8 +7,8 @@ import { Comment } from "../comment/comment"
 
 describe('Rating unit tests', () => {
 
-    let student;
-    let period;
+    let student: Student;
+    let period: AcademicSemester;
 
     beforeEach(() => {
         student = new Student(
@@ -37,7 +37,7 @@ describe('Rating unit tests', () => {
             Grade.BAD,
         );
         expect(rating).toBeDefined();
-        expect(rating.getNotification()?.getErrors().length).toBe(0);
+        expect(rating.notification?.getErrors().length).toBe(0);
         expect(rating.getId()).toBeDefined();
         expect(rating.getCreatedAt()).toBeDefined();
         expect(rating.getUpdatedAt()).toBeDefined();
@@ -47,7 +47,7 @@ describe('Rating unit tests', () => {
     it('notification should inform period not defined', () => {
         let period;
         const rating = new Rating(
-            period,
+            period as any,
             student,
             new Date(),
             Grade.BAD,
@@ -58,15 +58,15 @@ describe('Rating unit tests', () => {
             Grade.BAD,
             Grade.BAD,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: period of rating must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: period of rating must be informed,')
     })
 
     it('notification should inform student not defined', () => {
         let student;
         const rating = new Rating(
             period,
-            student,
+            student as any,
             new Date(),
             Grade.BAD,
             Grade.BAD,
@@ -76,8 +76,8 @@ describe('Rating unit tests', () => {
             Grade.BAD,
             Grade.BAD,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: student receiving rating must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: student receiving rating must be informed,')
     })
 
     it('notification should inform dateRating not defined', () => {
@@ -85,7 +85,7 @@ describe('Rating unit tests', () => {
         const rating = new Rating(
             period,
             student,
-            date,
+            date as any,
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
@@ -94,8 +94,8 @@ describe('Rating unit tests', () => {
             Grade.BAD,
             Grade.BAD,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: rating date must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: rating date must be informed,')
     })
 
     it('notification should inform listing not defined', () => {
@@ -104,7 +104,7 @@ describe('Rating unit tests', () => {
             period,
             student,
             new Date(),
-            grade,
+            grade as any,
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
@@ -112,8 +112,8 @@ describe('Rating unit tests', () => {
             Grade.BAD,
             Grade.BAD,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: the listining skill must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: the listining skill must be informed,')
     })
 
     it('notification should inform writing not defined', () => {
@@ -123,15 +123,15 @@ describe('Rating unit tests', () => {
             student,
             new Date(),
             Grade.BAD,
-            grade,
+            grade as any,
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: the writing skill must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: the writing skill must be informed,')
     })
 
     it('notification should inform reading not defined', () => {
@@ -142,14 +142,14 @@ describe('Rating unit tests', () => {
             new Date(),
             Grade.BAD,
             Grade.BAD,
-            grade,
+            grade as any,
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: the reading skill must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: the reading skill must be informed,')
     })
 
     it('notification should inform speaking not defined', () => {
@@ -161,13 +161,13 @@ describe('Rating unit tests', () => {
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
-            grade,
+            grade as any,
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: the speaking skill must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: the speaking skill must be informed,')
     })
 
     it('notification should inform grammar not defined', () => {
@@ -180,12 +180,12 @@ describe('Rating unit tests', () => {
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
-            grade,
+            grade as any,
             Grade.BAD,
             Grade.BAD,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: the grammar skill must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: the grammar skill must be informed,')
     })
 
     it('notification should inform homework not defined', () => {
@@ -199,11 +199,11 @@ describe('Rating unit tests', () => {
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
-            grade,
+            grade as any,
             Grade.BAD,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: the homework commitment must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: the homework commitment must be informed,')
     })
 
     it('notification should inform homework not defined', () => {
@@ -218,10 +218,10 @@ describe('Rating unit tests', () => {
             Grade.BAD,
             Grade.BAD,
             Grade.BAD,
-            grade,
+            grade as any,
         );
-        expect(rating.getNotification()?.getErrors().length).toBe(1);
-        expect(rating.getNotification()?.messages()).toBe('rating: the vocabulary improvment must be informed,')
+        expect(rating.notification?.getErrors().length).toBe(1);
+        expect(rating.notification?.messages()).toBe('rating: the vocabulary improvment must be informed,')
     })
 
     it('should have at leat one comment', () => {

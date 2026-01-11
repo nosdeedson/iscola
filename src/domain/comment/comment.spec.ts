@@ -13,19 +13,19 @@ describe('Comment unit tests', () =>{
     })
 
     it('should have an error if comment is empty', () =>{
-        let comment;
+        let comment: any;
         let idPersonHadDone = '123';
         let entity = new Comment(comment, idPersonHadDone);
-        expect(entity.getNotification()?.getErrors().length).toBe(1);
-        expect(entity.getNotification()?.messages()).toBe("comment: add a comment,")
+        expect(entity.notification?.getErrors().length).toBe(1);
+        expect(entity.notification?.messages()).toBe("comment: add a comment,")
     })
 
     it('should have an error if idPersonHadDone is not defined', () =>{
         let comment = 'comment';
-        let idPersonHadDone;
+        let idPersonHadDone: any;
         let entity = new Comment(comment, idPersonHadDone);
-        expect(entity.getNotification()?.getErrors().length).toBe(1);
-        expect(entity.getNotification()?.messages()).toBe("comment: id of the person that have done the comment,")
+        expect(entity.notification?.getErrors().length).toBe(1);
+        expect(entity.notification?.messages()).toBe("comment: id of the person that have done the comment,")
     })
 
     it('should get a comment', () =>{

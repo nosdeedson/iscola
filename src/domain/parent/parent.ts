@@ -8,9 +8,9 @@ export class Parent extends Person{
     private students: Student[]
 
     constructor(
-        birthday: Date,
         name: string,
         students: Student[],
+        birthday?: Date,
         id?: string,
         createdAt?: Date,
         updatedAt?: Date,
@@ -42,9 +42,9 @@ export class Parent extends Person{
         }
 
         return new Parent(
-            parentEntity.birthday,
             parentEntity.fullName,
             students,
+            parentEntity.birthday,
             parentEntity.id,
             parentEntity.createdAt,
             parentEntity.updatedAt,

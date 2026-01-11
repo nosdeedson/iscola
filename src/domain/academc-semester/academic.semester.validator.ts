@@ -21,31 +21,31 @@ export class AcademicSemesterValidator implements Validator<AcademicSemester>{
                     abortEarly: false
                 })
                 if(isAfter(entity.getBeginningDate(), entity.getEndingDate())){
-                    entity.getNotification()?.addError({
+                    entity.notification?.addError({
                         context: 'academicSemester',
                         message: 'the beginning date must be before ending date'
                     })
                 }
                 if(isBefore(entity.getEndingDate(), entity.getBeginningDate())){
-                    entity.getNotification()?.addError({
+                    entity.notification?.addError({
                         context: 'academicSemester',
                         message: 'the ending date must be after beginning date'
                     })
                 }
                 if(isWeekend(entity.getBeginningDate())){
-                    entity.getNotification()?.addError({
+                    entity.notification?.addError({
                         context: 'academicSemester',
                         message: 'the academicSemester must start in a weekday'
                     })
                 }
                 if(isWeekend(entity.getEndingDate())){
-                    entity.getNotification()?.addError({
+                    entity.notification?.addError({
                         context: 'academicSemester',
                         message: 'the academicSemester must end in a weekday'
                     })
                 }
                 if(isEqual(entity.getBeginningDate(), entity.getEndingDate())){
-                    entity.getNotification()?.addError({
+                    entity.notification?.addError({
                         context: 'academicSemester',
                         message: 'the beggning and the end of the semester can not be equal'
                     })
@@ -53,7 +53,7 @@ export class AcademicSemesterValidator implements Validator<AcademicSemester>{
         } catch (error) {
             let err = error as yup.ValidationError;
             err.errors.forEach(it => {
-                entity.getNotification()?.addError({
+                entity.notification?.addError({
                     context: 'academicSemester',
                     message: it
                 })
