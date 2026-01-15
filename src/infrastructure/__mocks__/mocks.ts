@@ -22,20 +22,20 @@ const times = new Map<string, string>();
 times.set('Monday', '08:00');
 times.set('Tuesday', '08:00');
 
-const parent = new Parent(new Date(), "jose", [new Student(new Date, 'edson', '123', [])]);
-const student = new Student(new Date, 'edson', '123', [parent]);
+const parent = new Parent({ name: "jose", nameStudents: ['edson'],birthday: new Date(),});
+const student = new Student({birthday: new Date, name: 'edson', enrolled: '123', nameParents: [parent.getName()]});
 
-const studentWithoutParent = new Student(new Date, 'edson', '123', []);
-const parentWithoutStudent = new Parent(new Date(), "jose", []);
+const studentWithoutParent = new Student({birthday: new Date(), name: 'edson', enrolled: '123', nameParents: []});
+const parentWithoutStudent = new Parent({name:"jose", nameStudents: [], birthday: new Date()});
 
 const schedule = new Schedule(['Monday', 'Tuesday'], times)
 const schoolGroup = new Class('1234', 'nameBook', 'a1', schedule);
 
 const rating = new Rating(academicSemester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD,);
 
-const admin = new Worker(new Date(), 'jose', RoleEnum.ADMINISTRATOR);
+const admin = new Worker({birthday: new Date(), name: 'jose', role: RoleEnum.ADMINISTRATOR});
 admin.setClass(schoolGroup);
-const teacher = new Worker(new Date(), 'maria', RoleEnum.TEACHER);
+const teacher = new Worker({birthday: new Date(), name: 'maria', role: RoleEnum.TEACHER});
 teacher.setClass(schoolGroup);
 
 const userAdmin = new User(admin, 'teste@teste', 'edson', '123', AccessType.ADMIN);

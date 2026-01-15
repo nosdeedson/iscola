@@ -19,7 +19,7 @@ export class StudentEntity extends PersonEntity {
     })
     enrolled: string;
 
-    @ManyToMany(() => ParentEntity, parent => parent.students, {cascade: true, onDelete: "CASCADE"})
+    @ManyToMany(() => ParentEntity, parent => parent.students, {cascade: true, onDelete: "CASCADE", onUpdate: "CASCADE"})
     @JoinTable({
         name: 'student_parent',
         inverseJoinColumn:{

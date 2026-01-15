@@ -20,7 +20,7 @@ export class CommentValidator implements Validator<Comment>{
         } catch (error) {
             const err = error as yup.ValidationError;
             err.errors.forEach(it => {
-                entity.getNotification()?.addError({
+                entity.notification?.addError({
                     context: 'comment',
                     message: it
                 })

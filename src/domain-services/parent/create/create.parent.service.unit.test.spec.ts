@@ -49,7 +49,7 @@ describe('CreateParentService unit tests', () =>{
             //@ts-ignore
             expect(error.errors).toMatchObject([ { context: 'parent', message: 'Name should not be null' } ])
         }
-    })
+    });
 
     // birthday: required 
     it('should throw an error while trying to save a parent without birthday', async () =>{

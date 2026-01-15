@@ -45,8 +45,9 @@ export class ParentRepository implements ParentReporitoryInterface{
         return model;
     }
 
-    async findByNames(names: string[]): Promise<ParentEntity[]> {
+    async findByNames(names: string[], nameStudents: string[]): Promise<ParentEntity[]> {
         const parents = await this.parentRepository.createQueryBuilder('parent')
+            .innerJoinAndSelect('parent.students', 'student', 'student.fullName IN (:...names)', {names: nameStudents})
             .where('parent.fullName IN (:...names)',{names})
             .getMany();
         return parents;

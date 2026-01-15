@@ -1,4 +1,3 @@
-import { lastDayOfWeek } from "date-fns";
 import { Validator } from "../@shared/validation/validator.interface";
 import { Schedule } from "./schedule";
 import * as yup from 'yup'
@@ -21,7 +20,7 @@ export class ScheduleValidator implements Validator<Schedule> {
                 );
 
             if(entity.getTimes().size < 2){
-                entity.getNotification()?.addError({
+                entity.notification?.addError({
                     context: 'schedule',
                     message: 'inform twos times for the lessons'
                 })
@@ -29,13 +28,13 @@ export class ScheduleValidator implements Validator<Schedule> {
         } catch (error) {
             const err = error as yup.ValidationError;
             err.errors.forEach(it => {
-                entity.getNotification()?.addError({
+                entity.notification?.addError({
                     context: 'schedule',
                     message: it
                 })
             });
             if(entity.getTimes().size < 2){
-                entity.getNotification()?.addError({
+                entity.notification?.addError({
                     context: 'schedule',
                     message: 'inform twos times for the lessons'
                 })

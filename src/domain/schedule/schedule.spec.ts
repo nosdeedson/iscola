@@ -41,8 +41,8 @@ describe("Schedule unit tests", () =>{
             times
         );
         expect(schedule).toBeDefined();
-        expect(schedule.getNotification().hasError()).toBeTruthy()
-        expect(schedule.getNotification().messages()).toBe("schedule: must inform two days for the lessons,schedule: inform twos times for the lessons,")
+        expect(schedule.notification.hasError()).toBeTruthy()
+        expect(schedule.notification.messages()).toBe("schedule: must inform two days for the lessons,schedule: inform twos times for the lessons,")
     })
 
     it('should have notification inform times less than 2', () =>{
@@ -62,8 +62,8 @@ describe("Schedule unit tests", () =>{
             times
         )
         expect(schedule).toBeDefined();
-        expect(schedule.getNotification().hasError()).toBeTruthy()
-        expect(schedule.getNotification().messages()).toBe("schedule: inform twos times for the lessons,")
+        expect(schedule.notification.hasError()).toBeTruthy()
+        expect(schedule.notification.messages()).toBe("schedule: inform twos times for the lessons,")
         
     })
 
@@ -82,8 +82,8 @@ describe("Schedule unit tests", () =>{
             times
         )
         expect(schedule).toBeDefined();
-        expect(schedule.getNotification().hasError()).toBeTruthy()
-        expect(schedule.getNotification().messages()).toBe("schedule: inform twos times for the lessons,")
+        expect(schedule.notification.hasError()).toBeTruthy()
+        expect(schedule.notification.messages()).toBe("schedule: inform twos times for the lessons,")
         
     })
 
@@ -104,8 +104,8 @@ describe("Schedule unit tests", () =>{
             times
         )
         expect(schedule).toBeDefined();
-        expect(schedule.getNotification().hasError()).toBeTruthy()
-        expect(schedule.getNotification().messages()).toBe("schedule: must inform two days for the lessons,")
+        expect(schedule.notification.hasError()).toBeTruthy()
+        expect(schedule.notification.messages()).toBe("schedule: must inform two days for the lessons,")
         
     })
 
@@ -127,8 +127,8 @@ describe("Schedule unit tests", () =>{
             times
         )
         expect(schedule).toBeDefined();
-        expect(schedule.getNotification().hasError()).toBeTruthy()
-        expect(schedule.getNotification().messages()).toBe("schedule: must inform two days for the lessons,")
+        expect(schedule.notification.hasError()).toBeTruthy()
+        expect(schedule.notification.messages()).toBe("schedule: must inform two days for the lessons,")
         
     })
 

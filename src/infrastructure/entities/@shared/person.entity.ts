@@ -7,7 +7,7 @@ import { GenericEntity } from "./generic.entity/generic.entity";
 export abstract class PersonEntity extends GenericEntity {
     
     @Column({
-        nullable: false,
+        nullable: true,
         name: 'birthday',
         type: 'timestamp with time zone'
     })

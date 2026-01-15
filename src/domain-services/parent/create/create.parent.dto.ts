@@ -18,7 +18,7 @@ export class CreateParentDto {
 
     static toParent(dto: CreateParentDto): Parent {
         // TODO FIX HERE students must be found be name
-        let parent = new Parent(dto.birthday, dto.name, null);
+        let parent = new Parent( {name: dto.name, nameStudents: dto.students, birthday: dto.birthday});
         return parent;
     }
 }

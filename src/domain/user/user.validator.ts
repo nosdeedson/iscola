@@ -26,7 +26,7 @@ export class UserValidator implements Validator<User> {
         } catch (error) {
             let err = error as yup.ValidationError;
             err.errors.forEach(it => {
-                entity.getNotification()?.addError({
+                entity.notification?.addError({
                     context: 'user',
                     message: it
                 })

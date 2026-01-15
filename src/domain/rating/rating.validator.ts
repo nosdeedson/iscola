@@ -36,7 +36,7 @@ export class RatingValidator implements Validator<Rating>{
         } catch (error) {
             const err = error as yup.ValidationError;
             err.errors.forEach(it =>{
-                entity.getNotification()?.addError({
+                entity.notification?.addError({
                     context: 'rating',
                     message: it
                 })

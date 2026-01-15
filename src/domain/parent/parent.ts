@@ -5,20 +5,24 @@ import { ParentValidator } from "./parent.validator";
 
 export class Parent extends Person{
     
-    private students: Student[]
+    private students?: Student[];
 
-    constructor(
-        birthday: Date,
+    constructor(params:{
         name: string,
-        students: Student[],
+        birthday?: Date,
+        nameStudents?: string[],
         id?: string,
         createdAt?: Date,
         updatedAt?: Date,
         deletedAt?: Date,
+    }
     ) {
-        super(birthday, name, id, createdAt, updatedAt, deletedAt, )
-        this.students = students;
-        this.validate();
+        let {name, birthday, nameStudents, id, createdAt, updatedAt, deletedAt} = params;
+        super({name,birthday, id, createdAt, updatedAt, deletedAt, })
+        if(nameStudents){
+            this.students = Parent.createMyChildren(nameStudents);
+            this.validate();
+        }
     }
 
     validate(): void{
@@ -41,15 +45,32 @@ export class Parent extends Person{
             })
         }
 
-        return new Parent(
-            parentEntity.birthday,
-            parentEntity.fullName,
-            students,
-            parentEntity.id,
-            parentEntity.createdAt,
-            parentEntity.updatedAt,
-            parentEntity.deletedAt,
-        );
+        let parent = new Parent({
+            name: parentEntity.fullName,
+            birthday: parentEntity.birthday,
+            id: parentEntity.id,
+            createdAt: parentEntity.createdAt,
+            updatedAt: parentEntity.updatedAt,
+            deletedAt: parentEntity.deletedAt,
+        });
+        parent.setStudents(students);
+        return parent;
+    }
+
+    static createMyChild(nameStudent: string): Student {
+        return new Student({
+            birthday: null,
+            name: nameStudent,
+            enrolled: null,
+        });
+    }
+
+    static createMyChildren(nameStudents: string[]): Student[] {
+        let students = [];
+        nameStudents.forEach(it => {
+            students.push(this.createMyChild(it));
+        })
+        return students;
     }
     
 }

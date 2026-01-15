@@ -15,8 +15,8 @@ export class CreateAcademicSemesterService {
     public async execute(input: InputCreateAcademicSemesterDto): Promise<void>{
         try {
             let semester = new AcademicSemester(true, input.beginningDate, input.endingDate);
-            if(semester.getNotification()?.hasError()){
-                let errors = semester.getNotification()?.getErrors();
+            if(semester.notification?.hasError()){
+                let errors = semester.notification?.getErrors();
                 throw new SystemError(errors);
             }
             let model = AcademicSemesterEntity.toAcademicSemester(semester);

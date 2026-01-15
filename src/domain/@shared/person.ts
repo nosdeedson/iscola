@@ -2,18 +2,18 @@ import { Entity } from '../@shared/entity'
 
 export abstract class Person extends Entity{
 
-    private birthday: Date;
-    private name: string;
+    private birthday?: Date;
+    private name?: string;
 
-    constructor(
-        birthday: Date, 
+    constructor(params: {
         name: string,
-        id?: string, 
-        createdAt?: Date, 
-        updatedAt?: Date, 
-        deletedAt?: Date, 
-    )
-        {
+        birthday?: Date,
+        id?: string,
+        createdAt?: Date,
+        updatedAt?: Date,
+        deletedAt?: Date,
+    }) {
+        let {name, birthday, id, createdAt, updatedAt, deletedAt} = params;
         super(id, createdAt, updatedAt, deletedAt)
         this.birthday = birthday;
         this.name = name;

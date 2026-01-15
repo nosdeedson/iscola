@@ -7,14 +7,14 @@ export abstract class Entity {
     private createdAt?: Date;
     private updatedAt?: Date;
     private deletedAt?: Date;
-    private notification?: Notification;
+    private _notification?: Notification;
 
     constructor(id?: string, createdAt?: Date, updatedAt?: Date, deletedAt?: Date){
         this.id = id ? id :  uuidv4().toString() as string;
         this.createdAt = createdAt ? createdAt : new Date();
         this.updatedAt = updatedAt ? updatedAt : new Date();
         this.deletedAt = deletedAt;
-        this.notification = new Notification();
+        this._notification = new Notification();
     }
 
     getId(): any{
@@ -33,7 +33,7 @@ export abstract class Entity {
         return this.deletedAt;
     }
 
-    getNotification(): any{
-        return this.notification;
+    get notification(): any{
+        return this._notification;
     }
 }
