@@ -20,3 +20,22 @@
 ## run all test command: npm run test
 
 ## run test in folder command: npm run test -- /foldername
+
+<!--@Entity('parent_student')
+ @Unique(['parentId', 'studentId'])
+export class ParentStudentEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @ManyToOne(() => ParentEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'parent_id' })
+  parent: ParentEntity;
+  @Column({ name: 'parent_id' })
+  parentId: number;
+
+  @ManyToOne(() => StudentEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'student_id' })
+  student: StudentEntity;
+  @Column({ name: 'student_id' })
+  studentId: number;
+} -->

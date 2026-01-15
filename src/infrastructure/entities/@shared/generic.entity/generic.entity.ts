@@ -14,7 +14,7 @@ export abstract class GenericEntity {
     createdAt: Date;
 
     @DeleteDateColumn({
-        nullable: false,
+        nullable: true,
         name: 'deleted_at',
         type: 'timestamp with time zone'
     })
