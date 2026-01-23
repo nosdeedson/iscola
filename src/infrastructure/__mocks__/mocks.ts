@@ -22,20 +22,22 @@ const times = new Map<string, string>();
 times.set('Monday', '08:00');
 times.set('Tuesday', '08:00');
 
-const parent = new Parent({ name: "jose", nameStudents: ['edson'],birthday: new Date(),});
-const student = new Student({birthday: new Date, name: 'edson', enrolled: '123', nameParents: [parent.getName()]});
+const parent = new Parent({ name: "jose", nameStudents: ['edson'], birthday: new Date(), });
+const student = new Student({ birthday: new Date, name: 'robert', enrolled: '123', nameParents: [parent.getName()] });
+const studentWitJustName = new Student({name: "justin"});
 
-const studentWithoutParent = new Student({birthday: new Date(), name: 'edson', enrolled: '123', nameParents: []});
-const parentWithoutStudent = new Parent({name:"jose", nameStudents: [], birthday: new Date()});
+
+const studentWithoutParent = new Student({ birthday: new Date(), name: 'julio', enrolled: '123', nameParents: [] });
+const parentWithoutStudent = new Parent({ name: "arthur", nameStudents: [], birthday: new Date(1980, 5, 25, 23, 59) });
 
 const schedule = new Schedule(['Monday', 'Tuesday'], times)
 const schoolGroup = new Class('1234', 'nameBook', 'a1', schedule);
 
 const rating = new Rating(academicSemester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD,);
 
-const admin = new Worker({birthday: new Date(), name: 'jose', role: RoleEnum.ADMINISTRATOR});
+const admin = new Worker({ birthday: new Date(), name: 'jose', role: RoleEnum.ADMINISTRATOR });
 admin.setClass(schoolGroup);
-const teacher = new Worker({birthday: new Date(), name: 'maria', role: RoleEnum.TEACHER});
+const teacher = new Worker({ birthday: new Date(), name: 'maria', role: RoleEnum.TEACHER });
 teacher.setClass(schoolGroup);
 
 const userAdmin = new User(admin, 'teste@teste', 'edson', '123', AccessType.ADMIN);
@@ -49,72 +51,81 @@ const user2 = new User(student, 'teste@email', 'jose', '123', AccessType.TEACHER
 
 export class DomainMocks {
 
-    static mockUserAdmin(): User{
+    static mockUserAdmin(): User {
         return userAdmin;
     }
 
-    static mockUserTeacher(): User{
+    static mockUserTeacher(): User {
         return userTeacher;
     }
 
-    static mockComment(): Comment{
+    static mockComment(): Comment {
         return comment;
     }
 
-    static mockSchedule(): Schedule{
+    static mockSchedule(): Schedule {
         return schedule;
     }
 
-    static mockSchoolGroup(): Class{
+    static mockSchoolGroup(): Class {
         return schoolGroup;
     }
 
-    static mockWorker(role: RoleEnum): Worker{
-        if(role == RoleEnum.TEACHER){
+    static mockWorker(role: RoleEnum): Worker {
+        if (role == RoleEnum.TEACHER) {
             return teacher;
-        }else{
+        } else {
             return admin;
         }
     }
 
-    static mockPerson(accessType: AccessType): any{
-        if(accessType == AccessType.ADMIN){
+    static mockPerson(accessType: AccessType): any {
+        if (accessType == AccessType.ADMIN) {
             return userAdmin;
-        } else if(accessType == AccessType.PARENT){
+        } else if (accessType == AccessType.PARENT) {
             return userParent;
-        } else if(accessType == AccessType.STUDENT){
+        } else if (accessType == AccessType.STUDENT) {
             return userStudent;
-        }else {
+        } else {
             return userTeacher;
         }
     }
 
-    static mockParent(): Parent{
+    static mockParent(): Parent {
         parent.setStudents([student])
         return parent;
     }
 
-    static mockParentWithoutStudent(): Parent{
+    static mockParentWitthStudentsWithJustName(): Parent {
+        parent.setStudents([studentWitJustName])
+        return parent;
+    }
+
+    static mockParentWithoutStudent(): Parent {
         return parentWithoutStudent;
     }
 
-    static mockStudent(): Student{
+    static mockStudent(): Student {
         return student;
     }
 
-    static mockStudentWithoutParent(): Student{
+    static mockStudentWithJustName(): Student {
+        return studentWitJustName;
+    }
+
+    static mockStudentWithoutParent(): Student {
         return studentWithoutParent;
     }
 
-    static mockAcademicSemester(): AcademicSemester{
+    static mockAcademicSemester(): AcademicSemester {
         return academicSemester;
     }
 
-    static mockRating(): Rating{
+    static mockRating(): Rating {
         return rating;
     }
-    
-    static mockRatingWithStudent(student: Student): Rating{
+
+    static mockRatingWithStudent(student: Student): Rating {
         const rating = new Rating(academicSemester, student, new Date(), Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD, Grade.BAD,);
         return rating;
     }

@@ -38,27 +38,22 @@ export class ParentRepository implements ParentReporitoryInterface{
     async find(id: string): Promise<ParentEntity> {
         const model = await this.parentRepository.findOne({
             where: {id: id},
-            relations:{
-                students: true
-            }
         })
         return model;
     }
 
     async findByNames(names: string[], nameStudents: string[]): Promise<ParentEntity[]> {
         const parents = await this.parentRepository.createQueryBuilder('parent')
-            .innerJoinAndSelect('parent.students', 'student', 'student.fullName IN (:...names)', {names: nameStudents})
+            .innerJoin('parent.parentStudents', "ps")
+            .innerJoin('ps.student', "student")
             .where('parent.fullName IN (:...names)',{names})
+            .andWhere('student.fullName IN (:...nameStudents)', {nameStudents})
             .getMany();
         return parents;
     }
 
     async findAll(): Promise<ParentEntity[]> {
-        return await this.parentRepository.find({
-            relations:{
-                students : true
-            }
-        })
+        return await this.parentRepository.find()
     }
 
     async update(entity: ParentEntity) {

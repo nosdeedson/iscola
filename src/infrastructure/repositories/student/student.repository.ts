@@ -40,16 +40,17 @@ export class StudentRepository implements StudentRepositoryInterface {
             where: { id: id },
             relations: {
                 schoolGroup: true,
-                parents: true,
             }
         });
     }
 
 
-    async findStudentsByIds(studentsIds: string): Promise<StudentEntity[]> {
+    async findStudentsByNames(studentsNames: string[], parentsName: string[]): Promise<StudentEntity[]> {
         return await this.dataSource.createQueryBuilder(StudentEntity, 'student')
-            .where('student.id IN (:...ids)', { ids: studentsIds })
-            .orderBy('student.id')
+            .innerJoin('student.parentStudents', 'ps')
+            .innerJoin('ps.parent', "parent")
+            .where('student.fullName IN (:...names)', { names: studentsNames })
+            .andWhere('parent.fullName IN (:...names)', { names: parentsName })
             .getMany();
     }
 

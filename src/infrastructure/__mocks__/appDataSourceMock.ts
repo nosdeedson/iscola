@@ -8,6 +8,7 @@ import { AcademicSemesterEntity } from "../entities/academic-semester/academic.s
 import { CommentEntity } from "../entities/comment/comment.entity";
 import { RatingEntity } from "../entities/rating/rating.entity";
 import { UserEntity } from "../entities/user/user.entity";
+import { ParentStudentEntity } from "../entities/parent-student/parent.student.entity";
 
 export class AppDataSourceMock {
 
@@ -28,7 +29,8 @@ export class AppDataSourceMock {
                 AcademicSemesterEntity,
                 CommentEntity,
                 RatingEntity,
-                UserEntity
+                UserEntity,
+                ParentStudentEntity,
             ],
             synchronize: true,
             logging: false,

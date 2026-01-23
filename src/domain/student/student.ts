@@ -16,9 +16,9 @@ export class Student extends Person {
 
     constructor(params: {
         nameParents?: string[],
-        birthday: Date,
+        birthday?: Date,
         name: string,
-        enrolled: string,
+        enrolled?: string,
         id?: string,
         createdAt?: Date,
         updatedAt?: Date,
@@ -79,6 +79,7 @@ export class Student extends Person {
             })
         }
         let student = new Student({
+            nameParents: parents.map(it => it.getName()),
             birthday: entity.birthday,
             name: entity.fullName,
             enrolled: entity.enrolled,
@@ -96,6 +97,7 @@ export class Student extends Person {
     static createMyParent(nameParent: string): Parent{
         return new Parent({
             name: nameParent,
+            nameStudents: [this.name]
         });
     }
 

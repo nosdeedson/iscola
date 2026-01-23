@@ -33,7 +33,8 @@ export class CreateStudentService extends CreateGenericService{
             if (!schoolGroup) {
                 errors.push({ context: 'student', message: 'Schoolgroup not found' });
             }
-            const parents = await this.parentRepository.findByNames(dto.parentsName);
+            // TODO HAS TO PASS THE NAMES OF STUDENTS
+            const parents = await this.parentRepository.findByNames(dto.parentsName, []);
             if (parents.length == 0) {
                 errors.push({ context: 'student', message: 'At least one parent must be informed' });
             }
@@ -46,7 +47,7 @@ export class CreateStudentService extends CreateGenericService{
                 let parent = Parent.toDomain(it);
                 parentsDomain.push(parent)
             });
-            let student = new Student(dto.birthday, dto.name, dto.enrolled, parentsDomain);
+            let student = new Student({ birthday: dto.birthday, name: dto.name, enrolled: dto.enrolled, nameParents: []});
             if(student?.notification?.hasError()){
                 throw new SystemError(student.notification.errors);
             }

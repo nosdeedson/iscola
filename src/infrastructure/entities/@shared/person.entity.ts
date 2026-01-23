@@ -1,4 +1,4 @@
-import { Column, Entity, TableInheritance } from "typeorm";
+import { Column, Entity, Index, TableInheritance } from "typeorm";
 import { GenericEntity } from "./generic.entity/generic.entity";
 
 
@@ -13,6 +13,7 @@ export abstract class PersonEntity extends GenericEntity {
     })
     birthday: Date;
     
+    @Index()
     @Column({
         nullable: false,
         name: 'full_name',

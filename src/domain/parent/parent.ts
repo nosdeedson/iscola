@@ -49,6 +49,7 @@ export class Parent extends Person{
             name: parentEntity.fullName,
             birthday: parentEntity.birthday,
             id: parentEntity.id,
+            nameStudents: parentEntity.students.map(it => it.fullName),
             createdAt: parentEntity.createdAt,
             updatedAt: parentEntity.updatedAt,
             deletedAt: parentEntity.deletedAt,
