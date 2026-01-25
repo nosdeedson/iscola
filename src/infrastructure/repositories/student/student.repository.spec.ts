@@ -84,7 +84,12 @@ describe('StudentRepository unit test', () =>{
         let model1 = StudentEntity.toStudentEntity(student1);
         expect(await studentRepository.create(model1)).toBeInstanceOf(StudentEntity);
 
-        let student2 = new Student(new Date, 'edson', '123', student1.getParents(), '90be2abb-f2da-46c0-9fc8-520c988b34f9');
+        let student2 = new Student({
+            birthday: new Date, 
+            name: 'edson', 
+            enrolled: '123', 
+            nameParents: student1.getParents().map(it => it.getName()), 
+            id: '90be2abb-f2da-46c0-9fc8-520c988b34f9'});
         let model2 = StudentEntity.toStudentEntity(student2);
         expect(await studentRepository.create(model2)).toBeInstanceOf(StudentEntity);
         

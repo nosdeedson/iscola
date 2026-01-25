@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeleteUserFactoryService } from './delete-user-factory.service';
-import { DeleteParentService } from '../../../domain-services/parent/delete/delete.parent.service';
-import { DeleteStudentService } from '../../../domain-services/student/delete/delete.student.service';
-import { DeleteWorkerService } from '../../../domain-services/worker/delete/delete.worker.service';
 import { DataBaseConnectionModule } from '../../data-base-connection/data-base-connection.module';
 import { setEnv } from '../../__mocks__/env.mock';
 import { AccessType } from '../../../domain/user/access.type';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
-import { SystemError } from '../../../domain-services/@shared/system-error';
+import { SystemError } from '../../../aplication/services/@shared/system-error';
+import { DeleteParentService } from '../../../aplication/services/parent/delete/delete.parent.service';
+import { DeleteStudentService } from '../../../aplication/services/student/delete/delete.student.service';
+import { DeleteWorkerService } from '../../../aplication/services/worker/delete/delete.worker.service';
 
 describe('DeleteUserFactoryService', () => {
   let service: DeleteUserFactoryService;

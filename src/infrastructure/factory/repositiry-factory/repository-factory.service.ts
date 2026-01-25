@@ -18,7 +18,7 @@ import { UserRepository } from 'src/infrastructure/repositories/user/user.reposi
 import { UserEntity } from 'src/infrastructure/entities/user/user.entity';
 import { WorkerRepository } from 'src/infrastructure/repositories/worker/worker.repository';
 import { WorkerEntity } from 'src/infrastructure/entities/worker/worker.entity';
-import { SystemError } from 'src/domain-services/@shared/system-error';
+import { SystemError } from 'src/aplication/services/@shared/system-error';
 
 
 @Injectable()

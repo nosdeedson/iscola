@@ -1,5 +1,5 @@
 import { Controller, Get } from "@nestjs/common";
-import { AppUseCase } from "../../usecases/app-usecase/app-usecase";
+import { AppUseCase } from "../../../../aplication/usecases/app-usecase/app-usecase";
 
 
 @Controller()

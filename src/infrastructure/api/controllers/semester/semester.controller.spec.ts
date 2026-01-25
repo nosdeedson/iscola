@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SemesterController } from './semester.controller';
-import { SemesterUsecases } from '../../usecases/semester-usecases/semester-usecases';
+import { SemesterUsecases } from '../../../../aplication/usecases/semester-usecases/semester-usecases';
 import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
 import { setEnv } from '../../../__mocks__/env.mock';
 import { MockSemesterDto } from '../../../__mocks__/mock-semester-dto';
-import { FindAcademicSemesterDto } from '../../../../domain-services/academic-semester/find/find.academic-semester.dto';
-import { FindAllAcademicSemesterDto  } from '../../../../domain-services/academic-semester/findAll/findAll.academic-semester.dto';
 import { DomainMocks } from "../../../__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../../entities/academic-semester/academic.semester.entity";
 import { BadRequestException } from '@nestjs/common';
 import { RepositoryFactoryService } from '../../../../infrastructure/factory/repositiry-factory/repository-factory.service';
+import { FindAcademicSemesterDto } from '../../../../aplication/services/academic-semester/find/find.academic-semester.dto';
+import { FindAllAcademicSemesterDto } from '../../../../aplication/services/academic-semester/findAll/findAll.academic-semester.dto';
 
 
 describe('SemesterController', () => {

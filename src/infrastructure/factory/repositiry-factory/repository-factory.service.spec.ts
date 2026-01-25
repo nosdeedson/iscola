@@ -10,7 +10,7 @@ import { RatingRepositiry } from '../../repositories/rating/rating.repository';
 import { StudentRepository } from '../../repositories/student/student.repository';
 import { UserRepository } from '../../repositories/user/user.repository';
 import { WorkerRepository } from '../../repositories/worker/worker.repository';
-import { SystemError } from '../../../domain-services/@shared/system-error';
+import { SystemError } from '../../../aplication/services/@shared/system-error';
 import { RepositoryFactoryService } from './repository-factory.service';
 
 

@@ -130,7 +130,7 @@ describe('ParentRepository unit test', () =>{
 
     it('should find parents by names', async () => {
         let parent = DomainMocks.mockParent();
-        let parent1 = new Parent('test', [parent.getStudents()[0]], new Date());
+        let parent1 = new Parent({name: 'test', birthday: new Date()});
 
         let student = parent.getStudents()[0];
         let studentEntity = StudentEntity.toStudentEntity(student);
@@ -142,7 +142,7 @@ describe('ParentRepository unit test', () =>{
         expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
         expect(await parentRepository.create(parentEntity1)).toBeInstanceOf(ParentEntity);
 
-        let results = await parentRepository.findByNames([parent.getName(), parent1.getName()]);
+        let results = await parentRepository.findByNames([parent.getName(), parent1.getName()], [student.getName()]);
 
         expect(results.length).toBe(2);
     });
@@ -155,7 +155,7 @@ describe('ParentRepository unit test', () =>{
         expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
         expect(await parentRepository.create(model)).toBeInstanceOf(ParentEntity);
 
-        let anotherStudent = new Student(new Date, 'edson', '123', [parent], '8bb648b2-c0be-4164-a01a-9465d22aa269');
+        let anotherStudent = new Student({ birthday: new Date, name: 'edson', enrolled: '123', id: '8bb648b2-c0be-4164-a01a-9465d22aa269'});
         let anotherStudentEntity = StudentEntity.toStudentEntity(anotherStudent);
 
         expect(await studentRepository.create(anotherStudentEntity)).toBeInstanceOf(StudentEntity);

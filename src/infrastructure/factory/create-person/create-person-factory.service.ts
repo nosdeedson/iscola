@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { SystemError } from 'src/domain-services/@shared/system-error';
-import { CreateParentDto } from 'src/domain-services/parent/create/create.parent.dto';
-import { CreateStudentDto } from 'src/domain-services/student/create/create.student.dto';
-import { CreateWorkerDto } from 'src/domain-services/worker/create/create.worker.dto';
+import { SystemError } from 'src/aplication/services/@shared/system-error';
+import { CreateParentDto } from 'src/aplication/services/parent/create/create.parent.dto';
+import { CreateStudentDto } from 'src/aplication/services/student/create/create.student.dto';
+import { CreateWorkerDto } from 'src/aplication/services/worker/create/create.worker.dto';
 import { AccessType } from 'src/domain/user/access.type';
 import { CreateUserDto } from 'src/infrastructure/api/controllers/users/dtos/create-user-dto/create-user-dto';
 

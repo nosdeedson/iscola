@@ -1,6 +1,6 @@
 import { Global, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { AppUseCase } from "../../usecases/app-usecase/app-usecase";
+import { AppUseCase } from "../../../../aplication/usecases/app-usecase/app-usecase";
 import { IsStrongPasswordConstraint } from "../../validators/is-strong-password-constraint/is-strong-password-constraint";
 import { SchoolgroupModule } from "../schoolgroup/schoolgroup.module";
 import { SemesterModule } from "../semester/semester.module";
