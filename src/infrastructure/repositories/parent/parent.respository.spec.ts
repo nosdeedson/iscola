@@ -111,32 +111,22 @@ describe('ParentRepository unit test', () =>{
         
     });
 
-    it('should find parents by name', async () => {
-        let parent = DomainMocks.mockParentWithoutStudent();
-        let parent1 = new Parent({name: 'Test', birthday: new Date(), nameStudents: []});
+    it('should find parents by names', async () => {
+        let parent = DomainMocks.mockParent();
+        let parent1 = new Parent({name: 'test', birthday: new Date()});
+
+        let student = parent.getStudents()[0];
+        let studentEntity = StudentEntity.toStudentEntity(student);
+
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let parentEntity = ParentEntity.toParentEntity(parent);
         let parentEntity1 = ParentEntity.toParentEntity(parent1);
         expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
         expect(await parentRepository.create(parentEntity1)).toBeInstanceOf(ParentEntity);
 
-        const student = DomainMocks.mockStudentWithoutParent();
-        const student2 = DomainMocks.mockStudentWithoutParent();
-        const studentEntity = StudentEntity.toStudentEntity(student);
-        const studentEntity2 = StudentEntity.toStudentEntity(student2);
-        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
-        expect(await studentRepository.create(studentEntity2)).toBeInstanceOf(StudentEntity);
-        const parentStudent = new ParentStudentEntity();
-        parentStudent.parent = parentEntity;
-        parentStudent.student = studentEntity;
-        parentStudent.id = '31e135ee-18fe-47a1-ad6e-0bc29762f3a1';
-        expect(await parentStudentRepository.save(parentStudent));
-        const parentStudent2 = new ParentStudentEntity();
-        parentStudent2.parent = parentEntity1;
-        parentStudent2.student = studentEntity2;
-        parentStudent2.id = '18294dcd-eca2-42dd-bf7e-29782b27974a';
-        expect(await parentStudentRepository.save(parentStudent2));
-        let results = await parentRepository.findByNames([parent.getName(), parent1.getName()], [student.getName(), student2.getName()]);
+        let results = await parentRepository.findByNames([parent.getName(), parent1.getName()]);
+
         expect(results.length).toBe(2);
         expect(results[0].id).toBe(parentEntity.id);
         expect(results[1].id).toBe(parentEntity1.id);
@@ -146,8 +136,13 @@ describe('ParentRepository unit test', () =>{
         let parent = DomainMocks.mockParentWithoutStudent();
         let model = ParentEntity.toParentEntity(parent);
         expect(await parentRepository.create(model)).toBeInstanceOf(ParentEntity);
-        const expectedBirthDay = new Date(2025, 12, 25)
-        model.birthday = expectedBirthDay;
+
+        let anotherStudent = new Student(new Date, 'edson', '123', [parent], '8bb648b2-c0be-4164-a01a-9465d22aa269');
+        let anotherStudentEntity = StudentEntity.toStudentEntity(anotherStudent);
+
+        expect(await studentRepository.create(anotherStudentEntity)).toBeInstanceOf(StudentEntity);
+
+        model.students.push(anotherStudentEntity);
 
         expect(await parentRepository.update(model)).toBe(void 0);
         let result = await parentRepository.find(parent.getId());

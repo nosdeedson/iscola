@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { setEnv } from '../../../__mocks__/env.mock';
-import { UserUsecasesService } from '../../usecases/user-usecases/user-usecases.service';
 import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
 import { RepositoryFactoryService } from '../../../factory/repositiry-factory/repository-factory.service';
 import { DeleteUserFactoryService } from '../../../factory/delete-user-factory/delete-user-factory.service';
@@ -10,6 +9,7 @@ import { CreateUserFactoryService } from '../../../factory/create-user-service-f
 import { FindUserFactoryService } from '../../../factory/find-user-factory/find-user-factory.service';
 import { mockCreateWorkersDto } from '../../../__mocks__/mock-dtos/mock-dtos';
 import { BadRequestException } from '@nestjs/common';
+import { UserUsecasesService } from '../../../../aplication/usecases/user-usecases/user-usecases.service';
 
 
 describe('UsersController', () => {

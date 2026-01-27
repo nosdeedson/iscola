@@ -41,7 +41,7 @@ describe("WorkerRepository unit tets", () =>{
 
     it('should delete a worker entity in the database', async () =>{
         const expectedId = '27543f8f-11bd-464c-96af-c7cb09adeccf';
-        const admin = new Worker(new Date(), 'jose', RoleEnum.ADMINISTRATOR, expectedId);
+        const admin = new Worker({birthday: new Date(), name: 'jose', role: RoleEnum.ADMINISTRATOR, id: expectedId});
         let model = WorkerEntity.toWorkerEntity(admin);
         await repository.create(model);
         expect(await repository.delete(expectedId)).toBe(void 0);
@@ -61,7 +61,7 @@ describe("WorkerRepository unit tets", () =>{
 
     it('should find a worker entity in the database', async () =>{
         const expectedId = '27543f8f-11bd-464c-96af-c7cb09adeccf';
-        const admin = new Worker(new Date(), 'jose', RoleEnum.ADMINISTRATOR, expectedId);
+        const admin = new Worker({ birthday: new Date(), name: 'jose', role: RoleEnum.ADMINISTRATOR, id: expectedId});
         let model = WorkerEntity.toWorkerEntity(admin);
         await repository.create(model);
         let result = await repository.find(expectedId);
@@ -89,7 +89,7 @@ describe("WorkerRepository unit tets", () =>{
 
     it('should udpate a workers entity in the database', async () =>{
         const expectedId = '27543f8f-11bd-464c-96af-c7cb09adeccf';
-        const admin = new Worker(new Date(), 'jose', RoleEnum.ADMINISTRATOR, expectedId);
+        const admin = new Worker({ birthday: new Date(), name: 'jose', role: RoleEnum.ADMINISTRATOR, id: expectedId});
         let model = WorkerEntity.toWorkerEntity(admin);
         let worker2 = DomainMocks.mockWorker(RoleEnum.TEACHER);
         let model2 = WorkerEntity.toWorkerEntity(worker2);

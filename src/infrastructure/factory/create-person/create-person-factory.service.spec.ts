@@ -2,10 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CreatePersonFactoryService } from './create-person-factory.service';
 import { mockCreateWorkersDto } from '../../__mocks__/mock-dtos/mock-dtos';
 import { AccessType } from '../../../domain/user/access.type';
-import { CreateWorkerDto } from '../../../domain-services/worker/create/create.worker.dto';
-import { CreateStudentDto } from '../../../domain-services/student/create/create.student.dto';
-import { CreateParentDto } from '../../../domain-services/parent/create/create.parent.dto';
-import { SystemError } from '../../../domain-services/@shared/system-error';
+import { CreateWorkerDto } from '../../../aplication/services/worker/create/create.worker.dto';
+import { CreateStudentDto } from '../../../aplication/services/student/create/create.student.dto';
+import { CreateParentDto } from '../../../aplication/services/parent/create/create.parent.dto';
+import { SystemError } from '../../../aplication/services/@shared/system-error';
 import { afterEach } from 'node:test';
 
 describe('CreatePersonService', () => {

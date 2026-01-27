@@ -3,12 +3,12 @@ import { CreateUserFactoryService } from './create-user-factory-service';
 import { DataBaseConnectionModule } from '../../data-base-connection/data-base-connection.module';
 import { setEnv } from '../../__mocks__/env.mock';
 import { AccessType } from '../../../domain/user/access.type';
-import { CreateWorkerService } from '../../../domain-services/worker/create/create.worker.service';
-import { CreateStudentService } from '../../../domain-services/student/create/create.student.service';
-import { CreateParentService } from '../../../domain-services/parent/create/create.parent.service';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
-import { SystemError } from '../../../domain-services/@shared/system-error';
+import { SystemError } from '../../../aplication/services/@shared/system-error';
 import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
+import { CreateWorkerService } from '../../../aplication/services/worker/create/create.worker.service';
+import { CreateStudentService } from '../../../aplication/services/student/create/create.student.service';
+import { CreateParentService } from '../../../aplication/services/parent/create/create.parent.service';
 
 
 describe('UserServiceFactoryService', () => {

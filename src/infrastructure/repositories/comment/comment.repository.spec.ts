@@ -77,8 +77,8 @@ describe('CommentRepository unit test', () => {
         await semesterRepository.create(academicSemester);
 
         // parent needed
-        let student = new Student(new Date, 'edson', '123', [], 'f07d183f-eb37-417e-8a58-ad9ed4b3910f');
-        const parent = new Parent(new Date(), "jose", [student], '0d0c4248-695c-43a5-963e-bc5729abead6');
+        let student = new Student({birthday: new Date(), name: 'edson', enrolled: '123', nameParents: [], id: 'f07d183f-eb37-417e-8a58-ad9ed4b3910f'});
+        const parent = new Parent({birthday: new Date(), name: "jose", nameStudents: [student.getName()], id: '0d0c4248-695c-43a5-963e-bc5729abead6'});
         student.setParents(parent);
         
         let studentModel = StudentEntity.toStudentEntity(student);
@@ -109,8 +109,8 @@ describe('CommentRepository unit test', () => {
         await semesterRepository.create(academicSemester);
 
         // parent needed
-        let student = new Student(new Date, 'edson', '123', [], 'f07d183f-eb37-417e-8a58-ad9ed4b3910f');
-        const parent = new Parent(new Date(), "jose", [student], '0d0c4248-695c-43a5-963e-bc5729abead6');
+        let student = new Student({birthday: new Date(), name: 'edson', enrolled: '123', nameParents: [], id: 'f07d183f-eb37-417e-8a58-ad9ed4b3910f'});
+        const parent = new Parent({birthday: new Date(), name: "jose", nameStudents: [student.getName()], id: '0d0c4248-695c-43a5-963e-bc5729abead6'});
         student.setParents(parent);
         
         let studentModel = StudentEntity.toStudentEntity(student);
@@ -139,8 +139,8 @@ describe('CommentRepository unit test', () => {
         await semesterRepository.create(academicSemester);
 
         // parent needed
-        let student = new Student(new Date, 'edson', '123', [], 'f07d183f-eb37-417e-8a58-ad9ed4b3910f');
-        const parent = new Parent(new Date(), "jose", [student], '0d0c4248-695c-43a5-963e-bc5729abead6');
+        let student = new Student({birthday: new Date(), name: 'edson', enrolled: '123', nameParents: [], id: 'f07d183f-eb37-417e-8a58-ad9ed4b3910f'});
+        const parent = new Parent({birthday: new Date(), name: "jose", nameStudents: [student.getName()], id: '0d0c4248-695c-43a5-963e-bc5729abead6'});
         student.setParents(parent);
         
         let studentModel = StudentEntity.toStudentEntity(student);
@@ -168,8 +168,8 @@ describe('CommentRepository unit test', () => {
         await semesterRepository.create(academicSemester);
 
         // parent needed
-        let student = new Student(new Date, 'edson', '123', [], 'f07d183f-eb37-417e-8a58-ad9ed4b3910f');
-        const parent = new Parent(new Date(), "jose", [student], '0d0c4248-695c-43a5-963e-bc5729abead6');
+        let student = new Student({birthday: new Date(), name: 'edson', enrolled: '123', nameParents: [], id: 'f07d183f-eb37-417e-8a58-ad9ed4b3910f'});
+        const parent = new Parent({birthday: new Date(), name: "jose", nameStudents: [student.getName()], id: '0d0c4248-695c-43a5-963e-bc5729abead6'});
         student.setParents(parent);
         
         let studentModel = StudentEntity.toStudentEntity(student);
@@ -200,8 +200,8 @@ describe('CommentRepository unit test', () => {
         await semesterRepository.create(academicSemester);
 
         // parent needed
-        let student = new Student(new Date, 'edson', '123', [], 'f07d183f-eb37-417e-8a58-ad9ed4b3910f');
-        const parent = new Parent(new Date(), "jose", [student], '0d0c4248-695c-43a5-963e-bc5729abead6');
+        let student = new Student({birthday: new Date(), name: 'edson', enrolled: '123', nameParents: [], id: 'f07d183f-eb37-417e-8a58-ad9ed4b3910f'});
+        const parent = new Parent({birthday: new Date(), name: "jose", nameStudents: [student.getName()], id: '0d0c4248-695c-43a5-963e-bc5729abead6'});
         student.setParents(parent);
         
         let studentModel = StudentEntity.toStudentEntity(student);
@@ -236,8 +236,8 @@ describe('CommentRepository unit test', () => {
         await semesterRepository.create(academicSemester);
 
         // parent needed
-        let student = new Student(new Date, 'edson', '123', [], 'f07d183f-eb37-417e-8a58-ad9ed4b3910f');
-        const parent = new Parent(new Date(), "jose", [student], '0d0c4248-695c-43a5-963e-bc5729abead6');
+        let student = new Student({birthday: new Date(), name: 'edson', enrolled: '123', nameParents: [], id: 'f07d183f-eb37-417e-8a58-ad9ed4b3910f'});
+        const parent = new Parent({birthday: new Date(), name: "jose", nameStudents: [student.getName()], id: '0d0c4248-695c-43a5-963e-bc5729abead6'});
         student.setParents(parent);
         
         let studentModel = StudentEntity.toStudentEntity(student);

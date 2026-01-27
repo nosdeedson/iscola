@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DataBaseConnectionModule } from 'src/infrastructure/data-base-connection/data-base-connection.module';
 import { UsersController } from './users.controller';
-import { UserUsecasesService } from '../../usecases/user-usecases/user-usecases.service';
+import { UserUsecasesService } from '../../../../aplication/usecases/user-usecases/user-usecases.service';
 import { RepositoryFactoryService } from 'src/infrastructure/factory/repositiry-factory/repository-factory.service';
 import { DeleteUserFactoryService } from 'src/infrastructure/factory/delete-user-factory/delete-user-factory.service';
 import { UserAggregateResolverService } from 'src/infrastructure/factory/user-aggregate-resolver/user-aggregate-resolver.service';

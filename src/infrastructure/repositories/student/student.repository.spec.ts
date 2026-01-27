@@ -94,32 +94,24 @@ describe('StudentRepository unit test', () => {
         expect(result.id).toBe(wantedId);
     });
 
-    it('should find all students by names in BD', async () => {
-        let parent = DomainMocks.mockParentWithoutStudent();
-        let parent1 = new Parent({ name: 'Test', birthday: new Date(), nameStudents: [] });
+    it('should find all students by ids in BD', async () => {
+        let student1 = DomainMocks.mockStudent();
+        let model1 = StudentEntity.toStudentEntity(student1);
+        expect(await studentRepository.create(model1)).toBeInstanceOf(StudentEntity);
 
-        let parentEntity = ParentEntity.toParentEntity(parent);
-        let parentEntity1 = ParentEntity.toParentEntity(parent1);
-        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
-        expect(await parentRepository.create(parentEntity1)).toBeInstanceOf(ParentEntity);
+        let student2 = new Student({
+            birthday: new Date, 
+            name: 'edson', 
+            enrolled: '123', 
+            nameParents: student1.getParents().map(it => it.getName()), 
+            id: '90be2abb-f2da-46c0-9fc8-520c988b34f9'});
+        let model2 = StudentEntity.toStudentEntity(student2);
+        expect(await studentRepository.create(model2)).toBeInstanceOf(StudentEntity);
+        
+        let wantedIds = [student1.getId(), '90be2abb-f2da-46c0-9fc8-520c988b34f9'] as any;
 
-        const student = DomainMocks.mockStudentWithoutParent();
-        const student2 = DomainMocks.mockStudentWithoutParent();
-        const studentEntity = StudentEntity.toStudentEntity(student);
-        const studentEntity2 = StudentEntity.toStudentEntity(student2);
-        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
-        expect(await studentRepository.create(studentEntity2)).toBeInstanceOf(StudentEntity);
-        const parentStudent = new ParentStudentEntity();
-        parentStudent.parent = parentEntity;
-        parentStudent.student = studentEntity;
-        parentStudent.id = '31e135ee-18fe-47a1-ad6e-0bc29762f3a1';
-        expect(await parentStudentRepository.save(parentStudent));
-        const parentStudent2 = new ParentStudentEntity();
-        parentStudent2.parent = parentEntity1;
-        parentStudent2.student = studentEntity2;
-        parentStudent2.id = '18294dcd-eca2-42dd-bf7e-29782b27974a';
-        expect(await parentStudentRepository.save(parentStudent2));
-        let results = await parentRepository.findByNames([parent.getName(), parent1.getName()], [student.getName(), student2.getName()]);
+        let results = await studentRepository.findStudentsByIds(wantedIds)
+        expect(results).toBeDefined();
         expect(results.length).toBe(2);
         expect(results[0].id).toBe(parentEntity.id);
         expect(results[1].id).toBe(parentEntity1.id);

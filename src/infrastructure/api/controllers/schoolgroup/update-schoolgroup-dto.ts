@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { UpdateClassDto } from "src/domain-services/class/update/udpate.class.dto";
+import { UpdateClassDto } from "src/aplication/services/class/update/udpate.class.dto";
 
 export class UpdateSchoolgroupDto{
     @ApiProperty({description: 'id of schoolgroup'})
