@@ -1,11 +1,11 @@
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
-import { AcademicSemesterRepository } from '../../../infrastructure/repositories/academic-semester/academic-semester.repository';
-import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AcademicSemesterEntity } from "../../../../infrastructure/entities/academic-semester/academic.semester.entity";
+import { AcademicSemesterRepository } from "../../../../infrastructure/repositories/academic-semester/academic-semester.repository";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { DeleteAcademicSemesterService } from './delete.academic-semester.service';
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
-import { AcademicSemester } from "../../../domain/academc-semester/academic.semester";
+import { AcademicSemester } from "../../../../domain/academc-semester/academic.semester";
 
 describe('academic semester integration test', () =>{
 

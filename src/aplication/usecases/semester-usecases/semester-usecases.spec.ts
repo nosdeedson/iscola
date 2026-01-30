@@ -1,20 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SemesterUsecases } from './semester-usecases';
-import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
-import { setEnv } from '../../../__mocks__/env.mock';
-import { CreateSemesterDto } from '../../controllers/semester/create-semester-dto';
-import { CreateAcademicSemesterService } from '../../../../domain-services/academic-semester/create/create.academic-semester.service';
-import { InputCreateAcademicSemesterDto } from '../../../../domain-services/academic-semester/create/academic-semester.dto';
+import { DataBaseConnectionModule } from '../../../infrastructure/data-base-connection/data-base-connection.module';
+import { setEnv } from '../../../infrastructure/__mocks__/env.mock';
+import { CreateSemesterDto } from '../../../infrastructure/api/controllers/semester/create-semester-dto';
+import { CreateAcademicSemesterService } from '../../../aplication/services/academic-semester/create/create.academic-semester.service';
+import { InputCreateAcademicSemesterDto } from '../../../aplication/services/academic-semester/create/academic-semester.dto';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { FindAcademicSemesterService } from '../../../../domain-services/academic-semester/find/find.academic-semester.service';
-import { FindAcademicSemesterDto } from '../../../../domain-services/academic-semester/find/find.academic-semester.dto';
-import { FindAllAcademicSemesterService } from '../../../../domain-services/academic-semester/findAll/findAll.academic-semester.service';
-import { FindAllAcademicSemesterDto } from '../../../../domain-services/academic-semester/findAll/findAll.academic-semester.dto';
-import { AcademicSemesterEntity } from '../../../entities/academic-semester/academic.semester.entity';
-import { DomainMocks } from '../../../__mocks__/mocks';
-import { DeleteAcademicSemesterService } from '../../../../domain-services/academic-semester/delete/delete.academic-semester.service';
-import { UpdateAcademicSemesterService } from '../../../../domain-services/academic-semester/update/update.academic-semester.service';
-import { RepositoryFactoryService } from "../../../../infrastructure/factory/repositiry-factory/repository-factory.service";
+import { FindAcademicSemesterService } from '../../../aplication/services/academic-semester/find/find.academic-semester.service';
+import { FindAcademicSemesterDto } from '../../../aplication/services/academic-semester/find/find.academic-semester.dto';
+import { FindAllAcademicSemesterService } from '../../../aplication/services/academic-semester/findAll/findAll.academic-semester.service';
+import { FindAllAcademicSemesterDto } from '../../../aplication/services/academic-semester/findAll/findAll.academic-semester.dto';
+import { AcademicSemesterEntity } from '../../../infrastructure/entities/academic-semester/academic.semester.entity';
+import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
+import { DeleteAcademicSemesterService } from '../../../aplication/services/academic-semester/delete/delete.academic-semester.service';
+import { UpdateAcademicSemesterService } from '../../../aplication/services/academic-semester/update/update.academic-semester.service';
+import { RepositoryFactoryService } from "../../../infrastructure/factory/repositiry-factory/repository-factory.service";
 
 
 describe('SemesterUsecases', () => {

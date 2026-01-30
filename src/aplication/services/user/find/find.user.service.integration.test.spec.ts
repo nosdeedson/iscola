@@ -1,12 +1,11 @@
 import { DataSource, Repository } from "typeorm";
-import { SystemError } from '../../../domain-services/@shared/system-error';
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
-import { PersonEntity } from "../../../infrastructure/entities/@shared/person.entity";
-import { UserEntity } from "../../../infrastructure/entities/user/user.entity";
-import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
-import { UserRepository } from '../../../infrastructure/repositories/user/user.repository';
-import { WorkerRepository } from '../../../infrastructure/repositories/worker/worker.repository';
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
+import { UserEntity } from "../../../../infrastructure/entities/user/user.entity";
+import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
+import { UserRepository } from "../../../../infrastructure/repositories/user/user.repository";
+import { WorkerRepository } from "../../../../infrastructure/repositories/worker/worker.repository";
 import { FindUserService } from "./find.user.service";
 
 

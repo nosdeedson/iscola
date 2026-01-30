@@ -1,10 +1,10 @@
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { ParentRepository } from "../../../infrastructure/repositories/parent/parent.repository";
-import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
-import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
-import { DeleteParentService } from './delete.parent.service';
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { ParentRepository } from "../../../../infrastructure/repositories/parent/parent.repository";
+import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { DeleteParentService } from "./delete.parent.service";
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
 

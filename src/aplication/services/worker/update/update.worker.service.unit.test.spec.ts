@@ -1,9 +1,9 @@
-import { Worker } from "../../../domain/worker/worker";
-import { RoleEnum } from "../../../domain/worker/roleEnum";
+import { Worker } from "../../../../domain/worker/worker";
+import { RoleEnum } from "../../../../domain/worker/roleEnum";
 import { UpdateWorkerService } from "./udpate.worker.service";
 import { InputUpdateWorkerDto } from './update.worker.dto'
-import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
-import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
+import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
+import { MockRepositoriesForUnitTest } from "../../../../infrastructure/__mocks__/mockRepositories";
 
 
 describe('UpdateWorkerService unit test', () =>{

@@ -1,13 +1,13 @@
 import { DataSource, Repository } from "typeorm"
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
-import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
-import { FindAllStudentService } from "../../../domain-services/student/findAll/findAll.student.service";
-import { FindAllStudentDto } from "../../../domain-services/student/findAll/findAll.student.dto";
-import { ParentRepository } from "../../../infrastructure/repositories/parent/parent.repository";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { FindAllStudentService } from "../../../../aplication/services/student/findAll/findAll.student.service";
+import { FindAllStudentDto } from "../../../../aplication/services/student/findAll/findAll.student.dto";
+import { ParentRepository } from "../../../../infrastructure/repositories/parent/parent.repository";
 
 
 describe('FindAllStudents', () => {

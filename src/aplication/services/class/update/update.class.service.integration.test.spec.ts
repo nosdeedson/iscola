@@ -1,7 +1,7 @@
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
-import { ClassRepository } from '../../../infrastructure/repositories/class/class.repository'; 
-import { DomainMocks } from '../../../infrastructure/__mocks__/mocks'; 
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
+import { ClassRepository } from "../../../../infrastructure/repositories/class/class.repository"; 
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks"; 
 import { UpdateClassDto } from './udpate.class.dto'
 import { UpdateClassService } from './update.class.service';
 import { DataSource } from "typeorm";

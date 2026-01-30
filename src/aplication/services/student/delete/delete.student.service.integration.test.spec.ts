@@ -1,13 +1,13 @@
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
-import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
-import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { ParentRepository } from "../../../infrastructure/repositories/parent/parent.repository";
-import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
-import { DeleteStudentService } from '../delete/delete.student.service';
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { ParentRepository } from "../../../../infrastructure/repositories/parent/parent.repository";
+import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
+import { DeleteStudentService } from "../delete/delete.student.service";
 
 describe('DeleteStudentService integraton tests', () => {
     let appDataSource: DataSource;

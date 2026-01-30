@@ -1,4 +1,4 @@
-import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
+import { MockRepositoriesForUnitTest } from "../../../../infrastructure/__mocks__/mockRepositories";
 import { InputCreateAcademicSemesterDto } from './academic-semester.dto';
 import { CreateAcademicSemesterService } from './create.academic-semester.service';
 

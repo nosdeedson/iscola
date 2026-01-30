@@ -42,14 +42,14 @@ export class ParentRepository implements ParentReporitoryInterface{
         return model;
     }
 
-    async findByNames(names: string[], nameStudents: string[]): Promise<ParentEntity[]> {
-        const parents = await this.parentRepository.createQueryBuilder('parent')
+    async findByNames(names: string[], nameStudents: string[]): Promise<ParentEntity> {
+        const parent = await this.parentRepository.createQueryBuilder('parent')
             .innerJoin('parent.parentStudents', "ps")
             .innerJoin('ps.student', "student")
             .where('parent.fullName IN (:...names)',{names})
             .andWhere('student.fullName IN (:...nameStudents)', {nameStudents})
-            .getMany();
-        return parents;
+            .getOne();
+        return parent;
     }
 
     async findAll(): Promise<ParentEntity[]> {

@@ -1,10 +1,10 @@
-import { RoleEnum } from "../../../domain/worker/roleEnum";
-import { Worker } from "../../../domain/worker/worker";
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { PersonEntity } from "../../../infrastructure/entities/@shared/person.entity";
-import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
-import { WorkerRepository } from "../../../infrastructure/repositories/worker/worker.repository";
-import { UpdateWorkerService } from '../../../domain-services/worker/update/udpate.worker.service';
+import { RoleEnum } from "../../../../domain/worker/roleEnum";
+import { Worker } from "../../../../domain/worker/worker";
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
+import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
+import { WorkerRepository } from "../../../../infrastructure/repositories/worker/worker.repository";
+import { UpdateWorkerService } from "../../../../aplication/services/worker/update/udpate.worker.service";
 import { DataSource } from "typeorm";
 
 describe('UpdateWorkerService integration test', () => {

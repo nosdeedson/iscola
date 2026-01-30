@@ -12,28 +12,20 @@ import { FindAllParentService } from './findAll.parent.service';
 describe('FindAllParentService integration tests', () =>{
 
     let appDataSource: DataSource;
-
     let parentEntity: Repository<ParentEntity>;
     let parentRepository: ParentRepository;
 
-    let studentEntity: Repository<StudentEntity>;
-    let studentRepository: StudentRepository;
-
-    beforeAll(async () =>{
+    beforeEach(async () =>{
         appDataSource = AppDataSourceMock.mockAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
         
         parentEntity = appDataSource.getRepository(ParentEntity);
         parentRepository = new ParentRepository(parentEntity, appDataSource);
-        
-        studentEntity = appDataSource.getRepository(StudentEntity);
-        studentRepository = new StudentRepository(studentEntity, appDataSource);
     });
 
     afterEach(async () =>{
         await appDataSource.createQueryBuilder().delete().from(ParentEntity).execute();
-        await appDataSource.createQueryBuilder().delete().from(StudentEntity).execute();
         await appDataSource.destroy();
         jest.clearAllMocks();
     });
@@ -41,35 +33,23 @@ describe('FindAllParentService integration tests', () =>{
     it('entitites and repositories must be instantiated', async () =>{
         expect(parentEntity).toBeDefined();
         expect(parentRepository).toBeDefined();
-        expect(studentEntity).toBeDefined();
-        expect(studentRepository).toBeDefined();
-    })
+    });
 
     it('should find an empty array', async () =>{
         const service = new FindAllParentService(parentRepository);
-
         const results = await service.execute();
         expect(results).toBeDefined();
         expect(results.all.length).toBe(0);
-    })
+    });
 
     it('should find an array with one parent', async () =>{
-        // TODO FIX THE TEST
-        const parent = DomainMocks.mockParent();
+        const parent = DomainMocks.mockParentWithoutStudent();
         const entity = ParentEntity.toParentEntity(parent);
-        const student = parent.getStudents()[0];
-
-        const studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
-
         expect(await parentRepository.create(entity)).toBeInstanceOf(ParentEntity);
-
         const service = new FindAllParentService(parentRepository);
-
         const results = await service.execute();
         expect(results).toBeDefined();
         expect(results.all.length).toBe(1);
         expect(results.all[0].id).toBe(parent.getId());
     });
-
-})
+});

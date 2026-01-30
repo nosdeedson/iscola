@@ -1,12 +1,12 @@
 import { DataSource } from 'typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../../../domain/user/user';
-import { AppDataSourceMock } from '../../../infrastructure/__mocks__/appDataSourceMock';
-import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
-import { UserEntity } from '../../../infrastructure/entities/user/user.entity';
-import { WorkerEntity } from '../../../infrastructure/entities/worker/worker.entity';
-import { UserRepository } from '../../../infrastructure/repositories/user/user.repository';
-import { WorkerRepository } from '../../../infrastructure/repositories/worker/worker.repository';
+import { User } from "../../../../domain/user/user";
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { UserEntity } from "../../../../infrastructure/entities/user/user.entity";
+import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
+import { UserRepository } from "../../../../infrastructure/repositories/user/user.repository";
+import { WorkerRepository } from "../../../../infrastructure/repositories/worker/worker.repository";
 import { UpdateUserDto } from './update.user.dto';
 import { UpdateUserService } from './update.user.service';
 

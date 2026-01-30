@@ -1,14 +1,13 @@
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { PersonEntity } from "../../../infrastructure/entities/@shared/person.entity";
-import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { ClassRepository } from "../../../infrastructure/repositories/class/class.repository";
-import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
-import { CreateStudentService } from '../create/create.student.service';
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { ClassRepository } from "../../../../infrastructure/repositories/class/class.repository";
+import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
+import { CreateStudentService } from "../create/create.student.service";
 import { CreateStudentDto } from '../create/create.student.dto';
-import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
-import { ParentRepository } from '../../../infrastructure/repositories/parent/parent.repository';
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { ParentRepository } from "../../../../infrastructure/repositories/parent/parent.repository";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { DataSource } from "typeorm";
 
 describe('CreateStudentService integration tests', () => {

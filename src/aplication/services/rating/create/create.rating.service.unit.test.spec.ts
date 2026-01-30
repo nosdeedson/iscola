@@ -1,6 +1,6 @@
-import { Grade } from '../../../domain/enum/grade/grade';
-import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
-import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
+import { Grade } from "../../../../domain/enum/grade/grade";
+import { MockRepositoriesForUnitTest } from "../../../../infrastructure/__mocks__/mockRepositories";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { CreateRatingDto } from './create.rating.dto';
 import { CreateRatingService } from './create.rating.service';
 

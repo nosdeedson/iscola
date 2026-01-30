@@ -1,12 +1,12 @@
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
-import { RatingEntity } from "../../../infrastructure/entities/rating/rating.entity";
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { RatingEntity } from "../../../../infrastructure/entities/rating/rating.entity";
 import { DeleteRatingService } from "./delete.rating.service";
-import { RatingRepositiry } from '../../../infrastructure/repositories/rating/rating.repository';
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
-import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
-import { AcademicSemesterRepository } from "../../../infrastructure/repositories/academic-semester/academic-semester.repository";
+import { RatingRepositiry } from "../../../../infrastructure/repositories/rating/rating.repository";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
+import { AcademicSemesterEntity } from "../../../../infrastructure/entities/academic-semester/academic.semester.entity";
+import { AcademicSemesterRepository } from "../../../../infrastructure/repositories/academic-semester/academic-semester.repository";
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
 

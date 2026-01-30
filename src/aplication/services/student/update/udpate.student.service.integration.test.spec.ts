@@ -1,11 +1,11 @@
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
-import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
-import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
 import { UpdateStudentDto } from '../update/udpate.student.dto';
 import { UpdateStudentService } from '../update/udpate.student.service';
 

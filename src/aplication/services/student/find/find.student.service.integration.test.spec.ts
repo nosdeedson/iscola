@@ -1,9 +1,9 @@
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
-import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { FindStudentService } from '../find/find.student.service';
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";

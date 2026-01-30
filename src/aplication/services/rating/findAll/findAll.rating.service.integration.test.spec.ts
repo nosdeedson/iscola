@@ -1,14 +1,14 @@
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
-import { AcademicSemesterEntity } from "../../../infrastructure/entities/academic-semester/academic.semester.entity";
-import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
-import { RatingEntity } from "../../../infrastructure/entities/rating/rating.entity";
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { AcademicSemesterRepository } from "../../../infrastructure/repositories/academic-semester/academic-semester.repository";
-import { RatingRepositiry } from "../../../infrastructure/repositories/rating/rating.repository";
-import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { AcademicSemesterEntity } from "../../../../infrastructure/entities/academic-semester/academic.semester.entity";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { RatingEntity } from "../../../../infrastructure/entities/rating/rating.entity";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { AcademicSemesterRepository } from "../../../../infrastructure/repositories/academic-semester/academic-semester.repository";
+import { RatingRepositiry } from "../../../../infrastructure/repositories/rating/rating.repository";
+import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
 import { FindAllRatingService } from './findAll.rating.service';
 
 describe('find all rating integration tests', () => {

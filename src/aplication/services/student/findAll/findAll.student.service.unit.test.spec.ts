@@ -1,6 +1,7 @@
 import { DomainMocks } from '../../../../infrastructure/__mocks__/mocks';
 import { MockRepositoriesForUnitTest } from '../../../../infrastructure/__mocks__/mockRepositories';
 import { StudentEntity } from '../../../../infrastructure/entities/student/student.entity';
+import { FindAllStudentService } from './findAll.student.service';
 
 describe('FindAllSudentService unit test', () =>{
 

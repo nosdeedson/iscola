@@ -11,13 +11,14 @@ export class UpdateParentService{
         this.parentRepository = parentRepository;
     }
 
-    async execute(studentEntity: StudentEntity, parentId: string){
+    async execute(birthday: Date, name: string, parentId: string){
         try {   
             let parent = await this.parentRepository.find(parentId) as ParentEntity;
             if(!parent){
                 throw new SystemError([{ context: 'parent', message: 'Parent not found'}]);
             }
-            parent.students.push(studentEntity);
+            parent.birthday = birthday;
+            parent.fullName = name;
             await this.parentRepository.update(parent);
         } catch (error) {
             throw error;

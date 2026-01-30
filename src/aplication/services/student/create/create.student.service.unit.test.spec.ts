@@ -1,10 +1,10 @@
 import { CreateStudentDto } from "./create.student.dto";
 import { CreateStudentService } from '../create/create.student.service';
-import { MockRepositoriesForUnitTest } from '../../../infrastructure/__mocks__/mockRepositories';
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
-import { ParentEntity } from '../../../infrastructure/entities/parent/parent.entity';
-import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
-import { Parent } from "../../../domain/parent/parent";
+import { MockRepositoriesForUnitTest } from "../../../../infrastructure/__mocks__/mockRepositories";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
+import { Parent } from "../../../../domain/parent/parent";
 
 
 describe('CreateStudentService', () =>{

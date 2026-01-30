@@ -1,23 +1,23 @@
-import { BadRequestException } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { SystemError } from '../../../aplication/services/@shared/system-error.ts';
-import { CreateUserService } from '../../../aplication/services/user/create/create.user.service.ts';
-import { DeleteUserService } from '../../../aplication/services/user/delete/delete.user.service';
-import { FindUserService } from '../../../aplication/services/user/find/find.user.service';
-import { CreateWorkerDto } from '../../../aplication/services/worker/create/create.worker.dto.ts';
-import { RoleEnum } from '../../../domain/worker/roleEnum';
-import { RepositoryFactoryService } from '../../../infrastructure/factory/repositiry-factory/repository-factory.service';
-import { setEnv } from '../../../infrastructure/__mocks__/env.mock';
-import { mockCreateWorkersDto, mockFindUserDto, mockOutputFindWorkerDto } from '../../../infrastructure/__mocks__/mock-dtos/mock-dtos';
-import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
-import { DataBaseConnectionModule } from '../../../infrastructure/data-base-connection/data-base-connection.module';
-import { WorkerEntity } from '../../../infrastructure/entities/worker/worker.entity';
-import { TrataErros } from '../../../infrastructure/utils/trata-erros/trata-erros';
-import { UserUsecasesService } from './user-usecases.service';
-import { CreateUserFactoryService } from '../../../infrastructure/factory/create-user-service-factory/create-user-factory-service';
-import { DeleteUserFactoryService } from '../../../infrastructure/factory/delete-user-factory/delete-user-factory.service';
-import { FindUserFactoryService } from '../../../infrastructure/factory/find-user-factory/find-user-factory.service';
-import { FindUserOutPutDto } from '../../../infrastructure/api/controllers/users/dtos/find-user-dto/find-user-outPut-dto';
+import { UserUsecasesService } from "./user-usecases.service"
+import { Test, TestingModule } from "@nestjs/testing";
+import { setEnv } from "../../../infrastructure/__mocks__/env.mock";
+import { DataBaseConnectionModule } from "../../../infrastructure/data-base-connection/data-base-connection.module";
+import { RepositoryFactoryService } from "../../../infrastructure/factory/repositiry-factory/repository-factory.service";
+import { CreateUserFactoryService } from "../../../infrastructure/factory/create-user-service-factory/create-user-factory-service";
+import { DeleteUserFactoryService } from "../../../infrastructure/factory/delete-user-factory/delete-user-factory.service";
+import { FindUserFactoryService } from "../../../infrastructure/factory/find-user-factory/find-user-factory.service";
+import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
+import { RoleEnum } from "../../../domain/worker/roleEnum";
+import { WorkerEntity } from "../../../infrastructure/entities/worker/worker.entity";
+import { CreateUserService } from "../../services/user/create/create.user.service";
+import { DeleteUserService } from "../../services/user/delete/delete.user.service";
+import { FindUserService } from "../../services/user/find/find.user.service";
+import { mockCreateWorkersDto, mockFindUserDto, mockOutputFindWorkerDto } from "../../../infrastructure/__mocks__/mock-dtos/mock-dtos";
+import { CreateWorkerDto } from "../../services/worker/create/create.worker.dto";
+import { BadRequestException } from "@nestjs/common";
+import { SystemError } from "../../services/@shared/system-error";
+import { TrataErros } from "../../../infrastructure/utils/trata-erros/trata-erros";
+import { FindUserOutPutDto } from "../../../infrastructure/api/controllers/users/dtos/find-user-dto/find-user-outPut-dto";
 
 
 // create user mocks
@@ -57,7 +57,7 @@ describe('UserUsecasesService', () => {
     setEnv();
   });
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [DataBaseConnectionModule],
       providers: [
@@ -98,7 +98,7 @@ describe('UserUsecasesService', () => {
       userServiceFactoryMock.createUserServiceFactory.mockReturnValue(createPersonServiceMock as any);
       createPersonServiceMock.execute.mockResolvedValue(person);
       const createUserService = jest.spyOn(CreateUserService.prototype, 'execute')
-        .mockImplementationOnce(() => Promise.resolve(void 0));     
+        .mockImplementationOnce(() => Promise.resolve(void 0));
       await service.create(mockInput);
       expect(userServiceFactoryMock.createUserServiceFactory).toHaveBeenCalledTimes(1)
       expect(userServiceFactoryMock.createUserServiceFactory).toHaveBeenCalledWith(mockInput.accessType);
@@ -106,7 +106,6 @@ describe('UserUsecasesService', () => {
       expect(createPersonServiceMock.execute).toHaveBeenCalledWith(input);
       expect(createUserService).toHaveBeenCalledTimes(1);
     });
-
     it('should throw an error when creating worker', async () => {
       const mockInput = mockCreateWorkersDto();
       var errorToThrow = new SystemError([{
@@ -121,7 +120,7 @@ describe('UserUsecasesService', () => {
         .mockImplementation(async () => await Promise.resolve(void 0));
 
       const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-        .mockImplementation(() => {throw new BadRequestException('error while creating worker')});
+        .mockImplementation(() => { throw new BadRequestException('error while creating worker') });
 
       try {
         await service.create(mockInput);
@@ -143,7 +142,7 @@ describe('UserUsecasesService', () => {
         "context": "user",
         "message": "error while creating user",
       }]);
-      
+
       userServiceFactoryMock.createUserServiceFactory.mockReturnValue(createPersonServiceMock as any);
       createPersonServiceMock.execute.mockResolvedValue(person);
 
@@ -151,7 +150,7 @@ describe('UserUsecasesService', () => {
         .mockRejectedValue(errorToThrow);
 
       const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-        .mockImplementationOnce(() => {throw new BadRequestException('test')});
+        .mockImplementationOnce(() => { throw new BadRequestException('test') });
 
       try {
         await service.create(mockInput);
@@ -165,16 +164,17 @@ describe('UserUsecasesService', () => {
         expect(tratarError).toHaveBeenCalledWith(errorToThrow);
       }
     });
+
   });
 
-  describe('delele', () =>{
+  describe('delele', () => {
 
     it('should delete a user', async () => {
       let foundUser = mockFindUserDto();
       const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.resolve(foundUser));
       userServiceDeleteFactory.deleteUserServiceFactory.mockReturnValue(deletePersonServiceMock as any);
-      deletePersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(void 0 ));
+      deletePersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(void 0));
 
       const deleteUser = jest.spyOn(DeleteUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.resolve(void 0));
@@ -188,7 +188,7 @@ describe('UserUsecasesService', () => {
       expect(deleteUser).toHaveBeenCalledWith(foundUser.id);
     });
 
-    it('should not find a user to delete', async () =>{
+    it('should not find a user to delete', async () => {
       let expectedId = "1";
       const errorToThrow = new SystemError([{
         "context": "user",
@@ -197,9 +197,9 @@ describe('UserUsecasesService', () => {
       const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.reject(errorToThrow));
       userServiceDeleteFactory.deleteUserServiceFactory.mockReturnValue(deletePersonServiceMock as any);
-      deletePersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(void 0 ));
+      deletePersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(void 0));
       const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-        .mockImplementation(() => {throw new BadRequestException('test')});
+        .mockImplementation(() => { throw new BadRequestException('test') });
       try {
         await service.delete(expectedId);
       } catch (error) {
@@ -213,8 +213,8 @@ describe('UserUsecasesService', () => {
       }
     });
 
-    it('should not create a service to delete', async () =>{
-       let foundUser = mockFindUserDto();
+    it('should not create a service to delete', async () => {
+      let foundUser = mockFindUserDto();
       const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.resolve(foundUser));
       const errorToThrow = new SystemError([{
@@ -222,9 +222,9 @@ describe('UserUsecasesService', () => {
         "message": "fail to create service to delete",
       }]);
       userServiceDeleteFactory.deleteUserServiceFactory.mockRejectedValue(errorToThrow);
-      deletePersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(void 0 ));
+      deletePersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(void 0));
       const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-        .mockImplementation(() => {throw new BadRequestException('test')});
+        .mockImplementation(() => { throw new BadRequestException('test') });
       try {
         await service.delete(foundUser.id);
       } catch (error) {
@@ -238,7 +238,7 @@ describe('UserUsecasesService', () => {
       }
     });
 
-    it('should not delete a person', async () =>{
+    it('should not delete a person', async () => {
       let foundUser = mockFindUserDto();
       const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.resolve(foundUser));
@@ -252,7 +252,7 @@ describe('UserUsecasesService', () => {
       const deleteUser = jest.spyOn(DeleteUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.resolve(void 0));
       const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-        .mockImplementation(() => {throw new BadRequestException('test')});
+        .mockImplementation(() => { throw new BadRequestException('test') });
       try {
         await service.delete(foundUser.id);
       } catch (error) {
@@ -268,7 +268,7 @@ describe('UserUsecasesService', () => {
       }
     });
 
-    it('should not delete an user', async () =>{
+    it('should not delete an user', async () => {
       let foundUser = mockFindUserDto();
       const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.resolve(foundUser));
@@ -277,12 +277,12 @@ describe('UserUsecasesService', () => {
         "message": "fail to create service to delete",
       }]);
       userServiceDeleteFactory.deleteUserServiceFactory.mockReturnValue(deletePersonServiceMock as any);
-      deletePersonServiceMock.execute.mockImplementation( async () => await Promise.resolve(void 0 ));
+      deletePersonServiceMock.execute.mockImplementation(async () => await Promise.resolve(void 0));
 
       const deleteUser = jest.spyOn(DeleteUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.reject(errorToThrow));
       const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-        .mockImplementation(() => {throw new BadRequestException('test')});
+        .mockImplementation(() => { throw new BadRequestException('test') });
       try {
         await service.delete(foundUser.id);
       } catch (error) {
@@ -301,7 +301,7 @@ describe('UserUsecasesService', () => {
 
   });
 
-  describe('find', () =>{
+  describe('find', () => {
 
     it('should find a user which role is teacher', async () => {
       const foundUser = mockFindUserDto();
@@ -309,7 +309,7 @@ describe('UserUsecasesService', () => {
       const person = mockOutputFindWorkerDto();
       const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.resolve(foundUser));
-      
+
       userServiceFindFactory.findUserServiceFactory.mockReturnValue(findPersonServiceMock);
       findPersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(person));
 
@@ -326,15 +326,15 @@ describe('UserUsecasesService', () => {
 
     it('when trying to find a user should fail', async () => {
       const person = mockOutputFindWorkerDto();
-      const errorToThrow = new SystemError([{context: 'user', message: 'user not found'}]);
+      const errorToThrow = new SystemError([{ context: 'user', message: 'user not found' }]);
       const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.reject(errorToThrow));
-      
+
       userServiceFindFactory.findUserServiceFactory.mockReturnValue(findPersonServiceMock);
       findPersonServiceMock.execute.mockReturnValue(async () => await Promise.resolve(person));
       const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-        .mockImplementation(() => {throw new BadRequestException('test')});
-      
+        .mockImplementation(() => { throw new BadRequestException('test') });
+
       try {
         await service.find('1');
       } catch (error) {
@@ -359,7 +359,7 @@ describe('UserUsecasesService', () => {
       findPersonServiceMock.execute.mockImplementation(async () => await Promise.resolve(person));
 
       const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-        .mockImplementation(() => {throw new BadRequestException('test')});
+        .mockImplementation(() => { throw new BadRequestException('test') });
 
       try {
         await service.find(wantedId);
@@ -378,16 +378,16 @@ describe('UserUsecasesService', () => {
       const foundUser = mockFindUserDto();
       const wantedId = foundUser.id;
       const person = mockOutputFindWorkerDto();
-      const errorToThrow = new SystemError([{context: "find user", message: "Failed to find the user"}]);
+      const errorToThrow = new SystemError([{ context: "find user", message: "Failed to find the user" }]);
 
       const findUserService = jest.spyOn(FindUserService.prototype, 'execute')
         .mockImplementation(async () => await Promise.resolve(foundUser));
       userServiceFactoryMock.createUserServiceFactory.mockReturnValue(findPersonServiceMock);
       findPersonServiceMock.execute.mockRejectedValue(errorToThrow);
       const tratarError = jest.spyOn(TrataErros, 'tratarErrorsBadRequest')
-        .mockImplementation(() => {throw new BadRequestException('test')});
+        .mockImplementation(() => { throw new BadRequestException('test') });
       try {
-        
+
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
         expect(findUserService).toHaveBeenCalledTimes(1)
@@ -404,7 +404,8 @@ describe('UserUsecasesService', () => {
 
   });
 
-  describe('findAll', () => {
+   describe('findAll', () => {
+    // TODO FIX THE TEST
     // it('should find all users', async () => {
     //   const worker = UserEntity.toUserEntity(DomainMocks.mockUserTeacher());
     //   const admin = UserEntity.toUserEntity(DomainMocks.mockUserAdmin());

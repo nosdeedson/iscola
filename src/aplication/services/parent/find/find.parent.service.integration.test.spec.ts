@@ -1,11 +1,11 @@
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
-import { AppDataSourceMock } from "../../../infrastructure/__mocks__/appDataSourceMock";
-import { DomainMocks } from "../../../infrastructure/__mocks__/mocks";
-import { ParentEntity } from "../../../infrastructure/entities/parent/parent.entity";
-import { StudentEntity } from "../../../infrastructure/entities/student/student.entity";
-import { ParentRepository } from "../../../infrastructure/repositories/parent/parent.repository";
-import { StudentRepository } from "../../../infrastructure/repositories/student/student.repository";
+import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
+import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
+import { ParentRepository } from "../../../../infrastructure/repositories/parent/parent.repository";
+import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
 import { FindParentService } from './find.parent.service';
 
 describe('FindParentService integration tests ', () =>{
