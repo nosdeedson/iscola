@@ -18,7 +18,7 @@ export class CreateParentService extends CreateGenericService{
 
     async execute(dto: CreateParentDto){
         try {
-            const parentExist = await this.parentRepository.findByNames([dto.name], dto.students);
+            const parentExist = await this.parentRepository.findByParentNameAndStudentNames(dto.name, dto.students);
             if(parentExist){
                 parentExist.birthday = dto.birthday;
                 await this.parentRepository.update(parentExist);

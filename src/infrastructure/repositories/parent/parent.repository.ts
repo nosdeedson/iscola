@@ -1,6 +1,9 @@
 import { ParentEntity } from '../../../infrastructure/entities/parent/parent.entity';
 import { ParentReporitoryInterface } from '../../../domain/parent/parent.repository.interface';
 import { DataSource, In, QueryFailedError, Repository } from 'typeorm';
+import { ParentStudentEntity } from 'src/infrastructure/entities/parent-student/parent.student.entity';
+import { Parent } from 'src/domain/parent/parent';
+import { from } from 'rxjs';
 
 
 export class ParentRepository implements ParentReporitoryInterface{
@@ -42,14 +45,17 @@ export class ParentRepository implements ParentReporitoryInterface{
         return model;
     }
 
-    async findByNames(names: string[], nameStudents: string[]): Promise<ParentEntity> {
-        const parent = await this.parentRepository.createQueryBuilder('parent')
-            .innerJoin('parent.parentStudents', "ps")
-            .innerJoin('ps.student', "student")
-            .where('parent.fullName IN (:...names)',{names})
-            .andWhere('student.fullName IN (:...nameStudents)', {nameStudents})
-            .getOne();
-        return parent;
+    async findByParentNameAndStudentNames(nameParent: string, studentNames: string[]): Promise<ParentEntity> {
+        const qb = this.dataSource.createQueryBuilder()
+            .from(ParentEntity, 'parent')
+            .select('parent')
+            .innerJoin('parent.parentStudents', 'ps')
+            .innerJoin('ps.student', 'student')
+            .where('parent.fullName = :nameParent', {nameParent})
+            .andWhere('student.fullName IN (:...studentNames)', {studentNames});
+        // console.log(qb.getQuery());
+        // console.log(qb.getParameters());
+        return qb.getOne();
     }
 
     async findAll(): Promise<ParentEntity[]> {

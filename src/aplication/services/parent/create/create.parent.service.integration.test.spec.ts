@@ -69,9 +69,9 @@ describe('CreateParentService integration tests', () => {
         let input = new CreateParentDto(expectBirthday, parent.getName(), [student.getName()]);
         let service = new CreateParentService(parentRepository);
         expect(await service.execute(input)).toBe(void 0);
-        const parentUpdated = await parentRepository.find(parent.getId());
+        const parentUpdated = await parentRepository.findAll();
         expect(parentUpdated).toBeDefined();
-        expect(parentUpdated.birthday.getTime()).toBe(expectBirthday.getTime());
+        expect(parentUpdated[0].birthday.getTime()).toBe(expectBirthday.getTime());
     });
 
     it('should save a parent', async () => {

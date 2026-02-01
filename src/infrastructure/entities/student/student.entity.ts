@@ -7,7 +7,7 @@ import { Parent } from "../../../domain/parent/parent";
 import { ParentStudentEntity } from "../parent-student/parent.student.entity";
 
 
-@ChildEntity()
+@ChildEntity('student')
 export class StudentEntity extends PersonEntity {
 
     constructor() { super() }
@@ -23,7 +23,7 @@ export class StudentEntity extends PersonEntity {
     @OneToMany(() => ParentStudentEntity, ps => ps.student)
     parentStudents: ParentStudentEntity[];
 
-    @ManyToOne(() => ClassEntity, schoolGroup => schoolGroup.students, {eager: true, onUpdate: 'CASCADE'})
+    @ManyToOne(() => ClassEntity, schoolGroup => schoolGroup.students, {eager: false, onUpdate: 'CASCADE'})
     @JoinColumn({
         name: 'class_id',
         foreignKeyConstraintName: 'student_class_fk',

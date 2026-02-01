@@ -6,7 +6,7 @@ import { StudentEntity } from "../student/student.entity";
 import { ParentStudentEntity } from "../parent-student/parent.student.entity";
 
 
-@ChildEntity()
+@ChildEntity('parent')
 export class ParentEntity extends PersonEntity {
 
     constructor() { super() }

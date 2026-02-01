@@ -1,6 +1,8 @@
 import { DataSource, QueryFailedError, Repository } from 'typeorm';
 import { StudentRepositoryInterface } from '../../../domain/student/student.repository.interface';
 import { StudentEntity } from '../../../infrastructure/entities/student/student.entity';
+import { ParentStudentEntity } from 'src/infrastructure/entities/parent-student/parent.student.entity';
+import { ClassEntity } from 'src/infrastructure/entities/class/class.entity';
 
 
 export class StudentRepository implements StudentRepositoryInterface {
@@ -45,13 +47,19 @@ export class StudentRepository implements StudentRepositoryInterface {
     }
 
 
-    async findStudentsByNames(studentsNames: string[], parentsName: string[]): Promise<StudentEntity[]> {
-        return await this.dataSource.createQueryBuilder(StudentEntity, 'student')
-            .innerJoin('student.parentStudents', 'ps')
-            .innerJoin('ps.parent', "parent")
-            .where('student.fullName IN (:...names)', { names: studentsNames })
-            .andWhere('parent.fullName IN (:...names)', { names: parentsName })
-            .getMany();
+    async findStudentByNameAndParentNames(studentName: string, parentNames: string[]): Promise<StudentEntity> {
+        const qb =  this.dataSource.createQueryBuilder(ParentStudentEntity, 'ps')
+            .innerJoin('ps.student', 'student')
+            .innerJoin('ps.parent', 'parent')
+            .where('student.fullName = :studentName', { studentName })
+            .andWhere('parent.fullName IN (:...parentNames)', { parentNames })
+            .andWhere('student.type = :type', { type: 'student' })
+            .select('student')
+            .distinct(true);
+        console.log(qb.getSql());
+        console.log(qb.getParameters());
+        const s = await qb.getRawMany();
+        return s as unknown as StudentEntity;
     }
 
     async findAll(): Promise<StudentEntity[]> {

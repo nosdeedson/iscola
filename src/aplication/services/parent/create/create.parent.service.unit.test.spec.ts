@@ -12,33 +12,33 @@ describe('CreateParentService unit tests', () => {
         const mockEntity = ParentEntity.toParentEntity(mockParent);
 
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByNames = jest.fn()
+        parentRepository.findByParentNameAndStudentNames = jest.fn()
             .mockImplementation(async () => await Promise.resolve(mockEntity));
         const dto = new CreateParentDto(mockParent.getBirthday(), mockParent.getName(), ['jose']);
         const service = new CreateParentService(parentRepository);
 
         expect(await service.execute(dto)).toBe(void 0);
         expect(parentRepository.update).toHaveBeenCalledTimes(1);
-        expect(parentRepository.findByNames).toHaveBeenCalledTimes(1);
+        expect(parentRepository.findByParentNameAndStudentNames).toHaveBeenCalledTimes(1);
     });
 
     it('should save the parrent', async () => {
         const mockParent = DomainMocks.mockParent();
         const mockEntity = ParentEntity.toParentEntity(mockParent)
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByNames = jest.fn()
+        parentRepository.findByParentNameAndStudentNames = jest.fn()
             .mockImplementation(async () => await Promise.resolve(null));
         const dto = new CreateParentDto(mockParent.getBirthday(), mockParent.getName(), ['jose']);
         const service = new CreateParentService(parentRepository);
         expect(await service.execute(dto)).toBe(void 0);
         expect(parentRepository.create).toHaveBeenCalledTimes(1);
-        expect(parentRepository.findByNames).toHaveBeenCalledTimes(1);
+        expect(parentRepository.findByParentNameAndStudentNames).toHaveBeenCalledTimes(1);
     });
 
     // name required 
     it('should throw an error while trying to save a parent without name', async () => {
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByNames = jest.fn()
+        parentRepository.findByParentNameAndStudentNames = jest.fn()
             .mockImplementation(async () => await Promise.resolve(null));
         let name: any;
         const dto = new CreateParentDto(new Date(), name, ['jose']);
@@ -53,7 +53,7 @@ describe('CreateParentService unit tests', () => {
     // birthday: required 
     it('should throw an error while trying to save a parent without birthday', async () => {
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByNames = jest.fn()
+        parentRepository.findByParentNameAndStudentNames = jest.fn()
             .mockImplementation(async () => await Promise.resolve(null));
         let birthday: any;
         const dto = new CreateParentDto(birthday, 'edson', ['jose']);
@@ -68,7 +68,7 @@ describe('CreateParentService unit tests', () => {
     // students: at least one 
     it('should throw an error while trying to save a parent without any student', async () => {
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByNames = jest.fn()
+        parentRepository.findByParentNameAndStudentNames = jest.fn()
             .mockImplementation(async () => await Promise.resolve(null));
         const dto = new CreateParentDto(new Date(), 'edson', []);
         const service = new CreateParentService(parentRepository);

@@ -13,47 +13,38 @@ export class CreateStudentService extends CreateGenericService{
 
     private studentRepository: StudentRepositoryInterface;
     private schoolgroupRepository: ClassRepositoryInterface;
-    private parentRepository: ParentReporitoryInterface
-
+    
     constructor(
         studentRepository: StudentRepositoryInterface,
         schoolgroupRepository: ClassRepositoryInterface,
-        parentRepository: ParentReporitoryInterface
     ) {
         super(studentRepository);
         this.studentRepository = studentRepository;
         this.schoolgroupRepository = schoolgroupRepository;
-        this.parentRepository = parentRepository;
     }
 
     async execute(dto: CreateStudentDto) {
         try {
-            // TODO should receive the school and must return Student
-
-            // let errors: NotificationErrorProps[] = [];
-            // const schoolGroup = await this.schoolgroupRepository.findByClassCode(dto.enrolled);
-            // if (!schoolGroup) {
-            //     errors.push({ context: 'student', message: 'Schoolgroup not found' });
-            // }
-            // const parents = await this.parentRepository.findByNames(dto.parentsName);
-            // if (parents.length == 0) {
-            //     errors.push({ context: 'student', message: 'At least one parent must be informed' });
-            // }
-
-            // if (errors.length > 0) {
-            //     throw new SystemError(errors);
-            // }
-            // let parentsDomain: Parent[] = [];
-            // parents.map(it => {
-            //     let parent = Parent.toDomain(it);
-            //     parentsDomain.push(parent)
-            // });
-            // let student = new Student(dto.birthday, dto.name, dto.enrolled, parentsDomain);
-            // if(student?.notification?.hasError()){
-            //     throw new SystemError(student.notification.errors);
-            // }
-            // let studentEntity = StudentEntity.toStudentEntity(student);
-            // await this.studentRepository.create(studentEntity);
+            let errors: NotificationErrorProps[] = [];
+            const schoolGroup = await this.schoolgroupRepository.findByClassCode(dto.enrolled);
+            if (!schoolGroup) {
+                errors.push({ context: 'student', message: 'Schoolgroup not found' });
+                throw new SystemError(errors);
+            }
+            const fromBD = await this.studentRepository.findStudentByNameAndParentNames(dto.name, dto.parentsName);
+            if( fromBD ){
+                fromBD.birthday = dto.birthday;
+                fromBD.enrolled = dto.enrolled;
+                fromBD.updatedAt = new Date();
+                await this.studentRepository.create(fromBD);
+            } else {
+                let student = new Student({ birthday: dto.birthday, name: dto.name, enrolled: dto.enrolled, nameParents: dto.parentsName });
+                if(student?.notification?.hasError()){
+                    throw new SystemError(student.notification.errors);
+                }
+                let studentEntity = StudentEntity.toStudentEntity(student);
+                await this.studentRepository.create(studentEntity);
+            }
         } catch (error) {
             throw error;
         }
