@@ -35,13 +35,14 @@ export class CreateStudentService extends CreateGenericService{
                 fromBD.enrolled = dto.enrolled;
                 fromBD.updatedAt = new Date();
                 await this.studentRepository.create(fromBD);
+                return fromBD;
             } else {
-                let student = new Student({ birthday: dto.birthday, name: dto.name, enrolled: dto.enrolled, nameParents: dto.parentsName });
+                let student = new Student({ birthday: dto.birthday, name: dto.name, enrolled: dto.enrolled});
                 if(student?.notification?.hasError()){
                     throw new SystemError(student.notification.errors);
                 }
                 let studentEntity = StudentEntity.toStudentEntity(student);
-                await this.studentRepository.create(studentEntity);
+                return await this.studentRepository.create(studentEntity);
             }
         } catch (error) {
             throw error;
