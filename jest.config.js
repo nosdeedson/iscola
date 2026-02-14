@@ -15,5 +15,6 @@ module.exports = {
   testRegex: ".*\\.spec\\.ts$",
   moduleNameMapper:{
     "^src/(.*)$": "<rootDir>/$1"
-  }
+  },
+  coverageDirectory: '../coverage'
 };

@@ -94,38 +94,34 @@ describe('ParentRepository unit test', () =>{
         expect(result.id).toEqual(wantedId);
     });
 
-    it('should find all parent model to the BD', async () => {
+    it('should find a parent by name and by student names', async () => {
         let parent = DomainMocks.mockParentWithoutStudent();
-        let parent1 = new Parent({name: 'test', nameStudents: [], birthday: new Date()});
+        const wantedParentName = parent.getName();
+        let parentEntity = ParentEntity.toParentEntity(parent);
+        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
 
+        let student = DomainMocks.mockStudentWithoutParent();
+        const wantedStudetName = student.getName();
+        let studentEntity = StudentEntity.toStudentEntity(student);
+        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);    
+
+        let parenteStudent = ParentStudentEntity.toParentStudentEntity(parentEntity, studentEntity);
+        expect(await parentStudentRepository.save(parenteStudent)).toBeInstanceOf(ParentStudentEntity);
+
+        let result = await parentRepository.findByParentNameAndStudentNames(wantedParentName, [wantedStudetName]);
+        expect(result).toBeDefined();
+        expect(result.fullName).toBe(parent.getName());        
+    });
+
+    it('should find all parent', async () => {
+        let parent = DomainMocks.mockParent();
+        let parent1 = DomainMocks.mockParentWithoutStudent();
         let parentEntity = ParentEntity.toParentEntity(parent);
         let parentEntity1 = ParentEntity.toParentEntity(parent1);
         expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
         expect(await parentRepository.create(parentEntity1)).toBeInstanceOf(ParentEntity);
 
         let results = await parentRepository.findAll();
-        expect(results).toBeDefined();
-        expect(results.length).toBe(2);
-        expect(results[0].id).toBe(parent.getId());
-        expect(results[1].id).toBe(parent1.getId());
-        
-    });
-
-    it('should find parents by names', async () => {
-        let parent = DomainMocks.mockParent();
-        let parent1 = new Parent({name: 'test', birthday: new Date()});
-
-        let student = parent.getStudents()[0];
-        let studentEntity = StudentEntity.toStudentEntity(student);
-
-        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
-
-        let parentEntity = ParentEntity.toParentEntity(parent);
-        let parentEntity1 = ParentEntity.toParentEntity(parent1);
-        expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
-        expect(await parentRepository.create(parentEntity1)).toBeInstanceOf(ParentEntity);
-
-        let results = await parentRepository.findByNames([parent.getName(), parent1.getName()]);
 
         expect(results.length).toBe(2);
         expect(results[0].id).toBe(parentEntity.id);
@@ -134,16 +130,11 @@ describe('ParentRepository unit test', () =>{
 
     it('should update a parent model to the BD', async () => {
         let parent = DomainMocks.mockParentWithoutStudent();
+        parent.setBirthDay(null as any);
         let model = ParentEntity.toParentEntity(parent);
         expect(await parentRepository.create(model)).toBeInstanceOf(ParentEntity);
-
-        let anotherStudent = new Student(new Date, 'edson', '123', [parent], '8bb648b2-c0be-4164-a01a-9465d22aa269');
-        let anotherStudentEntity = StudentEntity.toStudentEntity(anotherStudent);
-
-        expect(await studentRepository.create(anotherStudentEntity)).toBeInstanceOf(StudentEntity);
-
-        model.students.push(anotherStudentEntity);
-
+        let expectedBirthDay = new Date('2022-12-12');
+        model.birthday = expectedBirthDay;
         expect(await parentRepository.update(model)).toBe(void 0);
         let result = await parentRepository.find(parent.getId());
         expect(result).toBeDefined();

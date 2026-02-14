@@ -18,7 +18,7 @@ export class CreateUserFactoryService {
                 case AccessType.PARENT:
                     return new CreateParentService(context?.parentRepository);
                 case AccessType.STUDENT:
-                    return new CreateStudentService(context.studentRepository, context.classRepository, context.parentsRepository);
+                    return new CreateStudentService(context.studentRepository, context.classRepository);
                 case AccessType.TEACHER:
                 case AccessType.ADMIN:
                     return new CreateWorkerService(context.workerRepository, context.classRepository);

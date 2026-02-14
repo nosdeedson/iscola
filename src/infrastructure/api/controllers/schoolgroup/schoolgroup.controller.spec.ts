@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { setEnv } from '../../../__mocks__/env.mock';
 import { MockSchoolgroupDto } from '../../../__mocks__/mock-schoolgroup-dto';
 import { DataBaseConnectionModule } from '../../../data-base-connection/data-base-connection.module';
-import { SchoolgroupUseCases } from '../../usecases/schoolgroup-usecases/schoolgroup-usecases';
+import { SchoolgroupUseCases } from '../../../../aplication/usecases/schoolgroup-usecases/schoolgroup-usecases';
 import { SchoolgroupController } from './schoolgroup.controller';
 import { UpdateSchoolgroupDto } from './update-schoolgroup-dto';
 import { RepositoryFactoryService } from '../../../factory/repositiry-factory/repository-factory.service';

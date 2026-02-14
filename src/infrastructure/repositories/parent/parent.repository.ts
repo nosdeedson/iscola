@@ -46,16 +46,15 @@ export class ParentRepository implements ParentReporitoryInterface{
     }
 
     async findByParentNameAndStudentNames(nameParent: string, studentNames: string[]): Promise<ParentEntity> {
-        const qb = this.dataSource.createQueryBuilder()
-            .from(ParentEntity, 'parent')
-            .select('parent')
-            .innerJoin('parent.parentStudents', 'ps')
+        const qb = this.dataSource.createQueryBuilder(ParentStudentEntity, 'ps')
+            .innerJoin('ps.parent', 'parent')
             .innerJoin('ps.student', 'student')
-            .where('parent.fullName = :nameParent', {nameParent})
-            .andWhere('student.fullName IN (:...studentNames)', {studentNames});
-        // console.log(qb.getQuery());
-        // console.log(qb.getParameters());
-        return qb.getOne();
+            .where('parent.fullName = :nameParent', { nameParent })
+            .andWhere('student.fullName IN (:...studentNames)', { studentNames })
+            .select('parent')
+            .distinct(true);
+        const p = await qb.getRawOne();
+        return this.parentRepository.findOneBy({ id: p.parent_id });
     }
 
     async findAll(): Promise<ParentEntity[]> {

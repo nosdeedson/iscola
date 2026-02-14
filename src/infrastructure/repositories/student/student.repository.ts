@@ -56,10 +56,8 @@ export class StudentRepository implements StudentRepositoryInterface {
             .andWhere('student.type = :type', { type: 'student' })
             .select('student')
             .distinct(true);
-        console.log(qb.getSql());
-        console.log(qb.getParameters());
-        const s = await qb.getRawMany();
-        return s as unknown as StudentEntity;
+        const s = await qb.getRawOne();
+        return this.studentRepository.findOneBy({ id: s.student_id });
     }
 
     async findAll(): Promise<StudentEntity[]> {
