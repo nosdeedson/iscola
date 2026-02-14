@@ -54,7 +54,7 @@ export class ParentRepository implements ParentReporitoryInterface{
             .select('parent')
             .distinct(true);
         const p = await qb.getRawOne();
-        return this.parentRepository.findOneBy({ id: p.parent_id });
+        return p ? this.parentRepository.findOneBy({ id: p.parent_id }) : null;
     }
 
     async findAll(): Promise<ParentEntity[]> {

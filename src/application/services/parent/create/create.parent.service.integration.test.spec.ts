@@ -68,7 +68,8 @@ describe('CreateParentService integration tests', () => {
         const expectBirthday = new Date();
         let input = new CreateParentDto(expectBirthday, parent.getName(), [student.getName()]);
         let service = new CreateParentService(parentRepository);
-        expect(await service.execute(input)).toBe(void 0);
+        const result = await service.execute(input);
+        expect(result).toBeInstanceOf(ParentEntity);
         const parentUpdated = await parentRepository.findAll();
         expect(parentUpdated).toBeDefined();
         expect(parentUpdated[0].birthday.getTime()).toBe(expectBirthday.getTime());
@@ -78,7 +79,8 @@ describe('CreateParentService integration tests', () => {
         let parent = DomainMocks.mockParentWithoutStudent()
         let input = new CreateParentDto(parent.getBirthday(), parent.getName(), ['jose']);
         const service = new CreateParentService(parentRepository);
-        expect(await service.execute(input)).toBe(void 0);
+        const result = await service.execute(input);
+        expect(result).toBeInstanceOf(ParentEntity);
         const parentSaved = await parentRepository.findAll();
         expect(parentSaved).toBeDefined();
         expect(parentSaved.length).toBe(1);

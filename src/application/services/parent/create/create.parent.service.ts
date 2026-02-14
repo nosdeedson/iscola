@@ -21,13 +21,14 @@ export class CreateParentService extends CreateGenericService{
             if(parentExist){
                 parentExist.birthday = dto.birthday;
                 await this.parentRepository.update(parentExist);
+                return parentExist;
             } else {
                 let parent = CreateParentDto.toParent(dto);
                 if(parent?.notification.hasError()){
                     throw new SystemError(parent.notification?.getErrors());
                 }
                 let entity = ParentEntity.toParentEntity(parent);
-                await this.parentRepository.create(entity);
+                return await this.parentRepository.create(entity);
             }
         } catch (error) {
             throw error;

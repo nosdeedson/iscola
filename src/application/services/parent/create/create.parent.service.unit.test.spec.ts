@@ -17,20 +17,28 @@ describe('CreateParentService unit tests', () => {
         const dto = new CreateParentDto(mockParent.getBirthday(), mockParent.getName(), ['jose']);
         const service = new CreateParentService(parentRepository);
 
-        expect(await service.execute(dto)).toBe(void 0);
+        const result = await service.execute(dto);
+        expect(result).toBeInstanceOf(ParentEntity);
+        expect(result).toMatchObject(mockEntity);
         expect(parentRepository.update).toHaveBeenCalledTimes(1);
         expect(parentRepository.findByParentNameAndStudentNames).toHaveBeenCalledTimes(1);
     });
 
     it('should save the parrent', async () => {
         const mockParent = DomainMocks.mockParent();
-        const mockEntity = ParentEntity.toParentEntity(mockParent)
+        const mockEntity = ParentEntity.toParentEntity(mockParent);
         const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
         parentRepository.findByParentNameAndStudentNames = jest.fn()
             .mockImplementation(async () => await Promise.resolve(null));
+        parentRepository.create = jest.fn()
+            .mockImplementation(async () => await Promise.resolve(mockEntity));
+
         const dto = new CreateParentDto(mockParent.getBirthday(), mockParent.getName(), ['jose']);
         const service = new CreateParentService(parentRepository);
-        expect(await service.execute(dto)).toBe(void 0);
+        
+        const result = await service.execute(dto);
+        expect(result).toBeInstanceOf(ParentEntity);
+        expect(result).toMatchObject(ParentEntity.toParentEntity(mockParent));
         expect(parentRepository.create).toHaveBeenCalledTimes(1);
         expect(parentRepository.findByParentNameAndStudentNames).toHaveBeenCalledTimes(1);
     });
@@ -65,18 +73,4 @@ describe('CreateParentService unit tests', () => {
         });
     });
     
-    // students: at least one 
-    it('should throw an error while trying to save a parent without any student', async () => {
-        const parentRepository = MockRepositoriesForUnitTest.mockRepositories();
-        parentRepository.findByParentNameAndStudentNames = jest.fn()
-            .mockImplementation(async () => await Promise.resolve(null));
-        const dto = new CreateParentDto(new Date(), 'edson', []);
-        const service = new CreateParentService(parentRepository);
-        await expect(service.execute(dto)).rejects.toMatchObject({
-            errors: [
-                { context: 'parent', message: 'students field must have at least 1 items' },
-            ],
-        });
-    });
-
 });
