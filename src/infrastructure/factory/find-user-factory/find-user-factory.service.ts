@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 import { AccessType } from 'src/domain/user/access.type';
-import { SystemError } from 'src/aplication/services/@shared/system-error';
-import { FindParentService } from 'src/aplication/services/parent/find/find.parent.service';
-import { FindStudentService } from 'src/aplication/services/student/find/find.student.service';
-import { FindWorkerService } from 'src/aplication/services/worker/find/find.worker.service';
+import { SystemError } from 'src/application/services/@shared/system-error';
+import { FindParentService } from 'src/application/services/parent/find/find.parent.service';
+import { FindStudentService } from 'src/application/services/student/find/find.student.service';
+import { FindWorkerService } from 'src/application/services/worker/find/find.worker.service';
 
 @Injectable()
 export class FindUserFactoryService {

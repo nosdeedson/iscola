@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserUsecasesService } from '../../../../aplication/usecases/user-usecases/user-usecases.service';
+import { UserUsecasesService } from '../../../../application/usecases/user-usecases/user-usecases.service';
 import { CreateUserDto } from './dtos/create-user-dto/create-user-dto';
 
 @ApiTags('Users Workers')

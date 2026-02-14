@@ -5,10 +5,10 @@ import { setEnv } from '../../__mocks__/env.mock';
 import { UserAggregateContext, UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
 import { AccessType } from '../../../domain/user/access.type';
-import { SystemError } from '../../../aplication/services/@shared/system-error';
-import { FindParentService } from '../../../aplication/services/parent/find/find.parent.service';
-import { FindStudentService } from '../../../aplication/services/student/find/find.student.service';
-import { FindWorkerService } from '../../../aplication/services/worker/find/find.worker.service';
+import { SystemError } from '../../../application/services/@shared/system-error';
+import { FindParentService } from '../../../application/services/parent/find/find.parent.service';
+import { FindStudentService } from '../../../application/services/student/find/find.student.service';
+import { FindWorkerService } from '../../../application/services/worker/find/find.worker.service';
 
 describe('FindUserFactoryService', () => {
   let service: FindUserFactoryService;

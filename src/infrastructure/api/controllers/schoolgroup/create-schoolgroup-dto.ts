@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { CreateClassDto } from "src/aplication/services/class/create/create.class.dto";
-import { ScheduleDto } from "src/aplication/services/class/create/schedule-dto";
+import { CreateClassDto } from "src/application/services/class/create/create.class.dto";
+import { ScheduleDto } from "src/application/services/class/create/schedule-dto";
 
 export class Schedule  {
 

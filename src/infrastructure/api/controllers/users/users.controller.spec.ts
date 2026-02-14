@@ -9,7 +9,7 @@ import { CreateUserFactoryService } from '../../../factory/create-user-service-f
 import { FindUserFactoryService } from '../../../factory/find-user-factory/find-user-factory.service';
 import { mockCreateWorkersDto } from '../../../__mocks__/mock-dtos/mock-dtos';
 import { BadRequestException } from '@nestjs/common';
-import { UserUsecasesService } from '../../../../aplication/usecases/user-usecases/user-usecases.service';
+import { UserUsecasesService } from '../../../../application/usecases/user-usecases/user-usecases.service';
 
 
 describe('UsersController', () => {

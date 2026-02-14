@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { DeleteGenericService } from 'src/aplication/services/@shared/delete-generic-service';
-import { SystemError } from 'src/aplication/services/@shared/system-error';
-import { DeleteParentService } from 'src/aplication/services/parent/delete/delete.parent.service';
-import { DeleteStudentService } from 'src/aplication/services/student/delete/delete.student.service';
-import { DeleteWorkerService } from 'src/aplication/services/worker/delete/delete.worker.service';
+import { DeleteGenericService } from 'src/application/services/@shared/delete-generic-service';
+import { SystemError } from 'src/application/services/@shared/system-error';
+import { DeleteParentService } from 'src/application/services/parent/delete/delete.parent.service';
+import { DeleteStudentService } from 'src/application/services/student/delete/delete.student.service';
+import { DeleteWorkerService } from 'src/application/services/worker/delete/delete.worker.service';
 import { AccessType } from 'src/domain/user/access.type';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 

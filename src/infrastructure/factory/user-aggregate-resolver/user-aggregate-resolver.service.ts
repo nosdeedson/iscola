@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { SystemError } from 'src/aplication/services/@shared/system-error';
+import { SystemError } from 'src/application/services/@shared/system-error';
 import { AccessType } from 'src/domain/user/access.type';
 import { ClassEntity } from 'src/infrastructure/entities/class/class.entity';
 import { ParentEntity } from 'src/infrastructure/entities/parent/parent.entity';

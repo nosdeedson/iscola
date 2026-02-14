@@ -4,11 +4,11 @@ import { DataBaseConnectionModule } from '../../data-base-connection/data-base-c
 import { setEnv } from '../../__mocks__/env.mock';
 import { AccessType } from '../../../domain/user/access.type';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
-import { SystemError } from '../../../aplication/services/@shared/system-error';
+import { SystemError } from '../../../application/services/@shared/system-error';
 import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
-import { CreateWorkerService } from '../../../aplication/services/worker/create/create.worker.service';
-import { CreateStudentService } from '../../../aplication/services/student/create/create.student.service';
-import { CreateParentService } from '../../../aplication/services/parent/create/create.parent.service';
+import { CreateWorkerService } from '../../../application/services/worker/create/create.worker.service';
+import { CreateStudentService } from '../../../application/services/student/create/create.student.service';
+import { CreateParentService } from '../../../application/services/parent/create/create.parent.service';
 
 
 describe('UserServiceFactoryService', () => {

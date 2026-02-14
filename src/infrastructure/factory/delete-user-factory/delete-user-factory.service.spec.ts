@@ -5,10 +5,10 @@ import { setEnv } from '../../__mocks__/env.mock';
 import { AccessType } from '../../../domain/user/access.type';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
 import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
-import { SystemError } from '../../../aplication/services/@shared/system-error';
-import { DeleteParentService } from '../../../aplication/services/parent/delete/delete.parent.service';
-import { DeleteStudentService } from '../../../aplication/services/student/delete/delete.student.service';
-import { DeleteWorkerService } from '../../../aplication/services/worker/delete/delete.worker.service';
+import { SystemError } from '../../../application/services/@shared/system-error';
+import { DeleteParentService } from '../../../application/services/parent/delete/delete.parent.service';
+import { DeleteStudentService } from '../../../application/services/student/delete/delete.student.service';
+import { DeleteWorkerService } from '../../../application/services/worker/delete/delete.worker.service';
 
 describe('DeleteUserFactoryService', () => {
   let service: DeleteUserFactoryService;

@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SemesterUsecases } from '../../../../aplication/usecases/semester-usecases/semester-usecases';
+import { SemesterUsecases } from '../../../../application/usecases/semester-usecases/semester-usecases';
 import { CreateSemesterDto } from './create-semester-dto';
 import { bool, boolean, string } from 'yup';
-import { FindAllAcademicSemesterDto } from 'src/aplication/services/academic-semester/findAll/findAll.academic-semester.dto';
+import { FindAllAcademicSemesterDto } from 'src/application/services/academic-semester/findAll/findAll.academic-semester.dto';
 
 @ApiTags('Semester controller')
 @Controller('semesters')

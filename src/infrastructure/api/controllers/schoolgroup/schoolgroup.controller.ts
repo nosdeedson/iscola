@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateSchoolgroupDto } from './create-schoolgroup-dto';
-import { SchoolgroupUseCases } from '../../../../aplication/usecases/schoolgroup-usecases/schoolgroup-usecases';
+import { SchoolgroupUseCases } from '../../../../application/usecases/schoolgroup-usecases/schoolgroup-usecases';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateSchoolgroupDto } from './update-schoolgroup-dto';
 
