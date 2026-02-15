@@ -18,7 +18,7 @@ export interface ParentStudentAggregateContext {
     accessType: AccessType.STUDENT | AccessType.PARENT;
     studentRepository: StudentRepository;
     classRepository: ClassRepository;
-    parentsRepository: ParentRepository;
+    parentRepository: ParentRepository;
     parentStudentRepository: ParentStudentRepository;
 }
 
@@ -44,7 +44,7 @@ export class UserAggregateResolverService {
                     accessType: accessType,
                     studentRepository: this.repositoryFactory.createRepository(TypeRepository.STUDENT) as StudentRepository,
                     classRepository: this.repositoryFactory.createRepository(TypeRepository.CLASS) as ClassRepository,
-                    parentsRepository: this.repositoryFactory.createRepository(TypeRepository.PARENT) as ParentRepository,
+                    parentRepository: this.repositoryFactory.createRepository(TypeRepository.PARENT) as ParentRepository,
                     parentStudentRepository: this.repositoryFactory.createRepository(TypeRepository.PARENT_STUDENT) as ParentStudentRepository,
                 };
             case AccessType.TEACHER:

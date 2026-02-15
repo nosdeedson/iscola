@@ -18,7 +18,7 @@ export class CreateUserFactoryService {
                 case AccessType.STUDENT:
                     return new CreateParentStudentService({
                         classRepository: context.classRepository, 
-                        parentRepository: context.parentsRepository, 
+                        parentRepository: context.parentRepository, 
                         parentStudentRepository: context.parentStudentRepository,
                         studentRepository: context.studentRepository,
                     });
