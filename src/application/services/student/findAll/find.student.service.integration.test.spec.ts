@@ -44,7 +44,6 @@ describe('FindAllStudents', () => {
     it("should find all students", async () => {
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
-        expect(await parentRepository.create(studentEntity.parents[0])).toBeInstanceOf(ParentEntity);
         expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
         const service = new FindAllStudentService(studentRepository);
         const students = await service.execute();

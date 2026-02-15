@@ -15,11 +15,6 @@ export class FindStutendDto{
         this.enrolled = student.enrolled;
         this.id = student.id;
         this.name = student.fullName;
-        if(student?.parents?.length > 0){
-            student.parents.forEach(it => {
-                this.parentsIds.push(it.id);
-            })
-        }
         this.schoolGroupId = student?.schoolGroup?.id;
     }
 }
