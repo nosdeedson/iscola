@@ -12,17 +12,14 @@ import { WorkerRepository } from 'src/infrastructure/repositories/worker/worker.
 import { DataSource } from 'typeorm';
 import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
 import { TypeRepository } from '../repositiry-factory/type-repository';
+import { ParentStudentRepository } from 'src/infrastructure/repositories/parent-student/parent.student.repositoy';
 
-export interface ParentAggregateContext {
-    accessType: AccessType.PARENT;
-    parentRepository: ParentRepository;
-}
-
-export interface StudentAggregateContext {
-    accessType: AccessType.STUDENT;
+export interface ParentStudentAggregateContext {
+    accessType: AccessType.STUDENT | AccessType.PARENT;
     studentRepository: StudentRepository;
     classRepository: ClassRepository;
     parentsRepository: ParentRepository;
+    parentStudentRepository: ParentStudentRepository;
 }
 
 export interface WorkerAggregateContext {
@@ -32,8 +29,7 @@ export interface WorkerAggregateContext {
 }
 
 export type UserAggregateContext =
- | ParentAggregateContext
- | StudentAggregateContext
+ | ParentStudentAggregateContext
  | WorkerAggregateContext;
 
 @Injectable()
@@ -43,16 +39,13 @@ export class UserAggregateResolverService {
     resolve(accessType: AccessType): UserAggregateContext {
         switch(accessType){
             case AccessType.PARENT:
-                return {
-                    accessType: accessType,
-                    parentRepository: this.repositoryFactory.createRepository(TypeRepository.PARENT) as ParentRepository,
-                };
             case AccessType.STUDENT:
                 return {
                     accessType: accessType,
                     studentRepository: this.repositoryFactory.createRepository(TypeRepository.STUDENT) as StudentRepository,
                     classRepository: this.repositoryFactory.createRepository(TypeRepository.CLASS) as ClassRepository,
                     parentsRepository: this.repositoryFactory.createRepository(TypeRepository.PARENT) as ParentRepository,
+                    parentStudentRepository: this.repositoryFactory.createRepository(TypeRepository.PARENT_STUDENT) as ParentStudentRepository,
                 };
             case AccessType.TEACHER:
             case AccessType.ADMIN:

@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGenericService } from 'src/application/services/@shared/create-generic-service';
-import { CreateParentService } from 'src/application/services/parent/create/create.parent.service';
-import { CreateStudentService } from 'src/application/services/student/create/create.student.service';
 import { CreateWorkerService } from 'src/application/services/worker/create/create.worker.service';
 import { AccessType } from 'src/domain/user/access.type';
 import { UserAggregateResolverService } from '../user-aggregate-resolver/user-aggregate-resolver.service';
+import { CreateParentStudentService } from 'src/application/services/parent-student/create/create.parent.student.service';
 
 @Injectable()
 export class CreateUserFactoryService {
@@ -16,9 +15,13 @@ export class CreateUserFactoryService {
             const context = this.userAggregateContext.resolve(accessType);
             switch (context.accessType) {
                 case AccessType.PARENT:
-                    return new CreateParentService(context?.parentRepository);
                 case AccessType.STUDENT:
-                    return new CreateStudentService(context.studentRepository, context.classRepository);
+                    return new CreateParentStudentService({
+                        classRepository: context.classRepository, 
+                        parentRepository: context.parentsRepository, 
+                        parentStudentRepository: context.parentStudentRepository,
+                        studentRepository: context.studentRepository,
+                    });
                 case AccessType.TEACHER:
                 case AccessType.ADMIN:
                     return new CreateWorkerService(context.workerRepository, context.classRepository);

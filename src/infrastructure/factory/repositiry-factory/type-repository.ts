@@ -3,6 +3,7 @@ export enum TypeRepository {
     CLASS = 'class',
     COMMENT = 'comment',
     PARENT = 'parent',
+    PARENT_STUDENT = 'parent_student',
     RATING = 'rating',
     STUDENT = 'student',
     USER = 'user',

@@ -7,7 +7,7 @@ import { UserAggregateResolverService } from '../user-aggregate-resolver/user-ag
 import { SystemError } from '../../../application/services/@shared/system-error';
 import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
 import { CreateWorkerService } from '../../../application/services/worker/create/create.worker.service';
-import { CreateStudentService } from '../../../application/services/student/create/create.student.service';
+import { CreateParentStudentService  } from '../../../application/services/parent-student/create.parent.student.service';
 import { CreateParentService } from '../../../application/services/parent/create/create.parent.service';
 
 
@@ -46,14 +46,14 @@ describe('UserServiceFactoryService', () => {
     expect(result).toBeInstanceOf(CreateWorkerService);
   });
 
-  it('when accessType equal to student must return a CreateStudentService', () => {
+  it('when accessType equal to student must return a CreateParentStudentService', () => {
     const result = service.createUserServiceFactory(AccessType.STUDENT);
-    expect(result).toBeInstanceOf(CreateStudentService);
+    expect(result).toBeInstanceOf(CreateParentStudentService);
   });
 
-  it('when accessType equal to teacher must return a CreateParentService', () => {
+  it('when accessType equal to teacher must return a CreateParentStudentService', () => {
     const result = service.createUserServiceFactory(AccessType.PARENT);
-    expect(result).toBeInstanceOf(CreateParentService);
+    expect(result).toBeInstanceOf(CreateParentStudentService);
   });
 
   it('should throw an error when accessType does not exist', () => {

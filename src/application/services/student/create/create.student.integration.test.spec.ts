@@ -77,7 +77,7 @@ describe('CreateStudentService integration tests', () => {
         expect( await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         const parentStudent = ParentStudentEntity.toParentStudentEntity(parentEntity, studentEntity);
-        expect(await parentStudentRepository.save(parentStudent)).toBeInstanceOf(ParentStudentEntity);
+        expect(await parentStudentRepository.create(parentStudent)).toBeInstanceOf(ParentStudentEntity);
 
         let dto = new CreateStudentDto(new Date(1980, 6, 30, 23, 59, 59), student.getName(), sgEntity.classCode, [parent.getName()]);
         const service = new CreateStudentService(studentRepository, schoolGroupRepository);

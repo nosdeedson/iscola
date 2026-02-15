@@ -20,3 +20,5 @@
 ## run all test command: npm run test
 
 ## run test in folder command: npm run test -- /foldername
+
+## move the factory folder to application folder

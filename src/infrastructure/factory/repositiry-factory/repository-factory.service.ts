@@ -19,6 +19,8 @@ import { UserEntity } from 'src/infrastructure/entities/user/user.entity';
 import { WorkerRepository } from 'src/infrastructure/repositories/worker/worker.repository';
 import { WorkerEntity } from 'src/infrastructure/entities/worker/worker.entity';
 import { SystemError } from 'src/application/services/@shared/system-error';
+import { ParentStudentRepository } from 'src/infrastructure/repositories/parent-student/parent.student.repositoy';
+import { ParentStudentEntity } from 'src/infrastructure/entities/parent-student/parent.student.entity';
 
 
 @Injectable()
@@ -36,6 +38,8 @@ export class RepositoryFactoryService {
                 return new CommentRepository(this.dataSource.getRepository(CommentEntity), this.dataSource);
             case TypeRepository.PARENT:
                 return new ParentRepository(this.dataSource.getRepository(ParentEntity), this.dataSource);
+            case TypeRepository.PARENT_STUDENT:
+                return new ParentStudentRepository(this.dataSource.getRepository(ParentStudentEntity));
             case TypeRepository.RATING:
                 return new RatingRepositiry(this.dataSource.getRepository(RatingEntity), this.dataSource);
             case TypeRepository.STUDENT:

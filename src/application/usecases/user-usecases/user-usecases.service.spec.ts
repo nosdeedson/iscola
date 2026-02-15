@@ -91,6 +91,7 @@ describe('UserUsecasesService', () => {
   });
 
   describe('create', () => {
+
     it('should create a user as a TEACHER', async () => {
       const person = WorkerEntity.toWorkerEntity(DomainMocks.mockWorker(RoleEnum.TEACHER));
       const mockInput = mockCreateWorkersDto();
@@ -106,6 +107,7 @@ describe('UserUsecasesService', () => {
       expect(createPersonServiceMock.execute).toHaveBeenCalledWith(input);
       expect(createUserService).toHaveBeenCalledTimes(1);
     });
+    
     it('should throw an error when creating worker', async () => {
       const mockInput = mockCreateWorkersDto();
       var errorToThrow = new SystemError([{

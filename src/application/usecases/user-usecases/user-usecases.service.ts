@@ -3,7 +3,6 @@ import { CreateUserService } from 'src/application/services/user/create/create.u
 import { InputCreateUserDto } from 'src/application/services/user/create/input.create.user.dto';
 import { DeleteUserService } from 'src/application/services/user/delete/delete.user.service';
 import { FindUserService } from 'src/application/services/user/find/find.user.service';
-import { CreateWorkerDto } from 'src/application/services/worker/create/create.worker.dto';
 import { CreateUserFactoryService } from 'src/infrastructure/factory/create-user-service-factory/create-user-factory-service';
 import { DeleteUserFactoryService } from 'src/infrastructure/factory/delete-user-factory/delete-user-factory.service';
 import { RepositoryFactoryService } from 'src/infrastructure/factory/repositiry-factory/repository-factory.service';

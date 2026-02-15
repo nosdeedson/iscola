@@ -64,7 +64,7 @@ describe('CreateParentService integration tests', () => {
         const parentEntity = ParentEntity.toParentEntity(parent);
         expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
         const parentStudentEntity = ParentStudentEntity.toParentStudentEntity(parentEntity, studentEntity);
-        expect(await parentStudentRepository.save(parentStudentEntity)).toBeInstanceOf(ParentStudentEntity);
+        expect(await parentStudentRepository.create(parentStudentEntity)).toBeInstanceOf(ParentStudentEntity);
         const expectBirthday = new Date();
         let input = new CreateParentDto(expectBirthday, parent.getName(), [student.getName()]);
         let service = new CreateParentService(parentRepository);
