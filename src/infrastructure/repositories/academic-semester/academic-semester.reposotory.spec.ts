@@ -1,30 +1,17 @@
 import { DataSource } from "typeorm";
 import { AcademicSemester } from "../../../domain/academc-semester/academic.semester";
-import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../entities/academic-semester/academic.semester.entity";
 import { AcademicSemesterRepository } from './academic-semester.repository';
-import { setEnv } from "../../__mocks__/env.mock";
+import { TestDataSource } from '../config-test/test.datasource';
 
 describe('AcademicSemesterRepository unit tests', () =>{
 
-    let appDataSource: DataSource;
-    let academicSemesterModel;
     let repository: AcademicSemesterRepository;
 
-    beforeEach(async () =>{
-        // setEnv();
-        appDataSource = AppDataSourceMock.mockAppDataSource();
-        await appDataSource.initialize()
-            .catch((error) => console.log(error));
-        academicSemesterModel = appDataSource.getRepository(AcademicSemesterEntity);
-        repository = new AcademicSemesterRepository(academicSemesterModel, appDataSource);
-    });
-
-    afterEach(async () =>{
-        // await academicSemesterModel.query('delete from academic_semester cascade');
-        await appDataSource.createQueryBuilder().delete().from(AcademicSemesterEntity).execute();
-        await appDataSource.destroy();
+    beforeAll(() => {
+        const academicSemesterModel = TestDataSource.getRepository(AcademicSemesterEntity);
+        repository = new AcademicSemesterRepository(academicSemesterModel, TestDataSource);
     });
 
     it('acacemicSemester should be instantiated', () => {

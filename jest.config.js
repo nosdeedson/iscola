@@ -16,5 +16,6 @@ module.exports = {
   moduleNameMapper:{
     "^src/(.*)$": "<rootDir>/$1"
   },
-  coverageDirectory: '../coverage'
+  coverageDirectory: '../coverage',
+  setupFilesAfterEnv: ['../jest.setup.ts'],
 };

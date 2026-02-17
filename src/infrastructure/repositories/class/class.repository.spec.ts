@@ -4,29 +4,18 @@ import { ClassRepository} from '../class/class.repository';
 import { ClassEntity } from '../../entities/class/class.entity';
 import { Class } from '../../../domain/class/class';
 import { DataSource } from 'typeorm';
+import { TestDataSource } from '../config-test/test.datasource';
 
 
 describe('ClassRepository unit test', () => {
 
-    let appDataSource: DataSource;
     let classModel;
     let repository: ClassRepository;
 
-    beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
-        await appDataSource.initialize()
-            .catch((error) => console.log(error));
-        
-        classModel = appDataSource.getRepository(ClassEntity);
-        repository = new ClassRepository(classModel, appDataSource)
-        
+    beforeAll(() => {
+        classModel = TestDataSource.getRepository(ClassEntity);
+        repository = new ClassRepository(classModel, TestDataSource);
     });
-
-    afterEach(async () => {
-        // await classModel.query('delete from class cascade');
-        await appDataSource.createQueryBuilder().delete().from(ClassEntity).execute();
-        await appDataSource.destroy();
-    })
 
     it('repository must be instantiate', async () => {
         expect(repository).toBeDefined()

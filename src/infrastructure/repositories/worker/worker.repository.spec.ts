@@ -1,38 +1,20 @@
-import { DataSource } from "typeorm";
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { Worker } from "../../../domain/worker/worker";
-import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from '../../__mocks__/mocks';
-import { PersonEntity } from "../../entities/@shared/person.entity";
 import { WorkerEntity } from "../../entities/worker/worker.entity";
 import { WorkerRepository } from "./worker.repository";
+import { TestDataSource } from "../config-test/test.datasource";
 
 
 const MILISECONDS = 1000;
 
 describe("WorkerRepository unit tets", () =>{
 
-    let appDataSource: DataSource;
     let workerModel;
     let repository: WorkerRepository;
-    beforeEach(async () => {
-
-        appDataSource = AppDataSourceMock.mockAppDataSource();
-        await appDataSource.initialize()
-            .catch((error) => console.log(error));
-            
-        workerModel = appDataSource.getRepository(WorkerEntity);
-        repository = new WorkerRepository(workerModel, appDataSource);
-    })
-        
-    afterEach(async () => {
-        // const entities = appDataSource.entityMetadatas;
-        // await workerModel.query(
-        //     // `TRUNCATE ${entity.tableName} RESTART IDENTITY CASCADE;`,
-        //      `delete from person cascade`
-        //  );
-        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
-        await appDataSource.destroy();
+    beforeAll( () => {
+        workerModel = TestDataSource.getRepository(WorkerEntity);
+        repository = new WorkerRepository(workerModel, TestDataSource);
     });
 
     it('should instantiate a workerRepository', () =>{

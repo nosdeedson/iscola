@@ -22,7 +22,7 @@ export class ParentStudentRepository {
     }
 
     async findAll(){
-        return [] as any;
+        return this.repository.find();
     }
 
     async update(){

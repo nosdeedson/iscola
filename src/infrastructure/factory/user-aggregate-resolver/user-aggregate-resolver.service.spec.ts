@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ParentAggregateContext, StudentAggregateContext, UserAggregateResolverService } from './user-aggregate-resolver.service';
+import { ParentStudentAggregateContext, UserAggregateResolverService } from './user-aggregate-resolver.service';
 import { setEnv } from '../../__mocks__/env.mock';
 import { DataBaseConnectionModule } from '../../data-base-connection/data-base-connection.module';
 import { AccessType } from '../../../domain/user/access.type';
@@ -38,12 +38,12 @@ describe('UserAggregateResolverService', () => {
   });
 
   it('should resolve STUDENT aggregate context', () => {
-    const context = service.resolve(AccessType.STUDENT) as StudentAggregateContext;
+    const context = service.resolve(AccessType.STUDENT) as ParentStudentAggregateContext;
     expect(context).toBeDefined();
     expect(context.accessType).toBe(AccessType.STUDENT);
     expect(context).toHaveProperty('studentRepository');
     expect(context).toHaveProperty('classRepository');
-    expect(context).toHaveProperty('parentsRepository');
+    expect(context).toHaveProperty('parentRepository');
     expect(context.studentRepository).toBeInstanceOf(StudentRepository);
   });
 
@@ -58,7 +58,7 @@ describe('UserAggregateResolverService', () => {
   });
 
   it('should resolve PARENT aggregate context', () => {
-    const context = service.resolve(AccessType.PARENT) as ParentAggregateContext;
+    const context = service.resolve(AccessType.PARENT) as ParentStudentAggregateContext;
     expect(context).toBeDefined();
     expect(context.accessType).toBe(AccessType.PARENT);
     expect(context).toHaveProperty('parentRepository');

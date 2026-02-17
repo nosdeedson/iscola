@@ -7,8 +7,7 @@ import { UserAggregateResolverService } from '../user-aggregate-resolver/user-ag
 import { SystemError } from '../../../application/services/@shared/system-error';
 import { RepositoryFactoryService } from '../repositiry-factory/repository-factory.service';
 import { CreateWorkerService } from '../../../application/services/worker/create/create.worker.service';
-import { CreateParentStudentService  } from '../../../application/services/parent-student/create.parent.student.service';
-import { CreateParentService } from '../../../application/services/parent/create/create.parent.service';
+import { CreateParentStudentService  } from '../../../application/services/parent-student/create/create.parent.student.service';
 
 
 describe('UserServiceFactoryService', () => {

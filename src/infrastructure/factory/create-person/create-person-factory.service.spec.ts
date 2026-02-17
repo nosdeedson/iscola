@@ -6,7 +6,6 @@ import { CreateWorkerDto } from '../../../application/services/worker/create/cre
 import { CreateStudentDto } from '../../../application/services/student/create/create.student.dto';
 import { CreateParentDto } from '../../../application/services/parent/create/create.parent.dto';
 import { SystemError } from '../../../application/services/@shared/system-error';
-import { afterEach } from 'node:test';
 
 describe('CreatePersonService', () => {
   let service: CreatePersonFactoryService;
@@ -19,7 +18,7 @@ describe('CreatePersonService', () => {
     service = module.get<CreatePersonFactoryService>(CreatePersonFactoryService);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     jest.clearAllMocks();
   })
 

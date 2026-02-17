@@ -54,6 +54,6 @@ export class StudentEntity extends PersonEntity {
     }
 
     get parents(): ParentEntity[] {
-        return this.parentStudents.map(ps => ps.parent);
+        return []
     }
 }

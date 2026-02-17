@@ -101,11 +101,6 @@ describe('create user service integration tests', () =>{
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
 
-        let parent = studentEntity.parents[0];
-
-        let parentRepository = new ParentRepository(personEntity, appDataSource);
-        expect(await parentRepository.create(parent)).toBeInstanceOf(ParentEntity);
-
         expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
 
         let input = {
@@ -131,11 +126,6 @@ describe('create user service integration tests', () =>{
         let parent = DomainMocks.mockParent();
         let parentEntity = ParentEntity.toParentEntity(parent);
 
-        let studentEntity = parentEntity.students[0];
-
-        let studentRepository  = new StudentRepository(personEntity, appDataSource);
-        expect(await studentRepository.create(studentEntity)).toBeInstanceOf(StudentEntity);
-
         expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
 
         let input = {
@@ -153,4 +143,4 @@ describe('create user service integration tests', () =>{
         expect(results.length).toBe(1);
         expect(results[0].id).toBeDefined();
     });
-})
+});

@@ -1,19 +1,16 @@
-import { DataSource } from "typeorm";
 import { Grade } from "../../../domain/enum/grade/grade";
 import { Rating } from "../../../domain/rating/rating";
-import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from '../../__mocks__/mocks';
-import { PersonEntity } from "../../entities/@shared/person.entity";
 import { AcademicSemesterEntity } from "../../entities/academic-semester/academic.semester.entity";
 import { RatingEntity } from "../../entities/rating/rating.entity";
 import { StudentEntity } from "../../entities/student/student.entity";
 import { AcademicSemesterRepository } from '../academic-semester/academic-semester.repository';
 import { RatingRepositiry } from '../rating/rating.repository';
 import { StudentRepository } from '../student/student.repository';
+import { TestDataSource } from "../config-test/test.datasource";
 
 describe('RatingRepository unit tests', () =>{
 
-    let appDataSource: DataSource;
     let ratintModel;
     let ratingRepository: RatingRepositiry;
     let semesterModel;
@@ -21,27 +18,17 @@ describe('RatingRepository unit tests', () =>{
     let studentModel;
     let studentRepository: StudentRepository;
 
-    beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
-        await appDataSource.initialize()
-            .catch(error => console.log(error));
+    beforeAll(() => {
         
-        ratintModel = appDataSource.getRepository(RatingEntity);
-        ratingRepository = new RatingRepositiry(ratintModel, appDataSource);
+        ratintModel = TestDataSource.getRepository(RatingEntity);
+        ratingRepository = new RatingRepositiry(ratintModel, TestDataSource);
 
-        semesterModel = appDataSource.getRepository(AcademicSemesterEntity);
-        semesterRepository = new AcademicSemesterRepository(semesterModel, appDataSource);
+        semesterModel = TestDataSource.getRepository(AcademicSemesterEntity);
+        semesterRepository = new AcademicSemesterRepository(semesterModel, TestDataSource);
 
-        studentModel = appDataSource.getRepository(StudentEntity);
-        studentRepository = new StudentRepository(studentModel, appDataSource);
+        studentModel = TestDataSource.getRepository(StudentEntity);
+        studentRepository = new StudentRepository(studentModel, TestDataSource);
     });
-
-    afterEach( async () =>{
-        await appDataSource.createQueryBuilder().delete().from(RatingEntity).execute();
-        await appDataSource.createQueryBuilder().delete().from(AcademicSemesterEntity).execute();
-        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
-        await appDataSource.destroy();
-    })
 
     it('ratingRepository should be instantiated', () =>{
         expect(ratingRepository).toBeDefined();

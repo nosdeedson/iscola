@@ -9,11 +9,9 @@ describe('ParentStudentEntity', () => {
     const parent = DomainMocks.mockParentWithoutStudent(); 
     const studentEntity = StudentEntity.toStudentEntity(student);
     const parentEntity = ParentEntity.toParentEntity(parent);
-    const parentStudentEntity = new ParentStudentEntity();
-    parentStudentEntity.parent = parentEntity;
-    parentStudentEntity.studentEntity = studentEntity;
+    const parentStudentEntity = ParentStudentEntity.toParentStudentEntity(parentEntity, studentEntity);
     expect(parentStudentEntity).toBeDefined();
     expect(parentStudentEntity.parent).toBe(parentEntity);
-    expect(parentStudentEntity.studentEntity).toBe(studentEntity);
+    expect(parentStudentEntity.student).toBe(studentEntity);
   });
 } )

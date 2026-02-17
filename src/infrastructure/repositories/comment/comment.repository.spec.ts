@@ -1,9 +1,7 @@
-import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
 import { Comment } from "../../../domain/comment/comment";
 import { Parent } from "../../../domain/parent/parent";
 import { Student } from "../../../domain/student/student";
-import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../entities/academic-semester/academic.semester.entity";
 import { CommentEntity } from "../../entities/comment/comment.entity";
@@ -15,11 +13,11 @@ import { AcademicSemesterRepository } from '../academic-semester/academic-semest
 import { CommentRepository } from '../comment/comment.respository';
 import { RatingRepositiry } from '../rating/rating.repository';
 import { StudentRepository } from '../student/student.repository';
+import { TestDataSource } from "../config-test/test.datasource";
 
 
 describe('CommentRepository unit test', () => {
 
-    let appDataSource: DataSource;
     let commentModel: Repository<CommentEntity>;
     let repository: CommentRepository;
     let ratingModel: Repository<RatingEntity>;
@@ -32,34 +30,23 @@ describe('CommentRepository unit test', () => {
     let parentModel: Repository<ParentEntity>;
     let parentRepository: ParentRepository;
 
-    beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
-        await appDataSource.initialize()
-            .catch((error) => console.log(error));
+    beforeAll( () => {
+    
+        commentModel = TestDataSource.getRepository(CommentEntity);
+        repository = new CommentRepository(commentModel, TestDataSource);
 
-        commentModel = appDataSource.getRepository(CommentEntity);
-        repository = new CommentRepository(commentModel, appDataSource);
+        semesterModel = TestDataSource.getRepository(AcademicSemesterEntity);
+        semesterRepository = new AcademicSemesterRepository(semesterModel, TestDataSource);
 
-        semesterModel = appDataSource.getRepository(AcademicSemesterEntity);
-        semesterRepository = new AcademicSemesterRepository(semesterModel, appDataSource);
+        ratingModel = TestDataSource.getRepository(RatingEntity);
+        ratingRepository = new RatingRepositiry(ratingModel, TestDataSource);
 
-        ratingModel = appDataSource.getRepository(RatingEntity);
-        ratingRepository = new RatingRepositiry(ratingModel, appDataSource);
+        studentModel = TestDataSource.getRepository(StudentEntity);
+        studentRepository = new StudentRepository(studentModel, TestDataSource);
 
-        studentModel = appDataSource.getRepository(StudentEntity);
-        studentRepository = new StudentRepository(studentModel, appDataSource);
-
-        parentModel = appDataSource.getRepository(ParentEntity);
-        parentRepository = new ParentRepository(parentModel, appDataSource)
+        parentModel = TestDataSource.getRepository(ParentEntity);
+        parentRepository = new ParentRepository(parentModel, TestDataSource)
         
-    });
-
-    afterEach(async () => {
-        await commentModel.query(`delete from comment cascade`);
-        await ratingModel.query(`delete from rating cascade`);
-        await parentModel.query(`delete from person cascade`);
-        await studentModel.query(`delete from person cascade`);
-        await appDataSource.destroy();
     });
 
     it('commentRepository must be instantiated', async () => {

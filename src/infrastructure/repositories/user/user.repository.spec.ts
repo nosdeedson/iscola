@@ -1,4 +1,3 @@
-import { DataSource } from 'typeorm';
 import { Repository } from 'typeorm';
 import { Worker } from '../../../domain/worker/worker';
 import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
@@ -7,31 +6,21 @@ import { UserEntity } from "../../entities/user/user.entity";
 import { WorkerEntity } from "../../entities/worker/worker.entity";
 import { UserRepository } from '../user/user.repository';
 import { WorkerRepository } from "../worker/worker.repository";
+import { TestDataSource } from '../config-test/test.datasource';
 
 describe('UserRepository unit test', () =>{
 
-    let appDataSource: DataSource;
     let userModel: Repository<UserEntity>;
     let userRepository: UserRepository;
     let workerModel: Repository<WorkerEntity>;
     let workerRepository: WorkerRepository;
 
-    beforeEach(async () =>{
-        appDataSource = AppDataSourceMock.mockAppDataSource();
-        await appDataSource.initialize()
-            .catch(error => console.log(error));
-        
-        userModel = appDataSource.getRepository(UserEntity);
-        userRepository = new UserRepository(userModel, appDataSource);
-        workerModel = appDataSource.getRepository(WorkerEntity);
-        workerRepository = new WorkerRepository(workerModel, appDataSource); 
+    beforeAll(async () =>{
+        userModel = TestDataSource.getRepository(UserEntity);
+        userRepository = new UserRepository(userModel, TestDataSource);
+        workerModel = TestDataSource.getRepository(WorkerEntity);
+        workerRepository = new WorkerRepository(workerModel, TestDataSource); 
     });
-
-    afterEach(async () =>{
-        await appDataSource.createQueryBuilder().delete().from(UserEntity).execute();
-        await appDataSource.createQueryBuilder().delete().from(WorkerEntity).execute();
-        await appDataSource.destroy();
-    })
 
     it('models e repositories must be instantiated', async () =>{
         expect(workerModel).toBeDefined();

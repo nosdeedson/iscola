@@ -57,7 +57,7 @@ export class StudentRepository implements StudentRepositoryInterface {
             .select('student')
             .distinct(true);
         const s = await qb.getRawOne();
-        return this.studentRepository.findOneBy({ id: s.student_id });
+        return s ? this.studentRepository.findOneBy({ id: s.student_id }) : null;
     }
 
     async findAll(): Promise<StudentEntity[]> {

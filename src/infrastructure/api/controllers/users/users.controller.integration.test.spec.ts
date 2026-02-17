@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { UsersController } from "./users.controller";
-import { UserUsecasesService } from "../../usecases/user-usecases/user-usecases.service";
+import { UserUsecasesService } from "../../../../application/usecases/user-usecases/user-usecases.service";
 import { CreateUserFactoryService } from "../../../factory/create-user-service-factory/create-user-factory-service";
 import { RepositoryFactoryService } from "../../../factory/repositiry-factory/repository-factory.service";
 import { DeleteUserFactoryService } from "../../../factory/delete-user-factory/delete-user-factory.service";

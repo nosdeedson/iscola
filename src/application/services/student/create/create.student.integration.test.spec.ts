@@ -65,7 +65,6 @@ describe('CreateStudentService integration tests', () => {
         let sgEntity = ClassEntity.toClassEntity(schoogroup);
         expect(await schoolGroupRepository.create(sgEntity)).toBeInstanceOf(ClassEntity);
 
-        // parent 
         const parent = DomainMocks.mockParentWithoutStudent();
         const parentEntity = ParentEntity.toParentEntity(parent);
         expect(await parentRepository.create(parentEntity)).toBeInstanceOf(ParentEntity);
@@ -81,10 +80,10 @@ describe('CreateStudentService integration tests', () => {
 
         let dto = new CreateStudentDto(new Date(1980, 6, 30, 23, 59, 59), student.getName(), sgEntity.classCode, [parent.getName()]);
         const service = new CreateStudentService(studentRepository, schoolGroupRepository);
-        expect( await service.execute(dto)).toBe(void 0);
+        expect( await service.execute(dto)).toBeInstanceOf(StudentEntity);
         const results = await studentRepository.findAll();
         expect(results[0].birthday).toStrictEqual(new Date(1980, 6, 30, 23, 59, 59));
-        expect(results[0].fullName).toBe('edson');
+        expect(results[0].fullName).toBe('julio');
     });
 
     it('should create a student', async () =>{ 
@@ -98,7 +97,7 @@ describe('CreateStudentService integration tests', () => {
 
         let dto = new CreateStudentDto(new Date(), 'edson', schoogroup.getClassCode(), [parent.getId()]);
         const service = new CreateStudentService(studentRepository, schoolGroupRepository);
-        expect(await service.execute(dto)).toBe(void 0);
+        expect(await service.execute(dto)).toBeInstanceOf(StudentEntity);
 
     });
 

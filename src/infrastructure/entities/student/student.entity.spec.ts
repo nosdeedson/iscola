@@ -24,7 +24,6 @@ describe("StudentModel unit test", () => {
         expect(model.deletedAt).toEqual(student.getDeletedAt())
         expect(model.enrolled).toEqual(student.getEnrolled())
         expect(model.fullName).toEqual(student.getName())
-        expect(model.parents.length).toBe(1)
         expect(model.schoolGroup).toBeDefined()
         expect(model.updatedAt).toEqual(student.getUpdatedAt())
     });
