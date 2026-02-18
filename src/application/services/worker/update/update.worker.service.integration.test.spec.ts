@@ -1,6 +1,6 @@
 import { RoleEnum } from "../../../../domain/worker/roleEnum";
 import { Worker } from "../../../../domain/worker/worker";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
 import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
 import { WorkerRepository } from "../../../../infrastructure/repositories/worker/worker.repository";
@@ -14,7 +14,7 @@ describe('UpdateWorkerService integration test', () => {
     let workerRepository: WorkerRepository;
 
     beforeEach(async () =>{
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
         .catch(error => console.log(error))
 

@@ -5,7 +5,7 @@ import { StudentEntity } from "../../../../infrastructure/entities/student/stude
 import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
 import { ParentStudentEntity } from "../../../../infrastructure/entities/parent-student/parent.student.entity";
 import { ParentStudentRepository } from "../../../../infrastructure/repositories/parent-student/parent.student.repositoy";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 
 describe('CreateParentStudentService Integration Test', () => {
@@ -22,7 +22,7 @@ describe('CreateParentStudentService Integration Test', () => {
     let parentStudentRepository: ParentStudentRepository;
 
     beforeEach(async () =>{
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
 

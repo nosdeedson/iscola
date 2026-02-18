@@ -1,11 +1,11 @@
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
 import { AcademicSemester } from "../../../../domain/academc-semester/academic.semester";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../../../infrastructure/entities/academic-semester/academic.semester.entity";
 import { AcademicSemesterRepository } from "../../../../infrastructure/repositories/academic-semester/academic-semester.repository";
 import { FindAllAcademicSemesterService } from "./findAll.academic-semester.service";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 
 describe('AcademicSemester integration tests', () =>{
 
@@ -14,7 +14,7 @@ describe('AcademicSemester integration tests', () =>{
     let semesterRepository: AcademicSemesterRepository;
 
     beforeEach(async () =>{
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error))
         

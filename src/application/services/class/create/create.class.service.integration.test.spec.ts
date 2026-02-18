@@ -1,5 +1,4 @@
 import { DateHelper } from '../../../../helpers/date/date.helper';
-import { AppDataSourceMock } from '../../../../infrastructure/__mocks__/appDataSourceMock';
 import { ClassEntity } from '../../../../infrastructure/entities/class/class.entity';
 import { ClassRepository } from '../../../../infrastructure/repositories/class/class.repository';
 import { CreateClassDto } from './create.class.dto';
@@ -7,6 +6,7 @@ import { ScheduleDto } from './schedule-dto';
 import { CreateClassService } from './create.class.service';
 import { DataSource } from 'typeorm';
 import { Repository } from 'typeorm';
+import { AppDataSource } from '../../../../infrastructure/repositories/config-test/appDataSource';
 
 describe('create class service integration test', () => {
 
@@ -22,7 +22,7 @@ describe('create class service integration test', () => {
     let scheduleDto: ScheduleDto;
 
     beforeEach( async () => {
-        appDatasource = AppDataSourceMock.mockAppDataSource();
+        appDatasource = AppDataSource.getAppDataSource();
         await appDatasource.initialize()
             .catch(error => console.log(error));
 

@@ -1,5 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
 import { UserEntity } from "../../../../infrastructure/entities/user/user.entity";
@@ -20,7 +20,7 @@ describe('find user integration unit test', () =>{
     let workerRepository: WorkerRepository;
 
     beforeEach(async () =>{
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
 

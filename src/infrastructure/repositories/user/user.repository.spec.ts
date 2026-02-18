@@ -1,6 +1,5 @@
 import { Repository } from 'typeorm';
 import { Worker } from '../../../domain/worker/worker';
-import { AppDataSourceMock } from "../../__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../__mocks__/mocks";
 import { UserEntity } from "../../entities/user/user.entity";
 import { WorkerEntity } from "../../entities/worker/worker.entity";

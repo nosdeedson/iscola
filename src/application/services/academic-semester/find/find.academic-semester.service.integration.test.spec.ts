@@ -1,12 +1,12 @@
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
 import { AcademicSemester } from "../../../../domain/academc-semester/academic.semester";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../../../infrastructure/entities/academic-semester/academic.semester.entity";
 import { AcademicSemesterRepository } from "../../../../infrastructure/repositories/academic-semester/academic-semester.repository";
 import { FindAcademicSemesterService } from "./find.academic-semester.service";
 import { SystemError } from "../../../../application/services/@shared/system-error";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 
 describe('Academic semester find integrations tests', () => {
 
@@ -18,7 +18,7 @@ describe('Academic semester find integrations tests', () => {
 
     beforeEach(async () =>{
         semester = DomainMocks.mockAcademicSemester();
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
         

@@ -1,4 +1,3 @@
-import { DataSource } from 'typeorm';
-import { AppDataSourceMock } from '../../__mocks__/appDataSourceMock';
+import { AppDataSource } from './appDataSource';
 
-export const TestDataSource = AppDataSourceMock.mockAppDataSource();
+export const TestDataSource = AppDataSource.getAppDataSource();

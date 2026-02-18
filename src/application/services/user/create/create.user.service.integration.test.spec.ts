@@ -1,6 +1,6 @@
 import { AccessType } from "../../../../domain/user/access.type";
 import { RoleEnum } from "../../../../domain/worker/roleEnum";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
 import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
@@ -25,7 +25,7 @@ describe('create user service integration tests', () =>{
     let personRepository: any;
 
     beforeEach( async () =>{
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
         

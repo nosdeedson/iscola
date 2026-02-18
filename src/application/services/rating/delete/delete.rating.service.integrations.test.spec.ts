@@ -1,4 +1,4 @@
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { RatingEntity } from "../../../../infrastructure/entities/rating/rating.entity";
 import { DeleteRatingService } from "./delete.rating.service";
@@ -23,7 +23,7 @@ describe('Delete rating domain service integration tests', () => {
     let semesterRepository: AcademicSemesterRepository;
 
     beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
         ratingEntity = appDataSource.getRepository(RatingEntity);

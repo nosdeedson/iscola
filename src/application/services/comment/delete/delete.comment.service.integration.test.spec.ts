@@ -1,4 +1,4 @@
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { CommentEntity } from "../../../../infrastructure/entities/comment/comment.entity";
 import { CommentRepository } from "../../../../infrastructure/repositories/comment/comment.respository";
 import { AcademicSemesterEntity } from "../../../../infrastructure/entities/academic-semester/academic.semester.entity";
@@ -34,7 +34,7 @@ describe('DeleteCommentService integration test', () =>{
     let parentRepository: ParentRepository;
 
     beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch((error) => console.log(error));
 

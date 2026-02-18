@@ -1,31 +1,19 @@
-import { DataSource } from "typeorm";
 import { RoleEnum } from "../../../../domain/worker/roleEnum";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from '../../../../infrastructure/__mocks__/mocks';
-import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
 import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
 import { WorkerRepository } from "../../../../infrastructure/repositories/worker/worker.repository";
 import { DeleteWorkerService } from './delete.worker.service';
+import { TestDataSource } from "../../../../infrastructure/repositories/config-test/test.datasource";
 
 
 describe('DeleteWorkerService integration test', () => {
 
-    let appDataSource: DataSource;
     let workerModel;
     let workerRepository: WorkerRepository;
 
-    beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
-        await appDataSource.initialize()
-            .catch(error => console.log(error));
-        workerModel = appDataSource.getRepository(WorkerEntity);
-        workerRepository = new WorkerRepository(workerModel, appDataSource);
-    });
-
-    afterEach(async () => {
-        // await workerModel.query('delete from person cascade');
-        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
-        await appDataSource.destroy();
+    beforeAll(() => {
+        workerModel = TestDataSource.getRepository(WorkerEntity);
+        workerRepository = new WorkerRepository(workerModel, TestDataSource);
     });
 
     it('repository must be instantiated', async () =>{

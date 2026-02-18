@@ -1,5 +1,4 @@
 import { DomainMocks } from '../../../../infrastructure/__mocks__/mocks';
-import { AppDataSourceMock } from '../../../../infrastructure/__mocks__/appDataSourceMock';
 import { ClassEntity } from '../../../../infrastructure/entities/class/class.entity';
 import { ClassRepository } from '../../../../infrastructure/repositories/class/class.repository';
 import { FindClassService } from './find.class.service';
@@ -7,6 +6,7 @@ import { DataSource } from 'typeorm';
 import { Repository } from 'typeorm';
 import { ClassRepositoryInterface } from '../../../../domain/class/class.repository.interface';
 import { Class } from '../../../../domain/class/class';
+import { AppDataSource } from '../../../../infrastructure/repositories/config-test/appDataSource';
 
 
 describe('find class service integration test', () =>{
@@ -19,7 +19,7 @@ describe('find class service integration test', () =>{
 
     beforeEach( async () =>{
         schoolgroup = DomainMocks.mockSchoolGroup();
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch((error: any) => console.log(error))
         classEntity = appDataSource.getRepository(ClassEntity);

@@ -1,9 +1,7 @@
 import { DomainMocks } from '../../__mocks__/mocks';
-import { AppDataSourceMock } from '../../__mocks__/appDataSourceMock';
 import { ClassRepository} from '../class/class.repository';
 import { ClassEntity } from '../../entities/class/class.entity';
 import { Class } from '../../../domain/class/class';
-import { DataSource } from 'typeorm';
 import { TestDataSource } from '../config-test/test.datasource';
 
 

@@ -1,4 +1,4 @@
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
 import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
 import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
@@ -15,7 +15,7 @@ describe('FindStudentService integration tests', () => {
     let studentRepository: StudentRepository;
 
     beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
 

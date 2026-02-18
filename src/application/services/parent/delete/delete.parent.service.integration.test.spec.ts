@@ -1,4 +1,4 @@
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
 import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
 import { ParentRepository } from "../../../../infrastructure/repositories/parent/parent.repository";
@@ -19,7 +19,7 @@ describe('DeleteParentService integration tests', () =>{
     let studentRepository: StudentRepository;
 
     beforeEach( async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
         

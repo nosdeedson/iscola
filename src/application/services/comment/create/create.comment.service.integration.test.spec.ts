@@ -1,4 +1,4 @@
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { CommentEntity } from "../../../../infrastructure/entities/comment/comment.entity";
 import { CreateCommentDto } from "./create.comment.dto";
 import { CommentRepository } from "../../../../infrastructure/repositories/comment/comment.respository";
@@ -34,7 +34,7 @@ describe('create comment service integration tests', () =>{
     let parentRepository: ParentRepository;
 
     beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch((error) => console.log(error));
 

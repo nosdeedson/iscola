@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { AcademicSemesterEntity } from "../../../../infrastructure/entities/academic-semester/academic.semester.entity";
 import { CommentEntity } from "../../../../infrastructure/entities/comment/comment.entity";
@@ -35,7 +35,7 @@ describe('UpdateCommentService integration tests', () =>{
     let parentRepository: ParentRepository;
 
     beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch((error) => console.log(error));
 

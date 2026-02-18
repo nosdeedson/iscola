@@ -28,18 +28,12 @@ export class StudentRepository implements StudentRepositoryInterface {
     }
 
     async delete(id: string): Promise<void> {
-        await this.dataSource.createQueryBuilder()
-            .update(StudentEntity)
-            .set({
-                deletedAt: new Date(),
-            })
-            .where('id= :id', { id: id })
-            .execute();
+        const student = await this.studentRepository.delete(id)
     }
 
     async find(id: string): Promise<StudentEntity> {
         return await this.studentRepository.findOne({
-            where: { id: id },
+            where: { id: id,  },
             relations: {
                 schoolGroup: true,
             }

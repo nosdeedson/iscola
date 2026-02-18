@@ -1,7 +1,7 @@
 import { DataSource, Repository } from "typeorm"
 import { StudentEntity } from "../../../../infrastructure/entities/student/student.entity";
 import { StudentRepository } from "../../../../infrastructure/repositories/student/student.repository";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";
 import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
@@ -19,7 +19,7 @@ describe('FindAllStudents', () => {
     let parentRepository: ParentRepository;
 
     beforeEach(async () =>{
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch((error) => console.log(error));
         studentEntity = appDataSource.getRepository(StudentEntity);

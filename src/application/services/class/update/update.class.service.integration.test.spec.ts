@@ -1,4 +1,4 @@
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
 import { ClassRepository } from "../../../../infrastructure/repositories/class/class.repository"; 
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks"; 
@@ -15,7 +15,7 @@ describe('update class integration test', () =>{
     let classEntity: Repository<ClassEntity>;
 
     beforeEach( async () =>{
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
                 .catch(error => console.log(error));
         classEntity = appDataSource.getRepository(ClassEntity);

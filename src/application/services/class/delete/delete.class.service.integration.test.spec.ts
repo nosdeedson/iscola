@@ -1,10 +1,10 @@
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
 import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
 import { ClassRepository } from "../../../../infrastructure/repositories/class/class.repository";
 import { DomainMocks } from '../../../../infrastructure/__mocks__/mocks';
 import { DeleteClassService } from './delete.class.service';
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 
 
 describe('delete class service integration test', () =>{
@@ -16,7 +16,7 @@ describe('delete class service integration test', () =>{
     let entity;
 
     beforeEach(async () =>{
-        appDatasource = AppDataSourceMock.mockAppDataSource();
+        appDatasource = AppDataSource.getAppDataSource();
         await appDatasource.initialize()
             .catch(error => console.log(error));
         classEntity = appDatasource.getRepository(ClassEntity);

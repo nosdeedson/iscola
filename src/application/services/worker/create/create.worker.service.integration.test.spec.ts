@@ -1,5 +1,5 @@
 import { RoleEnum } from "../../../../domain/worker/roleEnum";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
 import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
 import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
@@ -20,7 +20,7 @@ describe("CreateWorkerService integration test", () =>{
     let schoolGroupRepository: ClassRepository | ClassRepositoryInterface; 
 
     beforeEach(async () => {
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch((error) => console.log(error));
         workerModel = appDataSource.getRepository(WorkerEntity)

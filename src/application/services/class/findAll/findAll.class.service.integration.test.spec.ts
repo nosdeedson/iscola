@@ -1,10 +1,10 @@
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
-import { AppDataSourceMock } from "../../../../infrastructure/__mocks__/appDataSourceMock";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
 import { ClassRepository} from '../../../../infrastructure/repositories/class/class.repository';
 import { FindAllClassService } from './findAll.class.service';
+import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
 
 
 describe('findall service integration test', () =>{
@@ -14,7 +14,7 @@ describe('findall service integration test', () =>{
     let classRepository: ClassRepository;
 
     beforeEach(async () =>{
-        appDataSource = AppDataSourceMock.mockAppDataSource();
+        appDataSource = AppDataSource.getAppDataSource();
         await appDataSource.initialize()
             .catch(error => console.log(error));
         
