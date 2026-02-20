@@ -1,3 +1,4 @@
+import { ClassesOfTeacherDto } from "src/application/usecases/teacher-list-classes-usecase/classes-of-teacher-dto";
 import { ClassRepositoryInterface } from "../../../domain/class/class.repository.interface";
 import { ClassEntity } from "../../../infrastructure/entities/class/class.entity";
 import { DataSource, QueryFailedError, Repository } from "typeorm";
@@ -66,6 +67,20 @@ export class ClassRepository implements ClassRepositoryInterface {
             }
         })
         return all;
+    }   
+    
+    async findByTeacherId(teacherId: string): Promise<ClassEntity[]> {
+        const myClasses = await this.classRepository.find({
+            where: {
+                teacher: {
+                    id: teacherId
+                }
+            },
+            relations: {
+                students: true
+            }
+        });
+        return myClasses
     }
 
     async update(entity: ClassEntity) {

@@ -22,18 +22,17 @@ import { SystemError } from 'src/application/services/@shared/system-error';
 import { ParentStudentRepository } from 'src/infrastructure/repositories/parent-student/parent.student.repositoy';
 import { ParentStudentEntity } from 'src/infrastructure/entities/parent-student/parent.student.entity';
 
-
 @Injectable()
 export class RepositoryFactoryService {
 
     constructor(@Inject("DATA_SOURCE") private readonly dataSource: DataSource) { }
 
-    public createRepository(whichRepository: TypeRepository): RepositoryInterface<any>{
+    public createRepository(whichRepository: TypeRepository): any{
         switch (whichRepository) {
             case TypeRepository.ACADEMIC_SEMESTER:
                 return new AcademicSemesterRepository(this.dataSource.getRepository(AcademicSemesterEntity), this.dataSource);
             case TypeRepository.CLASS:
-                return new ClassRepository(this.dataSource.getRepository(ClassEntity), this.dataSource);
+                return new ClassRepository(this.dataSource.getRepository(ClassEntity), this.dataSource) as ClassRepository;
             case TypeRepository.COMMENT:
                 return new CommentRepository(this.dataSource.getRepository(CommentEntity), this.dataSource);
             case TypeRepository.PARENT:

@@ -8,7 +8,7 @@ import { StudentRepository } from "../../../../infrastructure/repositories/stude
 import { DeleteStudentService } from "../delete/delete.student.service";
 import { TestDataSource } from "../../../../infrastructure/repositories/config-test/test.datasource";
 
-describe('DeleteStudentService integraton tests', () => {
+describe('DeleteStudentService integration tests', () => {
     let studentEntity: Repository<StudentEntity>;
     let studentRepository: StudentRepository;
     let parentEntity: Repository<ParentEntity>;

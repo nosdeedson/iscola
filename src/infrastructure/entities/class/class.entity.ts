@@ -75,6 +75,12 @@ export class ClassEntity extends GenericEntity {
         model.timeFirstDay = schoolGroup.getSchecule().getTimes().get(model.firstDayOfClassInWeek);
         model.timeSecondDay = schoolGroup.getSchecule().getTimes().get(model.secondDayOfClassInWeek);
         model.updatedAt = schoolGroup.getUpdatedAt();
+        if(schoolGroup.getStudents()){
+            model.students = StudentEntity.toStudentsEntities(schoolGroup.getStudents());
+        }
+        if(schoolGroup.getTeacher()){
+            model.setTeacher(WorkerEntity.toWorkerEntity(schoolGroup.getTeacher()));
+        }
         return model;
     }
 

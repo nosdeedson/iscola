@@ -6,6 +6,7 @@ import { SchoolgroupModule } from "../schoolgroup/schoolgroup.module";
 import { SemesterModule } from "../semester/semester.module";
 import { UsersModule } from "../users/users.module";
 import { AppController } from "./AppController";
+import { TeacherModule } from "../teacher/teacher.module";
 
 @Global()
 @Module({
@@ -13,6 +14,7 @@ import { AppController } from "./AppController";
         UsersModule,
         SchoolgroupModule,
         SemesterModule,
+        TeacherModule,
         ConfigModule.forRoot({
             envFilePath: `.env.${process.env.NODE_ENV}`,
             //isGlobal: true
@@ -21,7 +23,7 @@ import { AppController } from "./AppController";
     controllers: [AppController],
     providers: [
         AppUseCase,
-        IsStrongPasswordConstraint
+        // IsStrongPasswordConstraint
     ]
 })
 export class AppModule{}

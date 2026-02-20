@@ -1,10 +1,11 @@
 import { FindUserDto } from "../../../application/services/user/find/find.user.dto";
 import { AccessType } from "../../../domain/user/access.type";
-import {OutputFindWorkerDto} from '../../../application/services/worker/find/find.worker.dto'
+import { OutputFindWorkerDto } from '../../../application/services/worker/find/find.worker.dto'
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { CreateUserDto } from "../../api/controllers/users/dtos/create-user-dto/create-user-dto";
+import { ClassesOfTeacherDto } from "../../../application/usecases/teacher-list-classes-usecase/classes-of-teacher-dto";
 
-export function mockFindUserDto (
+export function mockFindUserDto(
     overrides: Partial<FindUserDto> = {},
 ): FindUserDto {
     return {
@@ -17,7 +18,7 @@ export function mockFindUserDto (
     }
 }
 
-export function mockOutputFindWorkerDto (
+export function mockOutputFindWorkerDto(
     overrides: Partial<OutputFindWorkerDto> = {},
 ): OutputFindWorkerDto {
     return {
@@ -36,13 +37,41 @@ export function mockCreateWorkersDto(
     overrides: Partial<CreateUserDto> = {},
 ): CreateUserDto {
     return {
-        name : 'worker',
-        birthDate : '2025-02-03T12:00:00Z',
-        email : 'worker@email.com',
-        password : '1234@Mudar',
-        accessType : AccessType.ADMIN,
-        classCode : "1234",
-        nickname : 'worker',
+        name: 'worker',
+        birthDate: '2025-02-03T12:00:00Z',
+        email: 'worker@email.com',
+        password: '1234@Mudar',
+        accessType: AccessType.ADMIN,
+        classCode: "1234",
+        nickname: 'worker',
         ...overrides
     }
+}
+
+export function mockClassesOfTeacherDto(): ClassesOfTeacherDto {
+    return {
+        "students": [
+            {
+                "name": "João Silva",
+                "idStudent": "student-1"
+            },
+            {
+                "name": "Maria Souza",
+                "idStudent": "student-2"
+            }
+        ],
+        "classId": "class-123",
+        "className": "English Beginner",
+        "bookName": "English Book A1",
+        "daysOfClass": [
+            {
+                "dayOfClass": "Monday",
+                "timeOfClass": "18:00"
+            },
+            {
+                "dayOfClass": "Wednesday",
+                "timeOfClass": "18:00"
+            }
+        ]
+    } as ClassesOfTeacherDto;
 }
