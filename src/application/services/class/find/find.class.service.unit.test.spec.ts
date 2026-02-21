@@ -8,7 +8,7 @@ import { FindClassService } from './find.class.service';
 describe('find class service unit test', () => {
 
     let schoolgroup;
-    let entity;
+    let entity: ClassEntity | undefined;
     let output: FindClassDto;
 
     afterEach( () => {
@@ -50,7 +50,9 @@ describe('find class service unit test', () => {
         try {
             await service.execute(wantedId)
         } catch (error) {
+            //@ts-ignore
             expect(error.errors).toBeDefined();
+            //@ts-ignore
             expect(error.errors).toStrictEqual([{context: 'class', message: 'class not found'}])
             expect(classRepository.find).toHaveBeenCalledTimes(1);
             expect(classRepository.find).toHaveBeenCalledWith(wantedId);

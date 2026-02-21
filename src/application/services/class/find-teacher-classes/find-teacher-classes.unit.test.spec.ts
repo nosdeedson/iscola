@@ -1,0 +1,51 @@
+import { FindTeacherClassesService } from "./find.teacher-classes";
+import { ClassesOfTeacherDto } from '../../../usecases/teacher-list-classes-usecase/classes-of-teacher-dto';
+import { MockRepositoriesForUnitTest } from "../../../../infrastructure/__mocks__/mockRepositories";
+import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
+import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
+import { mockClassesOfTeacherDto } from "../../../../infrastructure/__mocks__/mock-dtos/mock-dtos";
+
+describe('FindTeacherClassesService unit test', () => {
+
+    afterEach(async () => {
+        jest.clearAllMocks();
+    });
+
+    it('should return an empty list by teacher id', async () => {
+        const repository = MockRepositoriesForUnitTest.mockRepositories();
+        const classes: ClassEntity[] = [];
+        repository.findByTeacherId = jest.fn()
+            .mockImplementation(() => classes);
+        const dto: ClassesOfTeacherDto[] = [];
+        const classOfTeacherDto = jest.spyOn(ClassesOfTeacherDto, 'toClassesOfTeacher')
+            .mockReturnValue(dto);
+        const wantedTeacherId = '8cff5e68-ac09-4c05-b49d-3c70ffdc3511';
+        const service = new FindTeacherClassesService(repository);
+        const result = await service.execute(wantedTeacherId);
+        expect(result).toBeInstanceOf(Array);
+        expect(repository.findByTeacherId).toHaveBeenCalledWith('8cff5e68-ac09-4c05-b49d-3c70ffdc3511');
+        expect(repository.findByTeacherId).toHaveBeenCalledTimes(1);
+        expect(result).toHaveLength(0);
+    });
+
+    it('should return one class by teacher id', async () => {
+        const repository = MockRepositoriesForUnitTest.mockRepositories();
+        const classModel = DomainMocks.mockSchoolGroup();
+        const classEntity = ClassEntity.toClassEntity(classModel);
+        repository.findByTeacherId = jest.fn()
+            .mockImplementation(() => [classEntity]);
+        const dto = mockClassesOfTeacherDto()
+        const classOfTeacherDto = jest.spyOn(ClassesOfTeacherDto, 'toClassesOfTeacher')
+            .mockReturnValue([dto]);
+        const wantedTeacherId = classEntity.id;
+        const service = new FindTeacherClassesService(repository);
+        const result = await service.execute(wantedTeacherId);
+        expect(result).toBeInstanceOf(Array);
+        expect(result[0]).toEqual(dto)
+        expect(repository.findByTeacherId).toHaveBeenCalledWith(wantedTeacherId);
+        expect(repository.findByTeacherId).toHaveBeenCalledTimes(1);
+        expect(result).toHaveLength(1);
+    });
+
+
+});

@@ -77,7 +77,8 @@ export class ClassRepository implements ClassRepositoryInterface {
                 }
             },
             relations: {
-                students: true
+                students: true,
+                teacher: true
             }
         });
         return myClasses

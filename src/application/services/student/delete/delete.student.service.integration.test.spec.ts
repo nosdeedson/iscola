@@ -1,4 +1,3 @@
-import { DataSource } from "typeorm";
 import { Repository } from "typeorm";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { ParentEntity } from "../../../../infrastructure/entities/parent/parent.entity";

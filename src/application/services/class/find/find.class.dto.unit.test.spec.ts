@@ -35,9 +35,7 @@ describe('find dto unit test', () => {
         let worker = DomainMocks.mockWorker(RoleEnum.TEACHER);
         let workerEntity = WorkerEntity.toWorkerEntity(worker);
         entity.setTeacher(workerEntity);
-        
-        
-        
+                
         let student = DomainMocks.mockStudent();
         let studentEntity = StudentEntity.toStudentEntity(student);
         entity.setStudents(studentEntity);

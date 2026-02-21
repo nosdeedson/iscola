@@ -1,6 +1,7 @@
 import { ClassEntity } from "src/infrastructure/entities/class/class.entity";
 
 export class ClassesOfTeacherDto {
+    teacherId: string;
     students: StudentInfoDto[] = [];
     classId: string;
     className: string;
@@ -12,6 +13,7 @@ export class ClassesOfTeacherDto {
             const studentInfo = new StudentInfoDto(it.fullName, it.id);
             this.students.push(studentInfo);
         });
+        this.teacherId = classEntity.teacher.id;
         this.classId = classEntity.id;
         this.className = classEntity.className;
         this.bookName = classEntity.bookName;
