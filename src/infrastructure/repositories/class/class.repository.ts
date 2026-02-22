@@ -84,6 +84,21 @@ export class ClassRepository implements ClassRepositoryInterface {
         return myClasses
     }
 
+    async findByTeacherIdAndClassId(teacherId: string, classId: string): Promise<ClassEntity> {
+        return await this.classRepository.findOne({
+            where: {
+                teacher: {
+                    id: teacherId
+                },
+                id: classId
+            },
+            relations: {
+                students: true,
+                teacher: true
+            }
+        });
+    }
+
     async update(entity: ClassEntity) {
         await this.dataSource.createQueryBuilder()
             .update(ClassEntity)

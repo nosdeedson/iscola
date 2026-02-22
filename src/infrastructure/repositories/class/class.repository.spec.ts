@@ -9,7 +9,6 @@ import { StudentEntity } from '../../entities/student/student.entity';
 import { StudentRepository } from '../student/student.repository';
 import { Repository } from 'typeorm';
 import { RoleEnum } from '../../../domain/worker/roleEnum';
-import { ClassesOfTeacherDto } from '../../../application/usecases/teacher-list-classes-usecase/classes-of-teacher-dto';
 
 describe('ClassRepository unit test', () => {
 
@@ -161,5 +160,67 @@ describe('ClassRepository unit test', () => {
         expect(results).toEqual([]);
     });
 
+    it('findByTeacherIdAndClassId should find a class by teacherId and class id', async () => {
+        const student1 = DomainMocks.mockStudent();
+        const student2 = DomainMocks.mockStudentWithoutParent();
+        const studentEntity1 = StudentEntity.toStudentEntity(student1);
+        const studentEntity2 = StudentEntity.toStudentEntity(student2);
+        expect(await studentRepository.create(studentEntity1)).toBeInstanceOf(StudentEntity);
+        expect(await studentRepository.create(studentEntity2)).toBeInstanceOf(StudentEntity);
+
+        const teacher = DomainMocks.mockWorker(RoleEnum.TEACHER);
+        const classModel = DomainMocks.mockSchoolGroup();
+        teacher.setClass(classModel);
+        const teacherEntity = WorkerEntity.toWorkerEntity(teacher);
+        expect(await teacherRepository.create(teacherEntity)).toBeInstanceOf(WorkerEntity);
+
+        classModel.setStudents([student1, student2]);
+        classModel.setTeacher(teacher);
+        const classEntity = ClassEntity.toClassEntity(classModel);
+        expect(await classRepository.create(classEntity)).toBeInstanceOf(ClassEntity);
+
+        const wantedTeacherId = teacher.getId();
+        const wantedClassId = classModel.getId();
+        const results = await classRepository.findByTeacherIdAndClassId(wantedTeacherId, wantedClassId);
+        expect(results).toBeDefined();
+        expect(results.bookName).toBe(classModel.getNameBook());
+        expect(results.id).toBe(classModel.getId());
+        expect(results.className).toBe(classModel.getName());
+        expect(results.students.length).toBe(2);
+    });
+
+    it('findByTeacherIdAndClassId should not find a class by teacherId and class id when teacherId does not exist', async () => {
+        const teacher = DomainMocks.mockWorker(RoleEnum.TEACHER);
+        const classModel = DomainMocks.mockSchoolGroup();
+        teacher.setClass(classModel);
+        const teacherEntity = WorkerEntity.toWorkerEntity(teacher);
+        expect(await teacherRepository.create(teacherEntity)).toBeInstanceOf(WorkerEntity);
+
+        classModel.setTeacher(teacher);
+        const classEntity = ClassEntity.toClassEntity(classModel);
+        expect(await classRepository.create(classEntity)).toBeInstanceOf(ClassEntity);
+
+        const wrongTeacherId = '89199554-a3c1-411f-8c1b-f6f0ef599f55';
+        const wantedClassId = classModel.getId();
+        const results = await classRepository.findByTeacherIdAndClassId(wrongTeacherId, wantedClassId);
+        expect(results).toBeNull();
+    });
+
+    it('findByTeacherIdAndClassId should not find a class by teacherId and class id when classId does not exist', async () => {
+        const teacher = DomainMocks.mockWorker(RoleEnum.TEACHER);
+        const classModel = DomainMocks.mockSchoolGroup();
+        teacher.setClass(classModel);
+        const teacherEntity = WorkerEntity.toWorkerEntity(teacher);
+        expect(await teacherRepository.create(teacherEntity)).toBeInstanceOf(WorkerEntity);
+
+        classModel.setTeacher(teacher);
+        const classEntity = ClassEntity.toClassEntity(classModel);
+        expect(await classRepository.create(classEntity)).toBeInstanceOf(ClassEntity);
+
+        const wantedTeacherId = teacher.getId();
+        const wrondClassId = '574aa098-50e7-4942-8887-9c066aa9a16c';
+        const results = await classRepository.findByTeacherIdAndClassId(wantedTeacherId, wrondClassId);
+        expect(results).toBeNull;
+    });
 
 });

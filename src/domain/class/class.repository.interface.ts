@@ -4,5 +4,6 @@ import { ClassesOfTeacherDto } from "src/application/usecases/teacher-list-class
 
 export interface ClassRepositoryInterface extends RepositoryInterface<ClassEntity>{
     findByClassCode(classCode: string): Promise<ClassEntity>;
-    findByTeacherId(id: string): Promise<ClassEntity[]>;
+    findByTeacherId(teacherId: string): Promise<ClassEntity[]>;
+    findByTeacherIdAndClassId(teacherId: string, classId: string): Promise<ClassEntity>;
 }
