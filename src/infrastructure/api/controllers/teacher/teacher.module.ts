@@ -4,6 +4,7 @@ import { TeacherListClassesUsecase } from 'src/application/usecases/teacher-list
 import { RepositoryFactoryService } from 'src/infrastructure/factory/repositiry-factory/repository-factory.service';
 import { DataBaseConnectionModule } from 'src/infrastructure/data-base-connection/data-base-connection.module';
 import { ClassRepository } from 'src/infrastructure/repositories/class/class.repository';
+import { FindTeacherClassRatingUsecase } from 'src/application/usecases/find-teacher-class-rating-usecase/find-teacher-class-rating-usecase';
 
 @Module({
     controllers: [
@@ -12,10 +13,11 @@ import { ClassRepository } from 'src/infrastructure/repositories/class/class.rep
     providers: [
         TeacherListClassesUsecase,
         RepositoryFactoryService,
-        ClassRepository
+        ClassRepository,
+        FindTeacherClassRatingUsecase,
     ], 
     imports: [
-        DataBaseConnectionModule
+        DataBaseConnectionModule,
     ]
 })
 export class TeacherModule {}

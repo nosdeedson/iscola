@@ -1,17 +1,10 @@
-import { AcademicSemester } from "../../../../domain/academc-semester/academic.semester";
 import { MockRepositoriesForUnitTest } from "../../../../infrastructure/__mocks__/mockRepositories";
 import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
 import { FindAcademicSemesterService } from "../find/find.academic-semester.service"
 
 describe('find academic semester unit test', () =>{
-    let semester: AcademicSemester | null;
-
-    beforeEach(async () => {
-        semester = DomainMocks.mockAcademicSemester();
-    })
 
     afterEach( async () => {
-        semester = null;
         jest.clearAllMocks();
     })
 
@@ -20,6 +13,7 @@ describe('find academic semester unit test', () =>{
         semesterRepository.find = jest.fn().mockImplementationOnce(() => {
             return semester
         });
+        const semester = DomainMocks.mockAcademicSemester();
         let wantedId = semester.getId();
         const service = new FindAcademicSemesterService(semesterRepository);
         let result = await service.execute(wantedId);
@@ -42,6 +36,7 @@ describe('find academic semester unit test', () =>{
         try {
             let result = await service.execute('4321');
         } catch (error) {
+            //@ts-ignore
             expect(error.errors[0].message).toBe('Academic Semester not found');
         }
         expect(semesterRepository.find).toHaveBeenCalledTimes(1)

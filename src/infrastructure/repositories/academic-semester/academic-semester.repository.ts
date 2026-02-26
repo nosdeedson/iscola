@@ -47,6 +47,12 @@ export class AcademicSemesterRepository implements AcademicSemesterInterface{
         return await this.academicRepositoryRepository.find();
     }
 
+    async findCurrentSemester(): Promise<AcademicSemesterEntity> {
+        return await this.academicRepositoryRepository.findOne({
+            where: {actual: true},
+        });
+    }
+
     async update(entity: AcademicSemesterEntity) {
         await this.academicRepositoryRepository.save(entity);
     }

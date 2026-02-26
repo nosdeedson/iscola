@@ -85,6 +85,16 @@ describe('AcademicSemesterRepository unit tests', () =>{
         expect(result).toBeDefined();
         expect(result.actual).toBeFalsy();
         expect(result.updatedAt.getTime()).toBeGreaterThan(acacemicSemester.getCreatedAt().getTime());
-    })
+    });
+
+    it('should find the current academic-semester', async () => {
+        let semester = DomainMocks.mockAcademicSemester();
+        const semesterEntity = AcademicSemesterEntity.toAcademicSemester(semester);
+        const wantedId = semester.getId();
+        expect(await repository.create(semesterEntity)).toBeInstanceOf(AcademicSemesterEntity);
+        const result = await repository.findCurrentSemester();
+        expect(result).toBeDefined();
+        expect(result.actual).toBeTruthy();
+    });
 
 })

@@ -4,6 +4,7 @@ import { OutputFindWorkerDto } from '../../../application/services/worker/find/f
 import { RoleEnum } from "../../../domain/worker/roleEnum";
 import { CreateUserDto } from "../../api/controllers/users/dtos/create-user-dto/create-user-dto";
 import { ClassesOfTeacherDto } from "../../../application/usecases/teacher-list-classes-usecase/classes-of-teacher-dto";
+import { TeacherClassRatingDto } from "../../../application/usecases/find-teacher-class-rating-usecase/find-teacher-class-rating-dto";
 
 export function mockFindUserDto(
     overrides: Partial<FindUserDto> = {},
@@ -74,4 +75,39 @@ export function mockClassesOfTeacherDto(): ClassesOfTeacherDto {
             }
         ]
     } as ClassesOfTeacherDto;
+}
+
+
+export function mockTeacherClassRatingDto(): TeacherClassRatingDto {
+    return {
+        "teacherId": "teacher-123",
+        "students": [
+            {
+                "name": "John Doe",
+                "idStudent": "student-001"
+            },
+            {
+                "name": "Jane Smith",
+                "idStudent": "student-002"
+            }
+        ],
+        "classId": "class-789",
+        "className": "English Advanced",
+        "bookName": "English Grammar in Use",
+        "daysOfClass": [
+            {
+                "dayOfClass": "Monday",
+                "timeOfClass": "18:00"
+            },
+            {
+                "dayOfClass": "Wednesday",
+                "timeOfClass": "18:00"
+            }
+        ],
+        "semester": {
+            "beginnigDate": new Date("2026-02-01T00:00:00.000Z"),
+            "endingDate": new Date("2026-06-30T00:00:00.000Z"),
+            "actual": true
+        } 
+    } as TeacherClassRatingDto;
 }
