@@ -1,40 +1,27 @@
+import { Repository } from "typeorm";
+import { ClassRepositoryInterface } from "../../../../domain/class/class.repository.interface";
 import { RoleEnum } from "../../../../domain/worker/roleEnum";
-import { AppDataSource } from "../../../../infrastructure/repositories/config-test/appDataSource";
-import { PersonEntity } from "../../../../infrastructure/entities/@shared/person.entity";
+import { WorkerRepositoryInterface } from "../../../../domain/worker/worker.repository.interface";
 import { ClassEntity } from "../../../../infrastructure/entities/class/class.entity";
 import { WorkerEntity } from "../../../../infrastructure/entities/worker/worker.entity";
 import { ClassRepository } from "../../../../infrastructure/repositories/class/class.repository";
+import { TestDataSource } from "../../../../infrastructure/repositories/config-test/test.datasource";
 import { WorkerRepository } from "../../../../infrastructure/repositories/worker/worker.repository";
 import { CreateWorkerDto } from "./create.worker.dto";
 import { CreateWorkerService } from "./create.worker.service";
-import { DomainMocks } from "../../../../infrastructure/__mocks__/mocks";
-import { DataSource } from "typeorm";
-import { WorkerRepositoryInterface } from "../../../../domain/worker/worker.repository.interface";
-import { ClassRepositoryInterface } from "../../../../domain/class/class.repository.interface";
 
 describe("CreateWorkerService integration test", () =>{
-    let appDataSource: DataSource;
-    let workerModel;
+    let workerEntity: Repository<WorkerEntity>;
     let workerRepository: WorkerRepositoryInterface;
-    let schoolGroupModel;
-    let schoolGroupRepository: ClassRepository | ClassRepositoryInterface; 
+    let schoolGroupEntity: Repository<ClassEntity>;
+    let schoolGroupRepository: ClassRepositoryInterface; 
 
-    beforeEach(async () => {
-        appDataSource = AppDataSource.getAppDataSource();
-        await appDataSource.initialize()
-            .catch((error) => console.log(error));
-        workerModel = appDataSource.getRepository(WorkerEntity)
-        workerRepository = new WorkerRepository(workerModel, appDataSource);
-        schoolGroupModel = appDataSource.getRepository(ClassEntity);
-        schoolGroupRepository = new ClassRepository(schoolGroupModel, appDataSource);
-    })
-        
-    afterEach(async () => {
-        await appDataSource.createQueryBuilder().delete().from(ClassEntity).execute();
-        await appDataSource.createQueryBuilder().delete().from(PersonEntity).execute();
-
-        await appDataSource.destroy();
-    })
+    beforeAll(async () => {
+        workerEntity = TestDataSource.getRepository(WorkerEntity);
+        workerRepository = new WorkerRepository(workerEntity, TestDataSource);
+        schoolGroupEntity = TestDataSource.getRepository(ClassEntity);
+        schoolGroupRepository = new ClassRepository(schoolGroupEntity, TestDataSource);
+    });
             
     it("repositories must be instantiated", async () =>{
         expect(workerRepository).toBeDefined();
@@ -42,17 +29,28 @@ describe("CreateWorkerService integration test", () =>{
     })
 
     it('create a worker', async () =>{
-        const schoolGroup = DomainMocks.mockSchoolGroup();
-        const schoolGroupEntity = ClassEntity.toClassEntity(schoolGroup);
-        expect(await schoolGroupRepository.create(schoolGroupEntity)).toBeInstanceOf(ClassEntity);
-        workerModel = appDataSource.getRepository(WorkerEntity);
         let service = new CreateWorkerService(workerRepository, schoolGroupRepository);
         let worker =  {
             name: 'edson',
             birthday: new Date(),
             role: RoleEnum.TEACHER,
-            classCode: schoolGroup.getClassCode()
+            classCode: null as any,
         } as CreateWorkerDto;
-        expect(await service.execute(worker)).toBeInstanceOf(WorkerEntity)
+        const entity = await service.execute(worker);
+        expect(entity).toBeInstanceOf(WorkerEntity);
+        const validation = workerRepository.find(entity.id);
+        expect(validation).toBeDefined();
     });
-})
+
+    it('should create a teacher with just a name', async () => {
+        let service = new CreateWorkerService(workerRepository, schoolGroupRepository);
+        let teacher = {
+            name: 'without',
+            role: RoleEnum.TEACHER
+        } as CreateWorkerDto;
+        const entity = await service.execute(teacher);
+        expect(entity).toBeInstanceOf(WorkerEntity);
+        const validation = workerRepository.find(entity.id);
+        expect(validation).toBeDefined();
+    });
+});

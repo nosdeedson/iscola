@@ -12,7 +12,7 @@ export class Worker extends Person {
     private classes: Class[]
 
     constructor(params: {
-        birthday: Date,
+        birthday?: Date,
         name: string,
         role: RoleEnum,
         id?: string,

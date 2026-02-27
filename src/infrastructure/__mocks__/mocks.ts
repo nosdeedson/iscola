@@ -38,6 +38,7 @@ const rating = new Rating(academicSemester, student, new Date(), Grade.BAD, Grad
 const admin = new Worker({ birthday: new Date(), name: 'jose', role: RoleEnum.ADMINISTRATOR });
 admin.setClass(schoolGroup);
 const teacher = new Worker({ birthday: new Date(), name: 'maria', role: RoleEnum.TEACHER });
+const teacherWithJustName = new Worker({ name: 'maria', role: RoleEnum.TEACHER });
 teacher.setClass(schoolGroup);
 
 const userAdmin = new User(admin, 'teste@teste', 'edson', '123', AccessType.ADMIN);
@@ -71,9 +72,9 @@ export class DomainMocks {
         return schoolGroup;
     }
 
-    static mockWorker(role: RoleEnum): Worker {
+    static mockWorker(role: RoleEnum, justName: boolean = false): Worker {
         if (role == RoleEnum.TEACHER) {
-            return teacher;
+            return justName ? teacherWithJustName : teacher;
         } else {
             return admin;
         }

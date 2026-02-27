@@ -4,26 +4,19 @@ import { CreateUserDto } from "src/infrastructure/api/controllers/users/dtos/cre
 
 export class CreateWorkerDto {
     name: string;
-    birthday: Date;
+    birthday?: Date;
     role: RoleEnum;
     classCode: string;
 
-    // FOR USER
-    // email: string;
-    // nickname: string;
-    // password: string;
-    // accesstype: AccessType;
-
-
-    constructor(dto: CreateUserDto){
-        this.name = dto.name;
-        this.birthday = new Date(dto.birthDate);
-        this.role = dto.accessType == AccessType.ADMIN ? RoleEnum.ADMINISTRATOR : RoleEnum.TEACHER;
-        this.classCode = dto.classCode;
-        // this.email = dto.email;
-        // this.nickname = dto.nickname;
-        // this.password = dto.password;
-        // this.accesstype = dto.accesstype;
+    constructor(params: {
+        name: string,
+        birthday?: Date,
+        accessType?: AccessType,
+        classCode: string,
+    }){
+        this.name = params.name;
+        this.birthday = params.birthday ? new Date(params.birthday) : undefined;
+        this.role = params.accessType === AccessType.ADMIN ? RoleEnum.ADMINISTRATOR : RoleEnum.TEACHER;
+        this.classCode = params.classCode;
     }
-
 }

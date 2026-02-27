@@ -12,22 +12,38 @@ import { CreateSchoolgroupDto } from '../../../infrastructure/api/controllers/sc
 import { UpdateSchoolgroupDto } from '../../../infrastructure/api/controllers/schoolgroup/update-schoolgroup-dto';
 import { RepositoryFactoryService } from 'src/infrastructure/factory/repositiry-factory/repository-factory.service';
 import { TypeRepository } from 'src/infrastructure/factory/repositiry-factory/type-repository';
+import { WorkerRepository } from 'src/infrastructure/repositories/worker/worker.repository';
+import { ClassRepositoryInterface } from 'src/domain/class/class.repository.interface';
+import { WorkerRepositoryInterface } from 'src/domain/worker/worker.repository.interface';
+import { CreateWorkerService } from 'src/application/services/worker/create/create.worker.service';
+import { CreateWorkerDto } from 'src/application/services/worker/create/create.worker.dto';
+import { AccessType } from 'src/domain/user/access.type';
+import { WorkerEntity } from 'src/infrastructure/entities/worker/worker.entity';
 
 @Injectable()
 export class SchoolgroupUseCases {
 
-    private repository: ClassRepository;
+    private classRepository: ClassRepositoryInterface;
+    private teacherReposittory: WorkerRepositoryInterface;
 
     constructor(
         private repositoryFactory: RepositoryFactoryService
     ) {
-        this.repository = this.repositoryFactory.createRepository(TypeRepository.CLASS) as ClassRepository;
+        this.classRepository = this.repositoryFactory.createRepository(TypeRepository.CLASS) as ClassRepository;
+        this.teacherReposittory = this.repositoryFactory.createRepository(TypeRepository.WORKER);
     }
 
     async create(dto: CreateSchoolgroupDto): Promise<void> {
         try {
-            let createService = new CreateClassService(this.repository);
-            let input = dto.toInput();
+            const teacherService = new CreateWorkerService(this.teacherReposittory, this.classRepository);
+            const teacherDto = new CreateWorkerDto({
+                name: dto.teacherName,
+                accessType: AccessType.TEACHER,
+                classCode: null,
+            })
+            const teacher = await teacherService.execute(teacherDto) as WorkerEntity;
+            let createService = new CreateClassService(this.classRepository);
+            let input = dto.toInput(teacher);
             await createService.execute(input);
         } catch (error) {
             TrataErros.tratarErrorsBadRequest(error);
@@ -35,13 +51,13 @@ export class SchoolgroupUseCases {
     }
 
     async delete(id: string): Promise<void>{
-        let deleteService = new DeleteClassService(this.repository);
+        let deleteService = new DeleteClassService(this.classRepository);
         deleteService.execute(id);
     }
 
     async find(id: string): Promise<any> {
         try {
-            let findService = new FindClassService(this.repository);
+            let findService = new FindClassService(this.classRepository);
             return await findService.execute(id);
         } catch (error) {
             TrataErros.tratarErrorsNotFound(error);
@@ -49,14 +65,14 @@ export class SchoolgroupUseCases {
     }
 
     async findAll(): Promise<any>{
-        let allService = new FindAllClassService(this.repository);
+        let allService = new FindAllClassService(this.classRepository);
         let result =  await allService.execute();
         return result;
     }
 
     async update(dto: UpdateSchoolgroupDto): Promise<void>{
         let input = dto.toInput();
-        let updateService = new UpdateClassService(this.repository);
+        let updateService = new UpdateClassService(this.classRepository);
         try {
             await updateService.execute(input);
         } catch (error) {

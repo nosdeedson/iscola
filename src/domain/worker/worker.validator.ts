@@ -9,12 +9,10 @@ export class WorkerValidator implements Validator<Worker>{
             yup.object()
                 .shape({
                     name : yup.string().required('Name should not be null'),
-                    birthDay: yup.date().required('Birthday should not be null'),
                     role: yup.string().required('Role should not be null')
                 })
                 .validateSync({
                     name: entity.getName(),
-                    birthDay: entity.getBirthday(),
                     role: entity.getRole(),
                 },{
                     abortEarly: false

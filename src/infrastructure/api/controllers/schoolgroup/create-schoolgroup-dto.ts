@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { CreateClassDto } from "src/application/services/class/create/create.class.dto";
 import { ScheduleDto } from "src/application/services/class/create/schedule-dto";
+import { WorkerEntity } from "src/infrastructure/entities/worker/worker.entity";
 
 export class Schedule  {
 
@@ -26,10 +27,15 @@ export class CreateSchoolgroupDto {
     @ApiProperty({description: 'Name of the schoolgroup', example: 'A1-morning'})
     name: string;
 
-    @ApiProperty()
+    @ApiProperty({description: "times and days of the class"})
     scheduleDto: Schedule;
 
-    toInput(): CreateClassDto{
+    @ApiProperty({description: "name of the teacher"})
+    teacherName: string;
+
+    teacherEntity?: WorkerEntity;
+
+    toInput(teacherEntity?: WorkerEntity): CreateClassDto{
         let m = new Map();
         let key1 = this.scheduleDto.dayOfWeeks[0];
         let key2 = this.scheduleDto.dayOfWeeks[1]
