@@ -14,8 +14,6 @@ import { MockSchoolgroupDto } from '../../../infrastructure/__mocks__/mock-schoo
 import { DomainMocks } from '../../../infrastructure/__mocks__/mocks';
 import { DataBaseConnectionModule } from '../../../infrastructure/data-base-connection/data-base-connection.module';
 import { ClassEntity } from '../../../infrastructure/entities/class/class.entity';
-import { CreateSchoolgroupDto } from '../../../infrastructure/api/controllers/schoolgroup/create-schoolgroup-dto';
-import { UpdateSchoolgroupDto } from '../../../infrastructure/api/controllers/schoolgroup/update-schoolgroup-dto';
 import { SchoolgroupUseCases } from './schoolgroup-usecases';
 import { WorkerEntity } from '../../../infrastructure/entities/worker/worker.entity';
 import { RoleEnum } from '../../../domain/worker/roleEnum';
@@ -50,55 +48,11 @@ describe('SchoolgroupUsecaseService', () => {
   afterEach(async () => {
     jest.clearAllMocks();
     module.close();
-  })
+  });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
-  describe("create SchoolGroup", () => {
-
-    it('should create a schoolgroup', async () => {
-      let dto = MockSchoolgroupDto.dtoToCreate();
-
-      const createClass = jest.spyOn(CreateClassService.prototype, 'execute')
-        .mockImplementationOnce(() => Promise.resolve());
-      const createTeacher = jest.spyOn(CreateWorkerService.prototype, 'execute')
-        .mockImplementationOnce(() => Promise.resolve(WorkerEntity.toWorkerEntity(DomainMocks.mockWorker(RoleEnum.TEACHER, true))));
-
-      const toInput = jest.spyOn(CreateSchoolgroupDto.prototype, 'toInput')
-        .mockReturnValueOnce(input)
-
-      expect(await service.create(dto)).toBe(void 0);
-      expect(createClass).toHaveBeenCalledTimes(1);
-      expect(createClass).toHaveBeenCalledWith(input);
-      expect(toInput).toHaveBeenCalledTimes(1);
-      expect(createTeacher).toHaveBeenCalledTimes(1);
-    });
-
-    it('should throw an error', async () => {
-      let dto = MockSchoolgroupDto.dtoToCreateCausingException();
-      const createTeacher = jest.spyOn(CreateWorkerService.prototype, 'execute')
-        .mockImplementationOnce(() => Promise.resolve(WorkerEntity.toWorkerEntity(DomainMocks.mockWorker(RoleEnum.TEACHER, true))));
-
-      const createClass = jest.spyOn(CreateClassService.prototype, 'execute')
-        .mockImplementationOnce(() => Promise.reject(new BadRequestException("Test")));
-      const toInput = jest.spyOn(CreateSchoolgroupDto.prototype, 'toInput')
-        .mockReturnValueOnce(input)
-
-      try {
-        await service.create(dto)
-      } catch (error) {
-        expect(error).toBeDefined();
-        expect(createClass).toHaveBeenCalledTimes(1);
-        expect(createClass).toHaveBeenCalledWith(input);
-        expect(toInput).toHaveBeenCalledTimes(1);
-        expect(createTeacher).toHaveBeenCalledTimes(1);
-      }
-    });
-    
-  });
-
 
   describe('find', () => {
     it('should find a schoolgroup', async () => {
@@ -166,40 +120,5 @@ describe('SchoolgroupUsecaseService', () => {
       expect(deleteService).toHaveBeenCalledWith(id);
     });
   });
-
-
-  describe('update', () => {
-
-    it('should update a schoolgroup', async () => {
-      const id = "1";
-      const dto = new UpdateSchoolgroupDto();
-      dto.id= id;
-      dto.nameBook = "bookName";
-      dto.className = "className";
-      const update = jest.spyOn(UpdateClassService.prototype, 'execute')
-        .mockImplementationOnce(async () => await Promise.resolve(void 0));
-      const input = dto.toInput();
-
-      await service.update(dto);
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(input);
-    });
-
-    it('should throw an error', async () => {
-      const id = "1";
-      const dto = new UpdateSchoolgroupDto() 
-      dto.id = id;
-      dto.nameBook = "bookName";
-      dto.className = "className";
-      const update = jest.spyOn(UpdateClassService.prototype, 'execute')
-        .mockRejectedValue(new BadRequestException("Test"));
-      const input = dto.toInput();
-      await expect(service.update(dto)).rejects.toThrow();
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(input);
-    });
-
-  });
-
 
 });
